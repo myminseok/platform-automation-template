@@ -1,0 +1,276 @@
+## http://docs.pivotal.io/platform-automation/v2.1/
+## https://github.com/myminseok/platform-automation-pipelines
+## fly -t demo sp -p test -c test.yml test-params.yml
+
+resources:
+- name: platform-automation-pipelines
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_pipelines.uri))
+    branch: master
+
+- name: platform-automation-tasks
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.platform_automation))
+    regexp: platform-automation-tasks-(.*).zip
+    skip_ssl_verification: true
+
+- name: platform-automation-tasks-git
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_tasks.uri))
+    branch: master
+
+
+- name: platform-automation-image
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.platform_automation))
+    regexp: platform-automation-image-(.*).tgz
+    skip_ssl_verification: true
+
+
+- name: product-new-version-git
+  type: semver
+  source:
+    driver: git
+    private_key: ((git.private_key))
+    uri: ((git.configuration.uri))
+    branch: master
+    file: dev/my-product-version
+    initial_version: 0.1.0
+
+- name: product-new-version-s3
+  type: semver
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.pivnet_products))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+    key: my-product-version
+    initial_version: 0.1.0
+
+
+- name: configuration
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.configuration.uri))
+    branch: master
+
+- name: one-time-trigger
+  type: time
+  source:
+    interval: 999999h
+
+- name: daily-trigger
+  type: time
+  source:
+    interval: 24h
+    location: Asia/Seoul
+
+#- name: midnight-hour
+#  type: time
+#  source:
+#    interval: 5m
+#    start: 12:00 AM
+#    stop: 1:00 AM
+#    location: Asia/Seoul
+#    days: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+
+
+
+# reusable stuff
+credhub-interpolate: &credhub-interpolate
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  input_mapping:
+    files: configuration
+  output_mapping:
+    interpolated-files: configuration
+  params:
+    CREDHUB_SERVER: ((credhub.server))
+    CREDHUB_CA_CERT: ((credhub.ca_cert))
+    CREDHUB_CLIENT: ((credhub.client))
+    CREDHUB_SECRET: ((credhub.secret))
+    PREFIX: "/concourse/((foundation))"
+    INTERPOLATION_PATHS: ((foundation))/opsman ((foundation))/download-products
+
+
+prepare-tasks-with-secrets: &prepare-tasks-with-secrets
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+    input_mapping:
+      tasks: platform-automation-tasks
+      config: configuration
+    output_mapping:
+      tasks: platform-automation-tasks
+    params:
+      CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products
+      VARS_PATHS: config/((foundation))/vars
+
+
+
+
+jobs:
+
+- name: test-resources
+  plan:
+  - in_parallel:
+    - get: daily-trigger
+      trigger: true
+    - get: one-time-trigger
+      trigger: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-tasks
+      params: { unpack: true }
+    - get: platform-automation-tasks-git
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: configuration
+    - get: product-new-version-git
+      params: {bump: minor}
+    - get: product-new-version-s3
+      params: {bump: minor}
+
+  #- task: credhub-interpolate
+  #  <<: *credhub-interpolate
+  - task: prepare-tasks-with-secrets
+    <<: *prepare-tasks-with-secrets
+    params:
+      CONFIG_PATHS: config/((foundation))/opsman
+      VARS_PATHS: config/((foundation))/vars
+  - task: test-tasks
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: ubuntu}
+      inputs:
+      - name: platform-automation-tasks
+      - name: configuration
+      run: 
+        path: bash
+        args:
+        - -c
+        - |
+          find .
+          echo "**************************************"
+          cat ./configuration/jumpbox/opsman/env.yml
+          echo "**************************************"
+          cat ./configuration/jumpbox/products/director.yml
+          echo "export-installation.yml **************************************"
+          cat ./platform-automation-tasks/tasks/export-installation.yml
+          echo "**************************************"
+          cat ./platform-automation-tasks/tasks/configure-director.yml
+          echo "**************************************"
+          cat ./platform-automation-tasks/tasks/configure-director.sh
+  - task: test-resources
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/test.yml
+  - in_parallel:
+    - put: product-new-version-git
+      params: {file: product-new-version-git/number}
+    - put: product-new-version-s3
+      params: {file: product-new-version-s3/number}  
+
+
+- name: test-resources-s3
+  plan:
+  - in_parallel:
+    - get: one-time-trigger
+      trigger: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+  - task: test-resources
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/test.yml
+
+- name: test-input-mapping
+  plan:
+  - in_parallel:
+    - get: one-time-trigger
+      trigger: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+  - task: test-resources
+    image: platform-automation-image
+    file: platform-automation-pipelines/tasks/test.yml
+    input_mapping:
+      testfolder: platform-automation-pipelines
+
+
+- name: job1
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+  - in_parallel:
+    - get: one-time-trigger
+      trigger: true
+  - task: hello-world
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: busybox}
+      run:
+        path: echo
+        args: [hello world]
+
+- name: job2
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+  - in_parallel:
+    - get: one-time-trigger
+      trigger: false
+  - task: hello-world
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: busybox}
+      run:
+        path: echo
+        args: [hello world]
+
+- name: job3
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+  - in_parallel:
+    - get: one-time-trigger
+      trigger: false
+      passed: [job1]
+  - task: hello-world
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: busybox}
+      run:
+        path: echo
+        args: [hello world]
+

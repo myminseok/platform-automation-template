@@ -1,0 +1,637 @@
+resource_types:
+# A custom Concourse Resource type for detecting Semver-based config
+# Ref: https://github.com/brightzheng100/semver-config-concourse-resource
+- name: semver-config
+  type: docker-image
+  source:
+    repository: itstarting/semver-config-concourse-resource
+
+resources:
+- name: platform-automation-pipelines
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_pipelines.uri))
+    branch: master
+
+- name: platform-automation-tasks
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.platform_automation))
+    regexp: platform-automation-tasks-(.*).zip
+    skip_ssl_verification: true
+
+
+- name: platform-automation-image
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.platform_automation))
+    regexp: platform-automation-image-(.*).tgz
+    skip_ssl_verification: true
+
+- name: installation
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: installation-((foundation))
+    regexp: ((foundation))-installation-(.*).zip
+    skip_ssl_verification: true
+
+
+## semver-config will emit semver-config.yml to be use as a input of download-product.yml
+- name: product-version-git-opsnam
+  type: semver-config
+  source:
+    driver: git
+    uri: ((git.configuration.uri))
+    branch: master
+    private_key: ((git.private_key))
+    config_file: ((foundation))/products/version.yml
+    ## key to identify product section in 'version.yml'
+    config_path: products.opsman
+    ## to track version by semver-config
+    version_path: products.opsman.product-version
+    ## care only patch version chage.
+    version_pattern: "m.n.p"
+
+# configurations
+- name: configuration
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.configuration.uri))
+    branch: master
+
+- name: variable
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.variable.uri))
+    branch: master
+
+
+# reusable stuff
+credhub-interpolate: &credhub-interpolate
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  input_mapping:
+    files: configuration
+  params:
+    CREDHUB_SERVER: ((credhub.server))
+    CREDHUB_CA_CERT: ((credhub.ca_cert))
+    CREDHUB_CLIENT: ((credhub.client))
+    CREDHUB_SECRET: ((credhub.secret))
+    PREFIX: /concourse/main
+    INTERPOLATION_PATHS: ((foundation))/opsman ((foundation))/vars ((foundation))/products
+    SKIP_MISSING: false
+
+# for *.yaml, *.yml ( ie. semver-version.yaml)
+credhub-interpolate-product-version-git-opsnam: &credhub-interpolate-product-version-git-opsnam
+  image: platform-automation-image
+  file: platform-automation-pipelines/tasks/credhub-interpolate.yml
+  input_mapping:
+    files: product-version-git-opsnam
+  params:
+    CREDHUB_SERVER: ((credhub.server))
+    CREDHUB_CA_CERT: ((credhub.ca_cert))
+    CREDHUB_CLIENT: ((credhub.client))
+    CREDHUB_SECRET: ((credhub.secret))
+    PREFIX: /concourse/main
+    INTERPOLATION_PATHS: '.'
+    SKIP_MISSING: false
+  output_mapping:
+    interpolated-files: product-version-git-opsnam
+
+prepare-tasks-with-secrets: &prepare-tasks-with-secrets
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  input_mapping:
+    tasks: platform-automation-tasks
+    config: configuration
+  output_mapping:
+    tasks: platform-automation-tasks
+  params:
+    CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products
+    VARS_PATHS: config/((foundation))/vars
+
+# resulable 
+apply-director-changes: &apply-director-changes
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/apply-director-changes.yml
+  input_mapping:
+    env: interpolated-files
+  params:
+    ENV_FILE: ((foundation))/opsman/env.yml
+
+
+groups:
+- name: main
+  jobs:
+  - create-new-opsman-vm
+  - configure-authentication
+  - generate-staged-config
+  - configure-director
+  - apply-director-changes
+  - export-installation
+  - upgrade-opsman-vm
+  - apply-director-changes-after-upgrade-vm
+  - create-new-opsman-vm
+  - import-installation
+  - apply-director-changes-after-import
+  - setup-opsman-nginx
+
+- name: install
+  jobs:
+  - create-new-opsman-vm
+  - configure-authentication
+  - generate-staged-config
+  - configure-director
+  - apply-director-changes
+  - setup-opsman-nginx
+
+- name: upgrade
+  jobs:
+  - export-installation
+  - upgrade-opsman-vm
+  - apply-director-changes-after-upgrade-vm
+- name: recover
+  jobs:
+  - create-new-opsman-vm
+  - import-installation
+  - apply-director-changes-after-import
+
+jobs:
+
+- name: create-new-opsman-vm
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+    - in_parallel:
+        - get: platform-automation-pipelines
+        - get: product-version-git-opsnam
+          trigger: false
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+        - get: variable
+
+    - task: credhub-interpolate
+      <<: *credhub-interpolate
+
+    - task: credhub-interpolate-product-version-git-opsnam
+      <<: *credhub-interpolate-product-version-git-opsnam
+         
+    ## ova file.
+    - task: download-product-from-s3
+      image: platform-automation-image
+      file: platform-automation-pipelines/tasks/download-product-s3.yml
+      input_mapping:
+        ## semver-config output semver-config.yml to be use as a input of download-product.yml
+        ## semver-config.yaml is output of 'product-version-git-opsnam' task.
+        ## will find a folder name of '[pivnet-product-slug, product-version]' in s3 bucket.
+        ## will find a file name 'pivnet-product-slug, product-version, pivnet-file-glob' under the folder. 
+        ## stemcell slug will come from meta in product file.
+        ## ex) https://s3/pivnet-products/[opsmanager,2.6.3]/ops-manager-vsphere-2.6.3-build.163.ova
+        config: product-version-git-opsnam  ## will provide additional params for semver-config.yaml
+        vars: interpolated-files
+      params:
+        CONFIG_FILE: semver-config.yaml
+       # VARS_FILES: vars/((foundation))/vars/global.yml
+              
+    ##   if VM already exists, not attempting to create it, and return true.
+    ## if 
+    - task: create-vm
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/create-vm.yml
+      input_mapping:
+        image: downloaded-files ## moving big files is slow. this file doesn't move. and will use 'downloaded-files' as it is
+        state: configuration # have to provide empty state.yml file. 'interpolated-files' doesn't have state.yml file.
+        config: interpolated-files # for products/ops-manager.yml
+        vars: interpolated-files
+      params:
+        OPSMAN_CONFIG_FILE: ((foundation))/products/ops-manager.yml
+        #VARS_FILES: vars/((foundation))/vars/ops-manager-vars.yml
+        STATE_FILE: ((foundation))/state/state.yml
+      
+      on_success: &make-state-commit
+        do:
+          - task: make-commit
+            image: platform-automation-image
+            file: platform-automation-tasks/tasks/make-git-commit.yml
+            input_mapping:
+              repository: configuration
+              file-source: generated-state
+            output_mapping:
+              repository-commit: configuration-commit
+            params:
+              FILE_SOURCE_PATH: state.yml
+              FILE_DESTINATION_PATH: ((foundation))/state/state.yml
+              GIT_AUTHOR_EMAIL: ((git.user.email))
+              GIT_AUTHOR_NAME: ((git.user.username))
+              COMMIT_MESSAGE: 'Update state file by create-new-opsman-vm task'
+          - put: configuration
+            params:
+              repository: configuration-commit
+              merge: true
+
+## modify opsman nginx port.
+- name: setup-opsman-nginx
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+    - in_parallel:
+        - get: platform-automation-pipelines
+        - get: product-version-git-opsnam
+          trigger: false
+          passed: [create-new-opsman-vm]
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+        - get: variable
+
+    - task: credhub-interpolate
+      <<: *credhub-interpolate
+
+    - task: credhub-interpolate-product-version-git-opsnam
+      <<: *credhub-interpolate-product-version-git-opsnam
+ 
+    - task: setup-opsman-nginx
+      image: platform-automation-image
+      file: platform-automation-pipelines/tasks/setup-opsman-nginx.yml
+      input_mapping:
+        env: configuration
+      params:
+        OPSMAN_SSH_PRIVATE_KEY: ((opsman_ssh_key.private_key))  
+        OPSMAN_SSH_DOMAIN_OR_IP: pcfdemo.net 
+        OPSMAN_NGINX_FILE: ((foundation))/opsman/nginx.conf
+
+- name: configure-authentication
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+    - in_parallel:
+        - get: product-version-git-opsnam
+          trigger: false
+          passed: [ create-new-opsman-vm ]
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+        - get: variable
+
+    - task: credhub-interpolate
+      <<: *credhub-interpolate
+         
+    - task: configure-authentication
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/configure-authentication.yml
+      attempts: 10
+      input_mapping:
+        env: interpolated-files
+        config: interpolated-files
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        AUTH_CONFIG_FILE: ((foundation))/opsman/auth.yml
+
+
+- name: configure-director
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+    - in_parallel:
+        - get: product-version-git-opsnam
+          trigger: false
+          passed: [ configure-authentication ]
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+        - get: variable
+
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: configure-director
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/configure-director.yml
+      input_mapping:
+        env: configuration
+        config: configuration
+        vars: configuration
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        DIRECTOR_CONFIG_FILE: ((foundation))/products/director.yml
+        VARS_FILES: vars/((foundation))/vars/director-vars.yml
+
+
+- name: apply-director-changes
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+    - in_parallel:
+        - get: product-version-git-opsnam
+          trigger: false
+          passed: [ configure-director ]
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+    - task: credhub-interpolate
+      <<: *credhub-interpolate
+    - task: apply-director-changes
+      <<: *apply-director-changes
+
+
+
+## this can be run before apply change
+- name: generate-staged-config
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+    - in_parallel:
+        - get: product-version-git-opsnam
+          #trigger: true
+          #passed: [ configure-authentication ]
+        - get: platform-automation-tasks
+          params: {unpack: true}
+        - get: platform-automation-image
+          params: {unpack: true}
+        - get: configuration
+        - get: platform-automation-pipelines
+
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+      params:
+        CONFIG_PATHS: config/((foundation))/opsman
+        VARS_PATHS: config/((foundation))/vars
+
+    - task: prepare-tasks-with-secrets_platform-automation-pipelines
+      <<: *prepare-tasks-with-secrets
+      params:
+        CONFIG_PATHS: config/((foundation))/opsman
+        VARS_PATHS: config/((foundation))/vars
+      input_mapping:
+        tasks: platform-automation-pipelines
+        config: configuration
+      output_mapping:
+        tasks: platform-automation-pipelines
+
+    - task: staged-director-config
+      image: platform-automation-image
+      ###  om --env env/jumpbox/opsman/env.yml staged-director-config --include-placeholders=false --no-redact
+      file: platform-automation-pipelines/tasks/staged-director-config.yml
+      input_mapping:
+        env: configuration
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+      on_success: &make-state-commit
+        do:
+          - task: make-commit
+            image: platform-automation-image
+            file: platform-automation-tasks/tasks/make-git-commit.yml
+            input_mapping:
+              repository: configuration
+              file-source: generated-config
+            output_mapping:
+              repository-commit: configuration
+            params:
+              FILE_SOURCE_PATH: director.yml
+              FILE_DESTINATION_PATH: ((foundation))/generated-config/director.yml
+              GIT_AUTHOR_EMAIL: ((git.user.email))
+              GIT_AUTHOR_NAME: ((git.user.username))
+              COMMIT_MESSAGE: 'generate-staged-config director.yml for ((foundation))'
+          - put: configuration
+            params:
+              repository: configuration
+              merge: true
+
+# can run after 'apply-changes'
+- name: export-installation
+  serial: true
+ # max_in_flight: 2
+  #serial_groups: [ opsman ]
+  plan:
+    - in_parallel:
+        - get: product-version-git-opsnam
+          trigger: true
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+        - get: variable
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+      params:
+        CONFIG_PATHS: config/((foundation))/opsman
+        VARS_PATHS: config/((foundation))/vars
+    - task: export-installation
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/export-installation.yml
+      input_mapping:
+        env: configuration
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
+    - put: installation
+      params:
+        file: installation/((foundation))-installation*.zip
+
+
+- name: upgrade-opsman-vm
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+    - in_parallel:
+        - get: platform-automation-pipelines
+        - get: product-version-git-opsnam
+          trigger: false
+          passed: [export-installation]
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: installation
+        - get: configuration
+        - get: variable
+
+    - task: credhub-interpolate
+      <<: *credhub-interpolate
+
+    - task: credhub-interpolate-product-version-git-opsnam
+      <<: *credhub-interpolate-product-version-git-opsnam
+
+    ## check if there is a new opsman version
+    
+    ## export
+
+    ## ova file.
+    - task: download-product-from-s3
+      image: platform-automation-image
+      file: platform-automation-pipelines/tasks/download-product-s3.yml
+      input_mapping:
+        ## semver-config output semver-config.yml to be use as a input of download-product.yml
+        ## semver-config.yaml is output of 'product-version-git-opsnam' task.
+        ## will find a folder name of '[pivnet-product-slug, product-version]' in s3 bucket.
+        ## will find a file name 'pivnet-product-slug, product-version, pivnet-file-glob' under the folder. 
+        ## stemcell slug will come from meta in product file.
+        ## ex) https://s3/pivnet-products/[opsmanager,2.6.3]/ops-manager-vsphere-2.6.3-build.163.ova
+        config: product-version-git-opsnam
+        ## will provide additional params for semver-config.yaml
+        vars: interpolated-files
+      params:
+        CONFIG_FILE: semver-config.yaml
+       # VARS_FILES: vars/((foundation))/vars/global.yml
+              
+    ## requires "old opsman is running"
+    - task: upgrade-opsman-vm
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/upgrade-opsman.yml
+      input_mapping:
+        image: downloaded-files
+        state: configuration
+        config: interpolated-files  # for products/ops-manager.yml
+        env: interpolated-files
+        vars: interpolated-files
+        installation: installation
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        OPSMAN_CONFIG_FILE: ((foundation))/products/ops-manager.yml
+        VARS_FILES: vars/((foundation))/vars/opsman-vars.yml
+        STATE_FILE: ((foundation))/state/state.yml
+        INSTALLATION_FILE: ((foundation))-installation*.zip
+      on_success: &make-state-commit
+        do:
+          - task: setup-opsman-nginx
+            image: platform-automation-image
+            file: platform-automation-pipelines/tasks/setup-opsman-nginx.yml
+            input_mapping:
+              env: configuration
+            params:
+              OPSMAN_SSH_PRIVATE_KEY: ((opsman_ssh_key.private_key))  
+              OPSMAN_SSH_DOMAIN_OR_IP: pcfdemo.net 
+              OPSMAN_NGINX_FILE: ((foundation))/opsman/nginx.conf
+          - task: make-commit
+            image: platform-automation-image
+            file: platform-automation-tasks/tasks/make-git-commit.yml
+            input_mapping:
+              repository: configuration
+              file-source: generated-state
+            output_mapping:
+              repository-commit: configuration-commit
+            params:
+              FILE_SOURCE_PATH: state.yml
+              FILE_DESTINATION_PATH: ((foundation))/state/state.yml
+              GIT_AUTHOR_EMAIL: ((git.user.email))
+              GIT_AUTHOR_NAME: ((git.user.username))
+              COMMIT_MESSAGE: 'Update state file from upgrade-opsman pipeline'
+          - put: configuration
+            params:
+              repository: configuration-commit
+              merge: true
+
+- name: apply-director-changes-after-upgrade-vm
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+    - in_parallel:
+        - get: product-version-git-opsnam
+          trigger: false
+          passed: [ upgrade-opsman-vm ]
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+    - task: credhub-interpolate
+      <<: *credhub-interpolate
+    - task: apply-director-changes
+      <<: *apply-director-changes
+
+
+## optional
+## make sure that new opsman vm is listening on the target url as per config/<foundation>/opsman/env.yml
+## you may check nginx setting(/etc/nginx/nginx.conf) on opsman vm.
+- name: import-installation
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+    - in_parallel:
+        - get: product-version-git-opsnam
+          trigger: false
+          passed: [ create-new-opsman-vm ]
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+        - get: installation
+
+    - task: credhub-interpolate 
+      <<: *credhub-interpolate
+
+    - task: import-installation
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/import-installation.yml
+      input_mapping:
+        env: interpolated-files
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        INSTALLATION_FILE: ((foundation))-installation*.zip
+
+
+- name: apply-director-changes-after-import
+  serial: true
+  serial_groups: [ opsman ]
+  plan:
+    - in_parallel:
+        - get: product-version-git-opsnam
+          trigger: false
+          passed: [ import-installation ]
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+    - task: credhub-interpolate
+      <<: *credhub-interpolate
+    - task: apply-director-changes
+      <<: *apply-director-changes

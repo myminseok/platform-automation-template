@@ -1,0 +1,30 @@
+# The inputs, outputs, params, filename, and filepath
+# of this task file are part of its semantically versioned API.
+# See our documentation for a detailed discussion of our semver API.
+# See www.semver.org for an explanation of semantic versioning.
+
+# code_snippet staged-director-config start yaml
+---
+platform: linux
+
+inputs:
+- name: env # contains the env file with target OpsMan Information
+
+params:
+  OPSMAN_SSH_PRIVATE_KEY:
+  OPSMAN_SSH_DOMAIN_OR_IP: 
+  OPSMAN_NGINX_FILE:
+run:
+  path: bash
+  args:
+  - -c
+  - |
+    #!/usr/bin/env bash
+    set -eux
+    printf -- "${OPSMAN_SSH_PRIVATE_KEY}" > opsman_ssh.key
+    chmod 600 ./opsman_ssh.key
+    scp -o StrictHostKeyChecking=no -i ./opsman_ssh.key ./env/${OPSMAN_NGINX_FILE} ubuntu@${OPSMAN_SSH_DOMAIN_OR_IP}:/tmp/nginx.conf
+    ssh -o StrictHostKeyChecking=no -i ./opsman_ssh.key ubuntu@${OPSMAN_SSH_DOMAIN_OR_IP} "sudo cp /tmp/nginx.conf /etc/nginx/nginx.conf"
+    ssh -o StrictHostKeyChecking=no -i ./opsman_ssh.key ubuntu@${OPSMAN_SSH_DOMAIN_OR_IP} "sudo systemctl restart nginx.service"
+    ssh -o StrictHostKeyChecking=no -i ./opsman_ssh.key ubuntu@${OPSMAN_SSH_DOMAIN_OR_IP} "sudo systemctl restart tempest-web.service"
+   

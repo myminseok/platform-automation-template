@@ -1,0 +1,14 @@
+---
+platform: linux
+
+
+inputs:
+  - name: testfolder
+
+run:
+  path: sh
+  args:
+  - -exc
+  - |
+    pwd
+    find .

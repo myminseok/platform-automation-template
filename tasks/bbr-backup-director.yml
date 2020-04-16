@@ -1,0 +1,18 @@
+---
+platform: linux
+
+
+inputs:
+  - name: config
+  - name: platform-automation-pipelines
+  - name: bbr-release
+
+outputs:
+  - name: generated-backup
+
+params:
+  ENV_FILE: env.yml
+  BBR_BACKUP_FILE: 
+
+run:
+  path: platform-automation-pipelines/tasks/bbr-backup-director.sh

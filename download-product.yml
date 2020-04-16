@@ -1,0 +1,279 @@
+## http://docs.pivotal.io/platform-automation/v2.1/
+## https://github.com/myminseok/platform-automation-pipelines
+## fly -t demo sp -p test -c test.yml test-params.yml
+
+resources:
+- name: platform-automation-pipelines
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_pipelines.uri))
+    branch: master
+
+- name: platform-automation-tasks
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.platform_automation))
+    regexp: platform-automation-tasks-(.*).zip
+    skip_ssl_verification: true
+
+- name: platform-automation-image
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.platform_automation))
+    regexp: platform-automation-image-(.*).tgz
+    skip_ssl_verification: true
+
+- name: configuration
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.configuration.uri))
+    branch: master
+
+- name: opsman-product
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.pivnet_products))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: "ops-manager-vsphere*.ova"
+    skip_ssl_verification: true
+
+#- name: opsman-product-new-version-git
+#  type: semver
+#  source:
+#    driver: git
+#    private_key: ((git.private_key))
+#    uri: ((git.configuration.uri))
+#    branch: master
+#    file: ((foundation)/opsman-version
+#    initial_version: 0.1.0
+
+- name: opsman-product-new-version-s3
+  type: semver
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.pivnet_products))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+    key: opsman-version
+    initial_version: 0.1.0
+
+
+- name: pas-product
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.pivnet_products))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: cf-(.*).pivotal
+    skip_ssl_verification: true
+
+- name: pas-stemcell
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.pivnet_products))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: pas-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    skip_ssl_verification: true
+
+
+- name: healthwatch-product
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.pivnet_products))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: p-healthwatch-(.*).pivotal
+    skip_ssl_verification: true
+    
+- name: healthwatch-stemcell
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.pivnet_products))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: healthwatch-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    skip_ssl_verification: true
+
+
+
+# reusable stuff
+credhub-interpolate: &credhub-interpolate
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  input_mapping:
+    files: configuration
+  output_mapping:
+    interpolated-files: configuration
+  params:
+    CREDHUB_SERVER: ((credhub.server))
+    CREDHUB_CA_CERT: ((credhub.ca_cert))
+    CREDHUB_CLIENT: ((credhub.client))
+    CREDHUB_SECRET: ((credhub.secret))
+    PREFIX: /concourse/((foundation))
+    INTERPOLATION_PATHS: ((foundation))/opsman ((foundation))/download-products
+
+
+jobs:
+  
+- name: pre-fetch-opsman
+  plan:
+  - in_parallel:
+    - get: platform-automation-pipelines
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+    - get: configuration
+    - get: opsman-product-new-version-s3
+      params: {bump: minor}
+  - task: credhub-interpolate
+    <<: *credhub-interpolate
+  - task: download-only-opsman-image
+    image: platform-automation-image
+    file: platform-automation-pipelines/tasks/download-only-product.yml
+    input_mapping: {config: configuration }
+    params:
+      CONFIG_FILE: ((foundation))/download-products/opsman.yml
+    on_success:
+      try:
+        task: check_dup_file_in_s3
+        image: platform-automation-image
+        file: platform-automation-pipelines/tasks/exists_file_s3.yml
+        input_mapping: {downloaded-product: downloaded-product }
+        params:
+          endpoint: ((s3.endpoint))
+          access_key_id: ((s3.access_key_id))
+          bucket: ((s3.buckets.pivnet_products))
+          region_name: ((s3.region_name))
+          secret_access_key: ((s3.secret_access_key))
+        on_success:
+          try:
+            put: opsman-product-new-version-s3
+            params: {file: opsman-product-new-version-s3/number}
+
+- name: fetch-opsman
+  plan:
+  - in_parallel:
+    - get: platform-automation-pipelines
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+    - get: configuration
+    - get: opsman-product-new-version-s3
+      trigger: true
+  - task: credhub-interpolate
+    <<: *credhub-interpolate
+  - task: download-opsman-image
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    input_mapping: {config: configuration }
+    params:
+      CONFIG_FILE: ((foundation))/download-products/opsman.yml
+  - put: opsman-product
+    params:
+      file: downloaded-product/*
+
+
+- name: fetch-pas
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: configuration
+  - task: credhub-interpolate
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+    params:
+      CREDHUB_SERVER: ((credhub.server))
+      CREDHUB_CA_CERT: ((credhub.ca_cert))
+      CREDHUB_CLIENT: ((credhub.client))
+      CREDHUB_SECRET: ((credhub.secret))
+      PREFIX: '/concourse/((foundation))'
+      INTERPOLATION_PATH: "((foundation))/download-products"
+    input_mapping:
+      files: configuration
+    output_mapping:
+      interpolated-files: configuration
+  - task: download-pas-product-and-stemcell
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: ((foundation))/download-products/pas.yml
+    input_mapping: {config: configuration }
+    output_mapping: {downloaded-stemcell: pas-stemcell}
+  - in_parallel:
+    - put: pas-product
+      params:
+        file: downloaded-product/*.pivotal
+    - put: pas-stemcell
+      params:
+        file: pas-stemcell/*.tgz
+
+- name: fetch-healthwatch
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: configuration
+  - task: credhub-interpolate
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+    params:
+      CREDHUB_SERVER: ((credhub.server))
+      CREDHUB_CA_CERT: ((credhub.ca_cert))
+      CREDHUB_CLIENT: ((credhub.client))
+      CREDHUB_SECRET: ((credhub.secret))
+      PREFIX: '/concourse/((foundation))'
+      INTERPOLATION_PATH: "((foundation))/download-products"
+    input_mapping:
+      files: configuration
+    output_mapping:
+      interpolated-files: configuration
+  - task: download-healthwatch-product-and-stemcell
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: ((foundation))/download-products/healthwatch.yml
+    input_mapping: {config: configuration }
+    output_mapping: {downloaded-stemcell: healthwatch-stemcell}
+  - in_parallel:
+    - put: healthwatch-product
+      params:
+        file: downloaded-product/*.pivotal
+    - put: healthwatch-stemcell
+      params:
+        file: healthwatch-stemcell/*.tgz
+

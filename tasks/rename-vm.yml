@@ -1,0 +1,23 @@
+---
+platform: linux
+
+
+inputs:
+  - name: vars
+  - name: state
+  - name: platform-automation-pipelines
+
+
+params:
+  ENV_FILE: env.yml
+  STATE_FILE: state.yml
+  GOVC_DATACENTER:
+  GOVC_INSECURE: 1
+  GOVC_URL:
+  GOVC_USERNAME:
+  GOVC_PASSWORD:
+  VM_RENAME_POSTFIX: old
+
+run:
+  path: platform-automation-pipelines/tasks/rename-vm.sh
+

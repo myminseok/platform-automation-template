@@ -1,0 +1,159 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+  - name: bbr-release
+    type: pivnet
+    source:
+      api_token: ((pivnet.token))
+      product_slug: p-bosh-backup-and-restore
+      product-version: ^1\.5\..*$
+
+  - name: platform-automation-pipelines
+    type: git
+    source:
+      private_key: ((git.private_key))
+      uri: ((git.platform_automation_pipelines.uri))
+      branch: master
+
+  - name: platform-automation-tasks
+    type: s3
+    source:
+      endpoint: ((s3.endpoint))
+      access_key_id: ((s3.access_key_id))
+      secret_access_key: ((s3.secret_access_key))
+      region_name: ((s3.region_name))
+      bucket: ((s3.buckets.platform_automation))
+      regexp: .*tasks-(.*).zip
+      skip_ssl_verification: true
+
+  - name: platform-automation-image
+    type: s3
+    source:
+      endpoint: ((s3.endpoint))
+      access_key_id: ((s3.access_key_id))
+      secret_access_key: ((s3.secret_access_key))
+      region_name: ((s3.region_name))
+      bucket: ((s3.buckets.platform_automation))
+      regexp: .*image-(.*).tgz
+      skip_ssl_verification: true
+
+  - name: bbr-backup-director-bucket
+    type: s3
+    source:
+      endpoint: ((s3.endpoint))
+      access_key_id: ((s3.access_key_id))
+      secret_access_key: ((s3.secret_access_key))
+      region_name: ((s3.region_name))
+      bucket: bbr-((foundation))
+      regexp: bbr-backup-director-(.*).tgz
+      skip_ssl_verification: true
+
+  - name: bbr-backup-pas-bucket
+    type: s3
+    source:
+      endpoint: ((s3.endpoint))
+      access_key_id: ((s3.access_key_id))
+      secret_access_key: ((s3.secret_access_key))
+      region_name: ((s3.region_name))
+      bucket: bbr-((foundation))
+      regexp: bbr-backup-pas-(.*).tgz
+      skip_ssl_verification: true
+
+
+  - name: configuration
+    type: git
+    source:
+      private_key: ((git.private_key))
+      uri: ((git.configuration.uri))
+      branch: master
+
+  - name: daily-trigger
+    type: time
+    source:
+      interval: 24h
+
+# reusable stuff
+credhub-interpolate: &credhub-interpolate
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  input_mapping:
+    files: configuration
+  params:
+    CREDHUB_SERVER: ((credhub.server))
+    CREDHUB_CA_CERT: ((credhub.ca_cert))
+    CREDHUB_CLIENT: ((credhub.client))
+    CREDHUB_SECRET: ((credhub.secret))
+    PREFIX: /concourse/((foundation))
+    INTERPOLATION_PATHS: ((foundation))/env
+
+jobs:
+  - name: bbr-backup-director
+    plan:
+      - in_parallel:
+          - get: platform-automation-image
+            params:
+              unpack: true
+          - get: bbr-release
+            params:
+              globs: [ "bbr-*-linux-*"]
+          - get: platform-automation-pipelines
+          - get: configuration
+          - get: platform-automation-tasks
+            params:
+              unpack: true
+          - get: daily-trigger
+            trigger: false
+      - task: credhub-interpolate
+        <<: *credhub-interpolate
+              
+      - task: backup-director
+        image: platform-automation-image
+        file: platform-automation-pipelines/tasks/bbr-backup-director.yml
+        input_mapping:
+          config: interpolated-files
+          bbr-release: bbr-release
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+          BBR_BACKUP_FILE: bbr-backup-director-$timestamp.tgz
+  
+      - put: bbr-backup-director-bucket
+        params:
+          file: generated-backup/bbr-backup-director-*.tgz
+
+  - name: bbr-backup-pas
+    plan:
+      - in_parallel:
+          - get: platform-automation-image
+            params:
+              unpack: true
+          - get: bbr-release
+          - get: platform-automation-pipelines
+          - get: configuration
+          - get: platform-automation-tasks
+            params:
+              unpack: true
+          - get: daily-trigger
+            trigger: false
+      - task: credhub-interpolate
+        <<: *credhub-interpolate
+              
+      - task: backup-pas
+        image: platform-automation-image
+        file: platform-automation-pipelines/tasks/bbr-backup-pas.yml
+        input_mapping:
+          config: interpolated-files
+          bbr-release: bbr-release
+        params:
+          ENV_FILE: ((foundation))/env/env.yml
+          BBR_BACKUP_FILE: bbr-backup-pas-$timestamp.tgz
+
+  
+      - put: bbr-backup-pas-bucket
+        params:
+          file: generated-backup/bbr-backup-pas-*.tgz
+

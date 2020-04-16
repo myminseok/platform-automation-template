@@ -1,0 +1,31 @@
+# The inputs, outputs, params, filename, and filepath
+# of this task file are part of its semantically versioned API.
+# See our documentation for a detailed discussion of our semver API.
+# See www.semver.org for an explanation of semantic versioning.
+
+# code_snippet apply-changes start yaml
+---
+platform: linux
+
+inputs:
+- name: env # contains the env file with target OpsMan Information
+
+params:
+  ENV_FILE: env.yml
+  # - Required
+  # - Filepath of the env config YAML
+  # - The path is relative to root of the `env` input
+  PRODUCT_NAME:
+  # - Required
+
+run:
+  path: bash
+  args:
+  - "-c"
+  - |
+    cat /var/version && echo ""
+    set -eux
+    echo "PRODUCT_NAME: ${PRODUCT_NAME}"
+    om --env env/"${ENV_FILE}" apply-changes --product-name "${PRODUCT_NAME}" --ignore-warnings true
+# code_snippet apply-changes end
+

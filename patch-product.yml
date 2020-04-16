@@ -1,0 +1,241 @@
+resource_types:
+# A custom Concourse Resource type for detecting Semver-based config
+# Ref: https://github.com/brightzheng100/semver-config-concourse-resource
+- name: semver-config
+  type: docker-image
+  source:
+    repository: itstarting/semver-config-concourse-resource
+
+resources:
+- name: platform-automation-pipelines
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_pipelines.uri))
+    branch: master
+
+- name: platform-automation-tasks
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.platform_automation))
+    regexp: platform-automation-tasks-(.*).zip
+    skip_ssl_verification: true
+
+- name: platform-automation-image
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.platform_automation))
+    regexp: platform-automation-image-(.*).tgz
+    skip_ssl_verification: true
+
+# configurations
+- name: configuration
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.configuration.uri))
+    branch: master
+
+- name: variable
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.variable.uri))
+    branch: master
+
+
+## semver-config will emit  semver-config.yml to be use as a input of download-product.yml
+- name: product-version-git
+  type: semver-config
+  source:
+    driver: git
+    uri: ((git.configuration.uri))
+    branch: master
+    private_key: ((git.private_key))
+    config_file: ((foundation))/products/version.yml
+    ## key to identify product section in 'version.yml'
+    config_path: products.((product-name))
+    ## to track version by semver-config
+    version_path: products.((product-name)).product-version
+    ## care only patch version chage.
+    version_pattern: "*.*.p"
+
+
+
+## reusable stuff in this yaml
+## this paragraph should be placed in the end of resoure definition.
+credhub-interpolate: &credhub-interpolate
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  input_mapping:
+    files: configuration
+  params:
+    CREDHUB_SERVER: ((credhub.server))
+    CREDHUB_CA_CERT: ((credhub.ca_cert))
+    CREDHUB_CLIENT: ((credhub.client))
+    CREDHUB_SECRET: ((credhub.secret))
+    PREFIX: /concourse/((foundation))
+    INTERPOLATION_PATHS: ((foundation))/opsman ((foundation))/products ((foundation))/vars
+    SKIP_MISSING: false
+
+
+groups:
+
+- name: main
+  jobs:
+  - upload-and-stage-product
+  - configure-product
+  - apply-product-changes
+  - apply-all-changes
+
+jobs:
+
+- name: upload-and-stage-product
+  serial: true
+  plan:
+    - in_parallel:
+        - get: product-version-git
+          trigger: true
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+        - get: variable
+
+    - task: credhub-interpolate
+      <<: *credhub-interpolate
+
+    ## tile & stemcell
+    - task: download-product-from-s3
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/download-product-s3.yml
+      input_mapping:
+        ## semver-config output semver-config.yml to be use as a input of download-product.yml
+        ## semver-config.yaml is output of 'product-version-git' task.
+        ## will find a folder name of '[pivnet-product-slug, product-version]' in s3 bucket.
+        ## will find a file name 'pivnet-product-slug, product-version, pivnet-file-glob' under the folder. 
+        ## stemcell slug will come from meta in product file.
+        ## ex) https://s3/pivnet-products/[elastic-runtime,2.6.3]/cf-2.6.3-build.21.pivotal
+        ## ex) https://s3/pivnet-products/[stemcells-ubuntu-xenial,250.56]/bosh-stemcell-250.56-vsphere-esxi-ubuntu-xenial-go_agent.tgz
+        config: product-version-git
+        ## will provide additional params for semver-config.yaml
+        vars: interpolated-files
+      params:
+        CONFIG_FILE: semver-config.yaml
+        VARS_FILES: vars/((foundation))/vars/global.yml
+      
+    - task: upload-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/upload-product.yml
+      input_mapping:
+        product: downloaded-product
+        env: interpolated-files
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+
+    - task: stage-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/stage-product.yml
+      input_mapping:
+        product: downloaded-product
+        env: interpolated-files
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+
+- name: configure-product
+  serial: true
+  plan:
+    - in_parallel:
+        - get: product-version-git
+          trigger: true
+          passed: [ upload-and-stage-product ]
+        - get: platform-automation-image
+          params:
+            unpack: true
+          trigger: false
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+        - get: variable
+    - task: credhub-interpolate 
+      <<: *credhub-interpolate
+
+    - task: configure-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/configure-product.yml
+      input_mapping:
+        config: interpolated-files
+        env: interpolated-files
+        vars: variable
+      params:
+        CONFIG_FILE: ((foundation))/products/((product-name)).yml
+        VARS_FILES: vars/((foundation))/vars/global.yml
+        ENV_FILE: ((foundation))/opsman/env.yml
+
+- name: apply-product-changes
+  serial: true
+  plan:
+    - in_parallel:
+        - get: product-version-git
+          trigger: true
+          passed: [ configure-product ]
+        - get: platform-automation-pipelines
+        - get: platform-automation-image
+          params:
+            unpack: true
+          trigger: false
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+    - task: credhub-interpolate 
+      <<: *credhub-interpolate
+
+    - task: apply-product-changes
+      image: platform-automation-image
+      file: platform-automation-pipelines/tasks/apply-product-changes.yml
+      input_mapping:
+        env: interpolated-files
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        product-name: ((product-name))
+
+
+- name: apply-all-changes
+  serial: true
+  plan:
+    - in_parallel:
+        - get: product-version-git
+          trigger: false
+          passed: [ configure-product ]
+        - get: platform-automation-image
+          params:
+            unpack: true
+          trigger: false
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+        - get: variable
+    - task: credhub-interpolate 
+      <<: *credhub-interpolate
+
+    - task: apply-changes
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/apply-changes.yml
+      input_mapping:
+        env: interpolated-files
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml

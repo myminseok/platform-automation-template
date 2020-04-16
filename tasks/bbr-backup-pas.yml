@@ -1,0 +1,21 @@
+---
+platform: linux
+
+
+inputs:
+  - name: config
+  - name: platform-automation-pipelines
+  - name: bbr-release
+
+outputs:
+  - name: generated-backup
+
+params:
+  ENV_FILE: env.yml
+  BBR_PRIVATE_KEY_FILE: director-bbr-private-key.yml
+  BBR_BACKUP_FILE: 
+  BOSH_BBR_ACCOUNT: bbr
+  BBR_PRIVATE_KEY:
+
+run:
+  path: platform-automation-pipelines/tasks/bbr-backup-pas.sh

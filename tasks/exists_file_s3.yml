@@ -1,0 +1,27 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: amazon/aws-cli
+
+inputs:
+- name: platform-automation-pipelines
+- name: downloaded-product
+
+
+outputs:
+- name: test-result
+
+
+params:
+  endpoint: 
+  access_key_id: 
+  bucket: 
+  region_name: 
+  secret_access_key: 
+
+
+run:
+  path: platform-automation-pipelines/tasks/exists_file_s3.sh

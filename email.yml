@@ -17,7 +17,24 @@ resources:
       from: ((email-from))
       to: [ ((email-to)) ]
 
+send-an-email-success: &send-an-email-success
+    params:
+      subject_text: "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}/${BUILD_NAME} "
+      body: email-out/generated-body
+send-an-email-failure: &send-an-email-failure
+    params:
+      subject_text: "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}/${BUILD_NAME} "
+      body: email-out/generated-body
+
 jobs:
+
+  - name: send-email-direct
+    plan:
+      - put: send-an-email
+        params:
+          subject_text: "email-out/generated-subject"
+          body_text: "email-out/generated-body"
+
   - name: send-email
     plan:
       - task: prep-email
@@ -46,14 +63,15 @@ jobs:
               ATC External URL: \${ATC_EXTERNAL_URL}" > email-out/${OUTPUT_BODY_FILE_NAME}
           outputs:
           - name: email-out
+        on_success:
+          put: send-an-email
+          <<: *send-an-email-success
+        on_failure:
+          put: send-an-email
+          <<: *send-an-email-failure
+
       - put: send-an-email
         params:
           subject: email-out/generated-subject
           body: email-out/generated-body
 
-  - name: send-email-direct
-    plan:
-      - put: send-an-email
-        params:
-          subject_text: "email-out/generated-subject"
-          body_text: "email-out/generated-body"

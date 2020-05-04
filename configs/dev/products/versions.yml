@@ -25,3 +25,48 @@ products:
     s3-access-key-id: ((s3.access_key_id))
     s3-secret-access-key: ((s3.secret_access_key))
    # pivnet-api-token: ((pivnet_token))
+   
+ 
+  service-a-1:
+    product-version: "2.8.4"
+    pivnet-product-slug: service-a-1
+    pivnet-file-glob: "*.pivotal"
+    stemcell-iaas: vsphere
+    s3-endpoint: http://localhost:9000
+    s3-region-name: "dummy"
+    s3-bucket: "pivnet-products"
+    #s3-stemcell-path: pas-stemcell
+    s3-disable-ssl: "true"
+    s3-access-key-id: ((s3.access_key_id))
+    s3-secret-access-key: ((s3.secret_access_key))
+   # pivnet-api-token: ((pivnet_token))
+   
+  service-a-2:
+    product-version: "2.8.4"
+    pivnet-product-slug: service-a-2
+    pivnet-file-glob: "*.pivotal"
+    stemcell-iaas: vsphere
+    s3-endpoint: http://localhost:9000
+    s3-region-name: "dummy"
+    s3-bucket: "pivnet-products"
+    #s3-stemcell-path: pas-stemcell
+    s3-disable-ssl: "true"
+    s3-access-key-id: ((s3.access_key_id))
+    s3-secret-access-key: ((s3.secret_access_key))
+   # pivnet-api-token: ((pivnet_token))
+
+
+  service-b:
+    product-version: "2.8.4"
+    pivnet-product-slug: service-b
+    pivnet-file-glob: "*.pivotal"
+    stemcell-iaas: vsphere
+    s3-endpoint: http://localhost:9000
+    s3-region-name: "dummy"
+    s3-bucket: "pivnet-products"
+    #s3-stemcell-path: pas-stemcell
+    s3-disable-ssl: "true"
+    s3-access-key-id: ((s3.access_key_id))
+    s3-secret-access-key: ((s3.secret_access_key))
+   # pivnet-api-token: ((pivnet_token))
+

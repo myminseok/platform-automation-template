@@ -13,7 +13,7 @@ products:
   #  pivnet-api-token: ((pivnet_token))
 
   cf:
-    product-version: "2.8.4"
+    product-version: "2.8.5"
     pivnet-product-slug: elastic-runtime
     pivnet-file-glob: "*.pivotal"
     stemcell-iaas: vsphere
@@ -28,7 +28,7 @@ products:
    
  
   service-a-1:
-    product-version: "2.8.4"
+    product-version: "2.8.5"
     pivnet-product-slug: service-a-1
     pivnet-file-glob: "*.pivotal"
     stemcell-iaas: vsphere
@@ -42,7 +42,7 @@ products:
    # pivnet-api-token: ((pivnet_token))
    
   service-a-2:
-    product-version: "2.8.5"
+    product-version: "2.8.6"
     pivnet-product-slug: service-a-2
     pivnet-file-glob: "*.pivotal"
     stemcell-iaas: vsphere

@@ -12,7 +12,7 @@ products:
     s3-secret-access-key: ((s3.secret_access_key))
   #  pivnet-api-token: ((pivnet_token))
 
-  cf:
+  tas:
     product-version: "2.8.5"
     pivnet-product-slug: elastic-runtime
     pivnet-file-glob: "*.pivotal"

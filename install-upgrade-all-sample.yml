@@ -68,8 +68,8 @@ resources:
     branch: master
     private_key: ((git.private_key))
     config_file: configs/((foundation))/products/versions.yml
-    config_path: products.cf
-    version_path: products.cf.product-version
+    config_path: products.tas
+    version_path: products.tas.product-version
     version_pattern: "m.n.p"
 
 

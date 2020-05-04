@@ -12,8 +12,8 @@ resources:
   source:
     driver: git
     uri: ((git.platform_automation_configs.uri))
-    branch: master
-    file: version
+    branch: master # should create this branch inadvance
+    file: configs/((foundation))/pipeline-trigger-version # will create if not exists
     private_key:  ((git.private_key))
 
 ## for git push
@@ -252,7 +252,7 @@ jobs:
               repository: config-commit
               merge: true
     - put: pipeline-trigger-version-git
-      params: {file: pipeline-trigger-version-git/version}
+      params: {file: pipeline-trigger-version-git/version} ## the filename is always 'version'
 
 - name: install-and-patch-tas
   serial: true

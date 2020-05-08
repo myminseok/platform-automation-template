@@ -1,0 +1,45 @@
+## https://github.com/ronakbanka/platform-automation/blob/master/tasks/terraforming-aws.yml
+---
+platform: linux
+
+inputs:
+- name: config # contains the env file with target OpsMan Information
+- name: state
+- name: terraforming
+
+outputs:
+- name: generated-state
+
+params:
+  ENV_NAME:
+  AWS_ACCESS_KEY_ID:
+  AWS_SECRET_ACCESS_KEY:
+  AWS_REGION:
+  AWS_AZS:
+  OPS_MANAGER_VM: false
+  PCF_DNS_DOMAIN:
+  PCF_HOSTED_ZONE:
+
+
+run:
+  path: sh
+  args:
+  - "-c"
+  - |
+    terraform init terraforming/terraforming-pas
+    terraform plan -state state/terraform.tfstate \
+    -var "env_name=${ENV_NAME}" \
+    -var "access_key=${AWS_ACCESS_KEY_ID}" \
+    -var "secret_key=${AWS_SECRET_ACCESS_KEY}" \
+    -var "region=${AWS_REGION}" \
+    -var "availability_zones=${AWS_AZS}" \
+    -var "dns_suffix=${PCF_DNS_DOMAIN}" \
+    -var "ops_manager_vm=${OPS_MANAGER_VM}" \
+    -var "hosted_zone=${PCF_HOSTED_ZONE}" \
+    -out pcf.tfplan \
+    terraforming/terraforming-pas
+    terraform apply \
+    -state-out generated-state/terraform.tfstate \
+    pcf.tfplan
+    terraform output \
+    -state generated-state/terraform.tfstate

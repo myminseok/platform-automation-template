@@ -9,8 +9,9 @@ fi
 FLY_TARGET=$1	
 PRODUCT_NAME=$2
 
-fly -t ${FLY_TARGET} sp -p "${FLY_TARGET}-install-upgrade-all-aws" \
+fly -t ${FLY_TARGET} sp -p "${FLY_TARGET}-install-upgrade-all-awstest" \
 -c ./install-upgrade-all-aws.yml \
--l ../install-upgrade-all-aws-params.yml
+-l ./configs/aws/pipeline-vars/params.yml \
+-l ./configs/aws/pipeline-vars/secrets.yml
 
 ## fly -t demo clear-task-cache 

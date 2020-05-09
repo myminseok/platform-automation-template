@@ -2,7 +2,7 @@
 opsman-configuration:
   aws:
     region: ap-northeast-2
-    vpc_subnet_id: ((awstest_opsman_vpc_subnet_id))
+    vpc_subnet_id: ((awstest_opsman_vpc_subnet_id)) ## terraform module.infra.public_subnet_ids, 0
     security_group_ids: [ ((awstest_opsman_security_group_ids)) ]
     key_pair_name: ((awstest_opsman_key_pair_name))  # used to ssh to VM
     iam_instance_profile_name: ((awstest_opsman_iam_instance_profile_name))

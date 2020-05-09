@@ -8,8 +8,6 @@ s3:
   buckets:
     platform_automation: mkim-platform-automation
     pivnet_products: awstest-pivnet-products
-    installation: awstest-installation
-    bbr-backup: awstest-bbr
 
 git:
   platform_automation_pipelines:

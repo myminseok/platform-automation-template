@@ -29,8 +29,6 @@ resources:
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
     regexp: platform-automation-tasks-(.*).zip
-    skip_ssl_verification: true
-
 
 - name: platform-automation-image
   type: s3
@@ -41,19 +39,6 @@ resources:
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
     regexp: platform-automation-image-(.*).tgz
-    skip_ssl_verification: true
-
-- name: installation
-  type: s3
-  source:
-    endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
-    secret_access_key: ((s3.secret_access_key))
-    region_name: ((s3.region_name))
-    bucket: ((foundation))-installation
-    regexp: ((foundation))-installation-(.*).zip
-    skip_ssl_verification: true
-
 
 
 ## used for manual trigger serial jobs using manual version controls.
@@ -171,22 +156,6 @@ prepare-tasks-with-secrets-for-product-version: &prepare-tasks-with-secrets-for-
     tasks: platform-automation-tasks-for-product-version
 
 
-opsman-state-make-commit: &opsman-state-make-commit
-  image: platform-automation-image
-  file: platform-automation-tasks/tasks/make-git-commit.yml
-  input_mapping:
-    repository: platform-automation-configs
-    file-source: generated-state
-  output_mapping:
-    repository-commit: configuration-commit
-  params:
-    FILE_SOURCE_PATH: state.yml
-    FILE_DESTINATION_PATH: ((foundation))/state/state.yml
-    GIT_AUTHOR_EMAIL: ((git.user.email))
-    GIT_AUTHOR_NAME: ((git.user.username))
-    COMMIT_MESSAGE: "Update from upgrade-opsman"
-
-
 jobs:
 
 - name: fetch-platform-automation
@@ -245,25 +214,30 @@ jobs:
       file: platform-automation-tasks/tasks/create-vm.yml
       input_mapping:
         image: downloaded-product 
+        state: platform-automation-configs # git repo, have to provide empty state.yml file. 'interpolated-files' doesn't have state.yml file.
         config: platform-automation-configs # for products/ops-manager.yml
         vars: platform-automation-configs
-        state: platform-automation-configs # git repo, have to provide empty state.yml file. 'interpolated-files' doesn't have state.yml file.
-   
       params:
         OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
         VARS_FILES: vars/((foundation))/vars/opsman.yml
         STATE_FILE: ((foundation))/state/state.yml
       
-      on_success:
+      on_success: &make-state-commit
         do:
           - task: make-commit
-            <<: *opsman-state-make-commit
+            image: platform-automation-image
+            file: platform-automation-tasks/tasks/make-git-commit.yml
+            input_mapping:
+              repository: platform-automation-configs
+              file-source: generated-state
+            output_mapping:
+              repository-commit: configuration-commit
             params:
               FILE_SOURCE_PATH: state.yml
               FILE_DESTINATION_PATH: ((foundation))/state/state.yml
               GIT_AUTHOR_EMAIL: ((git.user.email))
               GIT_AUTHOR_NAME: ((git.user.username))
-              COMMIT_MESSAGE: "Update from  create-vm job"
+              COMMIT_MESSAGE: "Update from ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}/${BUILD_NAME}"
           - put: platform-automation-configs
             params:
               repository: configuration-commit
@@ -348,6 +322,7 @@ jobs:
 
     - put: pipeline-trigger-version-git
       params: {file: pipeline-trigger-version-git/version}
+
 
 
 - name: install-and-patch-tas
@@ -483,85 +458,6 @@ jobs:
 
 
 
-- name: upgrade-opsman
-  serial: true
-  serial_groups: [serial-jobs]
-  build_log_retention:
-    days: 2
-    builds: 1000
-    minimum_succeeded_builds: 1
-  plan:
-  - in_parallel:
-    - get: pipeline-trigger-version-git
-    - get: platform-automation-image
-      params:
-        unpack: true
-    - get: platform-automation-tasks
-      params:
-        unpack: true
-    - get: platform-automation-pipelines
-    - get: platform-automation-configs
-    - get: opsman-version-git
-    - get: opsman_vm_state
-
-  - do:
-
-    - task: prepare-tasks-with-secrets
-      <<: *prepare-tasks-with-secrets
-
-    - task: prepare-tasks-with-secrets-for-product-version
-      <<: *prepare-tasks-with-secrets-for-product-version
-
-    - task: download-product
-      image: platform-automation-image
-      file: platform-automation-tasks-for-product-version/tasks/download-product.yml
-      input_mapping:
-        config: opsman-version-git  
-      params:
-        CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
-
-    - task: export-installation
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/export-installation.yml
-      input_mapping:
-        env: platform-automation-configs
-      params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
-    - put: installation
-      params:
-        file: installation/((foundation))-installation*.zip
-
-    - task: upgrade-opsman
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/upgrade-opsman.yml
-      input_mapping:
-        image: downloaded-product 
-        state: platform-automation-configs
-        config: platform-automation-configs # for products/ops-manager.yml
-        env: platform-automation-configs
-      params:
-        OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
-        VARS_FILES: vars/((foundation))/vars/opsman.yml
-        STATE_FILE: ((foundation))/state/state.yml
-        INSTALLATION_FILE: installation/((foundation))-installation*.zip
-      ensure:
-        do:
-          - task: make-commit
-            <<: *opsman-state-make-commit
-            params:
-              FILE_SOURCE_PATH: state.yml
-              FILE_DESTINATION_PATH: ((foundation))/state/state.yml
-              GIT_AUTHOR_EMAIL: ((git.user.email))
-              GIT_AUTHOR_NAME: ((git.user.username))
-              COMMIT_MESSAGE: "Update from upgrade-opsman"
-          - put: platform-automation-configs
-            params:
-              repository: configuration-commit
-              merge: true
-
-
-
 - name: delete-opsman
   serial: true
   serial_groups: [serial-jobs]
@@ -602,7 +498,13 @@ jobs:
       ensure: 
         do:
           - task: make-commit
-            <<: *opsman-state-make-commit
+            image: platform-automation-image
+            file: platform-automation-tasks/tasks/make-git-commit.yml
+            input_mapping:
+              repository: platform-automation-configs
+              file-source: generated-state
+            output_mapping:
+              repository-commit: configuration-commit
             params:
               FILE_SOURCE_PATH: state.yml
               FILE_DESTINATION_PATH: ((foundation))/state/state.yml

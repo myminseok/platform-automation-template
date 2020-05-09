@@ -11,7 +11,7 @@ PRODUCT_NAME=$2
 
 fly -t ${FLY_TARGET} sp -p "${FLY_TARGET}-install-upgrade-all" \
 -c ./install-upgrade-all-sample.yml \
--l ./configs/${FLY_TARGET}/pipeline-vars/params.yml
+-l ./${FLY_TARGET}/pipeline-vars/params.yml
 
 
 ## fly -t demo dp -p pcfdemo-cf-install-upgrade

@@ -6,7 +6,7 @@ s3:
   secret_access_key: ((aws_secret_access_key))
   region_name: "ap-northeast-2"
   buckets:
-    platform_automation: awstest-platform-automation
+    platform_automation: mkim-platform-automation
     pivnet_products: awstest-pivnet-products
     installation: awstest-installation
     bbr-backup: awstest-bbr

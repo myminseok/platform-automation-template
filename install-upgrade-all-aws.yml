@@ -85,7 +85,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: configs/((foundation))/products/versions.yml
+    config_file: ((foundation))/products/versions.yml
     config_path: products.opsman
     version_path: products.opsman.product-version
     version_pattern: "m.n.p"
@@ -97,7 +97,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: configs/((foundation))/products/versions.yml
+    config_file: ((foundation))/products/versions.yml
     config_path: products.tas
     version_path: products.tas.product-version
     version_pattern: "m.n.p"
@@ -110,7 +110,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: configs/((foundation))/products/versions.yml
+    config_file: ((foundation))/products/versions.yml
     config_path: products.healthwatch
     version_path: products.healthwatch.product-version
     version_pattern: "m.n.p"

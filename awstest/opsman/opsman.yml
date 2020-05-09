@@ -3,7 +3,7 @@ opsman-configuration:
   aws:
     access_key_id: ((s3_access_key_id))
     secret_access_key: ((s3_secret_access_key))
-    region: ((aws_region))
+    region: ap-northeast-2
     vm_name: ops-manager-vm                           # default: OpsManager-vm
     boot_disk_size: 100                               # default 200
     vpc_subnet_id: ((awstest_opsman_vpc_subnet_id))

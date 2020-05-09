@@ -21,7 +21,7 @@ opsman-configuration:
     boot_disk_size: 100        # default - 200 (GB)
     instance_type: m5.large    # default - m5.large
                                  # NOTE - not all regions support m5.large
-    # assume_role: "arn:aws:iam::..." # necessary if a role is needed to authorize
+    assume_role: "arn:aws:iam::043826462663:role/awstest_om_role" # necessary if a role is needed to authorize
                                       # the OpsMan VM instance profile
 
 

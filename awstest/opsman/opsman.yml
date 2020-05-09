@@ -2,8 +2,8 @@
 opsman-configuration:
   aws:
     
-    #access_key_id: ((s3_access_key_id)
-    #secret_access_key: ((s3_secret_access_key))
+    access_key_id: ((s3_access_key_id)
+    secret_access_key: ((s3_secret_access_key))
     region: ap-northeast-2
     vpc_subnet_id:  ((awstest_opsman_vpc_subnet_id))
     security_group_ids: ((awstest_opsman_security_group_ids))
@@ -21,8 +21,7 @@ opsman-configuration:
     boot_disk_size: 100        # default - 200 (GB)
     instance_type: m5.large    # default - m5.large
                                  # NOTE - not all regions support m5.large
-    assume_role: "arn:aws:iam::043826462663:role/awstest_om_role" # necessary if a role is needed to authorize
-                                      # the OpsMan VM instance profile
+   
 
 
 

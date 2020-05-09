@@ -1,0 +1,18 @@
+jobs:
+- name: hello-credhub
+  plan:
+  - do:
+    - task: test
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: icclab/credhub-cli
+        run:
+          path: sh
+          args:
+          - -exc
+          - |
+            credhub login -s https://172.16.58.1:9000 --client-name=credhub_client --client-secret=secret --skip-tls-validation
+      

@@ -237,7 +237,7 @@ jobs:
               FILE_DESTINATION_PATH: ((foundation))/state/state.yml
               GIT_AUTHOR_EMAIL: ((git.user.email))
               GIT_AUTHOR_NAME: ((git.user.username))
-              COMMIT_MESSAGE: 'Update from ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}/${BUILD_NAME}'
+              COMMIT_MESSAGE: "Update from ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}/${BUILD_NAME}"
           - put: platform-automation-configs
             params:
               repository: configuration-commit
@@ -455,4 +455,63 @@ jobs:
         config: interpolated-files
       params:
         CONFIG_FILE: ((foundation))/products/healthwatch.yml
-      
+
+
+
+- name: delete-opsman
+  serial: true
+  serial_groups: [serial-jobs]
+  build_log_retention:
+    days: 2
+    builds: 1000
+    minimum_succeeded_builds: 1
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+    - get: opsman-version-git
+    - get: opsman_vm_state
+
+  - do:
+
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: delete-vm
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/delete-vm.yml
+      input_mapping:
+        config: platform-automation-configs
+        state: opsman_vm_state
+        vars: platform-automation-configs
+      params:
+        OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
+        VARS_FILES: vars/((foundation))/vars/opsman.yml
+        STATE_FILE: ((foundation))/state/state.yml
+      ensure: 
+        do:
+          - task: make-commit
+            image: platform-automation-image
+            file: platform-automation-tasks/tasks/make-git-commit.yml
+            input_mapping:
+              repository: platform-automation-configs
+              file-source: generated-state
+            output_mapping:
+              repository-commit: configuration-commit
+            params:
+              FILE_SOURCE_PATH: state.yml
+              FILE_DESTINATION_PATH: ((foundation))/state/state.yml
+              GIT_AUTHOR_EMAIL: ((git.user.email))
+              GIT_AUTHOR_NAME: ((git.user.username))
+              COMMIT_MESSAGE: 'Update from ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}/${BUILD_NAME}'
+          - put: platform-automation-configs
+            params:
+              repository: configuration-commit
+              merge: true

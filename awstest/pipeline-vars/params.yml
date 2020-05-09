@@ -2,14 +2,14 @@ foundation: awstest
 
 s3:
   endpoint: https://s3.ap-northeast-2.amazonaws.com
-  access_key_id: ((s3_access_key_id))
-  secret_access_key: ((s3_secret_access_key))
+  access_key_id: ((aws_access_key_id))
+  secret_access_key: ((aws_secret_access_key))
   region_name: "ap-northeast-2"
   buckets:
-    platform_automation: mkim-platform-automation
-    pivnet_products: mkim-pivnet-products
-    installation: mkim-installation
-    bbr-backup: mkim-bbr
+    platform_automation: awstest-platform-automation
+    pivnet_products: awstest-pivnet-products
+    installation: awstest-installation
+    bbr-backup: awstest-bbr
 
 git:
   platform_automation_pipelines:

@@ -12,7 +12,6 @@ products:
     pivnet-file-glob: "cf*.pivotal"
     stemcell-iaas: aws
     pivnet-api-token: ((pivnet_token))
-   
  
   healtheatch:
     product-version: "2.9.1"

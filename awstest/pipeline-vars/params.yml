@@ -13,17 +13,19 @@ s3:
 
 git:
   platform_automation_pipelines:
-   uri: git@github.com:myminseok/platform-automation-pipelines-template.git
+    uri: git@github.com:myminseok/platform-automation-pipelines-template.git
+    branch: aws
   platform_automation_configs:
-   uri: git@github.com:myminseok/platform-automation-pipelines-template.git
+    uri: git@github.com:myminseok/platform-automation-pipelines-template.git
+    branch: aws
   user: 
     email: ((git_user_email))
     username: "Platform Automation Bot"
   private_key: ((git_private_key.private_key))
 
 credhub:
-  server: ((credhub_server))
-  ca_cert: ((credhub_ca_cert.certificate))
+  server: https://192.168.50.1:9000
+  ##ca_cert: ((credhub_ca_cert.certificate))
   client: ((credhub_client.username))
   secret: ((credhub_client.password))
   interpolate_folders: aws/configs 

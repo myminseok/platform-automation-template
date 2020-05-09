@@ -47,7 +47,7 @@ resources:
   source:
     driver: git
     uri: ((git.platform_automation_configs.uri))
-    branch: master # should create this branch inadvance
+    branch: ((git.platform_automation_configs.branch)) # should create this branch inadvance
     file: configs/((foundation))/pipeline-trigger-${BUILD_PIPELINE_NAME} # will create if not exists
     private_key:  ((git.private_key))
 
@@ -56,7 +56,7 @@ resources:
   source:
     private_key: ((git.private_key))
     uri: ((git.platform_automation_pipelines.uri))
-    branch: aws
+    branch: ((git.platform_automation_pipelines.branch))
     skip_ssl_verification: true  
 
 - name: platform-automation-configs
@@ -64,7 +64,7 @@ resources:
   source:
     private_key: ((git.private_key))
     uri: ((git.platform_automation_configs.uri))
-    branch: master
+    branch: ((git.platform_automation_configs.branch))
     skip_ssl_verification: true  
 
 - name: opsman_vm_state
@@ -72,7 +72,7 @@ resources:
   source:
     private_key: ((git.private_key))
     uri: ((git.platform_automation_configs.uri))
-    branch: aws
+    branch: ((git.platform_automation_configs.branch))
     skip_ssl_verification: true
     paths: [ "configs/((foundation))/state/state.yml" ]
 
@@ -83,7 +83,7 @@ resources:
   source:
     driver: git
     uri: ((git.platform_automation_configs.uri))
-    branch: aws
+    branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
     config_file: configs/((foundation))/products/versions.yml
     config_path: products.opsman
@@ -95,7 +95,7 @@ resources:
   source:
     driver: git
     uri: ((git.platform_automation_configs.uri))
-    branch: aws
+    branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
     config_file: configs/((foundation))/products/versions.yml
     config_path: products.tas
@@ -108,7 +108,7 @@ resources:
   source:
     driver: git
     uri: ((git.platform_automation_configs.uri))
-    branch: aws
+    branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
     config_file: configs/((foundation))/products/versions.yml
     config_path: products.healthwatch
@@ -120,20 +120,24 @@ credhub-interpolate: &credhub-interpolate
   image: platform-automation-image
   file: platform-automation-tasks/tasks/credhub-interpolate.yml
   input_mapping:
-    files: platform-auto-config
+    files: platform-automation-configs
   params:
-    CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+    #CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+    CREDHUB_CA_CERT: ""
     CREDHUB_SECRET: ((credhub_client.password))
     CREDHUB_CLIENT: ((credhub_client.username))
-    CREDHUB_SERVER: ((credhub_server))
+    CREDHUB_SERVER: ((credhub.server))
     PREFIX: /concourse/main
-    INTERPOLATION_PATHS: ((foundation))/configs ((foundation))/vars
+    INTERPOLATION_PATHS: ((foundation))
     SKIP_MISSING: false
 
 
 prepare-tasks-with-secrets: &prepare-tasks-with-secrets
   image: platform-automation-image
   file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  input_mapping:
+    tasks: platform-automation-tasks
+    config: platform-automation-configs
   params:
     CONFIG_PATHS: platform-automation-configs/((foundation))
   output_mapping:
@@ -143,6 +147,9 @@ prepare-tasks-with-secrets: &prepare-tasks-with-secrets
 prepare-tasks-with-secrets-for-product-version: &prepare-tasks-with-secrets-for-product-version
   image: platform-automation-image
   file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  input_mapping:
+    tasks: platform-automation-tasks
+    config: platform-automation-configs
   params:
     CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
   output_mapping:
@@ -174,15 +181,17 @@ jobs:
   - in_parallel:
     - get: pipeline-trigger-version-git
     - get: platform-automation-image
+      params:
+        unpack: true
     - get: platform-automation-tasks
+      params:
+        unpack: true
     - get: platform-automation-pipelines
     - get: platform-automation-configs
     - get: opsman-version-git
     - get: opsman_vm_state
 
   - do:
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
 
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
@@ -243,13 +252,17 @@ jobs:
       passed: [install-opsman]
       trigger: true
     - get: platform-automation-image
+      params:
+        unpack: true
     - get: platform-automation-tasks
+      params:
+        unpack: true
     - get: platform-automation-pipelines
     - get: platform-automation-configs
     - get: opsman-version-git
   - do:
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
 
     - task: configure-authentication
       image: platform-automation-image
@@ -273,7 +286,11 @@ jobs:
       passed: [configure-authentication]
       #trigger: true
     - get: platform-automation-image
+      params:
+        unpack: true
     - get: platform-automation-tasks
+      params:
+        unpack: true
     - get: platform-automation-pipelines
     - get: platform-automation-configs
     - get: opsman-version-git
@@ -283,7 +300,7 @@ jobs:
 
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
-               
+
     - task: configure-director
       image: platform-automation-image
       file: platform-automation-tasks/tasks/configure-director.yml
@@ -317,7 +334,11 @@ jobs:
     - get: pipeline-trigger-version-git
       trigger: true
     - get: platform-automation-image
+      params:
+        unpack: true
     - get: platform-automation-tasks
+      params:
+        unpack: true
     - get: platform-automation-pipelines
     - get: platform-automation-configs
     - get: tas-version-git
@@ -380,7 +401,11 @@ jobs:
       trigger: true
       passed: [install-and-patch-tas ]
     - get: platform-automation-image
+      params:
+        unpack: true
     - get: platform-automation-tasks
+      params:
+        unpack: true
     - get: platform-automation-pipelines
     - get: platform-automation-configs
     - get: healthwatch-version-git

@@ -10,7 +10,7 @@ opsman-configuration:
     # At least one IP address (public or private) needs to be assigned to the
     # VM. It is also permissible to assign both.
     public_ip: ((awstest_ops_manager_public_ip))     # Reserved Elastic IP
-    private_ip: 10.0.0.2
+    #private_ip: 10.0.0.2
 
     # Optional
     vm_name: ops-manager-vm    # default - ops-manager-vm

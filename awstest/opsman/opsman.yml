@@ -7,7 +7,7 @@ opsman-configuration:
     vm_name: ops-manager-vm                           # default: OpsManager-vm
     boot_disk_size: 100                               # default 200
     vpc_subnet_id: ((awstest_opsman_vpc_subnet_id))
-    security_group_id: ((awstest_opsman_security_group_ids))
+    security_group_id: [ ((awstest_opsman_security_group_ids)) ]
     key_pair_name: ((awstest_opsman_key_pair_name))
     iam_instance_profile_name: ((awstest_opsman_iam_instance_profile_name))
     public_ip: ((awstest_ops_manager_public_ip))

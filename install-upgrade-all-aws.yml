@@ -139,7 +139,7 @@ prepare-tasks-with-secrets: &prepare-tasks-with-secrets
     tasks: platform-automation-tasks
     config: platform-automation-configs
   params:
-    CONFIG_PATHS: platform-automation-configs/((foundation))
+    CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products config/((foundation))/vars
   output_mapping:
     tasks: platform-automation-tasks
 
@@ -151,9 +151,9 @@ prepare-tasks-with-secrets-for-product-version: &prepare-tasks-with-secrets-for-
     tasks: platform-automation-tasks
     config: platform-automation-configs
   params:
-    CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
+    CONFIG_PATHS: config/((foundation))/products # semver-config-resource auto-generates folder for semver-config.yml.
   output_mapping:
-    tasks: platform-automation-tasks
+    tasks: platform-automation-tasks-for-product-version
 
 
 jobs:
@@ -169,6 +169,7 @@ jobs:
     - put: platform-automation-image
       params:
         file: platform-automation-pivnet/platform-automation-image-*.tgz
+
 
 - name: install-opsman
   serial: true
@@ -201,21 +202,21 @@ jobs:
 
     - task: download-product
       image: platform-automation-image
-      file: platform-automation-pipelines/tasks/download-product.yml
+      file: platform-automation-tasks-for-product-version/tasks/download-product.yml
       input_mapping:
         config: opsman-version-git  
       params:
         CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
-              
+
     ## if VM already exists, not attempting to create it, and return true.
     - task: create-vm
       image: platform-automation-image
       file: platform-automation-tasks/tasks/create-vm.yml
       input_mapping:
-        image: downloaded-files ## moving big files is slow. this file doesn't move. and will use 'downloaded-files' as it is
+        image: downloaded-product 
         state: platform-automation-configs # git repo, have to provide empty state.yml file. 'interpolated-files' doesn't have state.yml file.
-        config: interpolated-files # for products/ops-manager.yml
-        vars: interpolated-files
+        config: platform-automation-configs # for products/ops-manager.yml
+        vars: platform-automation-configs
       params:
         OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
         VARS_FILES: vars/((foundation))/vars/opsman.yml
@@ -269,8 +270,8 @@ jobs:
       file: platform-automation-tasks/tasks/configure-authentication.yml
       attempts: 10
       input_mapping:
-        env: interpolated-files
-        config: interpolated-files
+        env: platform-automation-configs
+        config: platform-automation-configs
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
         AUTH_CONFIG_FILE: ((foundation))/opsman/auth.yml
@@ -295,8 +296,6 @@ jobs:
     - get: platform-automation-configs
     - get: opsman-version-git
   - do:
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
 
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
@@ -305,9 +304,9 @@ jobs:
       image: platform-automation-image
       file: platform-automation-tasks/tasks/configure-director.yml
       input_mapping:
-        env: interpolated-files
-        config: interpolated-files
-        vars: interpolated-files
+        env: platform-automation-configs
+        config: platform-automation-configs
+        vars: platform-automation-configs
       params:
         ENV_FILE: ((foundation))/configs/env.yml
         DIRECTOR_CONFIG_FILE: ((foundation))/configs/director.yml
@@ -317,7 +316,7 @@ jobs:
       image: platform-automation-image
       file: platform-automation-tasks/tasks/apply-director-changes.yml
       input_mapping:
-        env: interpolated-files
+        env: platform-automation-configs  
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
 

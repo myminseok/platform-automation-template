@@ -5,8 +5,8 @@ opsman-configuration:
     vpc_subnet_id:  ((awstest_opsman_vpc_subnet_id))
     security_group_ids: ((awstest_opsman_security_group_ids))
     key_pair_name: ((awstest_opsman_key_pair_name)) # used to ssh to VM
-    #iam_instance_profile_name: ((awstest_opsman_iam_instance_profile_name))
-    iam_instance_profile_name: ""
+    iam_instance_profile_name: ((awstest_opsman_iam_instance_profile_name))
+
     
     # At least one IP address (public or private) needs to be assigned to the
     # VM. It is also permissible to assign both.
@@ -27,6 +27,6 @@ opsman-configuration:
     secret_access_key: ((s3_secret_access_key))
 
     # security_group_id: sg-123  # DEPRECATED - use security_group_ids
-    use_instance_profile: false # DEPRECATED - will use instance profile for
+    #use_instance_profile: false # DEPRECATED - will use instance profile for
                                  # execution VM if access_key_id and
                                  # secret_access_key are not set

@@ -26,6 +26,6 @@ opsman-configuration:
 
 
     # security_group_id: sg-123  # DEPRECATED - use security_group_ids
-    use_instance_profile: true # DEPRECATED - will use instance profile for
+    use_instance_profile: false # DEPRECATED - will use instance profile for
                                  # execution VM if access_key_id and
                                  # secret_access_key are not set

@@ -23,8 +23,8 @@ opsman-configuration:
 
     # Omit if using instance profiles
     # And instance profile OR access_key/secret_access_key is required
-    access_key_id: ((s3_access_key_id)
-    secret_access_key: ((s3_secret_access_key))
+    #access_key_id: ((s3_access_key_id)
+    #secret_access_key: ((s3_secret_access_key))
 
     # security_group_id: sg-123  # DEPRECATED - use security_group_ids
     #use_instance_profile: false # DEPRECATED - will use instance profile for

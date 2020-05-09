@@ -2,27 +2,23 @@
 ## https://github.com/pivotal/paving/
 
 
-env_name           = "awstest"
-access_key         = "YOUR-ACCESS-KEY"
-secret_key         = "YOUR-SECRET-KEY"
+env_name           = "mkimtest"
 region             = "ap-northeast-2"
 availability_zones = ["ap-northeast-2a", "ap-northeast-2b", "ap-northeast-2c"]
 ops_manager_ami    = "YOUR-OPS-MAN-IMAGE-AMI"
-dns_suffix         = "awstest.pcfdemo.net."
+dns_suffix         = "pcfdemo.net"
 
-# *.sys.awstest.pcfdemo.net,*apps.awstest.pcfdemo.net,*.login.sys.awstest.pcfdemo.net,*.uaa.sys.awstest.pcfdemo.net,
-ssl_cert = <<SSL_CERT
------BEGIN CERTIFICATE-----
-YOUR-CERTIFICATE
------END CERTIFICATE-----
-SSL_CERT
+# *.sys.mkimtest.pcfdemo.net,*apps.mkimtest.pcfdemo.net,*.login.sys.mkimtest.pcfdemo.net,*.uaa.sys.mkimtest.pcfdemo.net,
 
-ssl_private_key = <<SSL_KEY
------BEGIN EXAMPLE RSA PRIVATE KEY-----
-YOUR-PRIVATE-KEY
------END EXAMPLE RSA PRIVATE KEY-----
-SSL_KEY
+vpc_cidr           = "10.0.0.0/16"
+use_route53        = true
+use_ssh_routes     = true
+use_tcp_routes     = false
 
 
 rds_instance_count = 1
-rds_db_username = "YOUR-DATABASE-NAME"
+rds_db_username = "mkimtest"
+
+tags = {
+    Project = "mkimtest"
+}

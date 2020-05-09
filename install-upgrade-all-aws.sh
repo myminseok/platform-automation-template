@@ -6,12 +6,10 @@ if [ -z $1 ]  ; then
 	exit
 fi	
 
-FLY_TARGET=$1	
-PRODUCT_NAME=$2
+FLY_TARGET=$1
 
-fly -t ${FLY_TARGET} sp -p "${FLY_TARGET}-install-upgrade-all-awstest" \
+fly -t ${FLY_TARGET} sp -p "${FLY_TARGET}-install-upgrade-all" \
 -c ./install-upgrade-all-aws.yml \
--l ./configs/aws/pipeline-vars/params.yml \
--l ./configs/aws/pipeline-vars/secrets.yml
+-l ./configs/${FLY_TARGET}/pipeline-vars/params.yml
 
 ## fly -t demo clear-task-cache 

@@ -20,6 +20,18 @@ resources:
     product_version: 4\.(.*)
     sort_by: semver
 
+- name: terraform-state
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_automation))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: terraform-(.*).tfvars
+    skip_ssl_verification: true
+
+
 - name: platform-automation-tasks
   type: s3
   source:
@@ -200,6 +212,36 @@ jobs:
     - put: platform-automation-image
       params:
         file: platform-automation-pivnet/platform-automation-image-*.tgz
+
+- name: prepare-credhub-secrets-from-terraform-state
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+    - get: terraform-state
+  - do:
+    - task: prepare-credhub-secrets-from-terraform-state
+      image: platform-automation-image
+      file: platform-automation-pipelines/tasks/prepare-credhub-secrets-from-terraform-state.yml
+      params:
+        #CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+        CREDHUB_CA_CERT: ""
+        CREDHUB_SECRET: ((credhub_client.password))
+        CREDHUB_CLIENT: ((credhub_client.username))
+        CREDHUB_SERVER: ((credhub.server))
+        TERRAFORM_STATE_FILE_PATH: terraform-state/terraform-1.0.0.tfstate
+        PREFIX: /concourse/main
+        INTERPOLATION_PATHS: ((foundation))
+        SKIP_TLS_VALIDATION: true
+
 
 
 - name: install-opsman

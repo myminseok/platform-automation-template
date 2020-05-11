@@ -35,6 +35,13 @@ function set_value(){
     credhub set -t value -n ${PREFIX}/${FOUNDATION_PREFIX}${KEY} -v "$value"
 }
 
+function set_password(){
+    local KEY=$1 
+    value=`terraform output -state ${TERRAFORM_STATE_FILE_PATH} ${KEY}`
+    credhub set -t password -n ${PREFIX}/${FOUNDATION_PREFIX}${KEY} -w "$value"
+}
+
+
 
 function set_first_value_from_array(){
     local KEY=$1 
@@ -57,10 +64,10 @@ set_value "ops_manager_ssh_public_key_name"
 set_value "ops_manager_iam_instance_profile_name"
 set_value "ops_manager_public_ip"
 set_value "ops_manager_iam_user_access_key"
-set_value "ops_manager_iam_user_secret_key"
+set_password "ops_manager_iam_user_secret_key"
 set_value "rds_address"
 set_value "rds_username"
-set_value "rds_password"
+set_password "rds_password"
 set_ssh_private_key "ops_manager_ssh_private_key"
 
 

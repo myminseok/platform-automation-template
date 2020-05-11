@@ -1,6 +1,6 @@
-## see prepare-credhub-secrets-from-terraform-state.yml
-## for opsman.yml , director.yml
+## see platform-automation-pipelines/tasks/prepare-credhub-secrets-from-terraform-state.yml
 
+## for opsman.yml , director.yml
 set_first_value_from_array "public_subnet_ids" ##  module.infra.public_subnet_ids, 0
 set_value "ops_manager_security_group_id"
 set_value "ops_manager_ssh_public_key_name"

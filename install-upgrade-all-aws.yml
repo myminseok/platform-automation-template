@@ -242,7 +242,7 @@ jobs:
         PREFIX: /concourse/main
         FOUNDATION_PREFIX: ((foundation))_
         SKIP_TLS_VALIDATION: true
-        SHELL_FILE_FOR_KEY_LIST: config/((foundation))/pipeline-vars/key-list-from-terraform-state.sh
+        SHELL_FILE_FOR_CREDHUB_KEY_LIST: config/((foundation))/pipeline-vars/prepare-credhub-secrets-from-terraform-state.sh
 
 
 

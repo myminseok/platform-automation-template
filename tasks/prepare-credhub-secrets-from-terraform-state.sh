@@ -79,11 +79,11 @@ set_ssh_private_key "ops_manager_ssh_private_key"
 #set_value "rds_username"
 #set_password "rds_password"
 
-
+echo "====================================="
 if [ -f "${SHELL_FILE_FOR_KEY_LIST}" ]; then
-  echo "executing ${SHELL_FILE_FOR_KEY_LIST} "
+  echo "Executing ${SHELL_FILE_FOR_KEY_LIST} "
   source ${SHELL_FILE_FOR_KEY_LIST}
 else
-  echo "no extra file to execute from SHELL_FILE_FOR_KEY_LIST: $SHELL_FILE_FOR_KEY_LIST "
+  echo "No extra file shell file to execute from SHELL_FILE_FOR_KEY_LIST: $SHELL_FILE_FOR_KEY_LIST "
 fi
 

@@ -80,10 +80,10 @@ set_ssh_private_key "ops_manager_ssh_private_key"
 #set_password "rds_password"
 
 echo "====================================="
-if [ -f "${SHELL_FILE_FOR_KEY_LIST}" ]; then
-  echo "Executing ${SHELL_FILE_FOR_KEY_LIST} "
+if [ -f "${SHELL_FILE_FOR_CREDHUB_KEY_LIST}" ]; then
+  echo "Executing ${SHELL_FILE_FOR_CREDHUB_KEY_LIST} "
   source ${SHELL_FILE_FOR_KEY_LIST}
 else
-  echo "No extra file shell file to execute from SHELL_FILE_FOR_KEY_LIST: $SHELL_FILE_FOR_KEY_LIST "
+  echo "No extra file shell file to execute from SHELL_FILE_FOR_CREDHUB_KEY_LIST: $SHELL_FILE_FOR_CREDHUB_KEY_LIST "
 fi
 

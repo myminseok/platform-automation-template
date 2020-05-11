@@ -82,7 +82,7 @@ set_ssh_private_key "ops_manager_ssh_private_key"
 echo "====================================="
 if [ -f "${SHELL_FILE_FOR_CREDHUB_KEY_LIST}" ]; then
   echo "Executing ${SHELL_FILE_FOR_CREDHUB_KEY_LIST} "
-  source ${SHELL_FILE_FOR_KEY_LIST}
+  source ${SHELL_FILE_FOR_CREDHUB_KEY_LIST}
 else
   echo "No extra file shell file to execute from SHELL_FILE_FOR_CREDHUB_KEY_LIST: $SHELL_FILE_FOR_CREDHUB_KEY_LIST "
 fi

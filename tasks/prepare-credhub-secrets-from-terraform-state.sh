@@ -63,6 +63,8 @@ function set_ssh_private_key(){
 }
 
 
+
+
 ## for opsman.yml , director.yml
 set_first_value_from_array "public_subnet_ids" ##  module.infra.public_subnet_ids, 0
 set_value "ops_manager_security_group_id"
@@ -77,4 +79,9 @@ set_ssh_private_key "ops_manager_ssh_private_key"
 #set_value "rds_username"
 #set_password "rds_password"
 
+
+if [ -f "${SHELL_FILE_FOR_KEY_LIST}" ]; then
+  echo "executing ${SHELL_FILE_FOR_KEY_LIST} "
+  source ${SHELL_FILE_FOR_KEY_LIST}
+fi
 

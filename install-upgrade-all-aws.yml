@@ -240,6 +240,7 @@ jobs:
         PREFIX: /concourse/main
         FOUNDATION_PREFIX: ((foundation))
         SKIP_TLS_VALIDATION: true
+        SHELL_FILE_FOR_KEY_LIST: config/((foundation))/key-list-from-terraform-state.sh
 
 
 

@@ -84,6 +84,6 @@ if [ -f "${SHELL_FILE_FOR_KEY_LIST}" ]; then
   echo "executing ${SHELL_FILE_FOR_KEY_LIST} "
   source ${SHELL_FILE_FOR_KEY_LIST}
 else
-  echo "no extra file to execute from SHELL_FILE_FOR_KEY_LIST "
+  echo "no extra file to execute from SHELL_FILE_FOR_KEY_LIST: $SHELL_FILE_FOR_KEY_LIST "
 fi
 

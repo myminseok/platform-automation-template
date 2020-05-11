@@ -4,6 +4,12 @@ cat /var/version && echo ""
 set -euo pipefail
 
 
+wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/2.7.0/credhub-linux-2.7.0.tgz
+tar xf credhub-linux-2.7.0.tgz
+mv credhub /usr/local/bin/credhub
+
+
+
 if [ ! -f "./$TERRAFORM_STATE_FILE_PATH" ]; then
   echo "Required terraform state file does not exist in './$TERRAFORM_STATE_FILE_PATH'"
   exit 1

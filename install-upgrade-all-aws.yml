@@ -28,7 +28,7 @@ resources:
     bucket: ((s3.buckets.platform_automation))
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
-    regexp: terraform-(.*).tfvars
+    regexp: terraform-(.*).tfstate
     skip_ssl_verification: true
 
 
@@ -229,7 +229,6 @@ jobs:
     - get: terraform-state
   - do:
     - task: prepare-credhub-secrets-from-terraform-state
-      image: platform-automation-image
       file: platform-automation-pipelines/tasks/prepare-credhub-secrets-from-terraform-state.yml
       params:
         #CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
@@ -239,7 +238,7 @@ jobs:
         CREDHUB_SERVER: ((credhub.server))
         TERRAFORM_STATE_FILE_PATH: terraform-state/terraform-1.0.0.tfstate
         PREFIX: /concourse/main
-        INTERPOLATION_PATHS: ((foundation))
+        FOUNDATION_PREFIX: ((foundation))
         SKIP_TLS_VALIDATION: true
 
 

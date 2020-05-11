@@ -63,6 +63,8 @@ function set_ssh_private_key(){
 }
 
 
+set +e
+
 ## for opsman.yml , director.yml
 set_first_value_from_array "public_subnet_ids" ##  module.infra.public_subnet_ids, 0
 set_value "ops_manager_security_group_id"

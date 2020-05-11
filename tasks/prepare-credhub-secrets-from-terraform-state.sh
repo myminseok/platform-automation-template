@@ -83,5 +83,7 @@ set_ssh_private_key "ops_manager_ssh_private_key"
 if [ -f "${SHELL_FILE_FOR_KEY_LIST}" ]; then
   echo "executing ${SHELL_FILE_FOR_KEY_LIST} "
   source ${SHELL_FILE_FOR_KEY_LIST}
+else
+  echo "no extra file to execute from SHELL_FILE_FOR_KEY_LIST "
 fi
 

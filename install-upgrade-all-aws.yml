@@ -230,6 +230,8 @@ jobs:
   - do:
     - task: prepare-credhub-secrets-from-terraform-state
       file: platform-automation-pipelines/tasks/prepare-credhub-secrets-from-terraform-state.yml
+      input_mapping:
+        config: platform-automation-configs 
       params:
         #CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
         CREDHUB_CA_CERT: ""

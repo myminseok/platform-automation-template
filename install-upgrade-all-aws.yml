@@ -175,11 +175,13 @@ prepare-tasks-with-secrets: &prepare-tasks-with-secrets
 prepare-tasks-with-secrets-for-product-version: &prepare-tasks-with-secrets-for-product-version
   image: platform-automation-image
   file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  input_mapping:
+    tasks: platform-automation-pipelines
+    config: tas-version-git 
   params:
     CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
   output_mapping:
-    tasks: platform-automation-tasks-for-product-version
-
+    tasks: platform-automation-pipelines
 
 opsman-state-make-commit: &opsman-state-make-commit
   image: platform-automation-image
@@ -273,7 +275,8 @@ jobs:
     - task: prepare-tasks-with-secrets-for-product-version
       <<: *prepare-tasks-with-secrets-for-product-version
       input_mapping:
-        config: opsman-version-git  
+        tasks: platform-automation-pipelines
+        config: opsman-version-git 
 
     - task: download-product
       image: platform-automation-image
@@ -375,8 +378,8 @@ jobs:
         config: platform-automation-configs
         vars: platform-automation-configs
       params:
-        ENV_FILE: ((foundation))/configs/env.yml
-        DIRECTOR_CONFIG_FILE: ((foundation))/configs/director.yml
+        ENV_FILE: ((foundation))/opsman/env.yml
+        DIRECTOR_CONFIG_FILE: ((foundation))/opsman/director.yml
         VARS_FILES: vars/((foundation))/vars/director.yml
 
     - task: apply-director-changes
@@ -393,11 +396,11 @@ jobs:
 
 - name: install-and-patch-tas
   serial: true
-  serial_groups: [serial-jobs]
+  #serial_groups: [serial-jobs]
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
-      trigger: true
+      trigger: false
     - get: platform-automation-image
       params:
         unpack: true
@@ -409,18 +412,21 @@ jobs:
     - get: tas-version-git
 
   - do:    
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
 
     - task: prepare-tasks-with-secrets-for-product-version
       <<: *prepare-tasks-with-secrets-for-product-version
+      input_mapping:
+        tasks: platform-automation-pipelines
+        config: tas-version-git 
 
     - task: download-product
       image: platform-automation-image
       file: platform-automation-pipelines/tasks/download-product.yml
       input_mapping:
         config: tas-version-git  
-        vars: interpolated-files
+        vars: platform-automation-configs
       params:
         CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
         VARS_FILES: vars/((foundation))/vars/tas.yml
@@ -431,7 +437,7 @@ jobs:
       file: platform-automation-tasks/tasks/upload-product.yml
       input_mapping:
         product: downloaded-product
-        env: interpolated-files
+        env: platform-automation-configs
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
 
@@ -440,7 +446,7 @@ jobs:
       file: platform-automation-tasks/tasks/upload-stemcell.yml
       input_mapping:
         stemcell: downloaded-stemcell
-        env: interpolated-files
+        env: platform-automation-configs
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
         FLOATING_STEMCELL: false
@@ -450,8 +456,8 @@ jobs:
       file: platform-automation-tasks/tasks/stage-configure-apply.yml
       input_mapping:
         product: downloaded-product
-        env: interpolated-files
-        config: interpolated-files
+        env: platform-automation-configs
+        config: platform-automation-configs
       params:
         CONFIG_FILE: ((foundation))/products/tas.yml
 
@@ -552,6 +558,8 @@ jobs:
 
     - task: prepare-tasks-with-secrets-for-product-version
       <<: *prepare-tasks-with-secrets-for-product-version
+
+
 
     - task: download-product
       image: platform-automation-image

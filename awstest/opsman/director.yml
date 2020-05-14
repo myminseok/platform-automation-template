@@ -30,21 +30,21 @@ networks-configuration:
   networks:
   - name: infra
     subnets:
-    - iaas_identifier: subnet-048d5a84df64df651
+    - iaas_identifier: subnet-037494d754745bccf
       cidr: 10.0.16.0/28
       dns: 10.0.0.2
       gateway: 10.0.16.1
       reserved_ip_ranges: 10.0.16.0-10.0.16.4
       availability_zone_names:
       - ap-northeast-2a
-    - iaas_identifier: subnet-0e0d9727642a007aa
+    - iaas_identifier: subnet-012b7cfd8436e84de
       cidr: 10.0.16.16/28
       dns: 10.0.0.2
       gateway: 10.0.16.17
       reserved_ip_ranges: 10.0.16.16-10.0.16.20
       availability_zone_names:
       - ap-northeast-2b
-    - iaas_identifier: subnet-0bece608c74079b82
+    - iaas_identifier: subnet-07072ab9d4cd2c31d
       cidr: 10.0.16.32/28
       dns: 10.0.0.2
       gateway: 10.0.16.33
@@ -53,21 +53,21 @@ networks-configuration:
       - ap-northeast-2c
   - name: pas
     subnets:
-    - iaas_identifier: subnet-093dfb9c82dff9a62
+    - iaas_identifier: subnet-04996c7d131173b83
       cidr: 10.0.4.0/24
       dns: 10.0.0.2
       gateway: 10.0.4.1
       reserved_ip_ranges: 10.0.4.0-10.0.4.4
       availability_zone_names:
       - ap-northeast-2a
-    - iaas_identifier: subnet-0fc6c34c27b0d6eee
+    - iaas_identifier: subnet-09285a5295cc04416
       cidr: 10.0.5.0/24
       dns: 10.0.0.2
       gateway: 10.0.5.1
       reserved_ip_ranges: 10.0.5.0-10.0.5.4
       availability_zone_names:
       - ap-northeast-2b
-    - iaas_identifier: subnet-0d2dab51650d43bd4
+    - iaas_identifier: subnet-0c94089a6fc515980
       cidr: 10.0.6.0/24
       dns: 10.0.0.2
       gateway: 10.0.6.1
@@ -76,21 +76,21 @@ networks-configuration:
       - ap-northeast-2c
   - name: services
     subnets:
-    - iaas_identifier: subnet-0d20fc19bba74b46a
+    - iaas_identifier: subnet-00f1a70c451e1c417
       cidr: 10.0.8.0/24
       dns: 10.0.0.2
       gateway: 10.0.8.1
       reserved_ip_ranges: 10.0.8.0-10.0.8.3
       availability_zone_names:
       - ap-northeast-2a
-    - iaas_identifier: subnet-0a0b5b8833569edfa
+    - iaas_identifier: subnet-0a9261f4f765d988e
       cidr: 10.0.9.0/24
       dns: 10.0.0.2
       gateway: 10.0.9.1
       reserved_ip_ranges: 10.0.9.0-10.0.9.3
       availability_zone_names:
       - ap-northeast-2b
-    - iaas_identifier: subnet-0395fa8c59e36ed16
+    - iaas_identifier: subnet-018441a2ba8d75ab6
       cidr: 10.0.10.0/24
       dns: 10.0.0.2
       gateway: 10.0.10.1

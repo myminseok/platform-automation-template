@@ -99,17 +99,30 @@ networks-configuration:
       - ap-northeast-2c
 properties-configuration:
   director_configuration:
-    blobstore_type: local
+    blobstore_type: s3
+    bosh_director_recreate_on_next_deploy: false
     bosh_recreate_on_next_deploy: false
     bosh_recreate_persistent_disks_on_next_deploy: false
-    database_type: internal
+    database_type: external
     director_worker_count: 5
-#    encryption: []
     encryption:
       keys: []
       providers: []
+    external_database_options:
+      connection_options: {}
+      database: director
+      host: ((rds_address))
+      password: ((ards_password))
+      port: "3306"
+      tls_enabled: false
+      user: ((rds_username)
     hm_emailer_options:
       enabled: false
+ #    recipients:
+ #      value: "someone-else"
+ #    smtp_password: 
+
+
     hm_pager_duty_options:
       enabled: false
     identification_tags: {}
@@ -120,6 +133,16 @@ properties-configuration:
     post_deploy_enabled: true
     resurrector_enabled: true
     retry_bosh_deploys: false
+    s3_blobstore_options:
+      backup_bucket_name: ""
+      backup_bucket_region: ""
+      backup_strategy: use_versioned_bucket
+      bucket_name: ((s3_blobstore_options.bucket_name))
+      enable_signed_urls: false
+      endpoint: https://s3.ap-northeast-2.amazonaws.com
+      region: ap-northeast-2
+      signature_version: "4"
+      url_style: domain-style
     skip_director_drain: false
   dns_configuration:
     excluded_recursors: []

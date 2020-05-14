@@ -55,16 +55,16 @@ resources:
     regexp: platform-automation-image-(.*).tgz
     skip_ssl_verification: true
 
-- name: installation
-  type: s3
-  source:
-    endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
-    secret_access_key: ((s3.secret_access_key))
-    region_name: ((s3.region_name))
-    bucket: ((foundation))-installation
-    regexp: ((foundation))-installation-(.*).zip
-    skip_ssl_verification: true
+#- name: installation
+#  type: s3
+#  source:
+#    endpoint: ((s3.endpoint))
+#    access_key_id: ((s3.access_key_id))
+#    secret_access_key: ((s3.secret_access_key))
+#    region_name: ((s3.region_name))
+#    bucket: ((foundation))-installation
+#    regexp: ((foundation))-installation-(.*).zip
+#    skip_ssl_verification: true
 
 
 
@@ -101,7 +101,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     skip_ssl_verification: true
-    paths: [ "configs/((foundation))/state/state.yml" ]
+    paths: [ "((foundation))/state/state.yml" ]
 
 
 ## semver-config will emit  semver-config.yml to be use as a input of download-product.yml
@@ -412,19 +412,17 @@ jobs:
 
     - task: prepare-tasks-with-secrets-for-product-version
       <<: *prepare-tasks-with-secrets-for-product-version
-      file: platform-automation-pipelines/tasks/prepare-tasks-with-secrets.yml
       input_mapping:
         tasks: platform-automation-pipelines
         config: tas-version-git
       params:
         CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
-        TASKS_PATH: tasks/tasks
       output_mapping:
         tasks: platform-automation-pipelines
 
     - task: download-product
       image: platform-automation-image
-      file: platform-automation-pipelines/download-product.yml
+      file: platform-automation-tasks/tasks/download-product.yml
       input_mapping:
         config: tas-version-git  
         vars: platform-automation-configs
@@ -559,12 +557,14 @@ jobs:
 
     - task: prepare-tasks-with-secrets-for-product-version
       <<: *prepare-tasks-with-secrets-for-product-version
-
+      input_mapping:
+        tasks: platform-automation-pipelines
+        config: opsman-version-git 
 
 
     - task: download-product
       image: platform-automation-image
-      file: platform-automation-tasks-for-product-version/tasks/download-product.yml
+      file: platform-automation-tasks/tasks/download-product.yml
       input_mapping:
         config: opsman-version-git  
       params:
@@ -578,9 +578,9 @@ jobs:
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
         INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
-    - put: installation
-      params:
-        file: installation/((foundation))-installation*.zip
+#    - put: installation
+#      params:
+#        file: installation/((foundation))-installation*.zip
 
     - task: upgrade-opsman
       image: platform-automation-image

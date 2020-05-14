@@ -412,6 +412,7 @@ jobs:
 
     - task: prepare-tasks-with-secrets-for-product-version
       <<: *prepare-tasks-with-secrets-for-product-version
+      file: platform-automation-pipelines/tasks/prepare-tasks-with-secrets.yml
       input_mapping:
         tasks: platform-automation-pipelines
         config: tas-version-git

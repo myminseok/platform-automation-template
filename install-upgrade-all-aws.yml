@@ -175,13 +175,8 @@ prepare-tasks-with-secrets: &prepare-tasks-with-secrets
 prepare-tasks-with-secrets-for-product-version: &prepare-tasks-with-secrets-for-product-version
   image: platform-automation-image
   file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
-  input_mapping:
-    tasks: platform-automation-pipelines
-    config: tas-version-git 
   params:
     CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
-  output_mapping:
-    tasks: platform-automation-pipelines
 
 opsman-state-make-commit: &opsman-state-make-commit
   image: platform-automation-image
@@ -419,11 +414,16 @@ jobs:
       <<: *prepare-tasks-with-secrets-for-product-version
       input_mapping:
         tasks: platform-automation-pipelines
-        config: tas-version-git 
+        config: tas-version-git
+      params:
+        CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
+        TASKS_PATH: tasks/tasks
+      output_mapping:
+        tasks: platform-automation-pipelines
 
     - task: download-product
       image: platform-automation-image
-      file: platform-automation-pipelines/tasks/download-product.yml
+      file: platform-automation-pipelines/download-product.yml
       input_mapping:
         config: tas-version-git  
         vars: platform-automation-configs

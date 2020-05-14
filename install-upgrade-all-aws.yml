@@ -591,6 +591,7 @@ jobs:
         config: platform-automation-configs # for products/ops-manager.yml
         env: platform-automation-configs
       params:
+        ENV_FILE: ((foundation))/opsman/env.yml
         OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
         VARS_FILES: vars/((foundation))/vars/opsman.yml
         STATE_FILE: ((foundation))/state/state.yml

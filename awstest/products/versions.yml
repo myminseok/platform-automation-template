@@ -7,7 +7,7 @@ products:
     pivnet-api-token: ((pivnet_token))
 
   tas:
-    product-version: "2.9.1"
+    product-version: "2.9.2"
     pivnet-product-slug: elastic-runtime
     pivnet-file-glob: "cf*.pivotal"
     stemcell-iaas: aws

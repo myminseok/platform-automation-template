@@ -10,6 +10,6 @@ FLY_TARGET=$1
 
 fly -t ${FLY_TARGET} sp -p "${FLY_TARGET}-install-upgrade-all" \
 -c ./install-upgrade-all-aws.yml \
--l ./${FLY_TARGET}/pipeline-vars/params.yml
+-l ../platform-automation-configuration-template/${FLY_TARGET}/pipeline-vars/params.yml
 
 ## fly -t demo clear-task-cache 

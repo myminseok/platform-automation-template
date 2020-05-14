@@ -166,7 +166,8 @@ prepare-tasks-with-secrets: &prepare-tasks-with-secrets
     tasks: platform-automation-tasks
     config: platform-automation-configs
   params:
-    CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products config/((foundation))/vars
+    CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products
+    VARS_PATHS: config/((foundation))/vars
   output_mapping:
     tasks: platform-automation-tasks
 
@@ -174,11 +175,8 @@ prepare-tasks-with-secrets: &prepare-tasks-with-secrets
 prepare-tasks-with-secrets-for-product-version: &prepare-tasks-with-secrets-for-product-version
   image: platform-automation-image
   file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
-  input_mapping:
-    tasks: platform-automation-tasks
-    config: platform-automation-configs
   params:
-    CONFIG_PATHS: config/((foundation))/products # semver-config-resource auto-generates folder for semver-config.yml.
+    CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
   output_mapping:
     tasks: platform-automation-tasks-for-product-version
 
@@ -274,6 +272,8 @@ jobs:
 
     - task: prepare-tasks-with-secrets-for-product-version
       <<: *prepare-tasks-with-secrets-for-product-version
+      input_mapping:
+        config: opsman-version-git  
 
     - task: download-product
       image: platform-automation-image
@@ -292,12 +292,10 @@ jobs:
         config: platform-automation-configs # for products/ops-manager.yml
         vars: platform-automation-configs
         state: platform-automation-configs # git repo, have to provide empty state.yml file. 'interpolated-files' doesn't have state.yml file.
-   
       params:
         OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
         VARS_FILES: vars/((foundation))/vars/opsman.yml
         STATE_FILE: ((foundation))/state/state.yml
-      
       on_success:
         do:
           - task: make-commit
@@ -330,7 +328,7 @@ jobs:
         unpack: true
     - get: platform-automation-pipelines
     - get: platform-automation-configs
-    - get: opsman-version-git
+
   - do:
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
@@ -364,7 +362,6 @@ jobs:
         unpack: true
     - get: platform-automation-pipelines
     - get: platform-automation-configs
-    - get: opsman-version-git
   - do:
 
     - task: prepare-tasks-with-secrets

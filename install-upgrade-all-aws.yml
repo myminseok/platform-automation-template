@@ -178,6 +178,20 @@ prepare-tasks-with-secrets-for-product-version: &prepare-tasks-with-secrets-for-
   params:
     CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
 
+prepare-tasks-with-secrets-custom-tasks: &prepare-tasks-with-secrets-custom-tasks
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  input_mapping:
+    tasks: platform-automation-pipelines
+    config: platform-automation-configs
+  params:
+    CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products
+    VARS_PATHS: config/((foundation))/vars
+  output_mapping:
+    tasks: platform-automation-pipelines
+
+
+
 opsman-state-make-commit: &opsman-state-make-commit
   image: platform-automation-image
   file: platform-automation-tasks/tasks/make-git-commit.yml
@@ -192,18 +206,6 @@ opsman-state-make-commit: &opsman-state-make-commit
     GIT_AUTHOR_EMAIL: ((git.user.email))
     GIT_AUTHOR_NAME: ((git.user.username))
     COMMIT_MESSAGE: "Update from upgrade-opsman"
-
-prepare-tasks-with-secrets-custom-tasks: &prepare-tasks-with-secrets-custom-tasks
-  image: platform-automation-image
-  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
-  input_mapping:
-    tasks: platform-automation-pipelines
-    config: platform-automation-configs
-  params:
-    CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products
-    VARS_PATHS: config/((foundation))/vars
-  output_mapping:
-    tasks: platform-automation-pipelines
 
 
 
@@ -363,7 +365,7 @@ jobs:
   - in_parallel:
     - get: pipeline-trigger-version-git
       params: { bump: patch }
-      passed: [ configure-authentication ]
+      #passed: [ configure-authentication ]
       #trigger: true
     - get: platform-automation-image
       params:
@@ -512,8 +514,8 @@ jobs:
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
 
-    - task: prepare-tasks-with-secrets-pipelines
-      <<: *prepare-tasks-with-secrets-pipelines
+    - task: prepare-tasks-with-secrets-custom-tasks
+      <<: *prepare-tasks-with-secrets-custom-tasks
 
     - task: configure-product
       image: platform-automation-image

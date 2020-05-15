@@ -19,7 +19,7 @@ params:
   # - Required
   # - Filepath of the env config YAML
   # - The path is relative to root of the `env` input
-  PRODUCT_NAME: cf
+  PRODUCT: cf
   # - Required
 
 run:
@@ -29,7 +29,7 @@ run:
   - |
     set -eux
     echo "Creating Custom VM Extensions"
-    echo "PRODUCT_NAME: ${PRODUCT_NAME}"
+    echo "PRODUCT: ${PRODUCT}"
 
     if [[ "${PRODUCT}" == "cf"  ]]; then
       om -e ${ENV_FILE} -k curl --path /api/v0/staged/vm_extensions/web-lb-security-groups -x PUT -d \

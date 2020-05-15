@@ -191,7 +191,6 @@ prepare-tasks-with-secrets-custom-tasks: &prepare-tasks-with-secrets-custom-task
     tasks: platform-automation-pipelines
 
 
-
 opsman-state-make-commit: &opsman-state-make-commit
   image: platform-automation-image
   file: platform-automation-tasks/tasks/make-git-commit.yml

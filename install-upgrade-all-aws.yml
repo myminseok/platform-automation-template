@@ -193,6 +193,19 @@ opsman-state-make-commit: &opsman-state-make-commit
     GIT_AUTHOR_NAME: ((git.user.username))
     COMMIT_MESSAGE: "Update from upgrade-opsman"
 
+prepare-tasks-with-secrets-pipelines: &prepare-tasks-with-secrets-pipelines
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  input_mapping:
+    tasks: platform-automation-pipelines
+    config: platform-automation-configs
+  params:
+    CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products
+    VARS_PATHS: config/((foundation))/vars
+  output_mapping:
+    tasks: platform-automation-pipelines
+
+
 
 jobs:
 
@@ -457,9 +470,57 @@ jobs:
         product: downloaded-product
         env: platform-automation-configs
         config: platform-automation-configs
+
       params:
         CONFIG_FILE: ((foundation))/products/tas.yml
+        ENV_FILE: ((foundation))/opsman/env.yml
+        VARS_FILES: config/((FOUNDATION_PREFIX))/vars/tas.yml
 
+
+- name: configure-apply-tas
+  serial: true
+  #serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      trigger: false
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+
+  - do:    
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: prepare-tasks-with-secrets-pipelines
+      <<: *prepare-tasks-with-secrets-pipelines
+
+    - task: configure-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/configure-product.yml
+      input_mapping:
+        config: platform-automation-configs
+        env: platform-automation-configs
+        vars: platform-automation-configs
+      params:
+        CONFIG_FILE: ((foundation))/products/tas.yml
+        VARS_FILES: vars/((foundation))/vars/tas.yml
+        ENV_FILE: ((foundation))/opsman/env.yml
+
+
+    - task: apply-product-changes
+      image: platform-automation-image
+      file: platform-automation-pipelines/tasks/apply-product-changes.yml
+      input_mapping:
+        env: platform-automation-configs
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        product-name: cf
 
 
 - name: install-and-patch-healthwatch
@@ -590,12 +651,13 @@ jobs:
         state: platform-automation-configs
         config: platform-automation-configs # for products/ops-manager.yml
         env: platform-automation-configs
+        vars: platform-automation-configs
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
+        STATE_FILE: ((foundation))/state/state.yml
+        INSTALLATION_FILE: ((foundation))-installation*.zip
         OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
         VARS_FILES: vars/((foundation))/vars/opsman.yml
-        STATE_FILE: ((foundation))/state/state.yml
-        INSTALLATION_FILE: installation/((foundation))-installation*.zip
       ensure:
         do:
           - task: make-commit

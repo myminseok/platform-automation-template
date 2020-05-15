@@ -1,0 +1,49 @@
+### code from: https://github.com/pivotal-cf/terraforming-aws/blob/master/ci/tasks/custom-vm-extensions.sh
+### opsman vm_extension: https://docs.pivotal.io/platform/2-9/customizing/custom-vm-extensions.html
+#### TAS : https://docs.pivotal.io/platform/application-service/2-9/operating/configure-lb.html
+### run this after terraforming for 'Application Service'
+---
+platform: linux
+
+#image_resource:
+#  type: docker-image
+#  source:
+#    repository: cfinfrastructure/releng-tools
+
+
+inputs:
+- name: env # contains the env file with target OpsMan Information
+
+params:
+  ENV_FILE: env.yml
+  # - Required
+  # - Filepath of the env config YAML
+  # - The path is relative to root of the `env` input
+  PRODUCT_NAME: cf
+  # - Required
+
+run:
+  path: bash
+  args:
+  - "-c"
+  - |
+    set -eux
+    echo "Creating Custom VM Extensions"
+    echo "PRODUCT_NAME: ${PRODUCT_NAME}"
+
+    if [[ "${PRODUCT}" == "cf"  ]]; then
+      om -e ${ENV_FILE} -k curl --path /api/v0/staged/vm_extensions/web-lb-security-groups -x PUT -d \
+      '{"name": "web-lb-security-groups", "cloud_properties": { "security_groups": ["web_lb_security_group", "vms_security_group"] }}'
+      om -e ${ENV_FILE} -k curl --path /api/v0/staged/vm_extensions/ssh-lb-security-groups -x PUT -d \
+      '{"name": "ssh-lb-security-groups", "cloud_properties": { "security_groups": ["ssh_lb_security_group", "vms_security_group"] }}'
+      om -e ${ENV_FILE} -k curl --path /api/v0/staged/vm_extensions/tcp-lb-security-groups -x PUT -d \
+      '{"name": "tcp-lb-security-groups", "cloud_properties": { "security_groups": ["tcp_lb_security_group", "vms_security_group"] }}'
+    elif [[ "${PRODUCT}" == "pivotal-container-service" ]]; then
+      om -e ${ENV_FILE} -k curl --path /api/v0/staged/vm_extensions/pks-api-lb-security-groups -x PUT -d \
+      '{"name": "pks-api-lb-security-groups", "cloud_properties": { "security_groups": ["pks_api_lb_security_group", "vms_security_group"] }}'
+    elif [[ "${PRODUCT}" == "control-plane" ]]; then
+      om -e ${ENV_FILE} -k curl --path /api/v0/staged/vm_extensions/control-plane-lb-security-groups -x PUT -d \
+      '{"name": "control-plane-lb-security-groups", "cloud_properties": { "security_groups": ["control_plane_security_group", "vms_security_group"] }}'
+    fi
+# code_snippet apply-changes end
+

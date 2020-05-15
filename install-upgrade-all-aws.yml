@@ -193,7 +193,7 @@ opsman-state-make-commit: &opsman-state-make-commit
     GIT_AUTHOR_NAME: ((git.user.username))
     COMMIT_MESSAGE: "Update from upgrade-opsman"
 
-prepare-tasks-with-secrets-pipelines: &prepare-tasks-with-secrets-pipelines
+prepare-tasks-with-secrets-custom-tasks: &prepare-tasks-with-secrets-custom-tasks
   image: platform-automation-image
   file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
   input_mapping:
@@ -363,7 +363,7 @@ jobs:
   - in_parallel:
     - get: pipeline-trigger-version-git
       params: { bump: patch }
-      passed: [configure-authentication]
+      passed: [ configure-authentication ]
       #trigger: true
     - get: platform-automation-image
       params:
@@ -377,6 +377,18 @@ jobs:
 
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
+
+    - task: prepare-tasks-with-secrets-custom-tasks
+      <<: *prepare-tasks-with-secrets-custom-tasks
+
+    #for cloud such aws
+    - task: opsman-custom-vm-extensions-for-lb-security-groups
+      image: platform-automation-image
+      file: platform-automation-pipelines/tasks/opsman-custom-vm-extensions.yml
+      input_mapping:
+        env: platform-automation-configs
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
 
     - task: configure-director
       image: platform-automation-image
@@ -422,6 +434,9 @@ jobs:
   - do:    
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
+
+    - task: prepare-tasks-with-secrets-custom-tasks
+      <<: *prepare-tasks-with-secrets-custom-tasks
 
     - task: prepare-tasks-with-secrets-for-product-version
       <<: *prepare-tasks-with-secrets-for-product-version
@@ -520,7 +535,7 @@ jobs:
         env: platform-automation-configs
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
-        product-name: cf
+        PRODUCT_NAME: cf
 
 
 - name: install-and-patch-healthwatch

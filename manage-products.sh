@@ -10,9 +10,6 @@ FLY_TARGET=$1
 FOUNDATION=$2
 
 
-fly -t ${FLY_TARGET} sp -p "${FOUNDATION}-backup" \
--c ./bbr-backup.yml \
+fly -t ${FLY_TARGET} sp -p "${FOUNDATION}-manage-products" \
+-c ./manage-products.yml \
 -l ../platform-automation-configuration-template/${FOUNDATION}/pipeline-vars/params.yml
-
-
-

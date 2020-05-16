@@ -7,4 +7,4 @@ if [ -z $1 ] ; then
 fi	
 FLY_TARGET=$1
 
-./download-products.sh ${FLY_TARGET} awstest
+./bbr-backup.sh ${FLY_TARGET}

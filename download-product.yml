@@ -2,7 +2,23 @@
 ## https://github.com/myminseok/platform-automation-pipelines
 ## fly -t demo sp -p test -c test.yml test-params.yml
 
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+
 resources:
+- name: platform-automation-pivnet
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: platform-automation
+    product_version: 4\.(.*)
+    sort_by: semver
+
 - name: platform-automation-pipelines
   type: git
   source:
@@ -139,43 +155,21 @@ credhub-interpolate: &credhub-interpolate
 
 jobs:
   
-- name: pre-fetch-opsman
+- name: fetch-platform-automation
+  serial: true
+  serial_groups: [serial-jobs]
   plan:
-  - in_parallel:
-    - get: platform-automation-pipelines
-    - get: platform-automation-image
-      params: { unpack: true }
-    - get: platform-automation-tasks
-      params: { unpack: true }
-    - get: configuration
-    - get: opsman-product-new-version-s3
-      params: {bump: minor}
-  - task: credhub-interpolate
-    <<: *credhub-interpolate
-  - task: download-only-opsman-image
-    image: platform-automation-image
-    file: platform-automation-pipelines/tasks/download-only-product.yml
-    input_mapping: {config: configuration }
-    params:
-      CONFIG_FILE: ((foundation))/download-products/opsman.yml
-    on_success:
-      try:
-        task: check_dup_file_in_s3
-        image: platform-automation-image
-        file: platform-automation-pipelines/tasks/exists_file_s3.yml
-        input_mapping: {downloaded-product: downloaded-product }
-        params:
-          endpoint: ((s3.endpoint))
-          access_key_id: ((s3.access_key_id))
-          bucket: ((s3.buckets.pivnet_products))
-          region_name: ((s3.region_name))
-          secret_access_key: ((s3.secret_access_key))
-        on_success:
-          try:
-            put: opsman-product-new-version-s3
-            params: {file: opsman-product-new-version-s3/number}
+    - get: platform-automation-pivnet
+    - put: platform-automation-tasks
+      params:
+        file: platform-automation-pivnet/platform-automation-tasks-*.zip
+    - put: platform-automation-image
+      params:
+        file: platform-automation-pivnet/platform-automation-image-*.tgz
 
 - name: fetch-opsman
+  serial: true
+  serial_groups: [serial-jobs]
   plan:
   - in_parallel:
     - get: platform-automation-pipelines
@@ -200,6 +194,8 @@ jobs:
 
 
 - name: fetch-pas
+  serial: true
+  serial_groups: [serial-jobs]
   plan:
   - in_parallel:
     - get: platform-automation-image
@@ -237,6 +233,47 @@ jobs:
     - put: pas-stemcell
       params:
         file: pas-stemcell/*.tgz
+
+
+- name: pre-fetch-opsman
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: platform-automation-pipelines
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+    - get: configuration
+    - get: opsman-product-new-version-s3
+      params: {bump: minor}
+  - task: credhub-interpolate
+    <<: *credhub-interpolate
+  - task: download-only-opsman-image
+    image: platform-automation-image
+    file: platform-automation-pipelines/tasks/download-only-product.yml
+    input_mapping: {config: configuration }
+    params:
+      CONFIG_FILE: ((foundation))/download-products/opsman.yml
+    on_success:
+      try:
+        task: check_dup_file_in_s3
+        image: platform-automation-image
+        file: platform-automation-pipelines/tasks/exists_file_s3.yml
+        input_mapping: {downloaded-product: downloaded-product }
+        params:
+          endpoint: ((s3.endpoint))
+          access_key_id: ((s3.access_key_id))
+          bucket: ((s3.buckets.pivnet_products))
+          region_name: ((s3.region_name))
+          secret_access_key: ((s3.secret_access_key))
+        on_success:
+          try:
+            put: opsman-product-new-version-s3
+            params: {file: opsman-product-new-version-s3/number}
+
+
 
 - name: fetch-healthwatch
   plan:

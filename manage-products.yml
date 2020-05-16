@@ -75,7 +75,7 @@ resources:
     driver: git
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch)) # should create this branch inadvance
-    file: configs/((foundation))/pipeline-trigger-${BUILD_PIPELINE_NAME} # will create if not exists
+    file: ((foundation))/pipeline-trigger-install-upgrade-all # will create if not exists
     private_key:  ((git.private_key))
 
 - name: platform-automation-pipelines
@@ -357,15 +357,12 @@ jobs:
         AUTH_CONFIG_FILE: ((foundation))/opsman/auth.yml
 
 
-- name: apply-director-changes
+- name: opsman-custom-vm-extensions
   serial: true
   serial_groups: [serial-jobs]
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
-      params: { bump: patch }
-      #passed: [ configure-authentication ]
-      #trigger: true
     - get: platform-automation-image
       params:
         unpack: true
@@ -390,6 +387,33 @@ jobs:
         env: platform-automation-configs
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
+
+
+
+- name: apply-director-changes
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      params: { bump: patch }
+     # passed: [ opsman-custom-vm-extensions ]
+      #trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+  - do:
+
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: prepare-tasks-with-secrets-custom-tasks
+      <<: *prepare-tasks-with-secrets-custom-tasks
 
     - task: configure-director
       image: platform-automation-image

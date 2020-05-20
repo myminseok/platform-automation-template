@@ -1,0 +1,61 @@
+## https://github.com/pivotal-cf/bbr-pcf-pipeline-tasks/tree/master/tasks/bbr-backup-director
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: pcfplatformrecovery/bbr-pcf-pipeline-tasks
+    tag: final
+
+inputs:
+  - name: platform-auto-pipeline
+    # Directory containing the bbr executable
+  - name: bbr-release
+  - name: config
+
+outputs:
+  # Contains `director-backup.tar` artifact created by `bbr director backup`
+  - name: backup-artifact
+
+params:
+  ENV_FILE: env.yml
+  FOUNDATION:
+
+run:
+  path: bash
+  args:
+    - -exc
+    - |
+      #!/usr/bin/env bash
+
+      set -eu
+
+      current_date="$( date +"%Y-%m-%d-%H-%M-%S" )"
+
+      ## for BOSH_xxx
+      om --env ./config/$ENV_FILE bosh-env > bosh-env.sh
+      source bosh-env.sh
+      #DEBUG
+      env
+
+      mv ./bbr-release/*linux* ./bbr-release/bbr
+      chmod +x ./bbr-release/bbr
+
+      # Get bbr ssh credentials
+      om --env ./config/$ENV_FILE curl -p /api/v0/deployed/director/credentials/bbr_ssh_credentials > bbr_ssh_credentials.json
+
+      ## parse deployment
+      jq -r '.[] | .value.private_key_pem' bbr_ssh_credentials.json > bbr_ssh_credentials
+
+      ##DEBUG
+      cat bbr_ssh_credentials
+
+      pushd backup-artifact
+        ../bbr-release/bbr director --host "${BOSH_ENVIRONMENT}" \
+          --username bbr \
+          --private-key-path ../bbr_ssh_credentials \
+          backup
+
+        tar -cvf "${FOUNDATION}-director-backup_${current_date}.tar" --remove-files -- */*
+      popd

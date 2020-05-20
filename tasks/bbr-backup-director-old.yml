@@ -15,4 +15,4 @@ params:
   BBR_BACKUP_FILE: 
 
 run:
-  path: platform-automation-pipelines/tasks/bbr-backup-director.sh
+  path: platform-automation-pipelines/tasks/bbr-backup-director-old.sh

@@ -1,0 +1,50 @@
+## https://github.com/pivotal-cf/bbr-pcf-pipeline-tasks/blob/master/tasks/bbr-cleanup-pas/task.sh
+## https://github.com/pivotal-cf/bbr-pcf-pipeline-tasks/blob/master/scripts/deployment-backup-cleanup
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: pcfplatformrecovery/bbr-pcf-pipeline-tasks
+    tag: final
+
+inputs:
+  - name: platform-auto-pipeline
+    # Directory containing the bbr executable
+  - name: bbr-release
+  - name: config
+
+params:
+  ENV_FILE: env.yml
+  PRODUCT_NAME: cf
+
+run:
+  path: bash
+  args:
+    - -exc
+    - |
+      #!/usr/bin/env bash
+
+      set -eu
+
+      ## for BOSH_xxx
+      om --env ./config/$ENV_FILE bosh-env > bosh-env.sh
+      source bosh-env.sh
+
+      ## Get CF deployment guid
+      om --env ./config/$ENV_FILE curl -p /api/v0/deployed/products > deployed_products.json
+      DEPLOYMENT_NAME=$(jq -r '.[] | select(.type == "${PRODUCT_NAME}") | .guid' "deployed_products.json")
+      export DEPLOYMENT_NAME
+      echo $DEPLOYMENT_NAME
+
+      mv ./bbr-release/*linux* ./bbr-release/bbr
+      chmod +x ./bbr-release/bbr
+
+      ./bbr-release/bbr deployment --target "${BOSH_ENVIRONMENT}" \
+      --username $BOSH_CLIENT \
+      --password $BOSH_CLIENT_SECRET \
+      --deployment $DEPLOYMENT_NAME \
+      --ca-cert $BOSH_CA_CERT \
+      backup-cleanup
+

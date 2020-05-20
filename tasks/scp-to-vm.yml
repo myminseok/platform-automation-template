@@ -1,0 +1,34 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: pcfplatformrecovery/bbr-pcf-pipeline-tasks
+    tag: final
+
+inputs:
+  - name: platform-auto-pipeline
+  - name: source_directory
+
+params:
+  FOUNDATION:
+  ## backup-artifact
+  HOST:
+  SSH_USERNAME: ubuntu
+  SSH_KEY:
+  TARGET_DIRECTORY:
+
+run:
+  path: bash
+  args:
+    - -exc
+    - |
+      #!/usr/bin/env bash
+
+      set -eu
+
+      echo "$SSH_KEY" > target_ssh.key
+      chmod 600 target_ssh.key
+      ssh -i target_ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${HOST} "mkdir -p ${TARGET_DIRECTORY}"
+      scp -i target_ssh.key -r ./source_directory/* ${SSH_USERNAME}@${HOST}:${TARGET_DIRECTORY}/

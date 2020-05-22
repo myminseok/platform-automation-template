@@ -1,3 +1,5 @@
+##
+
 resource_types:
 - name: pivnet
   type: docker-image
@@ -10,7 +12,39 @@ resource_types:
   source:
     repository: itstarting/semver-config-concourse-resource
 
+
 resources:
+
+- name: bbr-release-pivnet
+  type: pivnet
+  source:
+    api_token: ((pivnet.token))
+    product_slug: p-bosh-backup-and-restore
+    product-version: ^1\.5\..*$
+
+
+- name: bbr-director-backup-bucket
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: bbr-backup-((foundation))
+    regexp: ((foundation))-director-backup_(.*).tar
+    skip_ssl_verification: true
+
+- name: bbr-tas-backup-bucket
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: bbr-backup-((foundation))
+    regexp: ((foundation))-cf-backup_(.*).tar
+    skip_ssl_verification: true
+
 
 - name: platform-automation-pivnet
   type: pivnet
@@ -19,6 +53,7 @@ resources:
     product_slug: platform-automation
     product_version: 4\.(.*)
     sort_by: semver
+
 
 - name: terraform-state
   type: s3
@@ -55,17 +90,16 @@ resources:
     regexp: platform-automation-image-(.*).tgz
     skip_ssl_verification: true
 
-#- name: installation
-#  type: s3
-#  source:
-#    endpoint: ((s3.endpoint))
-#    access_key_id: ((s3.access_key_id))
-#    secret_access_key: ((s3.secret_access_key))
-#    region_name: ((s3.region_name))
-#    bucket: ((foundation))-installation
-#    regexp: ((foundation))-installation-(.*).zip
-#    skip_ssl_verification: true
-
+- name: installation
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((foundation))-installation
+    regexp: ((foundation))-installation-(.*).zip
+    skip_ssl_verification: true
 
 
 ## used for manual trigger serial jobs using manual version controls.
@@ -75,7 +109,7 @@ resources:
     driver: git
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch)) # should create this branch inadvance
-    file: ((foundation))/pipeline-trigger-manage-products # will create if not exists
+    file: ((foundation))/pipeline-trigger-manage-platform # will create if not exists
     private_key:  ((git.private_key))
 
 - name: platform-automation-pipelines
@@ -230,13 +264,113 @@ opsman-state-make-commit: &opsman-state-make-commit
     GIT_AUTHOR_NAME: ((git.user.username))
     COMMIT_MESSAGE: "Update from upgrade-opsman"
 
+download-product: &download-product
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/download-product.yml
+  input_mapping:
+   # config: tas-version-git  
+    vars: platform-automation-configs
+  params:
+    CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
+    #VARS_FILES: vars/((foundation))/vars/tas.yml         
+
+upload-product: &upload-product
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/upload-product.yml
+  input_mapping:
+    product: downloaded-product
+    env: platform-automation-configs
+  params:
+    ENV_FILE: ((foundation))/opsman/env.yml
+
+upload-stemcell: &upload-stemcell
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/upload-stemcell.yml
+  input_mapping:
+    stemcell: downloaded-stemcell
+    env: platform-automation-configs
+  params:
+    ENV_FILE: ((foundation))/opsman/env.yml
+    FLOATING_STEMCELL: false
+    
+stage-configure-apply: &stage-configure-apply
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/stage-configure-apply.yml
+  input_mapping:
+    product: downloaded-product
+    env: platform-automation-configs
+    config: platform-automation-configs
+  params:
+    #CONFIG_FILE: ((foundation))/products/tas.yml
+    ENV_FILE: ((foundation))/opsman/env.yml
+    #VARS_FILES: config/((foundation))/vars/tas.yml
+
+configure-product: &configure-product
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/configure-product.yml
+  input_mapping:
+    config: platform-automation-configs
+    env: platform-automation-configs
+    vars: platform-automation-configs
+  params:
+    ENV_FILE: ((foundation))/opsman/env.yml
+    #CONFIG_FILE: ((foundation))/products/tas.yml
+    #VARS_FILES: vars/((foundation))/vars/tas.yml
+
+
+apply-product-changes: &apply-product-changes
+  image: platform-automation-image
+  file: platform-automation-pipelines/tasks/apply-product-changes.yml
+  input_mapping:
+    env: platform-automation-configs
+  params:
+    ENV_FILE: ((foundation))/opsman/env.yml
+
+echo-files: &echo-files
+  config:
+    platform: linux
+    image_resource:
+      type: docker-image
+      source:
+        repository: ubuntu
+    inputs:
+    - name: generated-config
+    params:
+      FILE: 
+    run:
+      path: bash
+      args:
+      - -exc
+      - |
+        cat $FILE
+
+
+staged-config: &staged-config
+  image: platform-automation-image
+  file: platform-automation-pipelines/tasks/staged-director-config.yml
+  input_mapping:
+    config: platform-automation-configs
+    env: platform-automation-configs
+    vars: platform-automation-configs
+  params:
+    ENV_FILE: ((foundation))/opsman/env.yml
+    SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
+    #PRODUCT_NAME: cf
+
 
 
 jobs:
 
-- name: fetch-platform-automation
+#################################################################
+
+
+- name: fetch-platform-automation-from-pivnet
   serial: true
   serial_groups: [serial-jobs]
+  build_log_retention: 
+    days: 2
+    builds: 100
+    minimum_succeeded_builds: 1
   plan:
     - get: platform-automation-pivnet
     - put: platform-automation-tasks
@@ -246,9 +380,94 @@ jobs:
       params:
         file: platform-automation-pivnet/platform-automation-image-*.tgz
 
+
+- name: delete-opsman
+  serial: true
+  serial_groups: [serial-jobs]
+  build_log_retention:
+    days: 2
+    builds: 1000
+    minimum_succeeded_builds: 1
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+    - get: opsman-version-git
+    - get: opsman_vm_state
+
+  - do:
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: delete-vm
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/delete-vm.yml
+      input_mapping:
+        config: platform-automation-configs
+        state: opsman_vm_state
+        vars: platform-automation-configs
+      params:
+        OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
+        VARS_FILES: vars/((foundation))/vars/opsman.yml
+        STATE_FILE: ((foundation))/state/state.yml
+      ensure: 
+        do:
+          - task: make-commit
+            <<: *opsman-state-make-commit
+            params:
+              FILE_SOURCE_PATH: state.yml
+              FILE_DESTINATION_PATH: ((foundation))/state/state.yml
+              GIT_AUTHOR_EMAIL: ((git.user.email))
+              GIT_AUTHOR_NAME: ((git.user.username))
+              COMMIT_MESSAGE: "Update from "
+          - put: platform-automation-configs
+            params:
+              repository: configuration-commit
+              merge: true
+
+
+- name: delete-installation-from-opsman
+  serial: true
+  serial_groups: [serial-jobs]
+  build_log_retention:
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-configs
+
+  - do:
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: delete-installation
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/delete-installation.yml
+      input_mapping:
+        config: platform-automation-configs
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+
+#################################################################
+
 - name: prepare-credhub-secrets-from-terraform-state
   serial: true
   serial_groups: [serial-jobs]
+  build_log_retention:
+    days: 2
+    builds: 100
+    minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: platform-automation-image
@@ -260,6 +479,7 @@ jobs:
     - get: platform-automation-pipelines
     - get: platform-automation-configs
     - get: terraform-state
+
   - do:
     - task: prepare-credhub-secrets-from-terraform-state
       file: platform-automation-pipelines/tasks/prepare-credhub-secrets-from-terraform-state.yml
@@ -278,13 +498,14 @@ jobs:
         SHELL_FILE_FOR_CREDHUB_KEY_LIST: config/((foundation))/pipeline-vars/prepare-credhub-secrets-from-terraform-state.sh
 
 
+#################################################################
 
 - name: install-opsman
   serial: true
   serial_groups: [serial-jobs]
   build_log_retention:
     days: 2
-    builds: 1000
+    builds: 100
     minimum_succeeded_builds: 1
   plan:
   - in_parallel:
@@ -350,10 +571,13 @@ jobs:
 - name: configure-opsman-authentication
   serial: true
   serial_groups: [serial-jobs]
+  build_log_retention:
+    days: 2
+    builds: 100
+    minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
-      params: { bump: patch }
       passed: [install-opsman]
       trigger: true
     - get: platform-automation-image
@@ -383,6 +607,10 @@ jobs:
 - name: configure-director
   serial: true
   serial_groups: [serial-jobs]
+  build_log_retention:
+    days: 2
+    builds: 100
+    minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -401,6 +629,43 @@ jobs:
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
 
+    - task: configure-director
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/configure-director.yml
+      input_mapping:
+        env: platform-automation-configs
+        config: platform-automation-configs
+        vars: platform-automation-configs
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        DIRECTOR_CONFIG_FILE: ((foundation))/opsman/director.yml
+        VARS_FILES: vars/((foundation))/vars/director.yml
+
+
+- name: configure-director-test
+  serial: true
+  serial_groups: [serial-jobs]
+  build_log_retention:
+    days: 2
+    builds: 100
+    minimum_succeeded_builds: 1
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      passed: [configure-opsman-authentication]
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+
+  - do:
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
 
     - task: configure-director
       image: platform-automation-image
@@ -416,9 +681,14 @@ jobs:
 
 
 
+## for aws LB setting.
 - name: opsman-custom-vm-extensions
   serial: true
   serial_groups: [serial-jobs]
+  build_log_retention:
+    days: 2
+    builds: 100
+    minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -450,10 +720,13 @@ jobs:
         ENV_FILE: ((foundation))/opsman/env.yml
 
 
-
 - name: apply-director-changes
   serial: true
   serial_groups: [serial-jobs]
+  build_log_retention:
+    days: 2
+    builds: 100
+    minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -486,6 +759,9 @@ jobs:
 
     - put: pipeline-trigger-version-git
       params: {file: pipeline-trigger-version-git/version}
+
+
+##################################################################
 
 
 - name: install-and-patch-tas
@@ -523,50 +799,29 @@ jobs:
         tasks: platform-automation-pipelines
 
     - task: download-product
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/download-product.yml
+      <<: *download-product
       input_mapping:
         config: tas-version-git  
         vars: platform-automation-configs
       params:
-        CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
-        VARS_FILES: vars/((foundation))/vars/tas.yml
-              
+        CONFIG_FILE: semver-config.yaml
+        VARS_FILES: vars/((foundation))/vars/tas.yml         
     
     - task: upload-product
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/upload-product.yml
-      input_mapping:
-        product: downloaded-product
-        env: platform-automation-configs
-      params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+      <<: *upload-product
 
     - task: upload-stemcell
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/upload-stemcell.yml
-      input_mapping:
-        stemcell: downloaded-stemcell
-        env: platform-automation-configs
-      params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        FLOATING_STEMCELL: false
+      <<: *upload-stemcell
 
     - task: stage-configure-apply
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/stage-configure-apply.yml
-      input_mapping:
-        product: downloaded-product
-        env: platform-automation-configs
-        config: platform-automation-configs
-
+      <<: *stage-configure-apply
       params:
         CONFIG_FILE: ((foundation))/products/tas.yml
         ENV_FILE: ((foundation))/opsman/env.yml
         VARS_FILES: config/((foundation))/vars/tas.yml
 
 
-- name: configure-apply-tas
+- name: configure-tas
   serial: true
   serial_groups: [serial-jobs]
   plan:
@@ -590,26 +845,50 @@ jobs:
       <<: *prepare-tasks-with-secrets-custom-tasks
 
     - task: configure-product
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/configure-product.yml
-      input_mapping:
-        config: platform-automation-configs
-        env: platform-automation-configs
-        vars: platform-automation-configs
+      <<: *configure-product
       params:
+        ENV_FILE: ((foundation))/opsman/env.yml
         CONFIG_FILE: ((foundation))/products/tas.yml
         VARS_FILES: vars/((foundation))/vars/tas.yml
+        
+
+- name: apply-change-tas
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      passed: [configure-tas]
+      trigger: false
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+
+  - do:    
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: prepare-tasks-with-secrets-custom-tasks
+      <<: *prepare-tasks-with-secrets-custom-tasks
+
+    - task: configure-product
+      <<: *configure-product
+      params:
         ENV_FILE: ((foundation))/opsman/env.yml
-
-
+        CONFIG_FILE: ((foundation))/products/tas.yml
+        VARS_FILES: vars/((foundation))/vars/tas.yml
+        
     - task: apply-product-changes
-      image: platform-automation-image
-      file: platform-automation-pipelines/tasks/apply-product-changes.yml
-      input_mapping:
-        env: platform-automation-configs
+      <<: *apply-product-changes
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
         PRODUCT_NAME: cf
+
 
 
 - name: install-and-patch-scs
@@ -618,7 +897,7 @@ jobs:
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
-      trigger: false
+      trigger: true
       passed: [ install-and-patch-tas ]
     - get: platform-automation-image
       params:
@@ -634,57 +913,67 @@ jobs:
       <<: *prepare-tasks-with-secrets
 
     - task: download-product
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/download-product.yml
+      <<: *download-product
       input_mapping:
         config: scs-version-git  
         vars: platform-automation-configs
       params:
-        CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
-        #VARS_FILES: vars/((foundation))/vars/scs.yml
+        CONFIG_FILE: semver-config.yaml
+        #VARS_FILES: vars/((foundation))/vars/scs.yml         
     
     - task: upload-product
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/upload-product.yml
-      input_mapping:
-        product: downloaded-product
-        env: platform-automation-configs
-      params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+      <<: *upload-product
 
     - task: upload-stemcell
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/upload-stemcell.yml
-      input_mapping:
-        stemcell: downloaded-stemcell
-        env: platform-automation-configs
-      params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        FLOATING_STEMCELL: false
+      <<: *upload-stemcell
 
     - task: stage-configure-apply
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/stage-configure-apply.yml
-      input_mapping:
-        product: downloaded-product
-        env: platform-automation-configs
-        config: platform-automation-configs
-
+      <<: *stage-configure-apply
       params:
         CONFIG_FILE: ((foundation))/products/scs.yml
         ENV_FILE: ((foundation))/opsman/env.yml
         #VARS_FILES: config/((foundation))/vars/scs.yml
 
 
+- name: configure-scs
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      trigger: false
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+
+  - do:    
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: prepare-tasks-with-secrets-custom-tasks
+      <<: *prepare-tasks-with-secrets-custom-tasks
+
+    - task: configure-product
+      <<: *configure-product
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        CONFIG_FILE: ((foundation))/products/scs.yml
+        VARS_FILES: vars/((foundation))/vars/scs.yml
+        
 
 - name: install-and-patch-redis
   serial: true
   serial_groups: [serial-jobs]
   plan:
   - in_parallel:
-    #- get: pipeline-trigger-version-git
-    #  trigger: false
-    #  passed: [ install-and-patch-tas ]
+    - get: pipeline-trigger-version-git
+      trigger: true
+      passed: [ install-and-patch-tas ]
     - get: platform-automation-image
       params:
         unpack: true
@@ -699,48 +988,60 @@ jobs:
       <<: *prepare-tasks-with-secrets
 
     - task: download-product
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/download-product.yml
+      <<: *download-product
       input_mapping:
         config: redis-version-git  
         vars: platform-automation-configs
       params:
-        CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
-        #VARS_FILES: vars/((foundation))/vars/scs.yml
+        CONFIG_FILE: semver-config.yaml
+        #VARS_FILES: vars/((foundation))/vars/redis.yml         
     
     - task: upload-product
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/upload-product.yml
-      input_mapping:
-        product: downloaded-product
-        env: platform-automation-configs
-      params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+      <<: *upload-product
 
     - task: upload-stemcell
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/upload-stemcell.yml
-      input_mapping:
-        stemcell: downloaded-stemcell
-        env: platform-automation-configs
-      params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        FLOATING_STEMCELL: false
+      <<: *upload-stemcell
 
     - task: stage-configure-apply
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/stage-configure-apply.yml
-      input_mapping:
-        product: downloaded-product
-        env: platform-automation-configs
-        config: platform-automation-configs
-
+      <<: *stage-configure-apply
       params:
         CONFIG_FILE: ((foundation))/products/redis.yml
         ENV_FILE: ((foundation))/opsman/env.yml
-        #VARS_FILES: config/((foundation))/vars/scs.yml
+        #VARS_FILES: config/((foundation))/vars/redis.yml
 
 
+
+- name: configure-redis
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      trigger: true
+      passed: [ install-and-patch-tas ]
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+
+  - do:    
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: prepare-tasks-with-secrets-custom-tasks
+      <<: *prepare-tasks-with-secrets-custom-tasks
+
+    - task: configure-product
+      <<: *configure-product
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        CONFIG_FILE: ((foundation))/products/redis.yml
+        VARS_FILES: vars/((foundation))/vars/redis.yml
+        
 
 
 - name: install-and-patch-rabbitmq
@@ -748,9 +1049,9 @@ jobs:
   serial_groups: [serial-jobs]
   plan:
   - in_parallel:
-    #- get: pipeline-trigger-version-git
-    #  trigger: false
-    #  passed: [ install-and-patch-tas ]
+    - get: pipeline-trigger-version-git
+      trigger: true
+      passed: [ install-and-patch-tas ]
     - get: platform-automation-image
       params:
         unpack: true
@@ -765,47 +1066,26 @@ jobs:
       <<: *prepare-tasks-with-secrets
 
     - task: download-product
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/download-product.yml
+      <<: *download-product
       input_mapping:
         config: rabbitmq-version-git  
         vars: platform-automation-configs
       params:
-        CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
-        #VARS_FILES: vars/((foundation))/vars/scs.yml
+        CONFIG_FILE: semver-config.yaml
+        #VARS_FILES: vars/((foundation))/vars/rabbitmq.yml         
     
     - task: upload-product
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/upload-product.yml
-      input_mapping:
-        product: downloaded-product
-        env: platform-automation-configs
-      params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+      <<: *upload-product
 
     - task: upload-stemcell
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/upload-stemcell.yml
-      input_mapping:
-        stemcell: downloaded-stemcell
-        env: platform-automation-configs
-      params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        FLOATING_STEMCELL: false
+      <<: *upload-stemcell
 
     - task: stage-configure-apply
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/stage-configure-apply.yml
-      input_mapping:
-        product: downloaded-product
-        env: platform-automation-configs
-        config: platform-automation-configs
-
+      <<: *stage-configure-apply
       params:
         CONFIG_FILE: ((foundation))/products/rabbitmq.yml
         ENV_FILE: ((foundation))/opsman/env.yml
-        #VARS_FILES: config/((foundation))/vars/scs.yml
-
+        #VARS_FILES: config/((foundation))/vars/rabbitmq.yml
 
 
 - name: upgrade-opsman
@@ -830,7 +1110,6 @@ jobs:
     - get: opsman_vm_state
 
   - do:
-
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
 
@@ -840,7 +1119,6 @@ jobs:
         tasks: platform-automation-pipelines
         config: opsman-version-git 
 
-
     - task: download-product
       image: platform-automation-image
       file: platform-automation-tasks/tasks/download-product.yml
@@ -849,6 +1127,7 @@ jobs:
       params:
         CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
 
+    # will be used in upgrade-opsman task.
     - task: export-installation
       image: platform-automation-image
       file: platform-automation-tasks/tasks/export-installation.yml
@@ -857,9 +1136,6 @@ jobs:
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
         INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
-#    - put: installation
-#      params:
-#        file: installation/((foundation))-installation*.zip
 
     - task: upgrade-opsman
       image: platform-automation-image
@@ -892,8 +1168,7 @@ jobs:
               merge: true
 
 
-
-- name: delete-opsman
+- name: export-installation
   serial: true
   serial_groups: [serial-jobs]
   build_log_retention:
@@ -915,43 +1190,38 @@ jobs:
     - get: opsman_vm_state
 
   - do:
-
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
 
-    - task: delete-vm
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/delete-vm.yml
+    - task: prepare-tasks-with-secrets-for-product-version
+      <<: *prepare-tasks-with-secrets-for-product-version
       input_mapping:
-        config: platform-automation-configs
-        state: opsman_vm_state
-        vars: platform-automation-configs
+        tasks: platform-automation-pipelines
+        config: opsman-version-git 
+
+    - task: export-installation
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/export-installation.yml
+      input_mapping:
+        env: platform-automation-configs
       params:
-        OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
-        VARS_FILES: vars/((foundation))/vars/opsman.yml
-        STATE_FILE: ((foundation))/state/state.yml
-      ensure: 
-        do:
-          - task: make-commit
-            <<: *opsman-state-make-commit
-            params:
-              FILE_SOURCE_PATH: state.yml
-              FILE_DESTINATION_PATH: ((foundation))/state/state.yml
-              GIT_AUTHOR_EMAIL: ((git.user.email))
-              GIT_AUTHOR_NAME: ((git.user.username))
-              COMMIT_MESSAGE: 'Update from ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}/${BUILD_NAME}'
-          - put: platform-automation-configs
-            params:
-              repository: configuration-commit
-              merge: true
+        ENV_FILE: ((foundation))/opsman/env.yml
+        INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
 
+    - put: installation
+      params:
+        file: installation/((foundation))-installation*.zip
 
-
+################################################################
 
 - name: extract-director-config
   serial: true
   plan:
   - in_parallel:
+    - get: pipeline-trigger-version-git
+      trigger: true
+      passed: [ apply-director-changes ]
+
     - get: platform-automation-image
       params:
         unpack: true
@@ -976,28 +1246,20 @@ jobs:
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
         SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
-
     - task: check
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: ubuntu
-        inputs:
-        - name: generated-config
-        run:
-          path: bash
-          args:
-          - -exc
-          - |
-            cat generated-config/*.yml
+      <<: *echo-files
+      input_mapping:
+        generated-config: generated-config
+      params:
+        FILE: generated-config/*.yml
 
-
-- name: extract-config-tas
+- name: extract-tas-config
   serial: true
   plan:
   - in_parallel:
+    - get: pipeline-trigger-version-git
+      trigger: true
+      passed: [ install-and-patch-tas ]
     - get: platform-automation-image
       params:
         unpack: true
@@ -1012,30 +1274,181 @@ jobs:
       <<: *prepare-tasks-with-secrets
 
     - task: staged-config
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/staged-config.yml
-      input_mapping:
-        config: platform-automation-configs
-        env: platform-automation-configs
-        vars: platform-automation-configs
+      <<: *staged-config
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
         PRODUCT_NAME: cf
         SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
-
     - task: check
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: ubuntu
-        inputs:
-        - name: generated-config
-        run:
-          path: bash
-          args:
-          - -exc
-          - |
-            cat generated-config/*.yml
+      <<: *echo-files
+      input_mapping:
+        generated-config: generated-config
+      params:
+        FILE: generated-config/*.yml
+
+- name: extract-scs-config
+  serial: true
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      trigger: true
+      passed: [ install-and-patch-scs ]
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+
+  - do:    
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: staged-config
+      <<: *staged-config
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        PRODUCT_NAME: cf
+        SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
+    - task: check
+      <<: *echo-files
+      input_mapping:
+        generated-config: generated-config
+      params:
+        FILE: generated-config/*.yml
+
+
+
+- name: bbr-backup-director
+  serial: true
+  serial_groups: [ bbr-backup ]
+  plan:
+  - in_parallel:
+      - get: platform-automation-image
+        params:
+          unpack: true
+      - get: platform-automation-tasks
+        params:
+          unpack: true
+      - get: platform-automation-pipelines
+      - get: platform-automation-configs
+      - get: bbr-release-pivnet
+        params:
+          globs: [ "bbr-*-linux-*"]
+  - do:
+      - task: prepare-tasks-with-secrets-custom-tasks
+        <<: *prepare-tasks-with-secrets-custom-tasks
+
+      - task: bbr-backup
+        image: bbr-image
+        file: platform-automation-pipelines/tasks/bbr-backup-director.yml
+        input_mapping:
+          bbr-release: bbr-release-pivnet
+          config: platform-automation-configs
+        params:
+          ENV_FILE: ((foundation))/opsman/env.yml
+          FOUNDATION: ((foundation))
+        on_failure:
+          task: bbr-cleanup
+          file: platform-automation-pipelines/tasks/bbr-cleanup-director.yml
+          input_mapping:
+            config: platform-automation-configs
+          params:
+            ENV_FILE: ((foundation))/opsman/env.yml
+      - put: bbr-director-backup-bucket
+        params:
+          file: backup-artifact/((foundation))-director-backup_*.tar
+
+- name: bbr-backup-tas
+  serial: true
+  serial_groups: [ bbr-backup ]
+  plan:
+  - in_parallel:
+      - get: platform-automation-image
+        params:
+          unpack: true
+      - get: platform-automation-tasks
+        params:
+          unpack: true
+      - get: platform-automation-pipelines
+      - get: platform-automation-configs
+      - get: bbr-release-pivnet
+        params:
+          globs: [ "bbr-*-linux-*"]
+  - do:
+      - task: prepare-tasks-with-secrets-custom-tasks
+        <<: *prepare-tasks-with-secrets-custom-tasks
+
+      - task: bbr-backup
+        image: bbr-image
+        file: platform-automation-pipelines/tasks/bbr-backup-product.yml
+        input_mapping:
+          bbr-release: bbr-release-pivnet
+          config: platform-automation-configs
+        params:
+          ENV_FILE: ((foundation))/opsman/env.yml
+          FOUNDATION: ((foundation))
+          PRODUCT_NAME: cf
+        on_failure:
+          task: bbr-cleanup
+          file: platform-automation-pipelines/tasks/bbr-cleanup-product.yml
+          input_mapping:
+            config: platform-automation-configs
+          params:
+            ENV_FILE: ((foundation))/opsman/env.yml
+            PRODUCT_NAME: cf
+      - put: bbr-tas-backup-bucket
+        params:
+          file: backup-artifact/((foundation))-cf-backup_*.tar
+
+
+groups:
+  - name: install-upgrade
+    jobs:
+    - prepare-credhub-secrets-from-terraform-state
+    - install-opsman
+    - configure-opsman-authentication
+    - opsman-custom-vm-extensions
+    - configure-director
+    - apply-director-changes
+    - export-installation
+    - upgrade-opsman
+    - install-and-patch-tas
+    - install-and-patch-scs
+    - install-and-patch-redis
+    - install-and-patch-rabbitmq
+
+  - name: configure-product-manually
+    jobs:
+    - apply-change-tas
+    - configure-tas
+    - configure-director-test
+    - configure-scs
+    - configure-redis
+
+  - name: extract-product-config-manually
+    jobs:
+    - extract-director-config
+    - extract-tas-config
+    - extract-scs-config
+
+  - name: backup
+    jobs:
+    - bbr-backup-director
+    - bbr-backup-tas
+    - export-installation
+
+  - name: delete-manually
+    jobs:
+    - delete-installation-from-opsman
+    - delete-opsman
+
+  - name: etc
+    jobs:
+    - fetch-platform-automation-from-pivnet
+
+
+
 

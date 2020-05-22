@@ -7,4 +7,4 @@ if [ -z $1 ] ; then
 fi	
 FLY_TARGET=$1
 
-./manage-products.sh ${FLY_TARGET} awstest
+./manage-platform.sh ${FLY_TARGET} awstest

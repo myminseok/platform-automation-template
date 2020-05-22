@@ -75,7 +75,7 @@ resources:
     driver: git
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch)) # should create this branch inadvance
-    file: ((foundation))/pipeline-trigger-install-upgrade-all # will create if not exists
+    file: ((foundation))/pipeline-trigger-manage-products # will create if not exists
     private_key:  ((git.private_key))
 
 - name: platform-automation-pipelines
@@ -130,7 +130,7 @@ resources:
     version_pattern: "m.n.p"
 
 
-- name: healthwatch-version-git
+- name: scs-version-git
   type: semver-config
   source:
     driver: git
@@ -138,8 +138,8 @@ resources:
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
     config_file: ((foundation))/products/versions.yml
-    config_path: products.healthwatch
-    version_path: products.healthwatch.product-version
+    config_path: products.scs
+    version_path: products.scs.product-version
     version_pattern: "m.n.p"
 
 
@@ -289,7 +289,7 @@ jobs:
 
     - task: download-product
       image: platform-automation-image
-      file: platform-automation-tasks-for-product-version/tasks/download-product.yml
+      file: platform-automation-tasks/tasks/download-product.yml
       input_mapping:
         config: opsman-version-git  
       params:
@@ -323,7 +323,7 @@ jobs:
               repository: configuration-commit
               merge: true
 
-- name: configure-authentication
+- name: configure-opsman-authentication
   serial: true
   serial_groups: [serial-jobs]
   plan:
@@ -356,6 +356,41 @@ jobs:
         ENV_FILE: ((foundation))/opsman/env.yml
         AUTH_CONFIG_FILE: ((foundation))/opsman/auth.yml
 
+- name: configure-director
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      passed: [configure-opsman-authentication]
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+
+  - do:
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+
+    - task: configure-director
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/configure-director.yml
+      input_mapping:
+        env: platform-automation-configs
+        config: platform-automation-configs
+        vars: platform-automation-configs
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        DIRECTOR_CONFIG_FILE: ((foundation))/opsman/director.yml
+        VARS_FILES: vars/((foundation))/vars/director.yml
+
+
 
 - name: opsman-custom-vm-extensions
   serial: true
@@ -363,6 +398,8 @@ jobs:
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
+      passed: [ configure-director ]
+      trigger: true
     - get: platform-automation-image
       params:
         unpack: true
@@ -397,7 +434,7 @@ jobs:
   - in_parallel:
     - get: pipeline-trigger-version-git
       params: { bump: patch }
-     # passed: [ opsman-custom-vm-extensions ]
+      passed: [ opsman-custom-vm-extensions ]
       #trigger: true
     - get: platform-automation-image
       params:
@@ -415,18 +452,6 @@ jobs:
     - task: prepare-tasks-with-secrets-custom-tasks
       <<: *prepare-tasks-with-secrets-custom-tasks
 
-    - task: configure-director
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/configure-director.yml
-      input_mapping:
-        env: platform-automation-configs
-        config: platform-automation-configs
-        vars: platform-automation-configs
-      params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        DIRECTOR_CONFIG_FILE: ((foundation))/opsman/director.yml
-        VARS_FILES: vars/((foundation))/vars/director.yml
-
     - task: apply-director-changes
       image: platform-automation-image
       file: platform-automation-tasks/tasks/apply-director-changes.yml
@@ -441,7 +466,7 @@ jobs:
 
 - name: install-and-patch-tas
   serial: true
-  #serial_groups: [serial-jobs]
+  serial_groups: [serial-jobs]
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -514,12 +539,12 @@ jobs:
       params:
         CONFIG_FILE: ((foundation))/products/tas.yml
         ENV_FILE: ((foundation))/opsman/env.yml
-        VARS_FILES: config/((FOUNDATION_PREFIX))/vars/tas.yml
+        VARS_FILES: config/((foundation))/vars/tas.yml
 
 
 - name: configure-apply-tas
   serial: true
-  #serial_groups: [serial-jobs]
+  serial_groups: [serial-jobs]
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -563,48 +588,43 @@ jobs:
         PRODUCT_NAME: cf
 
 
-- name: install-and-patch-healthwatch
+- name: install-and-patch-scs
   serial: true
   serial_groups: [serial-jobs]
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
-      trigger: true
-      passed: [install-and-patch-tas ]
+      trigger: false
+      passed: [ install-and-patch-tas ]
     - get: platform-automation-image
       params:
         unpack: true
     - get: platform-automation-tasks
       params:
         unpack: true
-    - get: platform-automation-pipelines
     - get: platform-automation-configs
-    - get: healthwatch-version-git
+    - get: scs-version-git
 
   - do:    
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
-
-    - task: prepare-tasks-with-secrets-for-product-version
-      <<: *prepare-tasks-with-secrets-for-product-version
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
 
     - task: download-product
       image: platform-automation-image
-      file: platform-automation-pipelines/tasks/download-product.yml
+      file: platform-automation-tasks/tasks/download-product.yml
       input_mapping:
-        config: healthwatch-version-git  
-        vars: interpolated-files
+        config: scs-version-git  
+        vars: platform-automation-configs
       params:
         CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
-        VARS_FILES: vars/((foundation))/vars/healthwatch.yml
-              
+        #VARS_FILES: vars/((foundation))/vars/scs.yml
     
     - task: upload-product
       image: platform-automation-image
       file: platform-automation-tasks/tasks/upload-product.yml
       input_mapping:
         product: downloaded-product
-        env: interpolated-files
+        env: platform-automation-configs
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
 
@@ -613,7 +633,7 @@ jobs:
       file: platform-automation-tasks/tasks/upload-stemcell.yml
       input_mapping:
         stemcell: downloaded-stemcell
-        env: interpolated-files
+        env: platform-automation-configs
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
         FLOATING_STEMCELL: false
@@ -623,10 +643,13 @@ jobs:
       file: platform-automation-tasks/tasks/stage-configure-apply.yml
       input_mapping:
         product: downloaded-product
-        env: interpolated-files
-        config: interpolated-files
+        env: platform-automation-configs
+        config: platform-automation-configs
+
       params:
-        CONFIG_FILE: ((foundation))/products/healthwatch.yml
+        CONFIG_FILE: ((foundation))/products/scs.yml
+        ENV_FILE: ((foundation))/opsman/env.yml
+        #VARS_FILES: config/((foundation))/vars/scs.yml
 
 
 
@@ -766,3 +789,98 @@ jobs:
             params:
               repository: configuration-commit
               merge: true
+
+
+
+
+- name: extract-director-config
+  serial: true
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+
+  - do:    
+
+    - task: prepare-tasks-with-secrets-custom-tasks
+      <<: *prepare-tasks-with-secrets-custom-tasks
+
+    - task: staged-config
+      image: platform-automation-image
+      file: platform-automation-pipelines/tasks/staged-director-config.yml
+      input_mapping:
+        config: platform-automation-configs
+        env: platform-automation-configs
+        vars: platform-automation-configs
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
+
+    - task: check
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ubuntu
+        inputs:
+        - name: generated-config
+        run:
+          path: bash
+          args:
+          - -exc
+          - |
+            cat generated-config/*.yml
+
+
+- name: extract-config-tas
+  serial: true
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+
+  - do:    
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: staged-config
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/staged-config.yml
+      input_mapping:
+        config: platform-automation-configs
+        env: platform-automation-configs
+        vars: platform-automation-configs
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        PRODUCT_NAME: cf
+        SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
+
+    - task: check
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ubuntu
+        inputs:
+        - name: generated-config
+        run:
+          path: bash
+          args:
+          - -exc
+          - |
+            cat generated-config/*.yml
+

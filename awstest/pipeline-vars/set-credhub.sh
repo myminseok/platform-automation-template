@@ -18,6 +18,7 @@ credhub delete -n /concourse/main/pivnet_token
 credhub set -t password -n /concourse/main/pivnet_token -w ''
 credhub set -t value -n /concourse/main/git_user_email -v admin@user.io
 credhub set -t value -n /concourse/main/git_user_username -v ''
+credhub set -t user -n /concourse/main/smtp_user -z user -w 'secret'
 
 ## register ssh key for git. ex) ~/.ssh/id_rsa
 credhub set -t rsa  -n /concourse/main/git_private_key  -p ~/.ssh/id_rsa
@@ -29,7 +30,6 @@ credhub set -t rsa  -n /concourse/main/git_private_key  -p ~/.ssh/id_rsa
 # credhub set -t certificate -n /concourse/main/credhub_ca_cert -c ./credhub-ca.ca
 ## grep concourse_to_credhub ./concourse-creds.yml
 credhub set -t user -n /concourse/main/credhub_client -z concourse_client -w 'secret'
-
 credhub set -t user  -n ${PREFIX}/${PIPELINE_NAME}/opsman_admin -z admin -w 'PASSWORD'
 credhub delete -n ${PREFIX}/${PIPELINE_NAME}/decryption-passphrase
 credhub set -t password -n ${PREFIX}/${PIPELINE_NAME}/decryption-passphrase -w 'PASSWORD'

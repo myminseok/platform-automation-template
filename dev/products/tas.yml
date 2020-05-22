@@ -121,7 +121,7 @@ product-properties:
   .properties.credhub_key_encryption_passwords:
     value:
     - key:
-        secret: ((properties_credhub_key_encryption_passwords_0_key))
+        secret: ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
       name: key1
       primary: true
       provider: internal
@@ -249,7 +249,7 @@ product-properties:
   .properties.smtp_enable_starttls_auto:
     value: true
   .properties.smtp_from:
-    value:  ((properties_smtp_credentials.username))
+    value:  ((smtp_user.username))
   .properties.smtp_port:
     value: 587
   .properties.syslog_drop_debug:

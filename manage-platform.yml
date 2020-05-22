@@ -1352,6 +1352,7 @@ jobs:
           task: bbr-cleanup
           file: platform-automation-pipelines/tasks/bbr-cleanup-director.yml
           input_mapping:
+            bbr-release: bbr-release-pivnets
             config: platform-automation-configs
           params:
             ENV_FILE: ((foundation))/opsman/env.yml
@@ -1392,6 +1393,7 @@ jobs:
           task: bbr-cleanup
           file: platform-automation-pipelines/tasks/bbr-cleanup-product.yml
           input_mapping:
+            bbr-release: bbr-release-pivnet
             config: platform-automation-configs
           params:
             ENV_FILE: ((foundation))/opsman/env.yml

@@ -12,7 +12,6 @@ resource_types:
   source:
     repository: itstarting/semver-config-concourse-resource
 
-
 resources:
 
 - name: bbr-release-pivnet

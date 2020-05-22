@@ -12,4 +12,5 @@ FOUNDATION=$2
 
 fly -t ${FLY_TARGET} sp -p "${FOUNDATION}-manage-platform" \
 -c ./manage-platform.yml \
--l ../platform-automation-configuration-template/${FOUNDATION}/pipeline-vars/params.yml
+-l ${FOUNDATION}/pipeline-vars/params.yml
+#-l ../platform-automation-configuration-template/${FOUNDATION}/pipeline-vars/params.yml

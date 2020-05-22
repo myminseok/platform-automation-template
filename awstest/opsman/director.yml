@@ -1,0 +1,170 @@
+##2.9.1
+az-configuration:
+- name: ap-northeast-2a
+  iaas_configuration_name: default
+#  guid: 4210c843f646bdd3ffac
+- name: ap-northeast-2b
+  iaas_configuration_name: default
+#  guid: 1861dab2c327e801a436
+- name: ap-northeast-2c
+  iaas_configuration_name: default
+#  guid: 4852488e7556e472df5c
+iaas-configurations:
+- access_key_id: ((ops_manager_iam_user_access_key))
+  additional_cloud_properties: {}
+  encrypted: false
+  key_pair_name: ((ops_manager_ssh_public_key_name))
+  name: default
+  region: ap-northeast-2
+  secret_access_key: ((ops_manager_iam_user_secret_key))
+  security_group: ((vms_security_group_id))
+  ssh_private_key: ((ops_manager_ssh_private_key.private_key))
+network-assignment:
+  network:
+    name: infra
+  other_availability_zones: []
+  singleton_availability_zone:
+    name: ap-northeast-2a
+networks-configuration:
+  icmp_checks_enabled: false
+  networks:
+  - name: infra
+    subnets:
+    - iaas_identifier: ((infrastructure_subnet_ids_0))
+      cidr: 10.0.16.0/28
+      dns: 10.0.0.2
+      gateway: 10.0.16.1
+      reserved_ip_ranges: 10.0.16.0-10.0.16.4
+      availability_zone_names:
+      - ap-northeast-2a
+    - iaas_identifier: ((infrastructure_subnet_ids_1))
+      cidr: 10.0.16.16/28
+      dns: 10.0.0.2
+      gateway: 10.0.16.17
+      reserved_ip_ranges: 10.0.16.16-10.0.16.20
+      availability_zone_names:
+      - ap-northeast-2b
+    - iaas_identifier: ((infrastructure_subnet_ids_2))
+      cidr: 10.0.16.32/28
+      dns: 10.0.0.2
+      gateway: 10.0.16.33
+      reserved_ip_ranges: 10.0.16.32-10.0.16.36
+      availability_zone_names:
+      - ap-northeast-2c
+  - name: pas
+    subnets:
+    - iaas_identifier: ((pas_subnet_ids_0))
+      cidr: 10.0.4.0/24
+      dns: 10.0.0.2
+      gateway: 10.0.4.1
+      reserved_ip_ranges: 10.0.4.0-10.0.4.4
+      availability_zone_names:
+      - ap-northeast-2a
+    - iaas_identifier: ((pas_subnet_ids_1))
+      cidr: 10.0.5.0/24
+      dns: 10.0.0.2
+      gateway: 10.0.5.1
+      reserved_ip_ranges: 10.0.5.0-10.0.5.4
+      availability_zone_names:
+      - ap-northeast-2b
+    - iaas_identifier: ((pas_subnet_ids_2))
+      cidr: 10.0.6.0/24
+      dns: 10.0.0.2
+      gateway: 10.0.6.1
+      reserved_ip_ranges: 10.0.6.0-10.0.6.4
+      availability_zone_names:
+      - ap-northeast-2c
+  - name: services
+    subnets:
+    - iaas_identifier: ((services_subnet_ids_0))
+      cidr: 10.0.8.0/24
+      dns: 10.0.0.2
+      gateway: 10.0.8.1
+      reserved_ip_ranges: 10.0.8.0-10.0.8.3
+      availability_zone_names:
+      - ap-northeast-2a
+    - iaas_identifier: ((services_subnet_ids_1))
+      cidr: 10.0.9.0/24
+      dns: 10.0.0.2
+      gateway: 10.0.9.1
+      reserved_ip_ranges: 10.0.9.0-10.0.9.3
+      availability_zone_names:
+      - ap-northeast-2b
+    - iaas_identifier: ((services_subnet_ids_2))
+      cidr: 10.0.10.0/24
+      dns: 10.0.0.2
+      gateway: 10.0.10.1
+      reserved_ip_ranges: 10.0.10.0-10.0.10.3
+      availability_zone_names:
+      - ap-northeast-2c
+properties-configuration:
+  director_configuration:
+    blobstore_type: local
+    bosh_recreate_on_next_deploy: false
+    bosh_recreate_persistent_disks_on_next_deploy: false
+    database_type: internal
+    director_worker_count: 5
+#    encryption: []
+    encryption:
+      keys: []
+      providers: []
+    hm_emailer_options:
+      enabled: false
+    hm_pager_duty_options:
+      enabled: false
+    identification_tags: {}
+    job_configuration_on_tmpfs: false
+    keep_unreachable_vms: false
+    ntp_servers_string: 0.amazon.pool.ntp.org, 1.amazon.pool.ntp.org, 2.amazon.pool.ntp.org,
+      3.amazon.pool.ntp.org
+    post_deploy_enabled: true
+    resurrector_enabled: true
+    retry_bosh_deploys: false
+    skip_director_drain: false
+  dns_configuration:
+    excluded_recursors: []
+    handlers: []
+  security_configuration:
+    generate_vm_passwords: true
+    opsmanager_root_ca_trusted_certs: true
+    trusted_certificates: ((director_trusted_certificates.certificate))
+  syslog_configuration:
+    enabled: false
+resource-configuration:
+  compilation:
+    additional_networks: []
+    additional_vm_extensions: []
+    elb_names: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    internet_connected: false
+    swap_as_percent_of_memory_size: automatic
+  director:
+    additional_networks: []
+    additional_vm_extensions: []
+    elb_names: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    internet_connected: false
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+vmextensions-configuration:
+- name: web-lb-security-groups
+  cloud_properties:
+    security_groups:
+    - web_lb_security_group
+    - vms_security_group
+- name: ssh-lb-security-groups
+  cloud_properties:
+    security_groups:
+    - ssh_lb_security_group
+    - vms_security_group
+- name: tcp-lb-security-groups
+  cloud_properties:
+    security_groups:
+    - tcp_lb_security_group
+    - vms_security_group
+vmtypes-configuration: {}

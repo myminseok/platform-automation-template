@@ -1,9 +1,5 @@
-## http://docs.pivotal.io/platform-automation/v2.1/
-## https://github.com/myminseok/platform-automation-pipelines
-## fly -t demo sp -p test -c test.yml test-params.yml
-
 resources:
-- name: platform-automation-pipelines
+- name: pipelines
   type: git
   source:
     private_key: ((git.private_key))
@@ -134,7 +130,7 @@ jobs:
       trigger: true
     - get: one-time-trigger
       trigger: true
-    - get: platform-automation-pipelines
+    - get: pipelines
     - get: platform-automation-tasks
       params: { unpack: true }
     - get: platform-automation-tasks-git
@@ -214,12 +210,12 @@ jobs:
     - get: platform-automation-image
       params:
         unpack: true
-    - get: platform-automation-pipelines
+    - get: pipelines
   - task: test-resources
     image: platform-automation-image
-    file: platform-automation-pipelines/tasks/test.yml
+    file: pipelines/tasks/test.yml
     input_mapping:
-      testfolder: platform-automation-pipelines
+      testfolder: pipelines
 
 
 - name: job1

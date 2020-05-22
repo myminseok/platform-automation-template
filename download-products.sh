@@ -12,4 +12,5 @@ FOUNDATION=$2
 
 fly -t ${FLY_TARGET} sp -p "${FOUNDATION}-download-products" \
 -c ./download-products.yml \
--l ../platform-automation-configuration-template/${FOUNDATION}/pipeline-vars/params.yml
+-v foundation=${FOUNDATION} \
+-l ./${FOUNDATION}/pipeline-vars/params.yml

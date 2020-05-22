@@ -13,11 +13,10 @@ s3:
 
 git:
   platform_automation_pipelines:
-    uri: git@github.com:myminseok/platform-automation-pipelines-template.git
+    uri: git@github.com:myminseok/platform-automation-template.git
     branch: master
   platform_automation_configs:
-    uri: git@github.com:myminseok/platform-automation-pipelines-template.git
-    #uri: git@github.com:myminseok/platform-automation-configuration-template.git
+    uri: git@github.com:myminseok/platform-automation-template.git
     branch: master
   user: 
     email: user@pivotal.io

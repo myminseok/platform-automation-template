@@ -13,7 +13,7 @@ resources:
       product_slug: p-bosh-backup-and-restore
       product-version: ^1\.5\..*$
 
-  - name: platform-automation-pipelines
+  - name: pipelines
     type: git
     source:
       private_key: ((git.private_key))
@@ -101,7 +101,7 @@ jobs:
           - get: bbr-release
             params:
               globs: [ "bbr-*-linux-*"]
-          - get: platform-automation-pipelines
+          - get: pipelines
           - get: configuration
           - get: platform-automation-tasks
             params:
@@ -113,7 +113,7 @@ jobs:
               
       - task: backup-director
         image: platform-automation-image
-        file: platform-automation-pipelines/tasks/bbr-backup-director.yml
+        file: pipelines/tasks/bbr-backup-director.yml
         input_mapping:
           config: interpolated-files
           bbr-release: bbr-release
@@ -132,7 +132,7 @@ jobs:
             params:
               unpack: true
           - get: bbr-release
-          - get: platform-automation-pipelines
+          - get: pipelines
           - get: configuration
           - get: platform-automation-tasks
             params:
@@ -144,7 +144,7 @@ jobs:
               
       - task: backup-pas
         image: platform-automation-image
-        file: platform-automation-pipelines/tasks/bbr-backup-pas.yml
+        file: pipelines/tasks/bbr-backup-pas.yml
         input_mapping:
           config: interpolated-files
           bbr-release: bbr-release

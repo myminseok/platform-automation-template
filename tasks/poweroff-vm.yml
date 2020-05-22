@@ -4,7 +4,7 @@ platform: linux
 
 inputs:
   - name: state
-  - name: platform-automation-pipelines
+  - name: pipelines
 
 
 params:
@@ -17,5 +17,5 @@ params:
   GOVC_PASSWORD:
 
 run:
-  path: platform-automation-pipelines/tasks/poweroff-vm.sh
+  path: pipelines/tasks/poweroff-vm.sh
 

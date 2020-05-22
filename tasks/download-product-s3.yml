@@ -17,7 +17,7 @@
 platform: linux
 
 inputs:
-- name: platform-automation-pipelines
+- name: pipelines
 - name: config # contains download-file config file
 - name: vars # variable files to be made available
   optional: true
@@ -48,5 +48,5 @@ params:
   #   so `vars` and `secrets` can be used.
 
 run:
-  path: platform-automation-pipelines/tasks/download-product-s3.sh
+  path: pipelines/tasks/download-product-s3.sh
 # code_snippet download-product-s3 end

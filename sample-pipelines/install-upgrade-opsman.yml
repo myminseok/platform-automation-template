@@ -7,7 +7,7 @@ resource_types:
     repository: itstarting/semver-config-concourse-resource
 
 resources:
-- name: platform-automation-pipelines
+- name: pipelines
   type: git
   source:
     private_key: ((git.private_key))
@@ -99,7 +99,7 @@ credhub-interpolate: &credhub-interpolate
 # for *.yaml, *.yml ( ie. semver-version.yaml)
 credhub-interpolate-product-version-git-opsnam: &credhub-interpolate-product-version-git-opsnam
   image: platform-automation-image
-  file: platform-automation-pipelines/tasks/credhub-interpolate.yml
+  file: pipelines/tasks/credhub-interpolate.yml
   input_mapping:
     files: product-version-git-opsnam
   params:
@@ -178,7 +178,7 @@ jobs:
   serial_groups: [ opsman ]
   plan:
     - in_parallel:
-        - get: platform-automation-pipelines
+        - get: pipelines
         - get: product-version-git-opsnam
           trigger: false
         - get: platform-automation-image
@@ -199,7 +199,7 @@ jobs:
     ## ova file.
     - task: download-product-from-s3
       image: platform-automation-image
-      file: platform-automation-pipelines/tasks/download-product-s3.yml
+      file: pipelines/tasks/download-product-s3.yml
       input_mapping:
         ## semver-config output semver-config.yml to be use as a input of download-product.yml
         ## semver-config.yaml is output of 'product-version-git-opsnam' task.
@@ -255,7 +255,7 @@ jobs:
   serial_groups: [ opsman ]
   plan:
     - in_parallel:
-        - get: platform-automation-pipelines
+        - get: pipelines
         - get: product-version-git-opsnam
           trigger: false
           passed: [create-new-opsman-vm]
@@ -276,7 +276,7 @@ jobs:
  
     - task: setup-opsman-nginx
       image: platform-automation-image
-      file: platform-automation-pipelines/tasks/setup-opsman-nginx.yml
+      file: pipelines/tasks/setup-opsman-nginx.yml
       input_mapping:
         env: configuration
       params:
@@ -385,7 +385,7 @@ jobs:
         - get: platform-automation-image
           params: {unpack: true}
         - get: configuration
-        - get: platform-automation-pipelines
+        - get: pipelines
 
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
@@ -393,21 +393,21 @@ jobs:
         CONFIG_PATHS: config/((foundation))/opsman
         VARS_PATHS: config/((foundation))/vars
 
-    - task: prepare-tasks-with-secrets_platform-automation-pipelines
+    - task: prepare-tasks-with-secrets_pipelines
       <<: *prepare-tasks-with-secrets
       params:
         CONFIG_PATHS: config/((foundation))/opsman
         VARS_PATHS: config/((foundation))/vars
       input_mapping:
-        tasks: platform-automation-pipelines
+        tasks: pipelines
         config: configuration
       output_mapping:
-        tasks: platform-automation-pipelines
+        tasks: pipelines
 
     - task: staged-director-config
       image: platform-automation-image
       ###  om --env env/jumpbox/opsman/env.yml staged-director-config --include-placeholders=false --no-redact
-      file: platform-automation-pipelines/tasks/staged-director-config.yml
+      file: pipelines/tasks/staged-director-config.yml
       input_mapping:
         env: configuration
       params:
@@ -473,7 +473,7 @@ jobs:
   serial_groups: [ opsman ]
   plan:
     - in_parallel:
-        - get: platform-automation-pipelines
+        - get: pipelines
         - get: product-version-git-opsnam
           trigger: false
           passed: [export-installation]
@@ -500,7 +500,7 @@ jobs:
     ## ova file.
     - task: download-product-from-s3
       image: platform-automation-image
-      file: platform-automation-pipelines/tasks/download-product-s3.yml
+      file: pipelines/tasks/download-product-s3.yml
       input_mapping:
         ## semver-config output semver-config.yml to be use as a input of download-product.yml
         ## semver-config.yaml is output of 'product-version-git-opsnam' task.
@@ -536,7 +536,7 @@ jobs:
         do:
           - task: setup-opsman-nginx
             image: platform-automation-image
-            file: platform-automation-pipelines/tasks/setup-opsman-nginx.yml
+            file: pipelines/tasks/setup-opsman-nginx.yml
             input_mapping:
               env: configuration
             params:

@@ -8,7 +8,7 @@
 platform: linux
 
 inputs:
-- name: platform-automation-pipelines
+- name: pipelines
 - name: config # contains download-file config file
 - name: vars # variable files to be made available
   optional: true
@@ -42,5 +42,5 @@ params:
   # - Values: pivnet, s3, gcs, azure
 
 run:
-  path: platform-automation-pipelines/tasks/download-only-product.sh
+  path: pipelines/tasks/download-only-product.sh
 # code_snippet download-product end

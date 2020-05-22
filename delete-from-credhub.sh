@@ -6,7 +6,7 @@ if [ -z $1 ] ; then
 	exit
 fi	
 
-source /data/platform-repo/vsphere-base/concourse-main/login-credhub.sh
+source login-credhub.sh
 
 CONCOURSE_PREFIX='/concourse/main'
 PIPELINE_NAME=$1

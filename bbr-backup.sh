@@ -11,7 +11,7 @@ FOUNDATION=$2
 
 fly -t ${FLY_TARGET} sp -p "${FOUNDATION}-backup" \
 -c ./bbr-backup.yml \
--l ../platform-automation-configuration-template/${FOUNDATION}/pipeline-vars/params.yml
+-l ./${FOUNDATION}/pipeline-vars/params.yml
 
 
 

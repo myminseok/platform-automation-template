@@ -4,7 +4,7 @@ platform: linux
 
 inputs:
   - name: config
-  - name: platform-automation-pipelines
+  - name: pipelines
   - name: bbr-release
 
 outputs:
@@ -15,4 +15,4 @@ params:
   BBR_BACKUP_FILE: 
 
 run:
-  path: platform-automation-pipelines/tasks/bbr-backup-director-old.sh
+  path: pipelines/tasks/bbr-backup-director-old.sh

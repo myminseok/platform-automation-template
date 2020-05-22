@@ -7,7 +7,7 @@ resource_types:
     repository: itstarting/semver-config-concourse-resource
 
 resources:
-- name: platform-automation-pipelines
+- name: pipelines
   type: git
   source:
     private_key: ((git.private_key))
@@ -191,7 +191,7 @@ jobs:
         - get: product-version-git
           trigger: true
           passed: [ configure-product ]
-        - get: platform-automation-pipelines
+        - get: pipelines
         - get: platform-automation-image
           params:
             unpack: true
@@ -205,7 +205,7 @@ jobs:
 
     - task: apply-product-changes
       image: platform-automation-image
-      file: platform-automation-pipelines/tasks/apply-product-changes.yml
+      file: pipelines/tasks/apply-product-changes.yml
       input_mapping:
         env: interpolated-files
       params:

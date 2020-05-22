@@ -1,7 +1,3 @@
-## http://docs.pivotal.io/platform-automation/v2.1/
-## https://github.com/myminseok/platform-automation-pipelines
-## fly -t demo sp -p test -c test.yml test-params.yml
-
 resource_types:
 - name: pivnet
   type: docker-image
@@ -19,7 +15,7 @@ resources:
     product_version: 4\.(.*)
     sort_by: semver
 
-- name: platform-automation-pipelines
+- name: pipelines
   type: git
   source:
     private_key: ((git.private_key))
@@ -172,7 +168,7 @@ jobs:
   serial_groups: [serial-jobs]
   plan:
   - in_parallel:
-    - get: platform-automation-pipelines
+    - get: pipelines
     - get: platform-automation-image
       params: { unpack: true }
     - get: platform-automation-tasks
@@ -240,7 +236,7 @@ jobs:
   serial_groups: [serial-jobs]
   plan:
   - in_parallel:
-    - get: platform-automation-pipelines
+    - get: pipelines
     - get: platform-automation-image
       params: { unpack: true }
     - get: platform-automation-tasks
@@ -252,7 +248,7 @@ jobs:
     <<: *credhub-interpolate
   - task: download-only-opsman-image
     image: platform-automation-image
-    file: platform-automation-pipelines/tasks/download-only-product.yml
+    file: pipelines/tasks/download-only-product.yml
     input_mapping: {config: configuration }
     params:
       CONFIG_FILE: ((foundation))/download-products/opsman.yml
@@ -260,7 +256,7 @@ jobs:
       try:
         task: check_dup_file_in_s3
         image: platform-automation-image
-        file: platform-automation-pipelines/tasks/exists_file_s3.yml
+        file: pipelines/tasks/exists_file_s3.yml
         input_mapping: {downloaded-product: downloaded-product }
         params:
           endpoint: ((s3.endpoint))

@@ -7,7 +7,7 @@ image_resource:
     repository: amazon/aws-cli
 
 inputs:
-- name: platform-automation-pipelines
+- name: pipelines
 - name: downloaded-product
 
 
@@ -24,4 +24,4 @@ params:
 
 
 run:
-  path: platform-automation-pipelines/tasks/exists_file_s3.sh
+  path: pipelines/tasks/exists_file_s3.sh

@@ -3,7 +3,6 @@
 if [ -z $1 ] || [ -z $2 ] ; then
     echo "please provide parameters"
 	echo "${BASH_SOURCE[0]} [fly-target] [product-name]"
-    echo "for product-name, see https://github.com/brightzheng100/platform-automation-pipelines/blob/master/vars-dev/vars-products.yml"
 	exit
 fi	
 

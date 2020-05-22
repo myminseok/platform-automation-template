@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="18127e84-f145-4014-85fe-8953f9865761" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/awstest/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/awstest/pipeline-vars/params.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/awstest/pipeline-vars/prepare-credhub-secrets-from-terraform-state.sh" beforeDir="false" afterPath="$PROJECT_DIR$/awstest/pipeline-vars/prepare-credhub-secrets-from-terraform-state.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/awstest/pipeline-vars/set-credhub-pipeline-from-terraform.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bbr-backup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/bbr-backup.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bbr-backup.yml" beforeDir="false" afterPath="$PROJECT_DIR$/bbr-backup.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/delete-from-credhub.sh" beforeDir="false" afterPath="$PROJECT_DIR$/delete-from-credhub.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/dev/pipeline-vars/params.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/download-products.sh" beforeDir="false" afterPath="$PROJECT_DIR$/download-products.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/download-products.yml" beforeDir="false" afterPath="$PROJECT_DIR$/download-products.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manage-platform.sh" beforeDir="false" afterPath="$PROJECT_DIR$/manage-platform.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manage-platform.yml" beforeDir="false" afterPath="$PROJECT_DIR$/manage-platform.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample-pipelines/extract-staged-config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/extract-staged-config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample-pipelines/install-upgrade-opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/install-upgrade-opsman.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample-pipelines/install-upgrade-product.sh" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/install-upgrade-product.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample-pipelines/install-upgrade-product.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/install-upgrade-product.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample-pipelines/patch-product.yml.old" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/patch-product.yml.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/bbr-backup-director-old.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-backup-director-old.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/bbr-backup-director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-backup-director.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/bbr-backup-pas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-backup-pas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/bbr-backup-product.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-backup-product.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/bbr-cleanup-director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-cleanup-director.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/bbr-cleanup-product.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-cleanup-product.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/credhub-interpolate.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/credhub-interpolate.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/download-only-product.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/download-only-product.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/download-product-s3.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/download-product-s3.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/exists_file_s3.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/exists_file_s3.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/poweroff-vm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/poweroff-vm.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/prepare-tasks-with-secrets.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/prepare-tasks-with-secrets.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/rename-vm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/rename-vm.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-resource.sh" beforeDir="false" afterPath="$PROJECT_DIR$/test-resource.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-resources.yml" beforeDir="false" afterPath="$PROJECT_DIR$/test-resources.yml" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="install-upgrade-product.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sample-pipelines/install-upgrade-product.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="download-products.yml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/download-products.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>platform-automation-pipelines</find>
+      <find>platform-automation-configs</find>
+      <find>myminseok</find>
+      <find>bright</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>pipelines</replace>
+      <replace>env-onfigs</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="projectSyncType">
+      <map>
+        <entry key="$PROJECT_DIR$/../../_dojo/create-truststore-pcfdemo.net/pivotal-gemfire-spring-session" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../pcf-sample/spring-music-mariadb" value="PREVIEW" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/sample-pipelines/install-upgrade-product.sh" />
+        <option value="$PROJECT_DIR$/download-products.yml" />
+        <option value="$PROJECT_DIR$/test-resources.yml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="156" />
+    <option name="y" value="29" />
+    <option name="width" value="1221" />
+    <option name="height" value="828" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <properties />
+      <listeners />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="18127e84-f145-4014-85fe-8953f9865761" name="Default" comment="" />
+      <created>1590166547652</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1590166547652</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="156" y="29" width="1221" height="828" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info id="Image Layers" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info id="Capture Tool" />
+      <window_info id="Designer" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24936387" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/sample-pipelines/install-upgrade-product.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-resources.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/download-products.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

@@ -5,7 +5,7 @@ platform: linux
 inputs:
   - name: vars
   - name: state
-  - name: platform-automation-pipelines
+  - name: pipelines
 
 
 params:
@@ -19,5 +19,5 @@ params:
   VM_RENAME_POSTFIX: old
 
 run:
-  path: platform-automation-pipelines/tasks/rename-vm.sh
+  path: pipelines/tasks/rename-vm.sh
 

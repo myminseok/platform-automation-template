@@ -9,7 +9,7 @@ image_resource:
     tag: final
 
 inputs:
-  - name: platform-automation-pipelines
+  - name: pipelines
     # Directory containing the bbr executable
   - name: bbr-release
   - name: config

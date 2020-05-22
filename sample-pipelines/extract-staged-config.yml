@@ -16,7 +16,7 @@ resource_types:
 
 resources:
 
-- name: platform-automation-pipelines
+- name: pipelines
   type: git
   source:
     private_key: ((git.private_key))
@@ -73,7 +73,7 @@ jobs:
   serial: true
   plan:
   - in_parallel:
-    - get: platform-automation-pipelines
+    - get: pipelines
     - get: platform-automation-image
       params: {unpack: true}
       trigger: true
@@ -85,7 +85,7 @@ jobs:
 
   - task: staged-director-config
     image: platform-automation-image
-    file: platform-automation-pipelines/tasks/staged-director-config.yml
+    file: pipelines/tasks/staged-director-config.yml
     #file: platform-automation-tasks/tasks/staged-director-config.yml
     input_mapping:
       env: interpolated-files

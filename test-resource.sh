@@ -8,4 +8,4 @@ fi
 FLY_TARGET=$1
 
 fly -t ${FLY_TARGET} sp -p test-resources -c ./test-resources.yml \
--l ../platform-automation-configuration/${FLY_TARGET}/pipeline-vars/params.yml 
+-l ./${FOUNDATION}/pipeline-vars/params.yml

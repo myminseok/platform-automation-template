@@ -29,7 +29,7 @@ resources:
     access_key_id: ((s3.access_key_id))
     secret_access_key: ((s3.secret_access_key))
     region_name: ((s3.region_name))
-    bucket: bbr-backup-((foundation))
+    bucket: ((s3.buckets.bbr-backup))
     regexp: ((foundation))-director-backup_(.*).tar
     skip_ssl_verification: true
 
@@ -40,7 +40,7 @@ resources:
     access_key_id: ((s3.access_key_id))
     secret_access_key: ((s3.secret_access_key))
     region_name: ((s3.region_name))
-    bucket: bbr-backup-((foundation))
+    bucket: ((s3.buckets.bbr-backup))
     regexp: ((foundation))-cf-backup_(.*).tar
     skip_ssl_verification: true
 
@@ -96,7 +96,7 @@ resources:
     access_key_id: ((s3.access_key_id))
     secret_access_key: ((s3.secret_access_key))
     region_name: ((s3.region_name))
-    bucket: ((foundation))-installation
+    bucket: ((s3.buckets.installation))
     regexp: ((foundation))-installation-(.*).zip
     skip_ssl_verification: true
 

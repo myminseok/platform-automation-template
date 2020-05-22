@@ -34,8 +34,10 @@ credhub set -t user  -n ${PREFIX}/${PIPELINE_NAME}/opsman_admin -z admin -w 'PAS
 credhub delete -n ${PREFIX}/${PIPELINE_NAME}/decryption-passphrase
 credhub set -t password -n ${PREFIX}/${PIPELINE_NAME}/decryption-passphrase -w 'PASSWORD'
 credhub set -t value -n ${PREFIX}/${PIPELINE_NAME}/opsman_target -v "https://"
+# for opsman.yml on vsphere
+credhub set -t rsa  -n ${PREFIX}/${PIPELINE_NAME}/opsman_ssh_key -u ~/.ssh/id_rsa.pub -p ~/.ssh/id_rsa
 
-##*.pcfdemo.net,*.system.pcfdemo.net,*.apps.pcfdemo.net,*.uaa.system.pcfdemo.net,*.login.system.pcfdemo.net
+##*.awstest.pcfdemo.net,*.sys.awstest.pcfdemo.net,*.apps.awstest.pcfdemo.net,*.uaa.sys.awstest.pcfdemo.net,*.login.sys.awstest.pcfdemo.net
 credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/tas_ssl_domain -c ./tas_ssl_domain.crt -p ./tas_ssl_domain.key
 
 ## bosh credhub : credhub get -n /services/tls_ca -k ca

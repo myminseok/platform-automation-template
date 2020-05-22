@@ -1,3 +1,4 @@
+
 s3:
   endpoint: https://s3.ap-northeast-2.amazonaws.com
   access_key_id: ((aws_access_key_id))
@@ -6,6 +7,8 @@ s3:
   buckets:
     platform_automation: mkim-platform-automation
     pivnet_products: awstest-pivnet-products
+    installation: awstest-installation
+    bbr-backup: awstest-bbr-backup
 
 git:
   platform_automation_pipelines:

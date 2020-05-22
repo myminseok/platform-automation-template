@@ -1341,7 +1341,6 @@ jobs:
         <<: *prepare-tasks-with-secrets-custom-tasks
 
       - task: bbr-backup
-        image: bbr-image
         file: platform-automation-pipelines/tasks/bbr-backup-director.yml
         input_mapping:
           bbr-release: bbr-release-pivnet
@@ -1381,7 +1380,6 @@ jobs:
         <<: *prepare-tasks-with-secrets-custom-tasks
 
       - task: bbr-backup
-        image: bbr-image
         file: platform-automation-pipelines/tasks/bbr-backup-product.yml
         input_mapping:
           bbr-release: bbr-release-pivnet
@@ -1430,8 +1428,21 @@ jobs:
       input_mapping:
         tasks: platform-automation-pipelines
         config: opsman-version-git 
-
-
+    - task: test
+      config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: ubuntu
+          params:
+            FILE: 
+          run:
+            path: bash
+            args:
+            - -exc
+            - |
+              echo "hi"
 
 
 groups:

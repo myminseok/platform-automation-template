@@ -492,9 +492,9 @@ jobs:
         CREDHUB_SERVER: ((credhub.server))
         TERRAFORM_STATE_FILE_PATH: terraform-state/terraform-1.0.0.tfstate
         PREFIX: /concourse/main
-        FOUNDATION_PREFIX: ((foundation))_
+        PIPELINE_NAME: ((foundation))_
         SKIP_TLS_VALIDATION: true
-        SHELL_FILE_FOR_CREDHUB_KEY_LIST: config/((foundation))/pipeline-vars/prepare-credhub-secrets-from-terraform-state.sh
+        SHELL_FILE: config/((foundation))/pipeline-vars/pipeline-vars/set-credhub-from-terraform.sh
 
 
 #################################################################

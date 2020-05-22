@@ -62,16 +62,6 @@ resources:
     regexp: "ops-manager-vsphere*.ova"
     skip_ssl_verification: true
 
-#- name: opsman-product-new-version-git
-#  type: semver
-#  source:
-#    driver: git
-#    private_key: ((git.private_key))
-#    uri: ((git.configuration.uri))
-#    branch: master
-#    file: ((foundation)/opsman-version
-#    initial_version: 0.1.0
-
 - name: opsman-product-new-version-s3
   type: semver
   source:

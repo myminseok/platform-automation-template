@@ -2,38 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18127e84-f145-4014-85fe-8953f9865761" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/awstest/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/awstest/pipeline-vars/params.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/awstest/pipeline-vars/prepare-credhub-secrets-from-terraform-state.sh" beforeDir="false" afterPath="$PROJECT_DIR$/awstest/pipeline-vars/prepare-credhub-secrets-from-terraform-state.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/awstest/pipeline-vars/set-credhub-pipeline-from-terraform.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bbr-backup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/bbr-backup.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bbr-backup.yml" beforeDir="false" afterPath="$PROJECT_DIR$/bbr-backup.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/delete-from-credhub.sh" beforeDir="false" afterPath="$PROJECT_DIR$/delete-from-credhub.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/dev/pipeline-vars/params.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/download-products.sh" beforeDir="false" afterPath="$PROJECT_DIR$/download-products.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/awstest/pipeline-vars/prepare-credhub-secrets-from-terraform-state.sh" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/download-products.yml" beforeDir="false" afterPath="$PROJECT_DIR$/download-products.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage-platform.sh" beforeDir="false" afterPath="$PROJECT_DIR$/manage-platform.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manage-platform.yml" beforeDir="false" afterPath="$PROJECT_DIR$/manage-platform.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample-pipelines/extract-staged-config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/extract-staged-config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample-pipelines/install-upgrade-opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/install-upgrade-opsman.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample-pipelines/install-upgrade-product.sh" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/install-upgrade-product.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample-pipelines/install-upgrade-product.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/install-upgrade-product.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample-pipelines/patch-product.yml.old" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/patch-product.yml.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/bbr-backup-director-old.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-backup-director-old.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/bbr-backup-director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-backup-director.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/bbr-backup-pas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-backup-pas.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/bbr-backup-product.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-backup-product.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/bbr-cleanup-director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-cleanup-director.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/bbr-cleanup-product.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/bbr-cleanup-product.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/credhub-interpolate.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/credhub-interpolate.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/download-only-product.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/download-only-product.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/download-product-s3.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/download-product-s3.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/exists_file_s3.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/exists_file_s3.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/poweroff-vm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/poweroff-vm.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.sh" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/prepare-tasks-with-secrets.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/prepare-tasks-with-secrets.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/rename-vm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/rename-vm.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-resource.sh" beforeDir="false" afterPath="$PROJECT_DIR$/test-resource.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-resources.yml" beforeDir="false" afterPath="$PROJECT_DIR$/test-resources.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -44,20 +17,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="install-upgrade-product.sh" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sample-pipelines/install-upgrade-product.sh">
+      <file leaf-file-name="manage-platform.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/manage-platform.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="335">
+              <caret line="492" column="33" selection-start-line="492" selection-start-column="8" selection-end-line="492" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="download-products.yml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/download-products.yml">
+      <file leaf-file-name="set-credhub-from-terraform.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/awstest/pipeline-vars/set-credhub-from-terraform.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+            <state relative-caret-position="135">
+              <caret line="9" column="25" selection-start-line="9" selection-end-line="9" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="prepare-credhub-secrets-from-terraform-state.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="489">
+              <caret line="47" column="15" selection-start-line="47" selection-start-column="2" selection-end-line="47" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="prepare-credhub-secrets-from-terraform-state.sh" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="529">
+              <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -70,10 +61,15 @@
       <find>platform-automation-configs</find>
       <find>myminseok</find>
       <find>bright</find>
+      <find>env-onfigs</find>
+      <find>FOUNDATION_PREFIX</find>
+      <find>terraform-state</find>
     </findStrings>
     <replaceStrings>
       <replace>pipelines</replace>
       <replace>env-onfigs</replace>
+      <replace>env-configs</replace>
+      <replace>PIPELINE_NAME</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -94,15 +90,18 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/sample-pipelines/install-upgrade-product.sh" />
-        <option value="$PROJECT_DIR$/download-products.yml" />
         <option value="$PROJECT_DIR$/test-resources.yml" />
+        <option value="$PROJECT_DIR$/download-products.yml" />
+        <option value="$PROJECT_DIR$/manage-platform.yml" />
+        <option value="$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.yml" />
+        <option value="$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.sh" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="156" />
-    <option name="y" value="29" />
-    <option name="width" value="1221" />
+    <option name="x" value="52" />
+    <option name="y" value="30" />
+    <option name="width" value="1365" />
     <option name="height" value="828" />
   </component>
   <component name="ProjectView">
@@ -119,6 +118,22 @@
             <path>
               <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
               <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
+              <item name="awstest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
+              <item name="awstest" type="462c0819:PsiDirectoryNode" />
+              <item name="pipeline-vars" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
+              <item name="tasks" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -198,7 +213,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="156" y="29" width="1221" height="828" extended-state="0" />
+    <frame x="52" y="30" width="1365" height="828" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" />
@@ -213,8 +228,8 @@
       <window_info anchor="bottom" id="Terminal" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24936387" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22222222" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32968536" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" />
@@ -232,6 +247,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/test-resources.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/sample-pipelines/install-upgrade-product.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -239,13 +257,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test-resources.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/download-products.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        <state relative-caret-position="56">
+          <caret line="41" column="20" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/delete-from-credhub.sh">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/download-products.sh">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage-platform.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="492" column="33" selection-start-line="492" selection-start-column="8" selection-end-line="492" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/awstest/pipeline-vars/set-credhub-from-terraform.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="25" selection-start-line="9" selection-end-line="9" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="47" column="15" selection-start-line="47" selection-start-column="2" selection-end-line="47" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
         </state>
       </provider>
     </entry>

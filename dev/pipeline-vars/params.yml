@@ -1,8 +1,8 @@
 
 s3:
   endpoint: http://10.10.10.199:9000
-  access_key_id: ((s3_access_key_id))
-  secret_access_key: ((s3_secret_access_key))
+  access_key_id: ((aws_access_key_id))
+  secret_access_key: ((aws_secret_access_key))
   region_name: ""
   buckets:
     platform_automation: platform-automation
@@ -16,7 +16,8 @@ git:
     uri: git@github.com:myminseok/platform-automation-pipelines-template.git
     branch: master
   platform_automation_configs:
-    uri: git@github.com:myminseok/platform-automation-configuration-template.git
+    uri: git@github.com:myminseok/platform-automation-pipelines-template.git
+    #uri: git@github.com:myminseok/platform-automation-configuration-template.git
     branch: master
   user: 
     email: user@pivotal.io

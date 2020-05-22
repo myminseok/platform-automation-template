@@ -142,6 +142,30 @@ resources:
     version_path: products.scs.product-version
     version_pattern: "m.n.p"
 
+- name: redis-version-git
+  type: semver-config
+  source:
+    driver: git
+    uri: ((git.platform_automation_configs.uri))
+    branch: ((git.platform_automation_configs.branch))
+    private_key: ((git.private_key))
+    config_file: ((foundation))/products/versions.yml
+    config_path: products.redis
+    version_path: products.redis.product-version
+    version_pattern: "m.n.p"
+
+
+- name: rabbitmq-version-git
+  type: semver-config
+  source:
+    driver: git
+    uri: ((git.platform_automation_configs.uri))
+    branch: ((git.platform_automation_configs.branch))
+    private_key: ((git.private_key))
+    config_file: ((foundation))/products/versions.yml
+    config_path: products.rabbitmq
+    version_path: products.rabbitmq.product-version
+    version_pattern: "m.n.p"
 
 credhub-interpolate: &credhub-interpolate
   image: platform-automation-image
@@ -648,6 +672,137 @@ jobs:
 
       params:
         CONFIG_FILE: ((foundation))/products/scs.yml
+        ENV_FILE: ((foundation))/opsman/env.yml
+        #VARS_FILES: config/((foundation))/vars/scs.yml
+
+
+
+- name: install-and-patch-redis
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    #- get: pipeline-trigger-version-git
+    #  trigger: false
+    #  passed: [ install-and-patch-tas ]
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-configs
+    - get: redis-version-git
+
+  - do:    
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: download-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/download-product.yml
+      input_mapping:
+        config: redis-version-git  
+        vars: platform-automation-configs
+      params:
+        CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
+        #VARS_FILES: vars/((foundation))/vars/scs.yml
+    
+    - task: upload-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/upload-product.yml
+      input_mapping:
+        product: downloaded-product
+        env: platform-automation-configs
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+
+    - task: upload-stemcell
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/upload-stemcell.yml
+      input_mapping:
+        stemcell: downloaded-stemcell
+        env: platform-automation-configs
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        FLOATING_STEMCELL: false
+
+    - task: stage-configure-apply
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/stage-configure-apply.yml
+      input_mapping:
+        product: downloaded-product
+        env: platform-automation-configs
+        config: platform-automation-configs
+
+      params:
+        CONFIG_FILE: ((foundation))/products/redis.yml
+        ENV_FILE: ((foundation))/opsman/env.yml
+        #VARS_FILES: config/((foundation))/vars/scs.yml
+
+
+
+
+- name: install-and-patch-rabbitmq
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    #- get: pipeline-trigger-version-git
+    #  trigger: false
+    #  passed: [ install-and-patch-tas ]
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-configs
+    - get: rabbitmq-version-git
+
+  - do:    
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: download-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/download-product.yml
+      input_mapping:
+        config: rabbitmq-version-git  
+        vars: platform-automation-configs
+      params:
+        CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
+        #VARS_FILES: vars/((foundation))/vars/scs.yml
+    
+    - task: upload-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/upload-product.yml
+      input_mapping:
+        product: downloaded-product
+        env: platform-automation-configs
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+
+    - task: upload-stemcell
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/upload-stemcell.yml
+      input_mapping:
+        stemcell: downloaded-stemcell
+        env: platform-automation-configs
+      params:
+        ENV_FILE: ((foundation))/opsman/env.yml
+        FLOATING_STEMCELL: false
+
+    - task: stage-configure-apply
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/stage-configure-apply.yml
+      input_mapping:
+        product: downloaded-product
+        env: platform-automation-configs
+        config: platform-automation-configs
+
+      params:
+        CONFIG_FILE: ((foundation))/products/rabbitmq.yml
         ENV_FILE: ((foundation))/opsman/env.yml
         #VARS_FILES: config/((foundation))/vars/scs.yml
 

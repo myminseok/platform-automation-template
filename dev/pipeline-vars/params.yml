@@ -29,7 +29,7 @@ credhub:
   ca_cert: ((credhub_ca_cert.certificate))
   client: ((credhub_client.username))
   secret: ((credhub_client.password))
-  interpolate_folders: dev/config dev/env dev/download-products
+  interpolate_folders: ((foundation))/config ((foundation))/env ((foundation))/download-products
 
 pivnet: 
   token: ((pivnet_token))

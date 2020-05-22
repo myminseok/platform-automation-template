@@ -1403,6 +1403,37 @@ jobs:
           file: backup-artifact/((foundation))-cf-backup_*.tar
 
 
+- name: test
+  serial: true
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-pipelines
+    - get: platform-automation-configs
+    - get: opsman-version-git
+
+  - do:
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: prepare-tasks-with-secrets-custom-tasks
+      <<: *prepare-tasks-with-secrets-custom-tasks
+
+    - task: prepare-tasks-with-secrets-for-product-version
+      <<: *prepare-tasks-with-secrets-for-product-version
+      input_mapping:
+        tasks: platform-automation-pipelines
+        config: opsman-version-git 
+
+
+
+
 groups:
   - name: install-upgrade
     jobs:
@@ -1447,6 +1478,7 @@ groups:
   - name: etc
     jobs:
     - fetch-platform-automation-from-pivnet
+    - test
 
 
 

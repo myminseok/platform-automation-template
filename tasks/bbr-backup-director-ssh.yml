@@ -1,0 +1,47 @@
+## https://github.com/pivotal-cf/bbr-pcf-pipeline-tasks/tree/master/tasks/bbr-backup-director
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: pcfplatformrecovery/bbr-pcf-pipeline-tasks
+    tag: final
+
+inputs:
+  - name: pipelines
+    # Directory containing the bbr executable
+  - name: bbr-release
+  - name: config
+
+outputs:
+  # Contains `director-backup.tar` artifact created by `bbr director backup`
+  - name: backup-artifact
+
+params:
+  ENV_FILE: env.yml
+  FOUNDATION:
+  BACKUP_FILE: director-backup_${current_date}.tar
+  SSH_ENABLED: 
+  SSH_HOST: 
+  SSH_USERNAME: 
+  SSH_PRIVATEE_KEY:
+
+
+run:
+  path: bash
+  args:
+    - -exc
+    - |
+      #!/usr/bin/env bash
+
+      set -eu
+      
+      printf -- "$SSH_PRIVATEE_KEY" > ssh.key
+      cat ssh.key
+      chmod 600 ssh.key
+      ssh -i ssh.key ${SSH_USERACCOUNT}@${SSH_HOST} "pwd && ls -al"
+
+
+      
+

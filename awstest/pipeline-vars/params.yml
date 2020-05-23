@@ -31,3 +31,11 @@ credhub:
 pivnet: 
   token: ((pivnet_token))
 
+bbr:
+  backup:
+    ssh:
+      enabled: true
+      host: 192.168.5.11
+      username: vagrant
+
+

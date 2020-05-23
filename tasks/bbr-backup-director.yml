@@ -21,7 +21,7 @@ outputs:
 params:
   ENV_FILE: env.yml
   FOUNDATION:
-  BACKUP_FILE: director-backup_${current_date}.tgz
+  BACKUP_FILE: director-backup_${current_date}.tar
 
 run:
   path: bash

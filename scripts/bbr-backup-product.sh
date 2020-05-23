@@ -44,7 +44,7 @@ BBR_BACKUP_FILE="cf"
 OUTPUT_FILE_NAME="$(echo "$BBR_BACKUP_FILE" | envsubst '$timestamp')"
 
 ls -al ./"$DEPLOYMENT_NAME"
-tar zcf ./generated-backup/$OUTPUT_FILE_NAME  -C ./"$DEPLOYMENT_NAME" .
+tar cf ./generated-backup/$OUTPUT_FILE_NAME  -C ./"$DEPLOYMENT_NAME" .
 
 rm -rf ./"$DEPLOYMENT_NAME"
 

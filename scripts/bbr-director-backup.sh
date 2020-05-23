@@ -39,5 +39,5 @@ bbr director --host "${BOSH_ENVIRONMENT}" --username $BOSH_BBR_ACCOUNT --private
 OUTPUT_FILE_NAME="$(echo "$BBR_BACKUP_FILE" | envsubst '$timestamp')"
 
 ls -al $BBR_BACKUP_TMP_DIR
-tar zcf ./generated-backup/$OUTPUT_FILE_NAME -C $BBR_BACKUP_TMP_DIR .
+tar cf ./generated-backup/$OUTPUT_FILE_NAME -C $BBR_BACKUP_TMP_DIR .
 rm -rf $BBR_BACKUP_TMP_DIRs

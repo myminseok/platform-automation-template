@@ -4,27 +4,31 @@
 cat /var/version && echo ""
 set -euo pipefail
 
+
+
+
 # NOTE: The credhub cli does not ignore empty/null environment variables.
 # https://github.com/cloudfoundry-incubator/credhub-cli/issues/68
 if [ -z "$CREDHUB_CA_CERT" ]; then
   unset CREDHUB_CA_CERT
-  export SKIP_TLS_VALIDATION="--skip-tls-validation"
+  export SKIP_TLS_VALIDATION="--skip-tls-validation" ##!!! added from original version 
 fi
 
-# modified from original version ###################################
 
+##!!! modified from original version 
 credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION
-
 credhub find
+
 
 if [ -z "$PREFIX" ]; then
   echo "Please specify a PREFIX. It is required."
   exit 1
 fi
 
+
 # $INTERPOLATION_PATHS needs to be globbed to read multiple files
 # shellcheck disable=SC2086
-files=$(cd files && find $INTERPOLATION_PATHS -type f -name '*.y*ml' -follow)
+files=$(cd files && find $INTERPOLATION_PATHS -type f -name '*.y*ml' -follow) ##!!! modified from original version :'*.y*ml'
 
 if [ "$SKIP_MISSING" == "true" ]; then
   export SKIP_MISSING="--skip-missing"

@@ -17,6 +17,8 @@ fi
 
 #credhub --version
 
+# modified from original version ###################################
+
 if [ "$SKIP_TLS_VALIDATION" == "true" ]; then
   export SKIP_TLS_VALIDATION="--skip-tls-validation"
 fi
@@ -24,6 +26,8 @@ fi
 credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION
 
 credhub find
+
+####################################################################
 
 if [ -z "$PREFIX" ]; then
   echo "Please specify a PREFIX. It is required."

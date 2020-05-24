@@ -492,7 +492,7 @@ jobs:
         CREDHUB_SERVER: ((credhub.server))
         TERRAFORM_STATE_FILE_PATH: terraform-state/terraform-1.0.0.tfstate
         PREFIX: /concourse/main
-        PIPELINE_NAME: ((foundation))_
+        PIPELINE_NAME: $BUILD_PIPELINE_NAME
         SKIP_TLS_VALIDATION: true
         SHELL_FILE: config/((foundation))/pipeline-vars/pipeline-vars/set-credhub-from-terraform.sh
 
@@ -1423,7 +1423,7 @@ jobs:
   - do:
       - task: prepare-tasks-with-secrets-custom-tasks
         <<: *prepare-tasks-with-secrets-custom-tasks
-        
+
       - task: credhub-interpolate
         image: platform-automation-image
         file: pipelines/tasks/credhub-interpolate.yml

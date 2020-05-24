@@ -26,9 +26,11 @@ if [ "$SKIP_TLS_VALIDATION" == "true" ]; then
   export SKIP_TLS_VALIDATION="--skip-tls-validation"
 fi
 
-echo "credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION"
+env | grep CREDHUB
 
-credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION
+#echo "credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION"
+
+#credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION
 
 credhub find
 

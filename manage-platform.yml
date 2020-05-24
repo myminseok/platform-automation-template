@@ -1436,14 +1436,14 @@ jobs:
           CREDHUB_CLIENT: ((credhub_client.username))
           CREDHUB_SERVER: ((credhub.server))
           PREFIX: /concourse/main/$BUILD_PIPELINE_NAME
-          INTERPOLATION_PATHS: ((foundation))
+          INTERPOLATION_PATHS: ((foundation))/opsman
           SKIP_MISSING: false
 
       - task: bbr-backup-ssh
         file: pipelines/tasks/bbr-backup-director-ssh.yml
         input_mapping:
           bbr-release: bbr-release-pivnet
-          config: env-configs
+          config: interpolated-files
         params:
           ENV_FILE: ((foundation))/opsman/env.yml
           FOUNDATION: ((foundation))

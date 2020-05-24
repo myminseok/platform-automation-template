@@ -26,19 +26,7 @@ if [ "$SKIP_TLS_VALIDATION" == "true" ]; then
   export SKIP_TLS_VALIDATION="--skip-tls-validation"
 fi
 
-env | grep CREDHUB
-
-echo "#!/bin/bash" > ./login_credhub.sh
-echo "credhub api -s $CREDHUB_SERVER  $SKIP_TLS_VALIDATION" > ./login_credhub.sh
-echo "credhub login --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET" >> ./login_credhub.sh
-
-
-unset CREDHUB_SERVER
-unset CREDHUB_CLIENT
-unset CREDHUB_SECRET
-chmod +x ./login_credhub.sh
-./login_credhub.sh
-
+credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION
 
 credhub find
 

@@ -8,10 +8,10 @@ set -euo pipefail
 # https://github.com/cloudfoundry-incubator/credhub-cli/issues/68
 if [ -z "$CREDHUB_CA_CERT" ]; then
   unset CREDHUB_CA_CERT
-  credhub api --server=$CREDHUB_SERVER --skip-tls-validation
 fi
 
 credhub --version
+credhub find
 
 if [ -z "$PREFIX" ]; then
   echo "Please specify a PREFIX. It is required."

@@ -11,7 +11,7 @@ image_resource:
 inputs:
   - name: pipelines
     # Directory containing the bbr executable
-  - name: bbr-release
+  - name: bbr-release ## doesn't use at the moment
   - name: config
 
 outputs:
@@ -49,6 +49,9 @@ run:
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/test-ssh-backup.sh"
 
  
+
+
+
       cat config/$ENV_FILE 
       scp -i ssh.key -o StrictHostKeyChecking=no config/$ENV_FILE ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR/env.yml
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/install-clients.sh"

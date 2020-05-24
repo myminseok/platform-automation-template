@@ -1359,7 +1359,7 @@ jobs:
             ENV_FILE: ((foundation))/opsman/env.yml
       - put: bbr-director-backup-bucket
         params:
-          file: backup-artifact/((foundation))-director-backup_*.tar
+          file: backup-artifact/((foundation))-director-backup_*.tgz
 
 - name: bbr-backup-tas
   serial: true
@@ -1401,7 +1401,7 @@ jobs:
             PRODUCT_NAME: cf
       - put: bbr-tas-backup-bucket
         params:
-          file: backup-artifact/((foundation))-cf-backup_*.tar
+          file: backup-artifact/((foundation))-cf-backup_*.tgz
 
 
 

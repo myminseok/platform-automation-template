@@ -4,10 +4,12 @@ cat /var/version && echo ""
 set -euo pipefail
 
 
-wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/2.7.0/credhub-linux-2.7.0.tgz
-tar xf credhub-linux-2.7.0.tgz
-mv credhub /usr/local/bin/credhub
-
+test=$(which credhub | wc -l)
+if [  $test == 0 ]; then
+  wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/2.7.0/credhub-linux-2.7.0.tgz
+  tar xf credhub-linux-2.7.0.tgz
+  mv credhub /usr/local/bin/credhub
+fi
 
 # NOTE: The credhub cli does not ignore empty/null environment variables.
 # https://github.com/cloudfoundry-incubator/credhub-cli/issues/68

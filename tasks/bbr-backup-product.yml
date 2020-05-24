@@ -74,5 +74,5 @@ run:
           --ca-cert $BOSH_CA_CERT \
           backup
 
-        tar -cvf "${FOUNDATION}-${PRODUCT_NAME}-backup_${current_date}.tar" --remove-files -- */*
+        tar -zcvf "${FOUNDATION}-${PRODUCT_NAME}-backup_${current_date}.tgz" --remove-files -- */*
       popd

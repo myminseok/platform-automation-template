@@ -43,7 +43,7 @@ run:
 
       REMOTE_DIR="~/bbr-bakcup"
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "mkdir -p $REMOTE_DIR"
-      scp -i ssh.key -o StrictHostKeyChecking=no -r pipelines/scripts/* ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR
+      scp -i ssh.key -o StrictHostKeyChecking=no -r pipelines/bbr-scripts/* ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al $REMOTE_DIR"
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "chmod +x $REMOTE_DIR/*.sh"
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/test-ssh-backup.sh"
@@ -51,7 +51,7 @@ run:
  
       cat config/$ENV_FILE 
       scp -i ssh.key -o StrictHostKeyChecking=no config/$ENV_FILE ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR/env.yml
-      #ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/setup-bbr-env.sh"
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/install-clients.sh"
 
 
 

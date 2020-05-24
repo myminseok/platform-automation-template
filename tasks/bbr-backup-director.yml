@@ -21,7 +21,7 @@ outputs:
 params:
   ENV_FILE: env.yml
   FOUNDATION:
-  BACKUP_FILE: director-backup_${current_date}.tar
+  BACKUP_FILE: director-backup_${current_date}.tgz
 
 run:
   path: bash
@@ -58,5 +58,5 @@ run:
           --private-key-path ../bbr_ssh_credentials \
           backup
 
-        tar -cvf "$BACKUP_FILE" --remove-files -- */*
+        tar -zcvf "$BACKUP_FILE" --remove-files -- */*
       popd

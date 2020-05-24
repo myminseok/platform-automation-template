@@ -28,9 +28,16 @@ fi
 
 env | grep CREDHUB
 
-#echo "credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION"
 
-#credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION
+echo "credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION" > login_credhub.sh
+
+chmod +x login_credhub.sh
+unset CREDHUB_SERVER
+unset CREDHUB_CLIENT
+unset CREDHUB_SECRET
+
+login_credhub.sh
+
 
 credhub find
 

@@ -19,6 +19,6 @@ pushd $WORK_DIR/backup-artifact
 
     echo "test" $WORK_DIR/backup-artifact/bbr-artifcat-test
     
-	tar -cvf "$BACKUP_FILE" --remove-files -- */*
-
 popd
+
+tar -zcvf "$BACKUP_FILE" -C $WORK_DIR/backup-artifact . --remove-files

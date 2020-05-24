@@ -11,6 +11,14 @@ if [ -z "$CREDHUB_CA_CERT" ]; then
 fi
 
 credhub --version
+if [ "$SKIP_TLS_VALIDATION" == "true" ]; then
+  export SKIP_TLS_VALIDATION="--skip-tls-validation"
+fi
+
+#credhub --version
+
+credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION
+
 credhub find
 
 if [ -z "$PREFIX" ]; then

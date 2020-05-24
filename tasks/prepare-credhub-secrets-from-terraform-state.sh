@@ -17,11 +17,6 @@ fi
 
 #credhub --version
 
-if [ -z "$PREFIX" ]; then
-  echo "Please specify a PREFIX. It is required."
-  exit 1
-fi
-
 if [ "$SKIP_TLS_VALIDATION" == "true" ]; then
   export SKIP_TLS_VALIDATION="--skip-tls-validation"
 fi
@@ -30,6 +25,10 @@ credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$
 
 credhub find
 
+if [ -z "$PREFIX" ]; then
+  echo "Please specify a PREFIX. It is required."
+  exit 1
+fi
 
 if [ ! -f "./$TERRAFORM_STATE_FILE_PATH" ]; then
   echo "Required terraform state file does not exist in './$TERRAFORM_STATE_FILE_PATH'"

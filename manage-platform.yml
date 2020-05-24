@@ -1484,6 +1484,50 @@ jobs:
 
 
 groups:
+
+
+  - name: main
+    jobs:
+    - prepare-credhub-secrets-from-terraform-state
+    - install-opsman
+    - configure-opsman-authentication
+    - opsman-custom-vm-extensions
+    - configure-director
+    - apply-director-changes
+    - export-installation
+    - upgrade-opsman
+    - install-and-patch-tas
+    - install-and-patch-scs
+    - install-and-patch-redis
+    - install-and-patch-rabbitmq
+
+  #configure-product-manually
+    - apply-change-tas
+    - configure-tas
+    - configure-director-test
+    - configure-scs
+    - configure-redis
+
+  #extract-product-config-manually
+    - extract-director-config
+    - extract-tas-config
+    - extract-scs-config
+
+  #backup
+    - bbr-backup-director
+    - bbr-backup-tas
+    - export-installation
+    - bbr-backup-director-ssh
+
+  #delete-manually
+    - delete-installation-from-opsman
+    - delete-opsman
+
+  #etc
+    - fetch-platform-automation-from-pivnet
+    - test
+
+
   - name: install-upgrade
     jobs:
     - prepare-credhub-secrets-from-terraform-state

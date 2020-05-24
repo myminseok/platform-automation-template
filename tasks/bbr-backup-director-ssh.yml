@@ -41,14 +41,16 @@ run:
       cat ssh.key
       chmod 600 ssh.key
 
-      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "mkdir -p ~/bbr-bakcup"
+      REMOTE_DIR="~/bbr-bakcup"
 
-      scp -i ssh.key -o StrictHostKeyChecking=no $ENV_FILE ${SSH_USERNAME}@${SSH_HOST}:~/bbr-bakcup/env.yml
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "mkdir -p $REMOTE_DIR"
 
-      scp -i ssh.key -o StrictHostKeyChecking=no -r pipelines/scripts/* ${SSH_USERNAME}@${SSH_HOST}:~/bbr-bakcup/
+      scp -i ssh.key -o StrictHostKeyChecking=no $ENV_FILE ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR/env.yml
 
-      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al  ~/bbr-bakcup && chmod +x ~/bbr-backup/*.sh"
+      scp -i ssh.key -o StrictHostKeyChecking=no -r pipelines/scripts/* ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR
+
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al $REMOTE_DIR && chmod +x $REMOTE_DIR*.sh"
 
 
-      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al  ~/setup-bbr-env.sh"
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al  $REMOTE_DIR/setup-bbr-env.sh"
 

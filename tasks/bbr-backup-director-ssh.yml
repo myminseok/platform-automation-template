@@ -35,13 +35,20 @@ run:
     - |
       #!/usr/bin/env bash
 
-      set -eu
+      set +eu
       
       printf -- "$SSH_PRIVATEE_KEY" > ssh.key
       cat ssh.key
       chmod 600 ssh.key
-      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "pwd && ls -al"
+
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "mkdir -p ~/bbr-bakcup"
+
+      scp -i ssh.key -o StrictHostKeyChecking=no $ENV_FILE ${SSH_USERNAME}@${SSH_HOST}:~/bbr-bakcup/env.yml
+
+      scp -i ssh.key -o StrictHostKeyChecking=no -r pipelines/scripts/* ${SSH_USERNAME}@${SSH_HOST}:~/bbr-bakcup/
+
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al  ~/bbr-bakcup && chmod +x ~/bbr-backup/*.sh"
 
 
-      
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al  ~/setup-bbr-env.sh"
 

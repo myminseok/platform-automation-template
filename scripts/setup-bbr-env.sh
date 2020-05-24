@@ -15,6 +15,7 @@ sudo mv bbr-1.7.2-linux-amd64 /usr/local/bin/bbr
 
 #cat deployed_products.json
 ## install jq
+sudo apt-get update
 sudo apt-get install jq -y
 
 

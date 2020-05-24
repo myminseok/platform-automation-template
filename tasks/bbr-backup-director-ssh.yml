@@ -11,7 +11,8 @@ image_resource:
 inputs:
   - name: pipelines
     # Directory containing the bbr executable
-  - name: bbr-release ## doesn't use at the moment
+  - name: bbr-release 
+    ## doesn't use at the moment. will use pipelines/bbr-scripts/install-clients.sh instead
   - name: config
 
 outputs:

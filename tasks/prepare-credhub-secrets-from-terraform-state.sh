@@ -33,6 +33,7 @@ fi
 
 credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION
 
+credhub find
 
 
 echo "====================================="

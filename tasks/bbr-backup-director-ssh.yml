@@ -45,7 +45,7 @@ run:
 
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "mkdir -p $REMOTE_DIR"
 
-      scp -i ssh.key -o StrictHostKeyChecking=no $ENV_FILE ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR/env.yml
+      scp -i ssh.key -o StrictHostKeyChecking=no config/$ENV_FILE ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR/env.yml
 
       scp -i ssh.key -o StrictHostKeyChecking=no -r pipelines/scripts/* ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR
 

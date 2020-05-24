@@ -54,3 +54,4 @@ run:
 
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al  $REMOTE_DIR/setup-bbr-env.sh"
 
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al  $REMOTE_DIR/bbr-director-backup.sh"

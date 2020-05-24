@@ -23,8 +23,8 @@ git:
   private_key: ((git_private_key.private_key))
 
 credhub:
-  #server: https://192.168.50.1:9000
-  server: https://credhub:9000 ## docker-compose env
+  server: https://192.168.67.1:9000
+  #server: https://credhub:9000 ## docker-compose env
   ##ca_cert: ((credhub_ca_cert.certificate))
   client: ((credhub_client.username))
   secret: ((credhub_client.password))

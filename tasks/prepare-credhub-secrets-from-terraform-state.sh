@@ -9,18 +9,13 @@ tar xf credhub-linux-2.7.0.tgz
 mv credhub /usr/local/bin/credhub
 
 
-if [ ! -f "./$TERRAFORM_STATE_FILE_PATH" ]; then
-  echo "Required terraform state file does not exist in './$TERRAFORM_STATE_FILE_PATH'"
-  exit 1
-fi
-
 # NOTE: The credhub cli does not ignore empty/null environment variables.
 # https://github.com/cloudfoundry-incubator/credhub-cli/issues/68
 if [ -z "$CREDHUB_CA_CERT" ]; then
   unset CREDHUB_CA_CERT
 fi
 
-credhub --version
+#credhub --version
 
 if [ -z "$PREFIX" ]; then
   echo "Please specify a PREFIX. It is required."
@@ -34,6 +29,12 @@ fi
 credhub login -s $CREDHUB_SERVER --client-name=$CREDHUB_CLIENT --client-secret=$CREDHUB_SECRET $SKIP_TLS_VALIDATION
 
 credhub find
+
+
+if [ ! -f "./$TERRAFORM_STATE_FILE_PATH" ]; then
+  echo "Required terraform state file does not exist in './$TERRAFORM_STATE_FILE_PATH'"
+  exit 1
+fi
 
 
 echo "====================================="

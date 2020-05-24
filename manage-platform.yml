@@ -1535,7 +1535,7 @@ groups:
     - bbr-backup-director
     - bbr-backup-tas
     - export-installation
-    - bbr-backup-director-ssh
+    - bbr-backup-director-via-ssh
 
   #delete-manually
     - delete-installation-from-opsman
@@ -1580,7 +1580,7 @@ groups:
     - bbr-backup-director
     - bbr-backup-tas
     - export-installation
-    - bbr-backup-director-ssh
+    - bbr-backup-director-via-ssh
 
   - name: delete-manually
     jobs:

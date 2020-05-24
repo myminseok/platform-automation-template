@@ -10,7 +10,6 @@ if [ -z $1 ] ; then
 fi  
 PRODUCT_NAME=$1
 
-
 export timestamp="$(date '+%Y%m%d.%-H%M.%S+%Z')"
 
 WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -25,8 +24,11 @@ export DEPLOYMENT_NAME
 echo $DEPLOYMENT_NAME
 
 
-export BACKUP_FILE="${BOSH_ENVIRONMENT}-${PRODUCT_NAME}-backup_${current_date}.tar"
-pushd $WORK_DIR
+SCRIPT_NAME=$(basename ${BASH_SOURCE[0]})
+TMP_DIR="$WORK_DIR/${SCRIPT_NAME}_${timestamp}"
+echo $TMP_DIR
+mkdir -p $TMP_DIR
+pushd $TMP_DIR
 
     bbr deployment \
         --target "${BOSH_ENVIRONMENT}" \
@@ -43,8 +45,11 @@ pushd $WORK_DIR
         --ca-cert "${BOSH_CA_CERT}"  \
         backup
 
-    tar -cvf "$BACKUP_FILE" --remove-files -- */*
 popd
+
+export BACKUP_FILE="${BOSH_ENVIRONMENT}-${PRODUCT_NAME}-backup_${timestamp}.tgz"
+tar -zcvf $WORK_DIR/"$BACKUP_FILE" -C $TMP_DIRs . --remove-files
+
 
 ### cf-c8399c1d00f7742d47a1_20190505T123820Z$ ll
 #total 17G

@@ -1,4 +1,6 @@
 #!/bin/bash
+set -eu
+
 
 if [ -z $1 ] ; then
     echo "!!! please provide parameters"
@@ -9,44 +11,40 @@ fi
 PRODUCT_NAME=$1
 
 
-set -eu
-
 export timestamp="$(date '+%Y%m%d.%-H%M.%S+%Z')"
 
+WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-om --env env.yml bosh-env > bosh-env.sh
-source ./bosh-env.sh
+om --env $WORK_DIR/env.yml bosh-env > $WORK_DIR/bosh-env.sh
+source $WORK_DIR/bosh-env.sh
 
 # Get CF deployment guid
-om --env env.yml  curl -p /api/v0/deployed/products > deployed_products.json
-DEPLOYMENT_NAME=$(jq -r '.[] | select(.type == "'${PRODUCT_NAME}'") | .guid' "deployed_products.json")
+om --env $WORK_DIR/env.yml  curl -p /api/v0/deployed/products > $WORK_DIR/deployed_products.json
+DEPLOYMENT_NAME=$(jq -r '.[] | select(.type == "'${PRODUCT_NAME}'") | .guid' "$WORK_DIR/deployed_products.json")
 export DEPLOYMENT_NAME
 echo $DEPLOYMENT_NAME
 
 
-bbr deployment \
-    --target "${BOSH_ENVIRONMENT}" \
-    --username $BOSH_CLIENT \
-    --deployment "$DEPLOYMENT_NAME" \
-    --ca-cert "${BOSH_CA_CERT}"  \
-    pre-backup-check
+export BACKUP_FILE="${BOSH_ENVIRONMENT}-${PRODUCT_NAME}-backup_${current_date}.tar"
+pushd $WORK_DIR
+
+    bbr deployment \
+        --target "${BOSH_ENVIRONMENT}" \
+        --username $BOSH_CLIENT \
+        --deployment "$DEPLOYMENT_NAME" \
+        --ca-cert "${BOSH_CA_CERT}"  \
+        pre-backup-check
 
 
-bbr deployment \
-    --target "${BOSH_ENVIRONMENT}" \
-    --username $BOSH_CLIENT \
-    --deployment "$DEPLOYMENT_NAME" \
-    --ca-cert "${BOSH_CA_CERT}"  \
-    backup
+    bbr deployment \
+        --target "${BOSH_ENVIRONMENT}" \
+        --username $BOSH_CLIENT \
+        --deployment "$DEPLOYMENT_NAME" \
+        --ca-cert "${BOSH_CA_CERT}"  \
+        backup
 
-
-BBR_BACKUP_FILE="cf"
-OUTPUT_FILE_NAME="$(echo "$BBR_BACKUP_FILE" | envsubst '$timestamp')"
-
-ls -al ./"$DEPLOYMENT_NAME"
-tar cf ./generated-backup/$OUTPUT_FILE_NAME  -C ./"$DEPLOYMENT_NAME" .
-
-rm -rf ./"$DEPLOYMENT_NAME"
+    tar -cvf "$BACKUP_FILE" --remove-files -- */*
+popd
 
 ### cf-c8399c1d00f7742d47a1_20190505T123820Z$ ll
 #total 17G

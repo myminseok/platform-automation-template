@@ -342,6 +342,8 @@ echo-files: &echo-files
       - -exc
       - |
         cat $FILE
+        Build Name: ${BUILD_PIPELINE_NAME}
+
 
 
 staged-config: &staged-config
@@ -1403,7 +1405,7 @@ jobs:
 
 
 
-- name: bbr-backup-director-ssh
+- name: bbr-backup-director-via-ssh
   serial: true
   serial_groups: [ bbr-backup ]
   plan:
@@ -1423,7 +1425,8 @@ jobs:
       - task: prepare-tasks-with-secrets-custom-tasks
         <<: *prepare-tasks-with-secrets-custom-tasks
 
-      - task: credhub-interpolate
+      ## only for env.yml
+      - task: credhub-interpolate-for-env-yml
         image: platform-automation-image
         file: pipelines/tasks/credhub-interpolate.yml
         input_mapping:
@@ -1434,9 +1437,9 @@ jobs:
           CREDHUB_SECRET: ((credhub_client.password))
           CREDHUB_CLIENT: ((credhub_client.username))
           CREDHUB_SERVER: ((credhub.server))
-          PREFIX: /concourse/main/$BUILD_PIPELINE_NAME
+          PREFIX: /concourse/main/((BUILD_PIPELINE_NAME))
           INTERPOLATION_PATHS: ((foundation))/opsman
-          SKIP_MISSING: false
+          SKIP_MISSING: true
 
       - task: bbr-backup-ssh
         file: pipelines/tasks/bbr-backup-director-ssh.yml
@@ -1495,6 +1498,7 @@ jobs:
             - -exc
             - |
               echo "hi"
+
 
 
 groups:

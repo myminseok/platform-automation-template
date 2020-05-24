@@ -3,41 +3,40 @@
 set -eux
 
 
-om --env ./env.yml bosh-env > bosh-env.sh
-source ./bosh-env.sh
-export BOSH_BBR_ACCOUNT=bbr
+WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+om --env $WORK_DIR/env.yml bosh-env > $WORK_DIR/bosh-env.sh
+source $WORK_DIR/bosh-env.sh
+
+
+export BBR_SSH_KEY_PATH=$WORK_DIR/bbr_ssh_credentials
 # Get bbr ssh credentials
-om --env env.yml curl -p /api/v0/deployed/director/credentials/bbr_ssh_credentials > bbr_ssh_credentials.json
-
+om --env $WORK_DIR/env.yml curl -p /api/v0/deployed/director/credentials/bbr_ssh_credentials > $WORK_DIR/bbr_ssh_credentials.json
 
 ## parse deployment
-cat bbr_ssh_credentials.json
-jq -r '.[] | .value.private_key_pem' "bbr_ssh_credentials.json" > bbr_ssh_credentials
+cat $BBR_SSH_KEY_PATH
+jq -r '.[] | .value.private_key_pem' "bbr_ssh_credentials.json" > $BBR_SSH_KEY_PATH
 
 
 export BOSH_BBR_ACCOUNT=bbr
-export BBR_SSH_KEY_PATH="bbr_ssh_credentials"
+export BACKUP_FILE="$WORK_DIR/${BOSH_ENVIRONMENT}_director-backup_${current_date}.tar"
+pushd $WORK_DIR
+    
+    bbr director --host "${BOSH_ENVIRONMENT}" \
+	  --username $BOSH_BBR_ACCOUNT \
+	  --private-key-path $BBR_SSH_KEY_PATH \
+	  backup-cleanup
 
+    bbr director --host "${BOSH_ENVIRONMENT}" \
+	  --username $BOSH_BBR_ACCOUNT \
+	  --private-key-path $BBR_SSH_KEY_PATH \
+	  pre-backup-check
 
+	bbr director --host "${BOSH_ENVIRONMENT}" \
+	  --username $BOSH_BBR_ACCOUNT \
+	  --private-key-path $BBR_SSH_KEY_PATH \
+	  backup
 
-bbr director --host "${BOSH_ENVIRONMENT}" --username $BOSH_BBR_ACCOUNT --private-key-path $BBR_SSH_KEY_PATH \
-    backup-cleanup
+	tar -cvf "$BACKUP_FILE" --remove-files -- */*
 
-bbr director --host "${BOSH_ENVIRONMENT}" --username $BOSH_BBR_ACCOUNT --private-key-path $BBR_SSH_KEY_PATH \
-    pre-backup-check
-
-export BBR_BACKUP_TMP_DIR="./bbr-backup-tmp"
-mkdir -p $BBR_BACKUP_TMP_DIR
-echo $timestamp > $BBR_BACKUP_TMP_DIR/timestamp
-
-bbr director --host "${BOSH_ENVIRONMENT}" --username $BOSH_BBR_ACCOUNT --private-key-path $BBR_SSH_KEY_PATH \
-    backup --artifact-path ./
-
-
-
-OUTPUT_FILE_NAME="$(echo "$BBR_BACKUP_FILE" | envsubst '$timestamp')"
-
-ls -al $BBR_BACKUP_TMP_DIR
-tar cf ./generated-backup/$OUTPUT_FILE_NAME -C $BBR_BACKUP_TMP_DIR .
-rm -rf $BBR_BACKUP_TMP_DIRs
+popd

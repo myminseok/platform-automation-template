@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="18127e84-f145-4014-85fe-8953f9865761" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/delete-from-credhub.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/download-products.yml" beforeDir="false" afterPath="$PROJECT_DIR$/download-products.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login-concourse-local.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/login-credhub-local.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-resource.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-resources.yml" beforeDir="false" />
-    </list>
+    <list default="true" id="18127e84-f145-4014-85fe-8953f9865761" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,8 +28,8 @@
       <file leaf-file-name="download-products.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/download-products.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="62" column="28" selection-start-line="62" selection-start-column="28" selection-end-line="62" selection-end-column="28" />
+            <state relative-caret-position="219">
+              <caret line="283" column="60" lean-forward="true" selection-start-line="283" selection-start-column="60" selection-end-line="283" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -286,8 +278,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/download-products.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="62" column="28" selection-start-line="62" selection-start-column="28" selection-end-line="62" selection-end-column="28" />
+        <state relative-caret-position="219">
+          <caret line="283" column="60" lean-forward="true" selection-start-line="283" selection-start-column="60" selection-end-line="283" selection-end-column="60" />
         </state>
       </provider>
     </entry>

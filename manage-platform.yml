@@ -1404,7 +1404,7 @@ jobs:
 
 
 
-- name: bbr-backup-tas-ssh
+- name: bbr-backup-director-ssh
   serial: true
   serial_groups: [ bbr-backup ]
   plan:
@@ -1425,22 +1425,17 @@ jobs:
         <<: *prepare-tasks-with-secrets-custom-tasks
 
       - task: bbr-backup-ssh
-        file: pipelines/tasks/bbr-backup-ssh.yml
+        file: pipelines/tasks/bbr-backup-director-ssh.yml
         input_mapping:
           bbr-release: bbr-release-pivnet
           config: env-configs
         params:
           ENV_FILE: ((foundation))/opsman/env.yml
           FOUNDATION: ((foundation))
-          PRODUCT_NAME: cf
           SSH_ENABLED: ((bbr.backup.ssh.enabled))
           SSH_HOST: ((bbr.backup.ssh.host))
           SSH_USERNAME: ((bbr.backup.ssh.username))
           SSH_PRIVATEE_KEY: ((git_private_key.private_key))
-
-      - put: bbr-tas-backup-bucket
-        params:
-          file: backup-artifact/((foundation))-cf-backup_*.tar
 
 
 
@@ -1523,6 +1518,7 @@ groups:
     - bbr-backup-director
     - bbr-backup-tas
     - export-installation
+    - bbr-backup-director-ssh
 
   - name: delete-manually
     jobs:

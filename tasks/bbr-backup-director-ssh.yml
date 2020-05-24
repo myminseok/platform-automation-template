@@ -40,7 +40,7 @@ run:
       printf -- "$SSH_PRIVATEE_KEY" > ssh.key
       cat ssh.key
       chmod 600 ssh.key
-      ssh -i ssh.key ${SSH_USERACCOUNT}@${SSH_HOST} "pwd && ls -al"
+      ssh -i ssh.key ${SSH_USERNAME}@${SSH_HOST} "pwd && ls -al"
 
 
       

@@ -52,7 +52,7 @@ run:
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/test-ssh-backup.sh"
 
 
-      echo "###################################"
+      echo "config/$ENV_FILE ###################################"
       cat config/$ENV_FILE 
       scp -i ssh.key -o StrictHostKeyChecking=no config/$ENV_FILE ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR/env.yml
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/install-clients.sh"

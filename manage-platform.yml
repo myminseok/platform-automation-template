@@ -1423,6 +1423,20 @@ jobs:
   - do:
       - task: prepare-tasks-with-secrets-custom-tasks
         <<: *prepare-tasks-with-secrets-custom-tasks
+      - task: credhub-interpolate
+        image: platform-automation-image
+        file: platform-automation-tasks/tasks/credhub-interpolate.yml
+        input_mapping:
+          files: env-configs
+        params:
+          #CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+          CREDHUB_CA_CERT: ""
+          CREDHUB_SECRET: ((credhub_client.password))
+          CREDHUB_CLIENT: ((credhub_client.username))
+          CREDHUB_SERVER: ((credhub.server))
+          PREFIX: /concourse/main/$BUILD_PIPELINE_NAME
+          INTERPOLATION_PATHS: ((foundation))
+          SKIP_MISSING: false
 
       - task: bbr-backup-ssh
         file: pipelines/tasks/bbr-backup-director-ssh.yml

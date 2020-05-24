@@ -1,3 +1,5 @@
+## run bbr script in remote jumpbox. 
+##
 ## https://github.com/pivotal-cf/bbr-pcf-pipeline-tasks/tree/master/tasks/bbr-backup-director
 ---
 platform: linux
@@ -49,10 +51,8 @@ run:
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "chmod +x $REMOTE_DIR/*.sh"
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/test-ssh-backup.sh"
 
- 
 
-
-
+      echo "###################################"
       cat config/$ENV_FILE 
       scp -i ssh.key -o StrictHostKeyChecking=no config/$ENV_FILE ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR/env.yml
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/install-clients.sh"

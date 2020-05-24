@@ -1441,6 +1441,7 @@ jobs:
           INTERPOLATION_PATHS: ((foundation))/opsman
           SKIP_MISSING: true
 
+
       - task: bbr-backup-ssh
         file: pipelines/tasks/bbr-backup-director-ssh.yml
         input_mapping:
@@ -1453,7 +1454,7 @@ jobs:
           SSH_HOST: ((bbr.backup.ssh.host))
           SSH_USERNAME: ((bbr.backup.ssh.username))
           SSH_PRIVATEE_KEY: ((git_private_key.private_key))
-
+       
 
 
 - name: test

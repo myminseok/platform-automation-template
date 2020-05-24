@@ -3,7 +3,7 @@
 set -eux
 
 
-om --env env.yml bosh-env > bosh-env.sh
+om --env ./env.yml bosh-env > bosh-env.sh
 source ./bosh-env.sh
 export BOSH_BBR_ACCOUNT=bbr
 

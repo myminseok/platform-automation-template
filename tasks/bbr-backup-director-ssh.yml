@@ -53,6 +53,6 @@ run:
 
       ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "chmod +x $REMOTE_DIR/*.sh"
 
-      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "cd $REMOTE_DIR && setup-bbr-env.sh"
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/setup-bbr-env.sh"
 
-      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "cd $REMOTE_DIR && bbr-director-backup.sh"
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/bbr-director-backup.sh"

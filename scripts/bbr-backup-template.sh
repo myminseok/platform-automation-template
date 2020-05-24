@@ -14,11 +14,12 @@ BOSH_ENVIRONMENT="1.1.1.1"
 export BOSH_BBR_ACCOUNT=bbr
 export BACKUP_FILE="${BOSH_ENVIRONMENT}_director-backup_${current_date}.tgz"
 
-mkdir -p $WORK_DIR/backup-artifact
-pushd $WORK_DIR/backup-artifact
+TMP_DIR="$WORK_DIR/${BASH_SOURCE[0]}_${current_date}"
+mkdir -p $TMP_DIR
+pushd $TMP_DIR
 
-    echo "test" > $WORK_DIR/backup-artifact/bbr-artifcat-test
+    echo "test" > $TMP_DIR/bbr-artifcat-test
     
 popd
 
-tar -zcvf $WORK_DIR/"$BACKUP_FILE" -C $WORK_DIR/backup-artifact . --remove-files
+tar -zcvf $WORK_DIR/"$BACKUP_FILE" -C $TMP_DIR . --remove-files

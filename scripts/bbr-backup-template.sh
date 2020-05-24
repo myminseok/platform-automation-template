@@ -9,7 +9,7 @@ echo "WORK_DIR/env.yml test" $WORK_DIR/env.yml
 
 cat $WORK_DIR/env.yml
 
-
+BOSH_ENVIRONMENT="1.1.1.1"
 export BOSH_BBR_ACCOUNT=bbr
 export BACKUP_FILE="$WORK_DIR/${BOSH_ENVIRONMENT}_director-backup_${current_date}.tar"
 

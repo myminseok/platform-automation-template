@@ -19,7 +19,7 @@ jq -r '.[] | .value.private_key_pem' "bbr_ssh_credentials.json" > $BBR_SSH_KEY_P
 
 
 export BOSH_BBR_ACCOUNT=bbr
-export BACKUP_FILE="$WORK_DIR/${BOSH_ENVIRONMENT}_director-backup_${current_date}.tar"
+export BACKUP_FILE="${BOSH_ENVIRONMENT}_director-backup_${current_date}.tgz"
 pushd $WORK_DIR
     
     bbr director --host "${BOSH_ENVIRONMENT}" \
@@ -37,6 +37,6 @@ pushd $WORK_DIR
 	  --private-key-path $BBR_SSH_KEY_PATH \
 	  backup
 
-	tar -cvf "$BACKUP_FILE" --remove-files -- */*
-
 popd
+
+tar -zcvf $WORK_DIR/"$BACKUP_FILE" -C $WORK_DIR/backup-artifact . --remove-files

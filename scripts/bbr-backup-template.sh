@@ -12,13 +12,13 @@ cat $WORK_DIR/env.yml
 
 BOSH_ENVIRONMENT="1.1.1.1"
 export BOSH_BBR_ACCOUNT=bbr
-export BACKUP_FILE="$WORK_DIR/${BOSH_ENVIRONMENT}_director-backup_${current_date}.tar"
+export BACKUP_FILE="${BOSH_ENVIRONMENT}_director-backup_${current_date}.tgz"
 
 mkdir -p $WORK_DIR/backup-artifact
 pushd $WORK_DIR/backup-artifact
 
-    echo "test" $WORK_DIR/backup-artifact/bbr-artifcat-test
+    echo "test" > $WORK_DIR/backup-artifact/bbr-artifcat-test
     
 popd
 
-tar -zcvf "$BACKUP_FILE" -C $WORK_DIR/backup-artifact . --remove-files
+tar -zcvf $WORK_DIR/"$BACKUP_FILE" -C $WORK_DIR/backup-artifact . --remove-files

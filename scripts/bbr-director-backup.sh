@@ -2,7 +2,7 @@
 
 set -eux
 
-export timestamp="$(date '+%Y%m%d.%-H%M.%S+%Z')"
+current_date="$( date +"%Y-%m-%d-%H-%M-%S" )"
 
 WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 

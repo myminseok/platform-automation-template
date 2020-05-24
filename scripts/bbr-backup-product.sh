@@ -10,7 +10,7 @@ if [ -z $1 ] ; then
 fi  
 PRODUCT_NAME=$1
 
-export timestamp="$(date '+%Y%m%d.%-H%M.%S+%Z')"
+current_date="$( date +"%Y-%m-%d-%H-%M-%S" )"
 
 WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -25,7 +25,7 @@ echo $DEPLOYMENT_NAME
 
 
 SCRIPT_NAME=$(basename ${BASH_SOURCE[0]})
-TMP_DIR="$WORK_DIR/${SCRIPT_NAME}_${timestamp}"
+TMP_DIR="$WORK_DIR/${SCRIPT_NAME}_${current_date}"
 echo $TMP_DIR
 mkdir -p $TMP_DIR
 pushd $TMP_DIR
@@ -47,7 +47,7 @@ pushd $TMP_DIR
 
 popd
 
-export BACKUP_FILE="${BOSH_ENVIRONMENT}-${PRODUCT_NAME}-backup_${timestamp}.tgz"
+export BACKUP_FILE="${BOSH_ENVIRONMENT}-${PRODUCT_NAME}-backup_${current_date}.tgz"
 tar -zcvf $WORK_DIR/"$BACKUP_FILE" -C $TMP_DIRs . --remove-files
 
 

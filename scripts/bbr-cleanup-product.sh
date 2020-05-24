@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eu
 
 if [ -z $1 ] ; then
     echo "!!! please provide parameters"
@@ -8,18 +9,16 @@ if [ -z $1 ] ; then
 fi  
 PRODUCT_NAME=$1
 
-set -eu
+WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-om --env env.yml bosh-env > bosh-env.sh
-source ./bosh-env.sh
+om --env $WORK_DIR/env.yml bosh-env > $WORK_DIR/bosh-env.sh
+source $WORK_DIR/bosh-env.sh
 
 # Get CF deployment guid
-om --env env.yml  curl -p /api/v0/deployed/products > deployed_products.json
-DEPLOYMENT_NAME=$(jq -r '.[] | select(.type == "'${PRODUCT_NAME}'") | .guid' "deployed_products.json")
+om --env $WORK_DIR/env.yml  curl -p /api/v0/deployed/products > $WORK_DIR/deployed_products.json
+DEPLOYMENT_NAME=$(jq -r '.[] | select(.type == "'${PRODUCT_NAME}'") | .guid' "$WORK_DIR/deployed_products.json")
 export DEPLOYMENT_NAME
 echo $DEPLOYMENT_NAME
-echo $DEPLOYMENT_NAME
-
 
 bbr deployment \
     --target "${BOSH_ENVIRONMENT}" \

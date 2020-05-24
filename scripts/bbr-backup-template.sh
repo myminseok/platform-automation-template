@@ -14,6 +14,7 @@ BOSH_ENVIRONMENT="1.1.1.1"
 export BOSH_BBR_ACCOUNT=bbr
 export BACKUP_FILE="$WORK_DIR/${BOSH_ENVIRONMENT}_director-backup_${current_date}.tar"
 
+mkdir -p $WORK_DIR/backup-artifact
 pushd $WORK_DIR/backup-artifact
 
     echo "test" $WORK_DIR/backup-artifact/bbr-artifcat-test

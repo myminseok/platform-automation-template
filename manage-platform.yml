@@ -1423,9 +1423,10 @@ jobs:
   - do:
       - task: prepare-tasks-with-secrets-custom-tasks
         <<: *prepare-tasks-with-secrets-custom-tasks
+        
       - task: credhub-interpolate
         image: platform-automation-image
-        file: platform-automation-tasks/tasks/credhub-interpolate.yml
+        file: pipelines/tasks/credhub-interpolate.yml
         input_mapping:
           files: env-configs
         params:

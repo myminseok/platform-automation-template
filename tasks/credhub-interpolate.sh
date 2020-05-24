@@ -8,6 +8,7 @@ set -euo pipefail
 # https://github.com/cloudfoundry-incubator/credhub-cli/issues/68
 if [ -z "$CREDHUB_CA_CERT" ]; then
   unset CREDHUB_CA_CERT
+  credhub api --server=$CREDHUB_SERVER --skip-tls-validation
 fi
 
 credhub --version
@@ -26,6 +27,7 @@ if [ "$SKIP_MISSING" == "true" ]; then
 else
   export SKIP_MISSING=""
 fi
+
 
 for file in $files; do
   echo "interpolating files/$file"

@@ -37,7 +37,7 @@ unset CREDHUB_SERVER
 unset CREDHUB_CLIENT
 unset CREDHUB_SECRET
 chmod +x ./login_credhub.sh
-./ogin_credhub.sh
+./login_credhub.sh
 
 
 credhub find

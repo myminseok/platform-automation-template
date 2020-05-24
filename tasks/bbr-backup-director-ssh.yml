@@ -49,9 +49,10 @@ run:
 
       scp -i ssh.key -o StrictHostKeyChecking=no -r pipelines/scripts/* ${SSH_USERNAME}@${SSH_HOST}:$REMOTE_DIR
 
-      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al $REMOTE_DIR && chmod +x $REMOTE_DIR*.sh"
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al $REMOTE_DIR"
 
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "chmod +x $REMOTE_DIR/*.sh"
 
-      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al  $REMOTE_DIR/setup-bbr-env.sh"
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/setup-bbr-env.sh"
 
-      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "ls -al  $REMOTE_DIR/bbr-director-backup.sh"
+      ssh -i ssh.key -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "$REMOTE_DIR/bbr-director-backup.sh"

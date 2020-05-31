@@ -1,0 +1,6 @@
+---
+  product-version: "2.9.1"
+  pivnet-product-slug: ops-manager
+  pivnet-file-glob: "ops-manager-aws*.yml"
+  download-stemcell: "false"
+  pivnet-api-token: ((pivnet_token))

@@ -1,0 +1,3 @@
+- type: replace
+  path: /resource-config?/rabbitmq-haproxy?/internet_connected?
+  value: ((rabbitmq-haproxy_internet_connected))

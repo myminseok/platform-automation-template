@@ -1,0 +1,3 @@
+dedicated-mysql-broker_instance_type: automatic
+dedicated-mysql-broker_instances: automatic
+dedicated-mysql-broker_max_in_flight: default

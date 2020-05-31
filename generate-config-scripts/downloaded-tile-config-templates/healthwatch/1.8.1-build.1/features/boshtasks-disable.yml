@@ -1,0 +1,9 @@
+- type: replace
+  path: /product-properties/.properties.boshtasks?
+  value:
+    value: disable
+    selected_option: disable
+- type: remove
+  path: /product-properties/.properties.boshtasks.enable.bosh_taskcheck_username?
+- type: remove
+  path: /product-properties/.properties.boshtasks.enable.bosh_taskcheck_password?

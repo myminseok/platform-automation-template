@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.broker_dns_host?
+  value:
+    value: ((multitenant_support_enabled_broker_dns_host))

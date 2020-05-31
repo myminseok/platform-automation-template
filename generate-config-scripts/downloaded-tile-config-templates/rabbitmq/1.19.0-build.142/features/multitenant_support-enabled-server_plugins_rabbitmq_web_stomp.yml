@@ -1,0 +1,3 @@
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.server_plugins?/value/-
+  value: rabbitmq_web_stomp

@@ -1,0 +1,3 @@
+- type: replace
+  path: /resource-config?/rabbitmq-broker?/elb_names?
+  value: ((rabbitmq-broker_elb_names))

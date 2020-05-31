@@ -1,0 +1,47 @@
+- type: replace
+  path: /product-properties/.properties.multitenant_support?
+  value:
+    value: enabled
+    selected_option: enabled
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.server_admin_credentials?
+  value:
+    value:
+      identity: ((multitenant_support_enabled_server_admin_credentials_identity))
+      password: ((multitenant_support_enabled_server_admin_credentials_password))
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.server_plugins?
+  value:
+    value:
+    - rabbitmq_management
+    - rabbitmq_prometheus
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.broker_operator_set_policy_enabled?
+  value:
+    value: ((multitenant_support_enabled_broker_operator_set_policy_enabled))
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.server_ssl_verification_depth?
+  value:
+    value: ((multitenant_support_enabled_server_ssl_verification_depth))
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.server_ssl_versions?
+  value:
+    value:
+    - tlsv1.1
+    - tlsv1.2
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.server_cluster_partition_handling?
+  value:
+    value: ((multitenant_support_enabled_server_cluster_partition_handling))
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.server_ports?
+  value:
+    value: ((multitenant_support_enabled_server_ports))
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.disk_alarm_threshold?
+  value:
+    value: ((multitenant_support_enabled_disk_alarm_threshold))
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.instance_sharing?
+  value:
+    value: ((multitenant_support_enabled_instance_sharing))

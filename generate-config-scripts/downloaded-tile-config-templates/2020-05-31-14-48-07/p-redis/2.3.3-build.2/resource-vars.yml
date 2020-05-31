@@ -1,0 +1,6 @@
+cf-redis-broker_instance_type: automatic
+cf-redis-broker_max_in_flight: default
+cf-redis-broker_persistent_disk_size: automatic
+redis-on-demand-broker_instance_type: automatic
+redis-on-demand-broker_instances: automatic
+redis-on-demand-broker_max_in_flight: default

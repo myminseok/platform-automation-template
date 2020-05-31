@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan4_selector.galera.jumpbox_vm_type?
+  value:
+    value: ((plan4_selector_galera_jumpbox_vm_type))

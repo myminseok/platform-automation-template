@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.on_demand_broker_plan_4_selector.enabled.rabbitmq_vm_type?
+  value:
+    value: ((on_demand_broker_plan_4_selector_enabled_rabbitmq_vm_type))

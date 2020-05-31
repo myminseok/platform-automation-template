@@ -1,0 +1,33 @@
+- type: replace
+  path: /product-properties/.properties.backups_selector?
+  value:
+    value: SCP Backups
+    selected_option: scp
+- type: replace
+  path: /product-properties/.properties.backups_selector.scp.server?
+  value:
+    value: ((backups_selector_scp_server))
+- type: replace
+  path: /product-properties/.properties.backups_selector.scp.user?
+  value:
+    value: ((backups_selector_scp_user))
+- type: replace
+  path: /product-properties/.properties.backups_selector.scp.key?
+  value:
+    value: ((backups_selector_scp_key))
+- type: replace
+  path: /product-properties/.properties.backups_selector.scp.path?
+  value:
+    value: ((backups_selector_scp_path))
+- type: replace
+  path: /product-properties/.properties.backups_selector.scp.port?
+  value:
+    value: ((backups_selector_scp_port))
+- type: replace
+  path: /product-properties/.properties.backups_selector.scp.cron_schedule?
+  value:
+    value: ((backups_selector_scp_cron_schedule))
+- type: replace
+  path: /product-properties/.properties.backups_selector.scp.bg_save_timeout?
+  value:
+    value: ((backups_selector_scp_bg_save_timeout))

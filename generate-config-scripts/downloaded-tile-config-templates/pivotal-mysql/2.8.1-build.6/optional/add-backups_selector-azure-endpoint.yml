@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.backups_selector.azure.endpoint?
+  value:
+    value: ((backups_selector_azure_endpoint))

@@ -1,0 +1,5 @@
+- type: replace
+  path: /product-properties/.properties.indicators_selector?
+  value:
+    value: "Yes"
+    selected_option: active

@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan6_selector.single_node.disk_size?
+  value:
+    value: ((plan6_selector_single_node_disk_size))

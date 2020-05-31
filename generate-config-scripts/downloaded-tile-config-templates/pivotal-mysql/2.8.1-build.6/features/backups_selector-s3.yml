@@ -1,0 +1,31 @@
+- type: replace
+  path: /product-properties/.properties.backups_selector?
+  value:
+    value: S3 Backups
+    selected_option: s3
+- type: replace
+  path: /product-properties/.properties.backups_selector.s3.access_key_id?
+  value:
+    value:
+      secret: ((backups_selector_s3_access_key_id))
+- type: replace
+  path: /product-properties/.properties.backups_selector.s3.secret_access_key?
+  value:
+    value:
+      secret: ((backups_selector_s3_secret_access_key))
+- type: replace
+  path: /product-properties/.properties.backups_selector.s3.bucket_name?
+  value:
+    value: ((backups_selector_s3_bucket_name))
+- type: replace
+  path: /product-properties/.properties.backups_selector.s3.path?
+  value:
+    value: ((backups_selector_s3_path))
+- type: replace
+  path: /product-properties/.properties.backups_selector.s3.cron_schedule?
+  value:
+    value: ((backups_selector_s3_cron_schedule))
+- type: replace
+  path: /product-properties/.properties.backups_selector.s3.enable_email_alerts?
+  value:
+    value: ((backups_selector_s3_enable_email_alerts))

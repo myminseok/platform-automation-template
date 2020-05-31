@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.backups_selector.s3.region?
+  value:
+    value: ((backups_selector_s3_region))

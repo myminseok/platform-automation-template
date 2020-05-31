@@ -1,0 +1,3 @@
+on_demand_broker_plan_1_rabbitmq_az_placement: ""
+syslog_selector_enabled_address: ""
+syslog_selector_enabled_port: ""

@@ -1,0 +1,29 @@
+- type: replace
+  path: /product-properties/.properties.backups_selector?
+  value:
+    value: Azure Backups
+    selected_option: azure
+- type: replace
+  path: /product-properties/.properties.backups_selector.azure.account?
+  value:
+    value: ((backups_selector_azure_account))
+- type: replace
+  path: /product-properties/.properties.backups_selector.azure.storage_access_key?
+  value:
+    value: ((backups_selector_azure_storage_access_key))
+- type: replace
+  path: /product-properties/.properties.backups_selector.azure.path?
+  value:
+    value: ((backups_selector_azure_path))
+- type: replace
+  path: /product-properties/.properties.backups_selector.azure.cron_schedule?
+  value:
+    value: ((backups_selector_azure_cron_schedule))
+- type: replace
+  path: /product-properties/.properties.backups_selector.azure.bg_save_timeout?
+  value:
+    value: ((backups_selector_azure_bg_save_timeout))
+- type: replace
+  path: /product-properties/.properties.backups_selector.azure.container?
+  value:
+    value: ((backups_selector_azure_container))

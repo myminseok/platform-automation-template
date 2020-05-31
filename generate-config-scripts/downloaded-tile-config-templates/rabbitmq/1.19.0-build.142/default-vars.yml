@@ -1,0 +1,16 @@
+metrics_polling_interval: 30
+on-demand-broker_canaries: 1
+on-demand-broker_global_service_instance_quota: 20
+on-demand-broker_max_in_flight: 3
+on_demand_broker_plan_1_cf_service_access: enable
+on_demand_broker_plan_1_description: This plan provides a single dedicated RabbitMQ
+  node
+on_demand_broker_plan_1_features: RabbitMQ
+on_demand_broker_plan_1_instance_quota: 10
+on_demand_broker_plan_1_name: single-node
+on_demand_broker_plan_1_paid: false
+on_demand_broker_plan_1_rabbitmq_cluster_partition_handling_strategy: pause_minority
+on_demand_broker_plan_1_rabbitmq_number_of_nodes: 1
+on_demand_broker_plan_1_service_gateway_enabled: false
+syslog_selector_enabled_syslog_tls: false
+syslog_selector_enabled_syslog_transport: tcp

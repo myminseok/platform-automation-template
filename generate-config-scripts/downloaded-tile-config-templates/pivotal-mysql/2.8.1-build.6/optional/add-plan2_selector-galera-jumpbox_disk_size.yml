@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan2_selector.galera.jumpbox_disk_size?
+  value:
+    value: ((plan2_selector_galera_jumpbox_disk_size))

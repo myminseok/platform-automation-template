@@ -1,0 +1,3 @@
+- type: replace
+  path: /product-properties/.properties.global_settings_plugins?/value/-
+  value: rabbitmq_amqp1_0

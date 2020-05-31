@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan8_selector.leader_follower.vm_type?
+  value:
+    value: ((plan8_selector_leader_follower_vm_type))

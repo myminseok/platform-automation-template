@@ -1,0 +1,5 @@
+- type: replace
+  path: /product-properties/.properties.tls_enable_selector?
+  value:
+    value: Not Configured
+    selected_option: inactive

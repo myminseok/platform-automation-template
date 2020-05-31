@@ -1,0 +1,16 @@
+- type: replace
+  path: /product-properties/.properties.external_ip_pools?
+  value:
+    value:
+    - allocation_ranges: ((external_ip_pools_0_allocation_ranges))
+      cidr: ((external_ip_pools_0_cidr))
+      name: ((external_ip_pools_0_name))
+    - allocation_ranges: ((external_ip_pools_1_allocation_ranges))
+      cidr: ((external_ip_pools_1_cidr))
+      name: ((external_ip_pools_1_name))
+    - allocation_ranges: ((external_ip_pools_2_allocation_ranges))
+      cidr: ((external_ip_pools_2_cidr))
+      name: ((external_ip_pools_2_name))
+    - allocation_ranges: ((external_ip_pools_3_allocation_ranges))
+      cidr: ((external_ip_pools_3_cidr))
+      name: ((external_ip_pools_3_name))

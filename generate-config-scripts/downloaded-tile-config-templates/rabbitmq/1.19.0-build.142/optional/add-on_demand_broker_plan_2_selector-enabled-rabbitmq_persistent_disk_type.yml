@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.on_demand_broker_plan_2_selector.enabled.rabbitmq_persistent_disk_type?
+  value:
+    value: ((on_demand_broker_plan_2_selector_enabled_rabbitmq_persistent_disk_type))

@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.bottom_firewall_section_marker?
+  value:
+    value: ((bottom_firewall_section_marker))

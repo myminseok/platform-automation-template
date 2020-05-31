@@ -10,14 +10,14 @@ products:
     product-version: "2.9.2"
     pivnet-product-slug: elastic-runtime
     pivnet-file-glob: "cf*.pivotal"
-    stemcell-iaas: aws
+    stemcell-iaas: vsphere
     pivnet-api-token: ((pivnet_token))
  
   healthwatch:
     product-version: "1.8.1"
     pivnet-product-slug: p-healthwatch 
     pivnet-file-glob: "*.pivotal"
-    stemcell-iaas: aws
+    stemcell-iaas: vsphere
     pivnet-api-token: ((pivnet_token))
 
 
@@ -25,12 +25,33 @@ products:
     product-version: "3.1.10"
     pivnet-product-slug: p-spring-cloud-services
     pivnet-file-glob: "*.pivotal"
-    stemcell-iaas: aws
+    stemcell-iaas: vsphere
+    pivnet-api-token: ((pivnet_token))
+
+  pivotal-mysql:
+    product-version: "2.8.1"
+    pivnet-product-slug: pivotal-mysql
+    pivnet-file-glob: "*.pivotal"
+    stemcell-iaas: vsphere
     pivnet-api-token: ((pivnet_token))
 
   redis:
     product-version: "2.3.3"
     pivnet-product-slug: p-redis
     pivnet-file-glob: "*.pivotal"
-    stemcell-iaas: aws
+    stemcell-iaas: vsphere
+    pivnet-api-token: ((pivnet_token))
+
+  rabbitmq:
+    product-version: "1.19.0"
+    pivnet-product-slug: p-rabbitmq
+    pivnet-file-glob: "*.pivotal"
+    stemcell-iaas: vsphere
+    pivnet-api-token: ((pivnet_token))
+
+  vmware-nsx-t:
+    product-version: "2.5.1"
+    pivnet-product-slug: vmware-nsx-t 
+    pivnet-file-glob: "*.pivotal"
+    stemcell-iaas: vsphere
     pivnet-api-token: ((pivnet_token))

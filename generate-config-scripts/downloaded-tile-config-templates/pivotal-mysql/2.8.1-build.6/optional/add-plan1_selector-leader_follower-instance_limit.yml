@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan1_selector.leader_follower.instance_limit?
+  value:
+    value: ((plan1_selector_leader_follower_instance_limit))

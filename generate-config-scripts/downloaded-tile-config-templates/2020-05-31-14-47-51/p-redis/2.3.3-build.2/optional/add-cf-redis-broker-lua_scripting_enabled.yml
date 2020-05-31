@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.cf-redis-broker.lua_scripting_enabled?
+  value:
+    value: ((cf-redis-broker_lua_scripting_enabled))

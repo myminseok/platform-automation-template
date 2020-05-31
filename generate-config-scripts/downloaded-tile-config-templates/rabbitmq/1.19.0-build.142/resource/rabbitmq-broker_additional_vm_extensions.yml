@@ -1,0 +1,3 @@
+- type: replace
+  path: /resource-config?/rabbitmq-broker?/additional_vm_extensions?
+  value: ((rabbitmq-broker_additional_vm_extensions))

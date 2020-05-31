@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.nsx_api_ca_cert?
+  value:
+    value: ((nsx_api_ca_cert))

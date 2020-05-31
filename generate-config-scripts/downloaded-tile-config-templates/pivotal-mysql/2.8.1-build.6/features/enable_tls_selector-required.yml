@@ -1,0 +1,5 @@
+- type: replace
+  path: /product-properties/.properties.enable_tls_selector?
+  value:
+    value: required
+    selected_option: required

@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan8_selector.leader_follower.disk_size?
+  value:
+    value: ((plan8_selector_leader_follower_disk_size))

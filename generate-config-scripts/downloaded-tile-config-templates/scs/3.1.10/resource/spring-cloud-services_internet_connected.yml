@@ -1,0 +1,3 @@
+- type: replace
+  path: /resource-config?/spring-cloud-services?/internet_connected?
+  value: ((spring-cloud-services_internet_connected))

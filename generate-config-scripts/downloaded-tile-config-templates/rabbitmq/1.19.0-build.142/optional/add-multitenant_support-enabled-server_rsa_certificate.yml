@@ -1,0 +1,6 @@
+- type: replace
+  path: /product-properties/.properties.multitenant_support.enabled.server_rsa_certificate?
+  value:
+    value:
+      cert_pem: ((multitenant_support_enabled_server_rsa_certificate_certificate))
+      private_key_pem: ((multitenant_support_enabled_server_rsa_certificate_privatekey))

@@ -1,0 +1,25 @@
+- type: replace
+  path: /product-properties/.properties.plan5_selector?
+  value:
+    value: multi_dc_leader_follower
+    selected_option: multi_dc_leader_follower
+- type: replace
+  path: /product-properties/.properties.plan5_selector.multi_dc_leader_follower.az_multi_select?
+  value:
+    value: ((plan5_selector_multi_dc_leader_follower_az_multi_select))
+- type: replace
+  path: /product-properties/.properties.plan5_selector.multi_dc_leader_follower.access_dropdown?
+  value:
+    value: ((plan5_selector_multi_dc_leader_follower_access_dropdown))
+- type: replace
+  path: /product-properties/.properties.plan5_selector.multi_dc_leader_follower.name?
+  value:
+    value: ((plan5_selector_multi_dc_leader_follower_name))
+- type: replace
+  path: /product-properties/.properties.plan5_selector.multi_dc_leader_follower.description?
+  value:
+    value: ((plan5_selector_multi_dc_leader_follower_description))
+- type: replace
+  path: /product-properties/.properties.plan5_selector.multi_dc_leader_follower.paid_plan?
+  value:
+    value: ((plan5_selector_multi_dc_leader_follower_paid_plan))

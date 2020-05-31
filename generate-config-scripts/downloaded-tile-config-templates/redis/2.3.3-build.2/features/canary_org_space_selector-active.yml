@@ -1,0 +1,13 @@
+- type: replace
+  path: /product-properties/.properties.canary_org_space_selector?
+  value:
+    value: "Yes"
+    selected_option: active
+- type: replace
+  path: /product-properties/.properties.canary_org_space_selector.active.org?
+  value:
+    value: ((canary_org_space_selector_active_org))
+- type: replace
+  path: /product-properties/.properties.canary_org_space_selector.active.space?
+  value:
+    value: ((canary_org_space_selector_active_space))

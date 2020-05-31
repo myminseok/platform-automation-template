@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.rabbitmq-haproxy.static_ips?
+  value:
+    value: ((rabbitmq-haproxy_static_ips))

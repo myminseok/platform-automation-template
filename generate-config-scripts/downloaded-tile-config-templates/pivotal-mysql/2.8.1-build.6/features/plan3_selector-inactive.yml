@@ -1,0 +1,21 @@
+- type: replace
+  path: /product-properties/.properties.plan3_selector?
+  value:
+    value: Inactive
+    selected_option: inactive
+- type: remove
+  path: /product-properties/.properties.plan3_selector.single_node.vm_type?
+- type: remove
+  path: /product-properties/.properties.plan3_selector.single_node.disk_size?
+- type: remove
+  path: /product-properties/.properties.plan3_selector.single_node.az_multi_select?
+- type: remove
+  path: /product-properties/.properties.plan3_selector.single_node.access_dropdown?
+- type: remove
+  path: /product-properties/.properties.plan3_selector.single_node.name?
+- type: remove
+  path: /product-properties/.properties.plan3_selector.single_node.description?
+- type: remove
+  path: /product-properties/.properties.plan3_selector.single_node.instance_limit?
+- type: remove
+  path: /product-properties/.properties.plan3_selector.single_node.paid_plan?

@@ -1,0 +1,29 @@
+- type: replace
+  path: /product-properties/.properties.plan4_selector?
+  value:
+    value: galera
+    selected_option: galera
+- type: replace
+  path: /product-properties/.properties.plan4_selector.galera.az_multi_select?
+  value:
+    value: ((plan4_selector_galera_az_multi_select))
+- type: replace
+  path: /product-properties/.properties.plan4_selector.galera.access_dropdown?
+  value:
+    value: ((plan4_selector_galera_access_dropdown))
+- type: replace
+  path: /product-properties/.properties.plan4_selector.galera.name?
+  value:
+    value: ((plan4_selector_galera_name))
+- type: replace
+  path: /product-properties/.properties.plan4_selector.galera.description?
+  value:
+    value: ((plan4_selector_galera_description))
+- type: replace
+  path: /product-properties/.properties.plan4_selector.galera.instance_limit?
+  value:
+    value: ((plan4_selector_galera_instance_limit))
+- type: replace
+  path: /product-properties/.properties.plan4_selector.galera.paid_plan?
+  value:
+    value: ((plan4_selector_galera_paid_plan))

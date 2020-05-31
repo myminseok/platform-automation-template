@@ -1,0 +1,25 @@
+- type: replace
+  path: /product-properties/.properties.plan8_selector?
+  value:
+    value: single_node
+    selected_option: single_node
+- type: replace
+  path: /product-properties/.properties.plan8_selector.single_node.az_multi_select?
+  value:
+    value: ((plan8_selector_single_node_az_multi_select))
+- type: replace
+  path: /product-properties/.properties.plan8_selector.single_node.access_dropdown?
+  value:
+    value: ((plan8_selector_single_node_access_dropdown))
+- type: replace
+  path: /product-properties/.properties.plan8_selector.single_node.name?
+  value:
+    value: ((plan8_selector_single_node_name))
+- type: replace
+  path: /product-properties/.properties.plan8_selector.single_node.description?
+  value:
+    value: ((plan8_selector_single_node_description))
+- type: replace
+  path: /product-properties/.properties.plan8_selector.single_node.paid_plan?
+  value:
+    value: ((plan8_selector_single_node_paid_plan))

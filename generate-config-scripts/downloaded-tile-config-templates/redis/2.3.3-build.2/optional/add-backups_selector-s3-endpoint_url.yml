@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.backups_selector.s3.endpoint_url?
+  value:
+    value: ((backups_selector_s3_endpoint_url))

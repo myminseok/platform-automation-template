@@ -135,8 +135,9 @@ resources:
     skip_ssl_verification: true
     paths: [ "((foundation))/state/state.yml" ]
 
+## semver-config will emit  semver-config.yml to be use as a input of download-product.yml
 - name: opsman-version-git
-  type: semver
+  type: semver-config
   source:
     driver: git
     uri: ((git.platform_automation_configs.uri))
@@ -146,21 +147,6 @@ resources:
     config_path: products.opsman
     version_path: products.opsman.product-version
     version_pattern: "m.n.p"
-
-
-
-# ## semver-config will emit  semver-config.yml to be use as a input of download-product.yml
-# - name: opsman-version-git-old
-#   type: semver-config
-#   source:
-#     driver: git
-#     uri: ((git.platform_automation_configs.uri))
-#     branch: ((git.platform_automation_configs.branch))
-#     private_key: ((git.private_key))
-#     config_file: ((foundation))/products/versions.yml
-#     config_path: products.opsman
-#     version_path: products.opsman.product-version
-#     version_pattern: "m.n.p"
 
 - name: tas-version-git
   type: semver-config
@@ -256,7 +242,7 @@ prepare-tasks-with-secrets-custom-tasks: &prepare-tasks-with-secrets-custom-task
   params:
     CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products
     VARS_PATHS: config/((foundation))/vars
-    TASKS_PATH: tasks
+    TASKS_PATH: tasks/tasks
   output_mapping:
     tasks: pipelines
 
@@ -1497,6 +1483,11 @@ jobs:
       input_mapping:
         tasks: pipelines
         config: opsman-version-git 
+        vars: env-configs
+      params:
+        CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
+        VARS_PATHS:  vars/((foundation))/generated-vars vars/((foundation))/vars
+
     - task: test
       config:
           platform: linux

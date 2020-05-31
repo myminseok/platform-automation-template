@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.redis-on-demand-broker.enable_create_swap_delete?
-  value:
-    value: ((redis-on-demand-broker_enable_create_swap_delete))

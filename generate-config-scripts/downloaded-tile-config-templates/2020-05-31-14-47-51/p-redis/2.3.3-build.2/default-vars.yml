@@ -1,6 +1,0 @@
-cf-redis-broker_redis_maxmemory: 512MB
-cf-redis-broker_service_instance_limit: 5
-metrics_polling_interval: 30
-redis-on-demand-broker_maximum_parallel_upgrades: 1
-redis-on-demand-broker_service_instance_limit: 20
-redis-on-demand-broker_upgrade_canary_number: 1

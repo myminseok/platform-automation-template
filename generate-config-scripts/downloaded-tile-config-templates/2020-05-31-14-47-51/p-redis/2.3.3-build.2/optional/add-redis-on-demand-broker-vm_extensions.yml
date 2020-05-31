@@ -1,5 +1,0 @@
-- type: replace
-  path: /product-properties/.redis-on-demand-broker.vm_extensions?
-  value:
-    value:
-    - public_ip

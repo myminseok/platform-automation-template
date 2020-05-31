@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.backups_selector.s3.signature_version?
-  value:
-    value: ((backups_selector_s3_signature_version))

@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/cf-redis-broker?/nsx_security_groups?
-  value: ((cf-redis-broker_nsx_security_groups))

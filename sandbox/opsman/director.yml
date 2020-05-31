@@ -1,14 +1,28 @@
 az-configuration:
-- name: az2
+- name: pas-az3
+  iaas_configuration_name: default
   clusters:
-  - cluster: cluster2
-    resource_pool: ""
-#  iaas_configuration_guid: 6552ba16572953313cea
-- name: az1
+  - cluster: Cluster
+   # guid: 5d340a621642395b6326
+    host_group: null
+    resource_pool: pas-az3
+  # guid: 19b45f216e333c27757e
+- name: pas-az2
+  iaas_configuration_name: default
   clusters:
-  - cluster: cluster1
-    resource_pool: ""
-#  iaas_configuration_guid: 6552ba16572953313cea
+  - cluster: Cluster
+    #guid: bc43604ef6c994ccb739
+    host_group: null
+    resource_pool: pas-az2
+  #guid: 1b21ccd52c8b4020041f
+- name: pas-az1
+  iaas_configuration_name: default
+  clusters:
+  - cluster: Cluster
+    #guid: ba21fad63d4e4335f261
+    host_group: null
+    resource_pool: pas-az1
+  #guid: 42997420ea8dbacff18f
 iaas-configurations:
 - additional_cloud_properties: {}
   bosh_disk_path: ((iaas-configurations_0_bosh_disk_path))
@@ -18,50 +32,58 @@ iaas-configurations:
   disk_type: ((iaas-configurations_0_disk_type))
   ephemeral_datastores_string: ((iaas-configurations_0_ephemeral_datastores_string))
   name: ((iaas-configurations_0_name))
+  nsx_address: ((iaas-configurations_0_nsx_address))
+  nsx_ca_certificate: ((nsx_ca_certificate.certificate))
+  nsx_mode: ((iaas-configurations_0_nsx_mode))
   nsx_networking_enabled: ((iaas-configurations_0_nsx_networking_enabled))
+  nsx_t_auth_type: ((iaas-configurations_0_nsx_t_auth_type))
+  nsx_username: ((iaas-configurations_0_nsx_username))
   persistent_datastores_string: ((iaas-configurations_0_persistent_datastores_string))
   ssl_verification_enabled: ((iaas-configurations_0_ssl_verification_enabled))
   vcenter_host: ((iaas-configurations_0_vcenter_host))
   vcenter_username: ((iaas-configurations_0_vcenter_username))
-  vcenter_password: ((iaas-configurations_0_vcenter_password))
 network-assignment:
   network:
-    name: infra-network
+    name: PAS-Infrastructure
   other_availability_zones: []
   singleton_availability_zone:
-    name: az1
+    name: pas-az1
 networks-configuration:
-  icmp_checks_enabled: true
+  icmp_checks_enabled: false
   networks:
-  - name: infra-network
+  - name: PAS-Infrastructure
     subnets:
-    - iaas_identifier: VM Network
-      cidr: 10.10.10.0/24
-      dns: 10.10.10.5
-      gateway: 10.10.10.1
-      reserved_ip_ranges: 10.10.10.1-10.10.10.20
+    - iaas_identifier: PAS-Infrastructure
+      cidr: 192.168.1.0/24
+      dns: 10.192.2.10,10.192.2.11
+      gateway: 192.168.1.1
+      reserved_ip_ranges: 192.168.1.1-192.168.1.10
       availability_zone_names:
-      - az1
-      - az2
-  - name: deployment-network
+      - pas-az1
+      - pas-az2
+      - pas-az3
+  - name: PAS-Deployment
     subnets:
-    - iaas_identifier: VM Network
-      cidr: 10.10.12.0/24
-      dns: 10.10.10.5
-      gateway: 10.10.12.1
-      reserved_ip_ranges: 10.10.12.1-10.10.12.20
+    - iaas_identifier: PAS-Deployment
+      cidr: 192.168.2.0/24
+      dns: 10.192.2.10,10.192.2.11
+      gateway: 192.168.2.1
+      reserved_ip_ranges: 192.168.2.1-192.168.2.10
       availability_zone_names:
-      - az1
-      - az2
-  - name: ondemand-network
+      - pas-az1
+      - pas-az2
+      - pas-az3
+  - name: PAS-Services
     subnets:
-    - iaas_identifier: VM Network
-      cidr: 10.10.14.0/24
-      dns: 10.10.10.5
-      gateway: 10.10.14.1
-      reserved_ip_ranges: 10.10.14.1-10.10.14.30
+    - iaas_identifier: PAS-Services
+      cidr: 192.168.3.0/24
+      dns: 10.192.2.10,10.192.2.11
+      gateway: 192.168.3.1
+      reserved_ip_ranges: 192.168.3.1-192.168.3.10
       availability_zone_names:
-      - az2
+      - pas-az1
+      - pas-az2
+      - pas-az3
 properties-configuration:
   director_configuration:
     blobstore_type: local
@@ -69,7 +91,6 @@ properties-configuration:
     bosh_recreate_persistent_disks_on_next_deploy: false
     database_type: internal
     director_worker_count: 5
-#    encryption: []
     encryption:
       keys: []
       providers: []
@@ -77,40 +98,64 @@ properties-configuration:
       enabled: false
     hm_pager_duty_options:
       enabled: false
-    identification_tags:
-      iaas: pcfdemo
+    identification_tags: {}
     job_configuration_on_tmpfs: false
     keep_unreachable_vms: false
     local_blobstore_options:
-      tls_enabled: false
-    max_threads: 30
-    ntp_servers_string: 10.10.10.5
-    post_deploy_enabled: true
-    resurrector_enabled: true
+      enable_signed_urls: false
+    ntp_servers_string: ntp1.svc.pivotal.io
+    post_deploy_enabled: false
+    resurrector_enabled: false
     retry_bosh_deploys: false
-    skip_director_drain: true
-  #dns_configuration: []
+    skip_director_drain: false
   dns_configuration:
     excluded_recursors: []
+    handlers: []
   security_configuration:
     generate_vm_passwords: ((properties-configuration_security_configuration_generate_vm_passwords))
-    opsmanager_root_ca_trusted_certs: false
-    trusted_certificates: ((trusted_certificates))
+    opsmanager_root_ca_trusted_certs: true
+    trusted_certificates: ((director_trusted_certificates.certificate))
   syslog_configuration:
     enabled: false
 resource-configuration:
   compilation:
-    instances: automatic
+    additional_networks: []
+    additional_vm_extensions: []
     instance_type:
       id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+    swap_as_percent_of_memory_size: automatic
   director:
-    instances: automatic
-    persistent_disk:
-      size_mb: "153600"
+    additional_networks: []
+    additional_vm_extensions: []
     instance_type:
       id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
 vmextensions-configuration:
-- name: 100GB_ephemeral_disk_opsman
+- name: pas_gorouter_lb
   cloud_properties:
-    disk: 102400
-
+    nsxt:
+      lb:
+        server_pools:
+        - name: PAS-GoRouter443ServerPool
+          port: 443
+        - name: PAS-GoRouter80ServerPool
+          port: 80
+vmtypes-configuration: {}

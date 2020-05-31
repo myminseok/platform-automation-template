@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/cf-redis-broker?/internet_connected?
-  value: ((cf-redis-broker_internet_connected))

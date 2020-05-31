@@ -14,4 +14,4 @@ fly -t ${FLY_TARGET} sp -p "${FOUNDATION}-manage-platform" \
 -c ./manage-platform.yml \
 -v foundation=${FOUNDATION} \
 -v BUILD_PIPELINE_NAME="${FOUNDATION}-manage-platform"  \
--l ${FOUNDATION}/pipeline-vars/params.yml
+-l ./envs/${FOUNDATION}/pipeline-vars/params.yml

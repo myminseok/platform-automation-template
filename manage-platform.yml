@@ -221,8 +221,8 @@ prepare-tasks-with-secrets: &prepare-tasks-with-secrets
     config: foundation-configs
     vars: foundation-configs
   params:
-    CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products
-    VARS_PATHS: config/((foundation))/generated-vars config/((foundation))/vars
+    CONFIG_PATHS: config/envs/((foundation))/opsman config/envs/((foundation))/products
+    VARS_PATHS: config/envs/((foundation))/generated-vars config/envs/((foundation))/vars
   output_mapping:
     tasks: platform-automation-tasks
 
@@ -236,7 +236,7 @@ prepare-pipelines-custom-tasks-with-product-version: &prepare-pipelines-custom-t
     config: opsman-version-git 
   params:
     CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
-    VARS_PATHS:  vars/((foundation))/generated-vars vars/((foundation))/vars
+    VARS_PATHS:  vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
     TASKS_PATH: tasks/tasks # only for pipelines tasks
 
 prepare-pipelines-custom-tasks-with-secrets: &prepare-pipelines-custom-tasks-with-secrets
@@ -247,8 +247,8 @@ prepare-pipelines-custom-tasks-with-secrets: &prepare-pipelines-custom-tasks-wit
     config: foundation-configs
     vars: foundation-configs
   params:
-    CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products
-    VARS_PATHS: vars/((foundation))/generated-vars vars/((foundation))/vars
+    CONFIG_PATHS: config/envs/((foundation))/opsman config/envs/((foundation))/products
+    VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
     TASKS_PATH: tasks/tasks
   output_mapping:
     tasks: pipelines
@@ -264,7 +264,7 @@ opsman-state-make-commit: &opsman-state-make-commit
     repository-commit: configuration-commit
   params:
     FILE_SOURCE_PATH: state.yml
-    FILE_DESTINATION_PATH: ((foundation))/state/state.yml
+    FILE_DESTINATION_PATH: envs/((foundation))/state/state.yml
     GIT_AUTHOR_EMAIL: ((git.user.email))
     GIT_AUTHOR_NAME: ((git.user.username))
     COMMIT_MESSAGE: "Update from upgrade-opsman"
@@ -286,7 +286,7 @@ upload-product: &upload-product
     product: downloaded-product
     env: foundation-configs
   params:
-    ENV_FILE: ((foundation))/opsman/env.yml
+    ENV_FILE: envs/((foundation))/opsman/env.yml
 
 upload-stemcell: &upload-stemcell
   image: platform-automation-image
@@ -295,7 +295,7 @@ upload-stemcell: &upload-stemcell
     stemcell: downloaded-stemcell
     env: foundation-configs
   params:
-    ENV_FILE: ((foundation))/opsman/env.yml
+    ENV_FILE: envs/((foundation))/opsman/env.yml
     FLOATING_STEMCELL: false
     
 stage-configure-apply: &stage-configure-apply
@@ -306,9 +306,9 @@ stage-configure-apply: &stage-configure-apply
     env: foundation-configs
     config: foundation-configs
   params:
-    #CONFIG_FILE: ((foundation))/products/tas.yml
-    ENV_FILE: ((foundation))/opsman/env.yml
-    #VARS_FILES: config/((foundation))/vars/tas.yml
+    #CONFIG_FILE: envs/((foundation))/products/tas.yml
+    ENV_FILE: envs/((foundation))/opsman/env.yml
+    #VARS_FILES: config/envs/((foundation))/vars/tas.yml
 
 configure-product: &configure-product
   image: platform-automation-image
@@ -318,9 +318,9 @@ configure-product: &configure-product
     env: foundation-configs
     vars: foundation-configs
   params:
-    ENV_FILE: ((foundation))/opsman/env.yml
-    #CONFIG_FILE: ((foundation))/products/tas.yml
-    #VARS_FILES: vars/((foundation))/vars/tas.yml
+    ENV_FILE: envs/((foundation))/opsman/env.yml
+    #CONFIG_FILE: envs/((foundation))/products/tas.yml
+    #VARS_FILES: vars/envs/((foundation))/vars/tas.yml
 
 
 apply-product-changes: &apply-product-changes
@@ -360,7 +360,7 @@ staged-config: &staged-config
     env: foundation-configs
     vars: foundation-configs
   params:
-    ENV_FILE: ((foundation))/opsman/env.yml
+    ENV_FILE: envs/((foundation))/opsman/env.yml
     SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
     #PRODUCT_NAME: cf
 
@@ -421,16 +421,16 @@ jobs:
         state: opsman_vm_state
         vars: foundation-configs
       params:
-        OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
-        VARS_FILES: vars/((foundation))/vars/opsman.yml
-        STATE_FILE: ((foundation))/state/state.yml
+        OPSMAN_CONFIG_FILE: envs/((foundation))/opsman/opsman.yml
+        VARS_FILES: vars/envs/((foundation))/vars/opsman.yml
+        STATE_FILE: envs/((foundation))/state/state.yml
       ensure: 
         do:
           - task: make-commit
             <<: *opsman-state-make-commit
             params:
               FILE_SOURCE_PATH: state.yml
-              FILE_DESTINATION_PATH: ((foundation))/state/state.yml
+              FILE_DESTINATION_PATH: envs/((foundation))/state/state.yml
               GIT_AUTHOR_EMAIL: ((git.user.email))
               GIT_AUTHOR_NAME: ((git.user.username))
               COMMIT_MESSAGE: "Update from "
@@ -501,7 +501,7 @@ jobs:
         TERRAFORM_STATE_FILE_PATH: terraform-state/terraform-1.0.0.tfstate
         PREFIX: /concourse/main
         PIPELINE_NAME: ${BUILD_PIPELINE_NAME}
-        SHELL_FILE: config/((foundation))/pipeline-vars/pipeline-vars/set-credhub-from-terraform.sh
+        SHELL_FILE: config/envs/((foundation))/pipeline-vars/pipeline-vars/set-credhub-from-terraform.sh
 
 
 #################################################################
@@ -557,9 +557,9 @@ jobs:
         vars: foundation-configs
         state: foundation-configs # git repo, have to provide empty state.yml file. 'interpolated-files' doesn't have state.yml file.
       params:
-        OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
-        VARS_FILES: vars/((foundation))/vars/opsman.yml
-        STATE_FILE: ((foundation))/state/state.yml
+        OPSMAN_CONFIG_FILE: envs/((foundation))/opsman/opsman.yml
+        VARS_FILES: vars/envs/((foundation))/vars/opsman.yml
+        STATE_FILE: envs/((foundation))/state/state.yml
       on_success:
         do:
           - task: make-commit
@@ -608,8 +608,8 @@ jobs:
         env: foundation-configs
         config: foundation-configs
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        AUTH_CONFIG_FILE: ((foundation))/opsman/auth.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        AUTH_CONFIG_FILE: envs/((foundation))/opsman/auth.yml
 
 - name: configure-director
   serial: true
@@ -644,9 +644,9 @@ jobs:
         config: foundation-configs
         vars: foundation-configs
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        DIRECTOR_CONFIG_FILE: ((foundation))/opsman/director.yml
-        VARS_FILES: vars/((foundation))/vars/director.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        DIRECTOR_CONFIG_FILE: envs/((foundation))/opsman/director.yml
+        VARS_FILES: envs/vars/((foundation))/vars/director.yml
 
 
 - name: configure-director-only
@@ -825,7 +825,7 @@ jobs:
         VARS_FILES: config/((foundation))/generated-vars/tas.yml config/((foundation))/vars/tas.yml
 
 
-- name: configure-tas
+- name: configure-tas-only
   serial: true
   serial_groups: [serial-jobs]
   plan:
@@ -851,9 +851,9 @@ jobs:
     - task: configure-product
       <<: *configure-product
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        CONFIG_FILE: ((foundation))/products/tas.yml
-        VARS_FILES: config/((foundation))/generated-vars/tas.yml config/((foundation))/vars/tas.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        CONFIG_FILE: envs/((foundation))/products/tas.yml
+        VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
 
         
 
@@ -1532,7 +1532,7 @@ groups:
 
   #configure-product-manually
     - apply-change-tas
-    - configure-tas
+    - configure-tas-only
     - configure-director-only
     - configure-scs
     - configure-redis
@@ -1575,7 +1575,7 @@ groups:
   - name: configure-product-manually
     jobs:
     - apply-change-tas
-    - configure-tas
+    - configure-tas-only
     - configure-director-only
     - configure-scs
     - configure-redis

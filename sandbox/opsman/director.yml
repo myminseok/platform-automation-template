@@ -42,6 +42,8 @@ iaas-configurations:
   ssl_verification_enabled: ((iaas-configurations_0_ssl_verification_enabled))
   vcenter_host: ((iaas-configurations_0_vcenter_host))
   vcenter_username: ((iaas-configurations_0_vcenter_username))
+  ## TODO
+  vcenter_password: ((iaas-configurations_0_vcenter_password))
 network-assignment:
   network:
     name: PAS-Infrastructure

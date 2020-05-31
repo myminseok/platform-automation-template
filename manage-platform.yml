@@ -503,8 +503,6 @@ jobs:
         unpack: true
     - get: pipelines
     - get: foundation-configs
-    - get: terraform-state
-
   - do:
     - task: generate-domain-certificate
       file: pipelines/tasks/generate-ceertificate.yml

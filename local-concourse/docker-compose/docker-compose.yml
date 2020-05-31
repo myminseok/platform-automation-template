@@ -19,7 +19,7 @@ services:
     - uaa
     environment:
       #UAA_URL: http://localhost:8080/uaa  ## error-> failed to interpolate task config: var lookup 'hello': invalid character '<' looking for beginning of value
-      UAA_URL: http://192.168.50.1:8080/uaa  ## <-- set this to HOST machine IP. $ ifconfig | grep inet
+      UAA_URL: http://192.168.67.1:8080/uaa  ## <-- set this to HOST machine IP. $ ifconfig | grep inet
       UAA_INTERNAL_URL: http://uaa:8080/uaa
 
   concourse-db:
@@ -32,7 +32,8 @@ services:
 
   concourse:
     #image: concourse/concourse:4.2.1
-    image: concourse/concourse
+    #image: concourse/concourse
+    image: concourse/concourse:6.0.0
     command: quickstart
     privileged: true
     #volumes: ["./server_ca_cert:/tmp/credhub_cacert"]

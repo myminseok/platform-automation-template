@@ -822,7 +822,7 @@ jobs:
       params:
         CONFIG_FILE: ((foundation))/products/tas.yml
         ENV_FILE: ((foundation))/opsman/env.yml
-        VARS_FILES: config/((foundation))/vars/tas.yml
+        VARS_FILES: config/((foundation))/generated-vars/tas.yml config/((foundation))/vars/tas.yml
 
 
 - name: configure-tas
@@ -853,7 +853,8 @@ jobs:
       params:
         ENV_FILE: ((foundation))/opsman/env.yml
         CONFIG_FILE: ((foundation))/products/tas.yml
-        VARS_FILES: vars/((foundation))/vars/tas.yml
+        VARS_FILES: config/((foundation))/generated-vars/tas.yml config/((foundation))/vars/tas.yml
+
         
 
 - name: apply-change-tas

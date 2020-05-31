@@ -1,8 +1,11 @@
+## extract:      om -e env.yml staged-director-config -r true
+## secret value: om -e env.yml staged-director-config --no-redact
 az-configuration:
 - name: pas-az3
   iaas_configuration_name: default
   clusters:
   - cluster: Cluster
+  ## TODO comment out guid 
    # guid: 5d340a621642395b6326
     host_group: null
     resource_pool: pas-az3
@@ -33,6 +36,7 @@ iaas-configurations:
   ephemeral_datastores_string: ((iaas-configurations_0_ephemeral_datastores_string))
   name: ((iaas-configurations_0_name))
   nsx_address: ((iaas-configurations_0_nsx_address))
+  ## TODO modified and set to credhub. remove from vars/director.yml 
   nsx_ca_certificate: ((nsx_ca_certificate.certificate))
   nsx_mode: ((iaas-configurations_0_nsx_mode))
   nsx_networking_enabled: ((iaas-configurations_0_nsx_networking_enabled))
@@ -42,7 +46,7 @@ iaas-configurations:
   ssl_verification_enabled: ((iaas-configurations_0_ssl_verification_enabled))
   vcenter_host: ((iaas-configurations_0_vcenter_host))
   vcenter_username: ((iaas-configurations_0_vcenter_username))
-  ## TODO
+  ## TODO added 
   vcenter_password: ((iaas-configurations_0_vcenter_password))
 network-assignment:
   network:
@@ -116,6 +120,7 @@ properties-configuration:
   security_configuration:
     generate_vm_passwords: ((properties-configuration_security_configuration_generate_vm_passwords))
     opsmanager_root_ca_trusted_certs: true
+    ## TODO modified and set to credhub. remove from vars/director.yml 
     trusted_certificates: ((director_trusted_certificates.certificate))
   syslog_configuration:
     enabled: false

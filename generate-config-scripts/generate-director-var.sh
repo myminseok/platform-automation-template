@@ -17,7 +17,6 @@ foundation_config_path="$WORK_DIR/../${FOUNDATION}"
 opsman_config_path="$foundation_config_path/opsman"
 
 
-
 opsman_config_file=$opsman_config_path/opsman.yml
 if [ ! -f ${opsman_config_file} ]; then
   echo "Prepare director config file first under ${opsman_config_file}"

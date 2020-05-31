@@ -1,4 +1,35 @@
-
+errand-config:
+  deploy-autoscaler:
+    post-deploy-state: ((deploy-autoscaler_post_deploy_state))
+  deploy-notifications:
+    post-deploy-state: ((deploy-notifications_post_deploy_state))
+  deploy-notifications-ui:
+    post-deploy-state: ((deploy-notifications-ui_post_deploy_state))
+  metric_registrar_smoke_test:
+    post-deploy-state: ((metric_registrar_smoke_test_post_deploy_state))
+  nfsbrokerpush:
+    post-deploy-state: ((nfsbrokerpush_post_deploy_state))
+  push-apps-manager:
+    post-deploy-state: ((push-apps-manager_post_deploy_state))
+  push-usage-service:
+    post-deploy-state: ((push-usage-service_post_deploy_state))
+  rotate_cc_database_key:
+    post-deploy-state: ((rotate_cc_database_key_post_deploy_state))
+  smbbrokerpush:
+    post-deploy-state: ((smbbrokerpush_post_deploy_state))
+  smoke_tests:
+    post-deploy-state: ((smoke_tests_post_deploy_state))
+  test-autoscaling:
+    post-deploy-state: ((test-autoscaling_post_deploy_state))
+network-properties:
+  network:
+    name: ((network_name))
+  other_availability_zones:
+  - name: ((other_availability_zones_0))
+  - name: ((other_availability_zones_1))
+  - name: ((other_availability_zones_2))
+  singleton_availability_zone:
+    name: ((singleton_availability_zone))
 product-name: cf
 product-properties:
   .cloud_controller.allow_app_ssh_access:
@@ -55,10 +86,6 @@ product-properties:
     value: ((mysql_proxy_startup_delay))
   .nfs_server.blobstore_internal_access_rules:
     value: ((nfs_server_blobstore_internal_access_rules))
-  .properties.app_graceful_shutdown_period_in_seconds:
-    value: ((app_graceful_shutdown_period_in_seconds))
-  .properties.app_log_rate_limiting:
-    value: disable
   .properties.autoscale_api_disable_connection_pooling:
     value: ((autoscale_api_disable_connection_pooling))
   .properties.autoscale_api_instance_count:
@@ -142,6 +169,8 @@ product-properties:
     value: ((haproxy_max_buffer_size))
   .properties.haproxy_ssl_ciphers:
     value: ((haproxy_ssl_ciphers))
+  .properties.istio:
+    value: disable
   .properties.locket_database_max_open_connections:
     value: ((locket_database_max_open_connections))
   .properties.log_cache_max_per_source:
@@ -159,7 +188,7 @@ product-properties:
   .properties.networking_poe_ssl_certs:
     value:
     - certificate:
-        ## TODO networking_poe_ssl_certs_0_certificate -> networking_poe_ssl_certs_0.public_key
+       ## TODO networking_poe_ssl_certs_0_certificate -> networking_poe_ssl_certs_0.public_key
         ## TODO networking_poe_ssl_certs_0_privatekey -> networking_poe_ssl_certs_0.private_key
         cert_pem: ((networking_poe_ssl_certs_0.public_key))
         private_key_pem: ((networking_poe_ssl_certs_0.private_key))
@@ -172,26 +201,20 @@ product-properties:
     value: enable
   .properties.push_apps_manager_app_poll_interval:
     value: ((push_apps_manager_app_poll_interval))
-  .properties.push_apps_manager_buildpack:
-    value: ((push_apps_manager_buildpack))
   .properties.push_apps_manager_currency_lookup:
     value: ((push_apps_manager_currency_lookup))
   .properties.push_apps_manager_display_plan_prices:
     value: ((push_apps_manager_display_plan_prices))
   .properties.push_apps_manager_enable_invitations:
     value: ((push_apps_manager_enable_invitations))
-  .properties.push_apps_manager_invitations_buildpack:
-    value: ((push_apps_manager_invitations_buildpack))
   .properties.push_apps_manager_nav_links:
     value:
-    - href: https://docs.pivotal.io/pivotalcf/2-9/pas/intro.html
+    - href: https://docs.pivotal.io/pivotalcf/2-8/pas/intro.html
       name: Docs
     - href: /tools
       name: Tools
   .properties.push_apps_manager_poll_interval:
     value: ((push_apps_manager_poll_interval))
-  .properties.push_apps_manager_search_server_buildpack:
-    value: ((push_apps_manager_search_server_buildpack))
   .properties.push_usage_service_cutoff_age_in_days:
     value: ((push_usage_service_cutoff_age_in_days))
   .properties.route_integrity:
@@ -252,8 +275,6 @@ product-properties:
     value: ((system_blobstore_ccpackage_max_valid_packages_stored))
   .properties.system_database:
     value: internal_pxc
-  .properties.system_metrics_scraper_scrape_interval:
-    value: ((system_metrics_scraper_scrape_interval))
   .properties.tcp_routing:
     selected_option: enable
     value: enable
@@ -438,35 +459,3 @@ resource-config:
       id: ((uaa_instance_type))
     instances: ((uaa_instances))
     max_in_flight: ((uaa_max_in_flight))
-errand-config:
-  deploy-autoscaler:
-    post-deploy-state: ((deploy-autoscaler_post_deploy_state))
-  deploy-notifications:
-    post-deploy-state: ((deploy-notifications_post_deploy_state))
-  deploy-notifications-ui:
-    post-deploy-state: ((deploy-notifications-ui_post_deploy_state))
-  metric_registrar_smoke_test:
-    post-deploy-state: ((metric_registrar_smoke_test_post_deploy_state))
-  nfsbrokerpush:
-    post-deploy-state: ((nfsbrokerpush_post_deploy_state))
-  push-apps-manager:
-    post-deploy-state: ((push-apps-manager_post_deploy_state))
-  push-usage-service:
-    post-deploy-state: ((push-usage-service_post_deploy_state))
-  rotate_cc_database_key:
-    post-deploy-state: ((rotate_cc_database_key_post_deploy_state))
-  smbbrokerpush:
-    post-deploy-state: ((smbbrokerpush_post_deploy_state))
-  smoke_tests:
-    post-deploy-state: ((smoke_tests_post_deploy_state))
-  test-autoscaling:
-    post-deploy-state: ((test-autoscaling_post_deploy_state))
-network-properties:
-  network:
-    name: ((network_name))
-  other_availability_zones:
-  - name: ((other_availability_zones_0))
-  - name: ((other_availability_zones_1))
-  - name: ((other_availability_zones_2))
-  singleton_availability_zone:
-    name: ((singleton_availability_zone))

@@ -1,4 +1,3 @@
-app_graceful_shutdown_period_in_seconds: 10
 autoscale_api_disable_connection_pooling: false
 autoscale_api_instance_count: 1
 autoscale_enable_notifications: true
@@ -66,13 +65,10 @@ networkpolicyserverinternal_database_max_open_connections: 200
 nfs_server_blobstore_internal_access_rules: allow 10.0.0.0/8;,allow 172.16.0.0/12;,allow
   192.168.0.0/16;
 push_apps_manager_app_poll_interval: 10
-push_apps_manager_buildpack: staticfile_buildpack
 push_apps_manager_currency_lookup: '{ "usd": "$", "eur": "€" }'
 push_apps_manager_display_plan_prices: false
 push_apps_manager_enable_invitations: true
-push_apps_manager_invitations_buildpack: nodejs_buildpack
 push_apps_manager_poll_interval: 30
-push_apps_manager_search_server_buildpack: nodejs_buildpack
 push_usage_service_cutoff_age_in_days: 365
 route_services_enable_ignore_ssl_cert_verification: false
 route_services_enable_internal_lookup: false
@@ -97,7 +93,6 @@ syslog_drop_debug: true
 syslog_use_tcp_for_file_forwarding_local_transport: false
 system_blobstore_ccdroplet_max_staged_droplets_stored: 2
 system_blobstore_ccpackage_max_valid_packages_stored: 2
-system_metrics_scraper_scrape_interval: 1m
 uaa_apps_manager_access_token_lifetime: 3600
 uaa_cf_cli_access_token_lifetime: 7200
 uaa_cf_cli_refresh_token_lifetime: 1209600

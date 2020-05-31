@@ -1,0 +1,18 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: goacme/lego
+
+outputs:
+  - name: file
+
+run:
+  path: sh
+  args:
+    - -exc
+    - |
+      set -e
+      echo "hello"> file/test.txt

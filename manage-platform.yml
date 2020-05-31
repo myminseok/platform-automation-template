@@ -236,7 +236,7 @@ prepare-tasks-with-secrets: &prepare-tasks-with-secrets
     config: env-configs
   params:
     CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products
-    VARS_PATHS: config/((foundation))/vars
+    VARS_PATHS: config/((foundation))/generated-vars config/((foundation))/vars
   output_mapping:
     tasks: platform-automation-tasks
 

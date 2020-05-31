@@ -1,12 +1,11 @@
 #!/bin/bash -e
-if [ ! $# -eq 3 ] ; then
-    echo "${BASH_SOURCE[0]} IAAS FOUNDATION PRODUCT"
+if [ ! $# -eq 2 ] ; then
+    echo "${BASH_SOURCE[0]} FOUNDATION PRODUCT"
     exit
 fi  
 
-IAAS=$1
-FOUNDATION=$2
-PRODUCT=$3
+FOUNDATION=$1
+PRODUCT=$2
 
 WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 

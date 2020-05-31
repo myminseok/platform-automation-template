@@ -1,0 +1,26 @@
+---
+opsman-configuration:
+  vsphere:
+    vcenter:
+      url: 10.10.10.10
+      username: ((vcenter_user.username))
+      password: ((vcenter_user.password))
+      datastore: pcfstore_1
+      ca_cert: 
+      host:                     # vCenter host to deploy Ops Manager in
+      datacenter: datacenter
+      resource_pool: /datacenter/host/cluster1 # or /<Data Center Name>/host/<Cluster Name>
+      folder: 
+      insecure: 1                            # default: 0 (secure); 1 (insecure)
+    disk_type: thin                          # example: thin|thick
+    private_ip: 10.10.10.12
+    dns: 10.10.10.5
+    ntp: 10.10.10.5                     # example: ntp.ubuntu.com
+    ssh_public_key: ((opsman_ssh_key.public_key))
+    hostname: opsman.pcfdemo.net
+    network: VM Network                 # vcenter network to deploy to
+    netmask: 255.255.0.0
+    gateway: 10.10.10.1
+    vm_name: opsman-pcfdemo               # default: Ops_Manager
+    memory: 8                                # default: 8 GB
+    cpu: 1                                   # default: 1

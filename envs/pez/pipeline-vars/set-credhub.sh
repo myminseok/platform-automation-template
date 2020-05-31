@@ -15,7 +15,7 @@ credhub delete -n /concourse/main/aws_secret_access_key
 credhub set -t password -n /concourse/main/aws_secret_access_key -w ''
 
 credhub set -t value -n /concourse/main/iaas-configurations_0_vcenter_username -v ''
-credhub delete -n /concourse/main/configurations_0_vcenter_password
+credhub delete -n /concourse/main/iaas-configurations_0_vcenter_password
 credhub set -t password -n /concourse/main/iaas-configurations_0_vcenter_password -w ''
 
 credhub delete -n /concourse/main/pivnet_token

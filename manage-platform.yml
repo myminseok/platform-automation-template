@@ -1508,6 +1508,26 @@ jobs:
     - get: opsman-version-git
 
   - do:
+
+
+    - task: test
+      config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: ubuntu
+          params:
+            FILE: 
+            WORLD_PARAM: ((opsman_ssh_key.public_key))
+          run:
+            path: bash
+            args:
+            - -exc
+            - |
+              echo "hi"
+              echo "$WORLD_PARAM"
+              
     - task: prepare-tasks-with-secrets
       <<: *prepare-tasks-with-secrets
 
@@ -1521,27 +1541,9 @@ jobs:
         vars: foundation-configs
         config: opsman-version-git
         
-        
-    - task: test
-      config:
-          platform: linux
-          image_resource:
-            type: docker-image
-            source:
-              repository: ubuntu
-          params:
-            FILE: 
-          run:
-            path: bash
-            args:
-            - -exc
-            - |
-              echo "hi"
-
-
+         
 
 groups:
-
 
   - name: main
     jobs:

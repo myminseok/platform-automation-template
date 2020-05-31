@@ -4,7 +4,7 @@ opsman-configuration:
     vcenter:
       url: 10.10.10.10
       username: ((iaas-configurations_0_vcenter_username))
-      password: ((configurations_0_vcenter_password))
+      password: ((iaas-configurations_0_vcenter_password))
       datastore: pcfstore_1
       ca_cert: 
       host:                     # vCenter host to deploy Ops Manager in

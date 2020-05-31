@@ -32,11 +32,19 @@ credhub:
 pivnet: 
   token: ((pivnet_token))
 
+certificate:
+   generate:
+      dns_privider_access_key: ((aws_access_key_id))
+      dns_privider_access_secret_key: ((aws_secret_access_key))
+      dns_provider_region: "ap-northeast-2"
+      subdomain: 
+      hosted_zone_id:   # create on aws inadvance.
+      letsencrypt_email:
+   credhub_key_name: networking_poe_ssl_certs_0 # map to tas.yml.
+
 bbr:
   backup:
     ssh:
       enabled: true
       host: 192.168.5.11
       username: vagrant
-
-

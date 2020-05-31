@@ -1,4 +1,5 @@
 #!/bin/bash -e
+## original code from https://github.com/tonyelmore/telmore-platform-automation
 ## inputs:
 ##  - FOUNDATION: any opsman deployment name alias (you name it)
 ##  - PRODUCT: product name to generate config template. matches product_name in versions.yml (you name it) eg: cf or tas.
@@ -30,7 +31,7 @@ WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #foundation_config_path="$WORK_DIR/../${IAAS}/${FOUNDATION}"
 foundation_config_path="$WORK_DIR/../envs/${FOUNDATION}"
 
-product_template_veresionfile="$foundation_config_path/products/versions.yml"
+product_template_veresionfile="$foundation_config_path/versions.yml"
 
 if [ ! -f ${product_template_veresionfile} ]; then
   echo "Prepare version file first under ${product_template_veresionfile}"

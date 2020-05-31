@@ -51,19 +51,6 @@ resources:
     product_version: 4\.(.*)
     sort_by: semver
 
-
-- name: terraform-state
-  type: s3
-  source:
-    endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
-    bucket: ((s3.buckets.platform_automation))
-    region_name: ((s3.region_name))
-    secret_access_key: ((s3.secret_access_key))
-    regexp: terraform-(.*).tfstate
-    skip_ssl_verification: true
-
-
 - name: platform-automation-tasks
   type: s3
   source:
@@ -142,7 +129,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: envs/((foundation))/products/versions.yml
+    config_file: envs/((foundation))/versions.yml
     config_path: products.opsman
     version_path: products.opsman.product-version
     version_pattern: "m.n.p"
@@ -154,7 +141,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: envs/((foundation))/products/versions.yml
+    config_file: envs/((foundation))/versions.yml
     config_path: products.tas
     version_path: products.tas.product-version
     version_pattern: "m.n.p"
@@ -167,7 +154,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: envs/((foundation))/products/versions.yml
+    config_file: envs/((foundation))/versions.yml
     config_path: products.scs
     version_path: products.scs.product-version
     version_pattern: "m.n.p"
@@ -179,7 +166,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: envs/((foundation))/products/versions.yml
+    config_file: envs/((foundation))/versions.yml
     config_path: products.redis
     version_path: products.redis.product-version
     version_pattern: "m.n.p"
@@ -192,7 +179,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: envs/((foundation))/products/versions.yml
+    config_file: envs/((foundation))/versions.yml
     config_path: products.rabbitmq
     version_path: products.rabbitmq.product-version
     version_pattern: "m.n.p"
@@ -468,7 +455,7 @@ jobs:
 
 #################################################################
 
-- name: prepare-credhub-secrets-from-terraform-state
+- name: bootstrap-terraform-state-to-credhub
   serial: true
   serial_groups: [serial-jobs]
   build_log_retention:
@@ -485,10 +472,9 @@ jobs:
         unpack: true
     - get: pipelines
     - get: foundation-configs
-    - get: terraform-state
 
   - do:
-    - task: prepare-credhub-secrets-from-terraform-state
+    - task: save-terraform-state-to-credhub
       file: pipelines/tasks/prepare-credhub-secrets-from-terraform-state.yml
       input_mapping:
         config: foundation-configs
@@ -498,10 +484,55 @@ jobs:
         CREDHUB_SECRET: ((credhub_client.password))
         CREDHUB_CLIENT: ((credhub_client.username))
         CREDHUB_SERVER: ((credhub.server))
-        TERRAFORM_STATE_FILE_PATH: terraform-state/terraform-1.0.0.tfstate
+        TERRAFORM_STATE_FILE_PATH: config/envs/((foundation))/terraform.tfstate
         PREFIX: /concourse/main
-        PIPELINE_NAME: ${BUILD_PIPELINE_NAME}
+        PIPELINE_NAME: ((BUILD_PIPELINE_NAME))
         SHELL_FILE: config/envs/((foundation))/pipeline-vars/pipeline-vars/set-credhub-from-terraform.sh
+
+
+- name: bootstrap-certificate-to-credhub
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: foundation-configs
+    - get: terraform-state
+
+  - do:
+    - task: generate-domain-certificate
+      file: pipelines/tasks/generate-ceertificate.yml
+      input_mapping:
+        config: foundation-configs
+      params:
+        AWS_ACCESS_KEY_ID: ((certificate.generate.dns_privider_access_key))
+        AWS_SECRET_ACCESS_KEY: ((certificate.generate.dns_privider_access_secret_key))
+        AWS_REGION: ((certificate.generate.dns_provider_region))
+        SUBDOMAIN: ((certificate.generate.subdomain))
+        AWS_HOSTED_ZONE_ID:  ((certificate.generate.hosted_zone_id))
+        EMAIL: ((certificate.generate.letsencrypt_email))
+
+    - task: save-certificate-to-credhub
+      file: pipelines/tasks/save-certificate-to-credhub.yml
+      input_mapping:
+        config: foundation-configs
+      params:
+        CERTIFICATE_FILE: generated-certificate/certificates.tgz
+        SUBDOMAIN: ((certificate.generate.subdomain))
+        #CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+        CREDHUB_CA_CERT: ""
+        CREDHUB_SECRET: ((credhub_client.password))
+        CREDHUB_CLIENT: ((credhub_client.username))
+        CREDHUB_SERVER: ((credhub.server))
+        PIPELINE_NAME: ((BUILD_PIPELINE_NAME))
+        PREFIX: /concourse/main
+        KEY_NAME: ((certificate.credhub_key_name))
 
 
 #################################################################
@@ -1516,7 +1547,8 @@ groups:
 
   - name: main
     jobs:
-    - prepare-credhub-secrets-from-terraform-state
+    - bootstrap-terraform-state-to-credhub
+    - bootstrap-certificate-to-credhub
     - install-opsman
     - configure-opsman-authentication
     - opsman-custom-vm-extensions
@@ -1558,7 +1590,8 @@ groups:
 
   - name: install-upgrade
     jobs:
-    - prepare-credhub-secrets-from-terraform-state
+    - bootstrap-terraform-state-to-credhub
+    - bootstrap-certificate-to-credhub
     - install-opsman
     - configure-opsman-authentication
     - opsman-custom-vm-extensions

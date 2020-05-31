@@ -1,0 +1,66 @@
+## generate certificate using let's encrypt and aws route53.
+## inspired from https://github.com/making/platform-automation/blob/master/pipelines/install-pas-azure/pipeline.yml#L330-L399
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: goacme/lego
+
+outputs:
+  # Contains `director-backup.tar` artifact created by `bbr director backup`
+  - name: generated-certificate
+
+params:
+
+   AWS_ACCESS_KEY_ID:
+   AWS_SECRET_ACCESS_KEY:
+   AWS_REGION:
+   SUBDOMAIN:
+   AWS_HOSTED_ZONE_ID:
+   # for the SUBDOMAIN
+   EMAIL:
+   # let's encrypt account
+
+run:
+  path: sh
+  args:
+    - -exc
+    - |
+      set -e
+   
+      #lego -h
+      #lego dnshelp -c route53
+    
+      lego --accept-tos \
+        --key-type=rsa4096 \
+        --domains="*.${SUBDOMAIN}" \
+        --domains="*.apps.${SUBDOMAIN}" \
+        --domains="*.sys.${SUBDOMAIN}" \
+        --domains="*.uaa.sys.${SUBDOMAIN}" \
+        --domains="*.login.sys.${SUBDOMAIN}" \
+        --email=${EMAIL} \
+        --dns=route53 \
+        run
+
+      tar czf certificates.tgz -C .lego certificates
+      mv certificates.tgz generated-certificate/
+
+     
+      # /tmp/build/e55deab7/tmp tar xf certificates.tgz
+      # /tmp/build/e55deab7/tmp ls -al
+      # total 20
+      # drwxr-xr-x    3 root     root          4096 May 31 13:57 .
+      # drwxr-xr-x    5 root     root          4096 May 31 13:57 ..
+      # drwx------    2 root     root          4096 May 31 13:57 certificates
+      # -rw-r--r--    1 root     root          5587 May 31 13:57 certificates.tgz
+
+      #/tmp/build/e55deab7/.lego/certificates # ls -al
+      # total 24
+      # drwx------    2 root     root          4096 May 31 13:51 .
+      # drwx------    4 root     root          4096 May 31 13:45 ..
+      # -rw-------    1 root     root          4087 May 31 13:51 _.awstest.pcfdemo.net.crt
+      # -rw-------    1 root     root          1648 May 31 13:51 _.awstest.pcfdemo.net.issuer.crt
+      # -rw-------    1 root     root           242 May 31 13:51 _.awstest.pcfdemo.net.json
+      # -rw-------    1 root     root          3243 May 31 13:51 _.awstest.pcfdemo.net.key

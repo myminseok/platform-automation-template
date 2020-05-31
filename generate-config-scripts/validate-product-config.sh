@@ -1,4 +1,6 @@
 #!/bin/bash -e
+## original code from https://github.com/tonyelmore/telmore-platform-automation
+
 if [ ! $# -eq 2 ] ; then
     echo "${BASH_SOURCE[0]} FOUNDATION PRODUCT"
     exit

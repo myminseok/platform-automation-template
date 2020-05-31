@@ -137,7 +137,7 @@ credhub-interpolate: &credhub-interpolate
     CREDHUB_CLIENT: ((credhub.client))
     CREDHUB_SECRET: ((credhub.secret))
     PREFIX: /concourse/((foundation))
-    INTERPOLATION_PATHS: ((foundation))/opsman ((foundation))/download-products
+    INTERPOLATION_PATHS: envs/((foundation))/opsman envs/envs/envs/((foundation))/download-products
 
 
 jobs:
@@ -174,7 +174,7 @@ jobs:
     file: platform-automation-tasks/tasks/download-product.yml
     input_mapping: {config: configuration }
     params:
-      CONFIG_FILE: ((foundation))/download-products/opsman.yml
+      CONFIG_FILE: envs/((foundation))/download-products/opsman.yml
   - put: opsman-product
     params:
       file: downloaded-product/*
@@ -201,7 +201,7 @@ jobs:
       CREDHUB_CLIENT: ((credhub.client))
       CREDHUB_SECRET: ((credhub.secret))
       PREFIX: '/concourse/((foundation))'
-      INTERPOLATION_PATH: "((foundation))/download-products"
+      INTERPOLATION_PATH: "envs/((foundation))/download-products"
     input_mapping:
       files: configuration
     output_mapping:
@@ -210,7 +210,7 @@ jobs:
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: ((foundation))/download-products/pas.yml
+      CONFIG_FILE: envs/((foundation))/download-products/pas.yml
     input_mapping: {config: configuration }
     output_mapping: {downloaded-stemcell: pas-stemcell}
   - in_parallel:
@@ -242,7 +242,7 @@ jobs:
     file: pipelines/tasks/download-only-product.yml
     input_mapping: {config: configuration }
     params:
-      CONFIG_FILE: ((foundation))/download-products/opsman.yml
+      CONFIG_FILE: envs/((foundation))/download-products/opsman.yml
     on_success:
       try:
         task: check_dup_file_in_s3
@@ -281,7 +281,7 @@ jobs:
       CREDHUB_CLIENT: ((credhub.client))
       CREDHUB_SECRET: ((credhub.secret))
       PREFIX: '/concourse/((foundation))'
-      INTERPOLATION_PATH: "((foundation))/download-products"
+      INTERPOLATION_PATH: "envs/((foundation))/download-products"
     input_mapping:
       files: configuration
     output_mapping:
@@ -290,7 +290,7 @@ jobs:
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: ((foundation))/download-products/healthwatch.yml
+      CONFIG_FILE: envs/((foundation))/download-products/healthwatch.yml
     input_mapping: {config: configuration }
     output_mapping: {downloaded-stemcell: healthwatch-stemcell}
   - in_parallel:

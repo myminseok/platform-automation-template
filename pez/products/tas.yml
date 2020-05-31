@@ -159,9 +159,9 @@ product-properties:
   .properties.networking_poe_ssl_certs:
     value:
     - certificate:
-        ## TODO networking_poe_ssl_certs_0_certificate -> networking_poe_ssl_certs_0.certificate
+        ## TODO networking_poe_ssl_certs_0_certificate -> networking_poe_ssl_certs_0.public_key
         ## TODO networking_poe_ssl_certs_0_privatekey -> networking_poe_ssl_certs_0.private_key
-        cert_pem: ((networking_poe_ssl_certs_0.certificate))
+        cert_pem: ((networking_poe_ssl_certs_0.public_key))
         private_key_pem: ((networking_poe_ssl_certs_0.private_key))
       name: ((networking_poe_ssl_certs_0_name))
   .properties.networkpolicyserver_database_max_open_connections:
@@ -317,9 +317,9 @@ product-properties:
     value: ((uaa_proxy_ips_regex))
   .uaa.service_provider_key_credentials:
     value:
-      ## TODO uaa_service_provider_key_credentials_certificate -> networking_poe_ssl_certs_0.certificate
+      ## TODO uaa_service_provider_key_credentials_certificate -> networking_poe_ssl_certs_0.public_key
       ## TODO uaa_service_provider_key_credentials_privatekey -> networking_poe_ssl_certs_0.private_key
-      cert_pem: ((networking_poe_ssl_certs_0.certificate))
+      cert_pem: ((networking_poe_ssl_certs_0.public_key))
       private_key_pem: ((networking_poe_ssl_certs_0.private_key))
 resource-config:
   backup_restore:

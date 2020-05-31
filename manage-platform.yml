@@ -1532,7 +1532,7 @@ groups:
   #configure-product-manually
     - apply-change-tas
     - configure-tas
-    - configure-director-test
+    - configure-director-only
     - configure-scs
     - configure-redis
 
@@ -1575,7 +1575,7 @@ groups:
     jobs:
     - apply-change-tas
     - configure-tas
-    - configure-director-test
+    - configure-director-only
     - configure-scs
     - configure-redis
 

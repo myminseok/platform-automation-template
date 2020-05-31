@@ -16,4 +16,3 @@ iaas-configurations_0_ssl_verification_enabled:
 iaas-configurations_0_vcenter_host:
 iaas-configurations_0_vcenter_username:
 properties-configuration_security_configuration_generate_vm_passwords:
-director_trusted_certificates:

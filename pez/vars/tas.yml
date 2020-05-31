@@ -1,8 +1,8 @@
 cloud_controller_apps_domain: cfapps.haas-224.pez.pivotal.io
 cloud_controller_system_domain: run.haas-224.pez.pivotal.io
-##credhub_hsm_provider_client_certificate_certificate:  
-##credhub_hsm_provider_client_certificate_privatekey:  
-##credhub_internal_provider_keys_0_key: 
+credhub_hsm_provider_client_certificate_certificate:  ""
+credhub_hsm_provider_client_certificate_privatekey:  ""
+## credhub_internal_provider_keys_0_key: => credhub
 credhub_internal_provider_keys_0_name: "CredHub Key"
 mysql_monitor_recipient_email: test@test.com
 network_name: PAS-Deployment

@@ -106,7 +106,7 @@ resources:
     driver: git
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch)) # should create this branch inadvance
-    file: ((foundation))/pipeline-trigger-manage-platform # will create if not exists
+    file: envs/((foundation))/pipeline-trigger-manage-platform # will create if not exists
     private_key:  ((git.private_key))
 
 - name: pipelines
@@ -132,7 +132,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     skip_ssl_verification: true
-    paths: [ "((foundation))/state/state.yml" ]
+    paths: [ "envs/((foundation))/state/state.yml" ]
 
 ## semver-config will emit  semver-config.yml to be use as a input of download-product.yml
 - name: opsman-version-git
@@ -142,7 +142,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: ((foundation))/products/versions.yml
+    config_file: envs/((foundation))/products/versions.yml
     config_path: products.opsman
     version_path: products.opsman.product-version
     version_pattern: "m.n.p"
@@ -154,7 +154,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: ((foundation))/products/versions.yml
+    config_file: envs/((foundation))/products/versions.yml
     config_path: products.tas
     version_path: products.tas.product-version
     version_pattern: "m.n.p"
@@ -167,7 +167,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: ((foundation))/products/versions.yml
+    config_file: envs/((foundation))/products/versions.yml
     config_path: products.scs
     version_path: products.scs.product-version
     version_pattern: "m.n.p"
@@ -179,7 +179,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: ((foundation))/products/versions.yml
+    config_file: envs/((foundation))/products/versions.yml
     config_path: products.redis
     version_path: products.redis.product-version
     version_pattern: "m.n.p"
@@ -192,7 +192,7 @@ resources:
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: ((foundation))/products/versions.yml
+    config_file: envs/((foundation))/products/versions.yml
     config_path: products.rabbitmq
     version_path: products.rabbitmq.product-version
     version_pattern: "m.n.p"
@@ -209,7 +209,7 @@ credhub-interpolate: &credhub-interpolate
     CREDHUB_CLIENT: ((credhub_client.username))
     CREDHUB_SERVER: ((credhub.server))
     PREFIX: /concourse/main
-    INTERPOLATION_PATHS: ((foundation))
+    INTERPOLATION_PATHS: envs/((foundation))
     SKIP_MISSING: false
 
 
@@ -464,7 +464,7 @@ jobs:
       input_mapping:
         config: foundation-configs
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
 
 #################################################################
 
@@ -566,7 +566,7 @@ jobs:
             <<: *opsman-state-make-commit
             params:
               FILE_SOURCE_PATH: state.yml
-              FILE_DESTINATION_PATH: ((foundation))/state/state.yml
+              FILE_DESTINATION_PATH: envs/((foundation))/state/state.yml
               GIT_AUTHOR_EMAIL: ((git.user.email))
               GIT_AUTHOR_NAME: ((git.user.username))
               COMMIT_MESSAGE: "Update from  create-vm job"
@@ -646,7 +646,7 @@ jobs:
       params:
         ENV_FILE: envs/((foundation))/opsman/env.yml
         DIRECTOR_CONFIG_FILE: envs/((foundation))/opsman/director.yml
-        VARS_FILES: envs/vars/((foundation))/vars/director.yml
+        VARS_FILES: vars/envs/((foundation))/vars/director.yml
 
 
 - name: configure-director-only
@@ -682,9 +682,9 @@ jobs:
         config: foundation-configs
         vars: foundation-configs
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        DIRECTOR_CONFIG_FILE: ((foundation))/opsman/director.yml
-        VARS_FILES: vars/((foundation))/vars/director.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        DIRECTOR_CONFIG_FILE: envs/((foundation))/opsman/director.yml
+        VARS_FILES: vars/envs/((foundation))/vars/director.yml
 
 
 
@@ -724,7 +724,7 @@ jobs:
       input_mapping:
         env: foundation-configs
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
 
 
 - name: apply-director-changes
@@ -762,7 +762,7 @@ jobs:
       input_mapping:
         env: foundation-configs
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
 
     - put: pipeline-trigger-version-git
       params: {file: pipeline-trigger-version-git/version}
@@ -809,7 +809,7 @@ jobs:
         vars: foundation-configs
       params:
         CONFIG_FILE: semver-config.yaml
-        VARS_FILES: vars/((foundation))/vars/tas.yml         
+        VARS_FILES: vars/envs/((foundation))/vars/tas.yml         
     
     - task: upload-product
       <<: *upload-product
@@ -820,9 +820,9 @@ jobs:
     - task: stage-configure-apply
       <<: *stage-configure-apply
       params:
-        CONFIG_FILE: ((foundation))/products/tas.yml
-        ENV_FILE: ((foundation))/opsman/env.yml
-        VARS_FILES: config/((foundation))/generated-vars/tas.yml config/((foundation))/vars/tas.yml
+        CONFIG_FILE: envs/((foundation))/products/tas.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
 
 
 - name: configure-tas-only
@@ -856,14 +856,13 @@ jobs:
         VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
 
         
-
 - name: apply-change-tas
   serial: true
   serial_groups: [serial-jobs]
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
-      passed: [configure-tas]
+      passed: [configure-tas-only]
       trigger: false
     - get: platform-automation-image
       params:
@@ -884,14 +883,14 @@ jobs:
     - task: configure-product
       <<: *configure-product
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        CONFIG_FILE: ((foundation))/products/tas.yml
-        VARS_FILES: vars/((foundation))/vars/tas.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        CONFIG_FILE: envs/((foundation))/products/tas.yml
+        VARS_FILES: vars/envs/((foundation))/vars/tas.yml
         
     - task: apply-product-changes
       <<: *apply-product-changes
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
         PRODUCT_NAME: cf
 
 
@@ -924,7 +923,7 @@ jobs:
         vars: foundation-configs
       params:
         CONFIG_FILE: semver-config.yaml
-        #VARS_FILES: vars/((foundation))/vars/scs.yml         
+        #VARS_FILES: vars/envs/((foundation))/vars/scs.yml         
     
     - task: upload-product
       <<: *upload-product
@@ -935,9 +934,9 @@ jobs:
     - task: stage-configure-apply
       <<: *stage-configure-apply
       params:
-        CONFIG_FILE: ((foundation))/products/scs.yml
-        ENV_FILE: ((foundation))/opsman/env.yml
-        #VARS_FILES: config/((foundation))/vars/scs.yml
+        CONFIG_FILE: envs/((foundation))/products/scs.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        #VARS_FILES: config/envs/((foundation))/vars/scs.yml
 
 
 - name: configure-scs
@@ -966,9 +965,9 @@ jobs:
     - task: configure-product
       <<: *configure-product
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        CONFIG_FILE: ((foundation))/products/scs.yml
-        VARS_FILES: vars/((foundation))/vars/scs.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        CONFIG_FILE: envs/((foundation))/products/scs.yml
+        VARS_FILES: vars/envs/((foundation))/vars/scs.yml
         
 
 - name: install-and-patch-redis
@@ -999,7 +998,7 @@ jobs:
         vars: foundation-configs
       params:
         CONFIG_FILE: semver-config.yaml
-        #VARS_FILES: vars/((foundation))/vars/redis.yml         
+        #VARS_FILES: vars/envs/((foundation))/vars/redis.yml         
     
     - task: upload-product
       <<: *upload-product
@@ -1010,9 +1009,9 @@ jobs:
     - task: stage-configure-apply
       <<: *stage-configure-apply
       params:
-        CONFIG_FILE: ((foundation))/products/redis.yml
-        ENV_FILE: ((foundation))/opsman/env.yml
-        #VARS_FILES: config/((foundation))/vars/redis.yml
+        CONFIG_FILE: envs/((foundation))/products/redis.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        #VARS_FILES: config/envs/((foundation))/vars/redis.yml
 
 
 
@@ -1043,9 +1042,9 @@ jobs:
     - task: configure-product
       <<: *configure-product
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        CONFIG_FILE: ((foundation))/products/redis.yml
-        VARS_FILES: vars/((foundation))/vars/redis.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        CONFIG_FILE: envs/((foundation))/products/redis.yml
+        VARS_FILES: vars/envs/((foundation))/vars/redis.yml
         
 
 
@@ -1077,7 +1076,7 @@ jobs:
         vars: foundation-configs
       params:
         CONFIG_FILE: semver-config.yaml
-        #VARS_FILES: vars/((foundation))/vars/rabbitmq.yml         
+        #VARS_FILES: vars/envs/((foundation))/vars/rabbitmq.yml         
     
     - task: upload-product
       <<: *upload-product
@@ -1088,9 +1087,9 @@ jobs:
     - task: stage-configure-apply
       <<: *stage-configure-apply
       params:
-        CONFIG_FILE: ((foundation))/products/rabbitmq.yml
-        ENV_FILE: ((foundation))/opsman/env.yml
-        #VARS_FILES: config/((foundation))/vars/rabbitmq.yml
+        CONFIG_FILE: envs/((foundation))/products/rabbitmq.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        #VARS_FILES: config/envs/((foundation))/vars/rabbitmq.yml
 
 
 - name: upgrade-opsman
@@ -1140,7 +1139,7 @@ jobs:
       input_mapping:
         env: foundation-configs
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
         INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
 
     - task: upgrade-opsman
@@ -1153,18 +1152,18 @@ jobs:
         env: foundation-configs
         vars: foundation-configs
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
-        STATE_FILE: ((foundation))/state/state.yml
-        INSTALLATION_FILE: ((foundation))-installation*.zip
-        OPSMAN_CONFIG_FILE: ((foundation))/opsman/opsman.yml
-        VARS_FILES: vars/((foundation))/vars/opsman.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        STATE_FILE: envs/((foundation))/state/state.yml
+        INSTALLATION_FILE: envs/((foundation))-installation*.zip
+        OPSMAN_CONFIG_FILE: envs/((foundation))/opsman/opsman.yml
+        VARS_FILES: vars/envs/((foundation))/vars/opsman.yml
       ensure:
         do:
           - task: make-commit
             <<: *opsman-state-make-commit
             params:
               FILE_SOURCE_PATH: state.yml
-              FILE_DESTINATION_PATH: ((foundation))/state/state.yml
+              FILE_DESTINATION_PATH: envs/((foundation))/state/state.yml
               GIT_AUTHOR_EMAIL: ((git.user.email))
               GIT_AUTHOR_NAME: ((git.user.username))
               COMMIT_MESSAGE: "Update from upgrade-opsman"
@@ -1212,7 +1211,7 @@ jobs:
       input_mapping:
         env: foundation-configs
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
         INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
 
     - put: installation
@@ -1251,7 +1250,7 @@ jobs:
         env: foundation-configs
         vars: foundation-configs
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
         SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
     - task: check
       <<: *echo-files
@@ -1283,7 +1282,7 @@ jobs:
     - task: staged-config
       <<: *staged-config
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
         PRODUCT_NAME: cf
         SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
     - task: check
@@ -1316,7 +1315,7 @@ jobs:
     - task: staged-config
       <<: *staged-config
       params:
-        ENV_FILE: ((foundation))/opsman/env.yml
+        ENV_FILE: envs/((foundation))/opsman/env.yml
         PRODUCT_NAME: cf
         SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
     - task: check
@@ -1354,7 +1353,7 @@ jobs:
           bbr-release: bbr-release-pivnet
           config: foundation-configs
         params:
-          ENV_FILE: ((foundation))/opsman/env.yml
+          ENV_FILE: envs/((foundation))/opsman/env.yml
           FOUNDATION: ((foundation))
         on_failure:
           task: bbr-cleanup
@@ -1363,7 +1362,7 @@ jobs:
             bbr-release: bbr-release-pivnets
             config: foundation-configs
           params:
-            ENV_FILE: ((foundation))/opsman/env.yml
+            ENV_FILE: envs/((foundation))/opsman/env.yml
       - put: bbr-director-backup-bucket
         params:
           file: backup-artifact/((foundation))-director-backup_*.tgz
@@ -1394,7 +1393,7 @@ jobs:
           bbr-release: bbr-release-pivnet
           config: foundation-configs
         params:
-          ENV_FILE: ((foundation))/opsman/env.yml
+          ENV_FILE: envs/((foundation))/opsman/env.yml
           FOUNDATION: ((foundation))
           PRODUCT_NAME: cf
         on_failure:
@@ -1404,7 +1403,7 @@ jobs:
             bbr-release: bbr-release-pivnet
             config: foundation-configs
           params:
-            ENV_FILE: ((foundation))/opsman/env.yml
+            ENV_FILE: envs/((foundation))/opsman/env.yml
             PRODUCT_NAME: cf
       - put: bbr-tas-backup-bucket
         params:
@@ -1445,7 +1444,7 @@ jobs:
           CREDHUB_CLIENT: ((credhub_client.username))
           CREDHUB_SERVER: ((credhub.server))
           PREFIX: /concourse/main/((BUILD_PIPELINE_NAME))
-          INTERPOLATION_PATHS: ((foundation))/opsman
+          INTERPOLATION_PATHS: envs/((foundation))/opsman
           SKIP_MISSING: true
 
 
@@ -1455,8 +1454,8 @@ jobs:
           bbr-release: bbr-release-pivnet
           config: interpolated-files
         params:
-          ENV_FILE: ((foundation))/opsman/env.yml
-          FOUNDATION: ((foundation))
+          ENV_FILE: envs/((foundation))/opsman/env.yml
+          FOUNDATION: envs/((foundation))
           SSH_ENABLED: ((bbr.backup.ssh.enabled))
           SSH_HOST: ((bbr.backup.ssh.host))
           SSH_USERNAME: ((bbr.backup.ssh.username))

@@ -1,4 +1,3 @@
-##
 
 resource_types:
 - name: pivnet
@@ -237,13 +236,14 @@ prepare-tasks-with-secrets-for-product-version: &prepare-tasks-with-secrets-for-
 
 prepare-tasks-with-secrets-custom-tasks: &prepare-tasks-with-secrets-custom-tasks
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  file: pipelines/tasks/prepare-tasks-with-secrets.yml
   input_mapping:
     tasks: pipelines
     config: env-configs
   params:
     CONFIG_PATHS: config/((foundation))/opsman config/((foundation))/products
     VARS_PATHS: config/((foundation))/vars
+    TASKS_PATH: tasks
   output_mapping:
     tasks: pipelines
 

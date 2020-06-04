@@ -48,7 +48,7 @@ pushd $TMP_DIR
 popd
 
 export BACKUP_FILE="${BOSH_ENVIRONMENT}-${PRODUCT_NAME}-backup_${current_date}.tgz"
-tar -zcvf $WORK_DIR/"$BACKUP_FILE" -C $TMP_DIRs . --remove-files
+tar -zcvf $WORK_DIR/"$BACKUP_FILE" -C $TMP_DIR . --remove-files
 
 
 ### cf-c8399c1d00f7742d47a1_20190505T123820Z$ ll

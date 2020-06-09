@@ -119,8 +119,8 @@ credhub-interpolate: &credhub-interpolate
   output_mapping:
     interpolated-files: configuration
   params:
-    CREDHUB_SERVER: ((credhub.server))
     CREDHUB_CA_CERT: ((credhub.ca_cert))
+    CREDHUB_SERVER: ((credhub.server))
     CREDHUB_CLIENT: ((credhub.client))
     CREDHUB_SECRET: ((credhub.secret))
     PREFIX: /concourse/((foundation))

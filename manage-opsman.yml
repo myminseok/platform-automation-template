@@ -130,8 +130,7 @@ credhub-interpolate: &credhub-interpolate
   input_mapping:
     files: configuration
   params:
-    #CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
-    CREDHUB_CA_CERT: ""
+    CREDHUB_CA_CERT: ((credhub.ca_cert))
     CREDHUB_SECRET: ((credhub_client.password))
     CREDHUB_CLIENT: ((credhub_client.username))
     CREDHUB_SERVER: ((credhub.server))

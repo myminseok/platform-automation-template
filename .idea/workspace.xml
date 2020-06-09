@@ -2,17 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18127e84-f145-4014-85fe-8953f9865761" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/download-products.yml" beforeDir="false" afterPath="$PROJECT_DIR$/download-products.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/download-products/healthwatch.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/download-products/healthwatch.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/download-products/opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/download-products/opsman.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/download-products/pks.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/download-products/pks.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/download-products/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/download-products/tas.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-config/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-products/cf.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-products/tas.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/cf.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/tas.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/awstest/pipeline-vars/params.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/dev/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/dev/pipeline-vars/params.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manage-opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/manage-opsman.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manage-platform.yml" beforeDir="false" afterPath="$PROJECT_DIR$/manage-platform.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,47 +18,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="healthwatch.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/envs/pez/download-products/healthwatch.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="opsman.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/envs/pez/download-products/opsman.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="download-products.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="download-products.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/download-products.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="247" column="14" selection-start-line="247" selection-start-column="14" selection-end-line="247" selection-end-column="14" />
+            <state relative-caret-position="205">
+              <caret line="121" selection-start-line="121" selection-end-line="121" selection-end-column="40" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pks.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/envs/pez/download-products/pks.yml">
+      <file leaf-file-name="params.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/envs/awstest/pipeline-vars/params.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+            <state relative-caret-position="405">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tas.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/envs/pez/download-products/tas.yml">
+      <file leaf-file-name="params.yml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/envs/dev/pipeline-vars/params.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="24" lean-forward="true" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+            <state relative-caret-position="435">
+              <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="params.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="415">
+              <caret line="30" column="13" lean-forward="true" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -158,8 +144,6 @@
         <option value="$PROJECT_DIR$/manage-platform-pks.yml" />
         <option value="$PROJECT_DIR$/manage-platform-opsman.sh" />
         <option value="$PROJECT_DIR$/manage-opsman.sh" />
-        <option value="$PROJECT_DIR$/manage-platform.yml" />
-        <option value="$PROJECT_DIR$/manage-opsman.yml" />
         <option value="$PROJECT_DIR$/envs/pez/versions.yml" />
         <option value="$PROJECT_DIR$/envs/pez/opsfiles/cf-operations" />
         <option value="$PROJECT_DIR$/envs/pez/opsfiles/tas-operations" />
@@ -169,13 +153,18 @@
         <option value="$PROJECT_DIR$/envs/pez/download-products/opsman.yml" />
         <option value="$PROJECT_DIR$/envs/pez/download-products/pks.yml" />
         <option value="$PROJECT_DIR$/envs/pez/download-products/tas.yml" />
+        <option value="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" />
         <option value="$PROJECT_DIR$/download-products.yml" />
+        <option value="$PROJECT_DIR$/manage-opsman.yml" />
+        <option value="$PROJECT_DIR$/manage-platform.yml" />
+        <option value="$PROJECT_DIR$/envs/awstest/pipeline-vars/params.yml" />
+        <option value="$PROJECT_DIR$/envs/dev/pipeline-vars/params.yml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="178" />
-    <option name="y" value="125" />
+    <option name="x" value="82" />
+    <option name="y" value="80" />
     <option name="width" value="1212" />
     <option name="height" value="756" />
   </component>
@@ -195,6 +184,26 @@
               <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
               <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
               <item name="envs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="dev" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="dev" type="462c0819:PsiDirectoryNode" />
+              <item name="generated-config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="dev" type="462c0819:PsiDirectoryNode" />
+              <item name="pipeline-vars" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -283,7 +292,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="178" y="125" width="1212" height="756" extended-state="0" />
+    <frame x="82" y="80" width="1212" height="756" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -318,12 +327,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tasks/credhub-interpolate.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tasks/prepare-tasks-with-secrets.sh">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/sample-pipelines/install-upgrade-opsman.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
@@ -478,13 +481,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manage-platform.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="216" selection-start-line="216" selection-end-line="216" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/envs/pez/opsman/director.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1090" />
@@ -541,20 +537,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manage-opsman.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="276" selection-start-line="276" selection-end-line="277" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="29" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/envs/dev/download-products/healthwatch.yml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -594,8 +576,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/download-products.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="247" column="14" selection-start-line="247" selection-start-column="14" selection-end-line="247" selection-end-column="14" />
+        <state relative-caret-position="205">
+          <caret line="121" selection-start-line="121" selection-end-line="121" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage-platform.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="192" column="40" selection-start-line="192" selection-start-column="40" selection-end-line="192" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage-opsman.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="132" column="4" selection-start-line="132" selection-start-column="4" selection-end-line="132" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="30" column="13" lean-forward="true" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/awstest/pipeline-vars/params.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/dev/pipeline-vars/params.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
         </state>
       </provider>
     </entry>

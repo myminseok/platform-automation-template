@@ -25,7 +25,8 @@ git:
 credhub:
   server: https://192.168.67.1:9000
   #server: https://credhub:9000 ## docker-compose env
-  ##ca_cert: ((credhub_ca_cert.certificate))
+  #ca_cert: ((credhub_ca_cert.certificate))
+  ca_cert: ""
   client: ((credhub_client.username))
   secret: ((credhub_client.password))
 

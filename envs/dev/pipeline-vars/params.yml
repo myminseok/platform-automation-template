@@ -26,7 +26,8 @@ git:
 
 credhub:
   server: https://credhub.pcfdemo.net:8844
-  ca_cert: ((credhub_ca_cert.certificate))
+  #ca_cert: ((credhub_ca_cert.certificate))
+  ca_cert: ""
   client: ((credhub_client.username))
   secret: ((credhub_client.password))
   interpolate_folders: ((foundation))/config ((foundation))/env ((foundation))/download-products

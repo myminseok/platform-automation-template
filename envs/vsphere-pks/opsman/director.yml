@@ -1,14 +1,8 @@
 az-configuration:
-- name: az2
-  clusters:
-  - cluster: cluster2
-    resource_pool: ""
-#  iaas_configuration_guid: 6552ba16572953313cea
 - name: az1
   clusters:
-  - cluster: cluster1
+  - cluster: Cluster
     resource_pool: ""
-#  iaas_configuration_guid: 6552ba16572953313cea
 iaas-configurations:
 - additional_cloud_properties: {}
   bosh_disk_path: ((iaas-configurations_0_bosh_disk_path))
@@ -36,32 +30,30 @@ networks-configuration:
   - name: infra-network
     subnets:
     - iaas_identifier: VM Network
-      cidr: 10.10.10.0/24
-      dns: 10.10.10.5
-      gateway: 10.10.10.1
-      reserved_ip_ranges: 10.10.10.1-10.10.10.20
+      cidr: 192.168.1.0/24
+      dns: 10.192.2.10
+      gateway: 192.168.1.1
+      reserved_ip_ranges: 192.168.1.0-192.168.1.199
       availability_zone_names:
       - az1
-      - az2
   - name: deployment-network
     subnets:
     - iaas_identifier: VM Network
-      cidr: 10.10.12.0/24
-      dns: 10.10.10.5
-      gateway: 10.10.12.1
-      reserved_ip_ranges: 10.10.12.1-10.10.12.20
+      cidr: 192.168.2.0/24
+      dns: 10.192.2.10
+      gateway: 192.168.2.1
+      reserved_ip_ranges: 192.168.2.0-192.168.2.199
       availability_zone_names:
       - az1
-      - az2
   - name: ondemand-network
     subnets:
     - iaas_identifier: VM Network
-      cidr: 10.10.14.0/24
-      dns: 10.10.10.5
-      gateway: 10.10.14.1
-      reserved_ip_ranges: 10.10.14.1-10.10.14.30
+      cidr: 192.168.3.0/24
+      dns: 10.192.2.10
+      gateway: 192.168.3.1
+      reserved_ip_ranges: 192.168.3.0-192.168.3.199
       availability_zone_names:
-      - az2
+      - az1
 properties-configuration:
   director_configuration:
     blobstore_type: local
@@ -84,7 +76,7 @@ properties-configuration:
     local_blobstore_options:
       tls_enabled: false
     max_threads: 30
-    ntp_servers_string: 10.10.10.5
+    ntp_servers_string: ntp1.svc.pivotal.io
     post_deploy_enabled: true
     resurrector_enabled: true
     retry_bosh_deploys: false

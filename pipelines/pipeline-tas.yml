@@ -1,0 +1,27 @@
+#! ----------------------------------------------------
+#! master pipeline file for 'tas'
+#! ----------------------------------------------------
+
+
+#@ load("resource_types.lib.yml", "resource_types")
+#@ load("common_resources.lib.yml", "common_resources")
+#@ load("opsman_resources.lib.yml", "opsman_resources")
+#@ load("opsman_jobs.lib.yml", "opsman_jobs")
+#@ load("tas_products_resources.lib.yml", "tas_products_resources")
+#@ load("tas_products_jobs.lib.yml", "tas_products_jobs")
+
+---
+
+#! resource_types
+resource_types: #@ resource_types()
+
+#@ load("@ytt:overlay", "overlay")
+
+#! resources
+resources:  #@ overlay.apply(common_resources(), opsman_resources(), tas_products_resources())
+
+#! jobs
+jobs: #@ overlay.apply(opsman_jobs(), tas_products_jobs())
+
+
+

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# code_snippet prepare-tasks-with-secrets-script start bash
+# code_snippet prepare_tasks_with_secrets-script start bash
 
 cat /var/version && echo ""
 set -eux
@@ -25,9 +25,9 @@ done
 # ${config_file_args[@] needs to be globbed to pass through properly
 # ${vars_paths_args[@] needs to be globbed to pass through properly
 # shellcheck disable=SC2068
-p-automator prepare-tasks-with-secrets \
+p-automator prepare_tasks_with_secrets \
   --task-dir ${TASKS_PATH} \
   ${config_file_args[@]} \
   ${vars_file_args[@]}
 
-# code_snippet prepare-tasks-with-secrets-script end
+# code_snippet prepare_tasks_with_secrets-script end

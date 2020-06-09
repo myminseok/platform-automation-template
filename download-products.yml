@@ -111,9 +111,9 @@ resources:
 
 
 # reusable stuff
-credhub-interpolate: &credhub-interpolate
+credhub_interpolate: &credhub_interpolate
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  file: platform-automation-tasks/tasks/credhub_interpolate.yml
   input_mapping:
     files: configuration
   output_mapping:
@@ -127,9 +127,9 @@ credhub-interpolate: &credhub-interpolate
     INTERPOLATION_PATHS: envs/((foundation))/opsman envs/envs/envs/((foundation))/download-products
 
 
-prepare-tasks-with-secrets: &prepare-tasks-with-secrets
+prepare_tasks_with_secrets: &prepare_tasks_with_secrets
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  file: platform-automation-tasks/tasks/prepare_tasks_with_secrets.yml
   input_mapping:
     tasks: platform-automation-tasks
     config: configuration
@@ -167,8 +167,8 @@ jobs:
       params: { unpack: true }
     - get: configuration
 
-  - task: prepare-tasks-with-secrets
-    <<: *prepare-tasks-with-secrets
+  - task: prepare_tasks_with_secrets
+    <<: *prepare_tasks_with_secrets
 
   - task: download-opsman-image
     image: platform-automation-image
@@ -194,8 +194,8 @@ jobs:
       params: { unpack: true }
     - get: configuration
 
-  - task: prepare-tasks-with-secrets
-    <<: *prepare-tasks-with-secrets
+  - task: prepare_tasks_with_secrets
+    <<: *prepare_tasks_with_secrets
 
   - task: download-only-opsman-image
     image: platform-automation-image
@@ -230,8 +230,8 @@ jobs:
         unpack: true
     - get: configuration
 
-  - task: prepare-tasks-with-secrets
-    <<: *prepare-tasks-with-secrets
+  - task: prepare_tasks_with_secrets
+    <<: *prepare_tasks_with_secrets
 
   - task: download-product-and-stemcell
     image: platform-automation-image
@@ -264,8 +264,8 @@ jobs:
         unpack: true
     - get: configuration
 
-  - task: prepare-tasks-with-secrets
-    <<: *prepare-tasks-with-secrets
+  - task: prepare_tasks_with_secrets
+    <<: *prepare_tasks_with_secrets
 
   - task: download-product-and-stemcell
     image: platform-automation-image

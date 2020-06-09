@@ -69,9 +69,9 @@ resources:
 
 ## reusable stuff in this yaml
 ## this paragraph should be placed in the end of resoure definition.
-credhub-interpolate: &credhub-interpolate
+credhub_interpolate: &credhub_interpolate
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  file: platform-automation-tasks/tasks/credhub_interpolate.yml
   input_mapping:
     files: configuration
   params:
@@ -84,9 +84,9 @@ credhub-interpolate: &credhub-interpolate
     SKIP_MISSING: false
 
 
-prepare-tasks-with-secrets: &prepare-tasks-with-secrets
+prepare_tasks_with_secrets: &prepare_tasks_with_secrets
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  file: platform-automation-tasks/tasks/prepare_tasks_with_secrets.yml
   input_mapping:
     tasks: platform-automation-tasks
     config: configuration
@@ -123,8 +123,8 @@ jobs:
         - get: configuration
         - get: variable
 
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
 
     ## tile & stemcell
     - task: download-product-from-s3
@@ -179,8 +179,8 @@ jobs:
             unpack: true
         - get: configuration
         - get: variable
-    - task: prepare-tasks-with-secrets
-      <<: *prepare-tasks-with-secrets
+    - task: prepare_tasks_with_secrets
+      <<: *prepare_tasks_with_secrets
 
     - task: staged-config
       image: platform-automation-image
@@ -228,8 +228,8 @@ jobs:
             unpack: true
         - get: configuration
         - get: variable
-    - task: credhub-interpolate 
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
 
     - task: configure-product
       image: platform-automation-image
@@ -259,8 +259,8 @@ jobs:
           params:
             unpack: true
         - get: configuration
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
 
     - task: apply-product-changes
       image: platform-automation-image
@@ -288,8 +288,8 @@ jobs:
             unpack: true
         - get: configuration
         - get: variable
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
 
     - task: apply-changes
       image: platform-automation-image

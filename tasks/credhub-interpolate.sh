@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# code_snippet credhub-interpolate-script start bash
+# code_snippet credhub_interpolate-script start bash
 
 cat /var/version && echo ""
 set -euo pipefail
@@ -45,4 +45,4 @@ for file in $files; do
   > interpolated-files/"$file"
 done
 
-# code_snippet credhub-interpolate-script end
+# code_snippet credhub_interpolate-script end

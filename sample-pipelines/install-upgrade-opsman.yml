@@ -82,9 +82,9 @@ resources:
 
 
 # reusable stuff
-credhub-interpolate: &credhub-interpolate
+credhub_interpolate: &credhub_interpolate
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  file: platform-automation-tasks/tasks/credhub_interpolate.yml
   input_mapping:
     files: configuration
   params:
@@ -97,9 +97,9 @@ credhub-interpolate: &credhub-interpolate
     SKIP_MISSING: false
 
 # for *.yaml, *.yml ( ie. semver-version.yaml)
-credhub-interpolate-product-version-git-opsnam: &credhub-interpolate-product-version-git-opsnam
+credhub_interpolate-product-version-git-opsnam: &credhub_interpolate-product-version-git-opsnam
   image: platform-automation-image
-  file: pipelines/tasks/credhub-interpolate.yml
+  file: pipelines/tasks/credhub_interpolate.yml
   input_mapping:
     files: product-version-git-opsnam
   params:
@@ -113,9 +113,9 @@ credhub-interpolate-product-version-git-opsnam: &credhub-interpolate-product-ver
   output_mapping:
     interpolated-files: product-version-git-opsnam
 
-prepare-tasks-with-secrets: &prepare-tasks-with-secrets
+prepare_tasks_with_secrets: &prepare_tasks_with_secrets
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  file: platform-automation-tasks/tasks/prepare_tasks_with_secrets.yml
   input_mapping:
     tasks: platform-automation-tasks
     config: configuration
@@ -190,11 +190,11 @@ jobs:
         - get: configuration
         - get: variable
 
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
 
-    - task: credhub-interpolate-product-version-git-opsnam
-      <<: *credhub-interpolate-product-version-git-opsnam
+    - task: credhub_interpolate-product-version-git-opsnam
+      <<: *credhub_interpolate-product-version-git-opsnam
          
     ## ova file.
     - task: download-product-from-s3
@@ -268,11 +268,11 @@ jobs:
         - get: configuration
         - get: variable
 
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
 
-    - task: credhub-interpolate-product-version-git-opsnam
-      <<: *credhub-interpolate-product-version-git-opsnam
+    - task: credhub_interpolate-product-version-git-opsnam
+      <<: *credhub_interpolate-product-version-git-opsnam
  
     - task: setup-opsman-nginx
       image: platform-automation-image
@@ -301,8 +301,8 @@ jobs:
         - get: configuration
         - get: variable
 
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
          
     - task: configure-authentication
       image: platform-automation-image
@@ -333,8 +333,8 @@ jobs:
         - get: configuration
         - get: variable
 
-    - task: prepare-tasks-with-secrets
-      <<: *prepare-tasks-with-secrets
+    - task: prepare_tasks_with_secrets
+      <<: *prepare_tasks_with_secrets
 
     - task: configure-director
       image: platform-automation-image
@@ -364,8 +364,8 @@ jobs:
           params:
             unpack: true
         - get: configuration
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
     - task: apply-director-changes
       <<: *apply-director-changes
 
@@ -387,14 +387,14 @@ jobs:
         - get: configuration
         - get: pipelines
 
-    - task: prepare-tasks-with-secrets
-      <<: *prepare-tasks-with-secrets
+    - task: prepare_tasks_with_secrets
+      <<: *prepare_tasks_with_secrets
       params:
         CONFIG_PATHS: config/((foundation))/opsman
         VARS_PATHS: config/((foundation))/vars
 
-    - task: prepare-tasks-with-secrets_pipelines
-      <<: *prepare-tasks-with-secrets
+    - task: prepare_tasks_with_secrets_pipelines
+      <<: *prepare_tasks_with_secrets
       params:
         CONFIG_PATHS: config/((foundation))/opsman
         VARS_PATHS: config/((foundation))/vars
@@ -450,8 +450,8 @@ jobs:
             unpack: true
         - get: configuration
         - get: variable
-    - task: prepare-tasks-with-secrets
-      <<: *prepare-tasks-with-secrets
+    - task: prepare_tasks_with_secrets
+      <<: *prepare_tasks_with_secrets
       params:
         CONFIG_PATHS: config/((foundation))/opsman
         VARS_PATHS: config/((foundation))/vars
@@ -487,11 +487,11 @@ jobs:
         - get: configuration
         - get: variable
 
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
 
-    - task: credhub-interpolate-product-version-git-opsnam
-      <<: *credhub-interpolate-product-version-git-opsnam
+    - task: credhub_interpolate-product-version-git-opsnam
+      <<: *credhub_interpolate-product-version-git-opsnam
 
     ## check if there is a new opsman version
     
@@ -577,8 +577,8 @@ jobs:
           params:
             unpack: true
         - get: configuration
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
     - task: apply-director-changes
       <<: *apply-director-changes
 
@@ -603,8 +603,8 @@ jobs:
         - get: configuration
         - get: installation
 
-    - task: credhub-interpolate 
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
 
     - task: import-installation
       image: platform-automation-image
@@ -631,7 +631,7 @@ jobs:
           params:
             unpack: true
         - get: configuration
-    - task: credhub-interpolate
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
     - task: apply-director-changes
       <<: *apply-director-changes

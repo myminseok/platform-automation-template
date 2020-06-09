@@ -60,7 +60,7 @@ resources:
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
     ##regexp: "ops-manager-vsphere*.ova"
-    regexp: "ops-manager-*.*"
+    regexp: "ops-manager-vsphere-*(.*).*"
     skip_ssl_verification: true
 
 - name: opsman-product-new-version-s3

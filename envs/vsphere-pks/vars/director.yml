@@ -1,7 +1,7 @@
 
-iaas-configurations_0_bosh_disk_path: 'pcf_disk'
-iaas-configurations_0_bosh_template_folder: 'pcf_templates'
-iaas-configurations_0_bosh_vm_folder: 'pcf_vms'
+iaas-configurations_0_bosh_disk_path: 'vsphere-pks_disk'
+iaas-configurations_0_bosh_template_folder: 'vsphere-pks_templates'
+iaas-configurations_0_bosh_vm_folder: 'vsphere-pks_vms'
 iaas-configurations_0_datacenter: 'Datacenter'
 iaas-configurations_0_disk_type: 'thick'
 iaas-configurations_0_ephemeral_datastores_string: 'LUN01'

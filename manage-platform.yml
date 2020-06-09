@@ -364,7 +364,7 @@ jobs:
   build_log_retention: 
     days: 2
     builds: 100
-    minimum_succeeded_builds: 1
+    #minimum_succeeded_builds: 1
   plan:
     - get: platform-automation-pivnet
     - put: platform-automation-tasks
@@ -381,7 +381,7 @@ jobs:
   build_log_retention:
     days: 2
     builds: 1000
-    minimum_succeeded_builds: 1
+    #minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -461,7 +461,7 @@ jobs:
   build_log_retention:
     days: 2
     builds: 100
-    minimum_succeeded_builds: 1
+    #minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: platform-automation-image
@@ -541,7 +541,7 @@ jobs:
   build_log_retention:
     days: 2
     builds: 100
-    minimum_succeeded_builds: 1
+    #minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -610,7 +610,7 @@ jobs:
   build_log_retention:
     days: 2
     builds: 100
-    minimum_succeeded_builds: 1
+    #minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -646,7 +646,7 @@ jobs:
   build_log_retention:
     days: 2
     builds: 100
-    minimum_succeeded_builds: 1
+    #minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -684,7 +684,7 @@ jobs:
   build_log_retention:
     days: 2
     builds: 100
-    minimum_succeeded_builds: 1
+    #minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -724,7 +724,7 @@ jobs:
   build_log_retention:
     days: 2
     builds: 100
-    minimum_succeeded_builds: 1
+    #minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -762,7 +762,7 @@ jobs:
   build_log_retention:
     days: 2
     builds: 100
-    minimum_succeeded_builds: 1
+    #minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -1127,7 +1127,7 @@ jobs:
   build_log_retention:
     days: 2
     builds: 1000
-    minimum_succeeded_builds: 1
+    #minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
@@ -1208,7 +1208,7 @@ jobs:
   build_log_retention:
     days: 2
     builds: 1000
-    minimum_succeeded_builds: 1
+    #minimum_succeeded_builds: 1
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git

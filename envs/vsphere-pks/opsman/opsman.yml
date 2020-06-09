@@ -2,7 +2,7 @@
 opsman-configuration:
   vsphere:
     vcenter:
-      url: 192.168.1.200
+      url: vcsa-01.haas-224.pez.pivotal.io
       username: ((iaas-configurations_0_vcenter_username))
       password: ((iaas-configurations_0_vcenter_password))
       datastore: LUN01

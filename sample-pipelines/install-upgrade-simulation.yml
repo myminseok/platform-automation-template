@@ -142,7 +142,7 @@ jobs:
   build_log_retention:
     days: 2
     builds: 1000
-    #minimum_succeeded_builds: 1
+
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git

@@ -1,57 +1,28 @@
 products:
   opsman:
-    product-version: "2.9.1"
+    product-version: "2.9.4"
     pivnet-product-slug: ops-manager
-    pivnet-file-glob: "ops-manager-aws*.yml"
+    pivnet-file-glob: "*.ova"
     download-stemcell: "false"
+    s3-endpoint: ((s3_endpoint))
+    s3-region-name: ((s3_region))
+    s3-bucket: ((s3_bucket))
+    s3-disable-ssl: "true"
+    s3-access-key-id: ((s3_access_key_id))
+    s3-secret-access-key: ((s3_secret_access_key))
     pivnet-api-token: ((pivnet_token))
 
   tas:
-    product-version: "2.8.1"
+    product-version: "2.9.4"
     pivnet-product-slug: elastic-runtime
     pivnet-file-glob: "cf*.pivotal"
     stemcell-iaas: vsphere
-    pivnet-api-token: ((pivnet_token))
- 
-  healthwatch:
-    product-version: "1.8.1"
-    pivnet-product-slug: p-healthwatch 
-    pivnet-file-glob: "*.pivotal"
-    stemcell-iaas: vsphere
-    pivnet-api-token: ((pivnet_token))
-
-
-  scs:
-    product-version: "3.1.10"
-    pivnet-product-slug: p-spring-cloud-services
-    pivnet-file-glob: "*.pivotal"
-    stemcell-iaas: vsphere
+    s3-endpoint: ((s3_endpoint))
+    s3-region-name: ((s3_region))
+    s3-bucket: ((s3_bucket))
+    s3-disable-ssl: "true"
+    s3-access-key-id: ((s3_access_key_id))
+    s3-secret-access-key: ((s3_secret_access_key))
     pivnet-api-token: ((pivnet_token))
 
-  pivotal-mysql:
-    product-version: "2.8.1"
-    pivnet-product-slug: pivotal-mysql
-    pivnet-file-glob: "*.pivotal"
-    stemcell-iaas: vsphere
-    pivnet-api-token: ((pivnet_token))
 
-  redis:
-    product-version: "2.3.3"
-    pivnet-product-slug: p-redis
-    pivnet-file-glob: "*.pivotal"
-    stemcell-iaas: vsphere
-    pivnet-api-token: ((pivnet_token))
-
-  rabbitmq:
-    product-version: "1.19.0"
-    pivnet-product-slug: p-rabbitmq
-    pivnet-file-glob: "*.pivotal"
-    stemcell-iaas: vsphere
-    pivnet-api-token: ((pivnet_token))
-
-  vmware-nsx-t:
-    product-version: "2.5.1"
-    pivnet-product-slug: vmware-nsx-t 
-    pivnet-file-glob: "*.pivotal"
-    stemcell-iaas: vsphere
-    pivnet-api-token: ((pivnet_token))

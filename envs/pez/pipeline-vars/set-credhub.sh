@@ -13,11 +13,7 @@ PREFIX='/concourse/main'
 credhub set -t value -n /concourse/main/s3_access_key_id -v ''
 credhub delete -n /concourse/main/s3_secret_access_key
 credhub set -t password -n /concourse/main/s3_secret_access_key -w ''
-
-credhub set -t value -n /concourse/main/iaas-configurations_0_vcenter_username -v ''
-credhub delete -n /concourse/main/iaas-configurations_0_vcenter_password
-credhub set -t password -n /concourse/main/iaas-configurations_0_vcenter_password -w ''
-
+credhub set -t user -n /concourse/main/vcenter_user -z admin@vcenter.local -w "PASSWORD"
 credhub delete -n /concourse/main/pivnet_token
 credhub set -t password -n /concourse/main/pivnet_token -w ''
 credhub set -t value -n /concourse/main/git_user_email -v admin@user.io
@@ -26,6 +22,7 @@ credhub set -t user -n /concourse/main/smtp_user -z user -w 'secret'
 
 ## register ssh key for git. ex) ~/.ssh/id_rsa
 credhub set -t rsa  -n /concourse/main/git_private_key  -p ~/.ssh/id_rsa
+ 
 
 ## cd concourse-bosh-deployment/cluster
 ## bosh int ./concourse-creds.yml --path /atc_tls/certificate > atc_tls.cert
@@ -40,24 +37,10 @@ credhub set -t value -n ${PREFIX}/${PIPELINE_NAME}/opsman_target -v "https://"
 # for opsman.yml on vsphere
 credhub set -t rsa  -n ${PREFIX}/${PIPELINE_NAME}/opsman_ssh_key -u ~/.ssh/id_rsa.pub -p ~/.ssh/id_rsa
 
-
-
-##for tas.yml
-credhub delete -n ${PREFIX}/${PIPELINE_NAME}/credhub_internal_provider_keys_0_key
-credhub set -t password -n ${PREFIX}/${PIPELINE_NAME}/credhub_internal_provider_keys_0_key -w ''
-
-##*.pcfdemo.net,*.system.pcfdemo.net,*.apps.pcfdemo.net,*.uaa.system.pcfdemo.net,*.login.system.pcfdemo.net
-#credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/networking_poe_ssl_certs_0 -c ./tas_ssl_domain.crt -p ./tas_ssl_domain.key
-credhub set -t rsa -n ${PREFIX}/${PIPELINE_NAME}/networking_poe_ssl_certs_0 -u ./tas_ssl_domain.crt -p ./tas_ssl_domain.key
+##*.pcfdemo.net,*.sys.pcfdemo.net,*.apps.pcfdemo.net,*.uaa.sys.pcfdemo.net,*.login.sys.pcfdemo.net
+credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/tas_ssl_domain -c ./tas_ssl_domain.crt -p ./tas_ssl_domain.key
 
 ## bosh credhub : credhub get -n /services/tls_ca -k ca
 ## TAS tile> networking> domain certifiate
 credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/director_trusted_certificates -c ./director_trusted_certificates
-
-## for nsx-t
-credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/nsx_ca_certificate -c ./nsx_ca_certificate
-credhub delete -n ${PREFIX}/${PIPELINE_NAME}/nsx_password
-credhub set -t password -n ${PREFIX}/${PIPELINE_NAME}/nsx_password -w ''
-
-
 

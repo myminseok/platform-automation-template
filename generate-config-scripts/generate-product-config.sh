@@ -93,7 +93,7 @@ touch ${product_template_opsfile}
 echo ""
 echo "Checking pre-defined opsfile options to control config template ..."
 export product_template_opsfile_args=("")
-while IFS= read -r var; do
+while IFS= read  var; do
   product_template_opsfile_args+=("-o ${download_template_product_path}/${var}")
 done < "${product_template_opsfile}"
 echo " -> product_template_opsfile_args: ${product_template_opsfile_args[@]}"

@@ -17,7 +17,7 @@ opsman-configuration:
     dns: 10.192.2.10
     ntp: ntp1.svc.pivotal.io                    # example: ntp.ubuntu.com
     ssh_public_key: ((opsman_ssh_key.public_key))
-    hostname:
+    hostname: opsman.pcfdemo.net
     network: PAS-Infrastructure                 # vcenter network to deploy to
     netmask: 255.255.255.0
     gateway: 192.168.0.1

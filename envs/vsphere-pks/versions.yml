@@ -13,9 +13,9 @@ products:
     pivnet-api-token: ((pivnet_token))
 
   cf:
-    product-version: "2.6.4"
+    product-version: "2.9.4"
     pivnet-product-slug: elastic-runtime
-    pivnet-file-glob: "*.pivotal"
+    pivnet-file-glob: "cf*.pivotal"
     stemcell-iaas: vsphere
     s3-endpoint: ((s3_endpoint))
     s3-region-name: ((s3_region))

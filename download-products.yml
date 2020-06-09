@@ -48,7 +48,7 @@ resources:
   type: git
   source:
     private_key: ((git.private_key))
-    uri: ((git.configuration.uri))
+    uri: ((git.platform_automation_configs.uri))
     branch: master
 
 - name: opsman-product
@@ -61,18 +61,6 @@ resources:
     secret_access_key: ((s3.secret_access_key))
     regexp: "ops-manager-vsphere-*(.*).*"
     skip_ssl_verification: true
-
-- name: opsman-product-new-version-s3
-  type: semver
-  source:
-    endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
-    bucket: ((s3.buckets.pivnet_products))
-    region_name: ((s3.region_name))
-    secret_access_key: ((s3.secret_access_key))
-    skip_ssl_verification: true
-    key: opsman-version
-    initial_version: 0.1.0
 
 
 - name: pas-product
@@ -94,7 +82,7 @@ resources:
     bucket: ((s3.buckets.pivnet_products))
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
-    regexp: pas-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: bosh-stemcell-(.*)-vsphere.*\.tgz
     skip_ssl_verification: true
 
 
@@ -117,7 +105,7 @@ resources:
     bucket: ((s3.buckets.pivnet_products))
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
-    regexp: healthwatch-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    regexp: bosh-stemcell-(.*)-vsphere.*\.tgz
     skip_ssl_verification: true
 
 
@@ -193,38 +181,6 @@ jobs:
       file: downloaded-product/*
 
 
-- name: fetch-tas
-  serial: true
-  serial_groups: [serial-jobs]
-  plan:
-  - in_parallel:
-    - get: platform-automation-image
-      params:
-        unpack: true
-    - get: platform-automation-tasks
-      params:
-        unpack: true
-    - get: configuration
-
-  - task: prepare-tasks-with-secrets
-    <<: *prepare-tasks-with-secrets
-
-  - task: download-product-and-stemcell
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/download-product.yml
-    params:
-      CONFIG_FILE: envs/((foundation))/download-products/tas.yml
-    input_mapping:
-      config: configuration
-
-  - in_parallel:
-    - put: pas-product
-      params:
-        file: downloaded-product/*.pivotal
-    - put: pas-stemcell
-      params:
-        file: downloaded-stemcell/*.tgz
-
 
 - name: pre-fetch-opsman
   serial: true
@@ -258,3 +214,71 @@ jobs:
           bucket: ((s3.buckets.pivnet_products))
           region_name: ((s3.region_name))
           secret_access_key: ((s3.secret_access_key))
+
+
+
+- name: fetch-tas
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: configuration
+
+  - task: prepare-tasks-with-secrets
+    <<: *prepare-tasks-with-secrets
+
+  - task: download-product-and-stemcell
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: envs/((foundation))/download-products/tas.yml
+    input_mapping:
+      config: configuration
+
+  - in_parallel:
+    - put: pas-product
+      params:
+        file: downloaded-product/*.pivotal
+    - put: pas-stemcell
+      params:
+        file: downloaded-stemcell/*.tgz
+
+
+
+- name: fetch-healthwatch
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: configuration
+
+  - task: prepare-tasks-with-secrets
+    <<: *prepare-tasks-with-secrets
+
+  - task: download-product-and-stemcell
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: envs/((foundation))/download-products/healthwatch.yml
+    input_mapping:
+      config: configuration
+
+  - in_parallel:
+    - put: healthwatch-product
+      params:
+        file: downloaded-product/*.pivotal
+    - put: healthwatch-stemcell
+      params:
+        file: downloaded-stemcell/*.tgz

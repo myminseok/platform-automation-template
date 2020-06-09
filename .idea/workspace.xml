@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18127e84-f145-4014-85fe-8953f9865761" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/envs/pez/download-products/tas.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/download-products.yml" beforeDir="false" afterPath="$PROJECT_DIR$/download-products.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,20 +13,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="download-products.yml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="download-products.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/download-products.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="195" column="17" selection-start-line="195" selection-start-column="17" selection-end-line="195" selection-end-column="17" />
+            <state relative-caret-position="180">
+              <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tas.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="params.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="29" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tas.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/envs/pez/download-products/tas.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+            <state relative-caret-position="75">
+              <caret line="5" column="22" lean-forward="true" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -70,6 +78,8 @@
       <find>prepare-pipelines-custom-tasks-with-secrets</find>
       <find>upload-product</find>
       <find>staged-configstaged-config</find>
+      <find>configuration.uri</find>
+      <find>healthwatch-product</find>
       <find>opsman-product-new-version-s3</find>
     </findStrings>
     <replaceStrings>
@@ -137,8 +147,8 @@
         <option value="$PROJECT_DIR$/envs/awstest/opsfiles/tas-operations" />
         <option value="$PROJECT_DIR$/envs/dev/versions.yml" />
         <option value="$PROJECT_DIR$/envs/pez/download-products/pks.yml" />
-        <option value="$PROJECT_DIR$/download-products.yml" />
         <option value="$PROJECT_DIR$/envs/pez/download-products/tas.yml" />
+        <option value="$PROJECT_DIR$/download-products.yml" />
       </list>
     </option>
   </component>
@@ -217,6 +227,13 @@
               <item name="envs" type="462c0819:PsiDirectoryNode" />
               <item name="pez" type="462c0819:PsiDirectoryNode" />
               <item name="opsman" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="pez" type="462c0819:PsiDirectoryNode" />
+              <item name="pipeline-vars" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -340,9 +357,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/manage-platform-awstest.sh">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/manage-platform-pks.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -607,17 +621,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/download-products.yml">
+    <entry file="file://$PROJECT_DIR$/envs/pez/download-products/tas.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="195" column="17" selection-start-line="195" selection-start-column="17" selection-end-line="195" selection-end-column="17" />
+        <state relative-caret-position="75">
+          <caret line="5" column="22" lean-forward="true" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/download-products/tas.yml">
+    <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+        <state relative-caret-position="270">
+          <caret line="18" column="29" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/download-products.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
         </state>
       </provider>
     </entry>

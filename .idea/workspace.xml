@@ -2,86 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18127e84-f145-4014-85fe-8953f9865761" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/download-products-dev.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/tas-operations" beforeDir="false" afterPath="$PROJECT_DIR$/envs/awstest/opsfiles/tas-operations" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/dev/versions.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/dev/versions.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-products/healthwatch.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-products/pivotal-mysql.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-products/rabbitmq.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-products/redis.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-products/scs.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-products/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/generated-products/tas.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-products/vmware-nsx-t.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/director.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/healthwatch.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/opsman.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/pivotal-mysql.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/rabbitmq.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/redis.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/scs.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/generated-vars/tas.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/vmware-nsx-t.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/apmPostgres-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/credhub-service-broker-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/healthwatch-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/p-cloudcache-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/p-event-alerts-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/p-rabbitmq-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/p-redis-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/p_spring-cloud-services-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/pivotal-mysql-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/pivotal_single_sign-on_service-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/rabbitmq-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/redis-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/scs-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/tas-operations" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/opsfiles/tas-operations" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/vmware-nsx-t-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/opsman/director.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/opsman/opsman.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/pks-env.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/pks-env.yml-" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/vcenter-env.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/products/tas.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/vars/director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/vars/director.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/vars/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/vars/tas.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/versions.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/versions.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/download-products/opsman.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/download-products/pks.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/generated-config/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/generated-products/cf.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/generated-vars/cf.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/generated-vars/test.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/opsfiles/cf-operations" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/opsman/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/opsman/auth-ldap.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/opsman/auth-saml.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/opsman/auth.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/opsman/director.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/opsman/env.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/opsman/opsman.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/pipeline-vars/params.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/pipeline-vars/set-credhub.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/products/pks.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/state/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/state/state.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/vars/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/vars/cf.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/vars/director.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/vars/opsman.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/vars/tas.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/vars/versions.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/versions.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/versions/opsman.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage-platform-awstest.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage-platform-dev.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage-platform-pez.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage-platform-pks.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage-platform-pks.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage-platform.yml" beforeDir="false" afterPath="$PROJECT_DIR$/manage-platform.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample-pipelines/install-upgrade-simulation.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/install-upgrade-simulation.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/envs/pez/download-products/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/download-products.yml" beforeDir="false" afterPath="$PROJECT_DIR$/download-products.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -92,11 +14,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="pks.yml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/envs/pez/download-products/pks.yml">
+      <file leaf-file-name="download-products.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/download-products.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+            <state relative-caret-position="189">
+              <caret line="195" column="17" selection-start-line="195" selection-start-column="17" selection-end-line="195" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tas.yml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/envs/pez/download-products/tas.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manage-opsman.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/manage-opsman.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="251">
+              <caret line="276" selection-start-line="276" selection-end-line="277" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -130,6 +70,7 @@
       <find>prepare-pipelines-custom-tasks-with-secrets</find>
       <find>upload-product</find>
       <find>staged-configstaged-config</find>
+      <find>opsman-product-new-version-s3</find>
     </findStrings>
     <replaceStrings>
       <replace>pipelines</replace>
@@ -167,7 +108,6 @@
         <option value="$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.yml" />
         <option value="$PROJECT_DIR$/tasks/prepare-credhub-secrets-from-terraform-state.sh" />
         <option value="$PROJECT_DIR$/sample-pipelines/test-resource.sh" />
-        <option value="$PROJECT_DIR$/download-products.yml" />
         <option value="$PROJECT_DIR$/envs/dev/vars/versions.yml" />
         <option value="$PROJECT_DIR$/envs/vsphere-pks/vars/versions.yml" />
         <option value="$PROJECT_DIR$/envs/vsphere-pks/products/tas.yml" />
@@ -197,6 +137,8 @@
         <option value="$PROJECT_DIR$/envs/awstest/opsfiles/tas-operations" />
         <option value="$PROJECT_DIR$/envs/dev/versions.yml" />
         <option value="$PROJECT_DIR$/envs/pez/download-products/pks.yml" />
+        <option value="$PROJECT_DIR$/download-products.yml" />
+        <option value="$PROJECT_DIR$/envs/pez/download-products/tas.yml" />
       </list>
     </option>
   </component>
@@ -228,6 +170,13 @@
               <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
               <item name="envs" type="462c0819:PsiDirectoryNode" />
               <item name="awstest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="awstest" type="462c0819:PsiDirectoryNode" />
+              <item name="download-products" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
@@ -283,6 +232,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/envs/pez/download-products" />
       <recent name="$PROJECT_DIR$/envs/vsphere-pks/versions" />
     </key>
   </component>
@@ -390,16 +340,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/envs/vsphere-pks/state/state.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manage-platform-vsphere-pks.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/manage-platform-awstest.sh">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -597,13 +537,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manage-opsman.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7227">
-          <caret line="730" selection-start-line="730" selection-end-line="730" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/envs/pez/opsman/director.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1090" />
@@ -662,8 +595,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/envs/pez/download-products/pks.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+        <state relative-caret-position="60">
+          <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage-opsman.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="276" selection-start-line="276" selection-end-line="277" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/download-products.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="195" column="17" selection-start-line="195" selection-start-column="17" selection-end-line="195" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/download-products/tas.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
         </state>
       </provider>
     </entry>

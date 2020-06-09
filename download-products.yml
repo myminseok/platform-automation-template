@@ -59,7 +59,6 @@ resources:
     bucket: ((s3.buckets.pivnet_products))
     region_name: ((s3.region_name))
     secret_access_key: ((s3.secret_access_key))
-    ##regexp: "ops-manager-vsphere*.ova"
     regexp: "ops-manager-vsphere-*(.*).*"
     skip_ssl_verification: true
 
@@ -140,6 +139,20 @@ credhub-interpolate: &credhub-interpolate
     INTERPOLATION_PATHS: envs/((foundation))/opsman envs/envs/envs/((foundation))/download-products
 
 
+prepare-tasks-with-secrets: &prepare-tasks-with-secrets
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  input_mapping:
+    tasks: platform-automation-tasks
+    config: configuration
+    vars: configuration
+  params:
+    CONFIG_PATHS: config/envs/((foundation))/download-products
+    VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+  output_mapping:
+    tasks: platform-automation-tasks
+
+
 jobs:
   
 - name: fetch-platform-automation
@@ -165,10 +178,10 @@ jobs:
     - get: platform-automation-tasks
       params: { unpack: true }
     - get: configuration
-    - get: opsman-product-new-version-s3
-      trigger: true
-  - task: credhub-interpolate
-    <<: *credhub-interpolate
+
+  - task: prepare-tasks-with-secrets
+    <<: *prepare-tasks-with-secrets
+
   - task: download-opsman-image
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
@@ -180,7 +193,7 @@ jobs:
       file: downloaded-product/*
 
 
-- name: fetch-pas
+- name: fetch-tas
   serial: true
   serial_groups: [serial-jobs]
   plan:
@@ -192,34 +205,25 @@ jobs:
       params:
         unpack: true
     - get: configuration
-  - task: credhub-interpolate
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params:
-      CREDHUB_SERVER: ((credhub.server))
-      CREDHUB_CA_CERT: ((credhub.ca_cert))
-      CREDHUB_CLIENT: ((credhub.client))
-      CREDHUB_SECRET: ((credhub.secret))
-      PREFIX: '/concourse/((foundation))'
-      INTERPOLATION_PATH: "envs/((foundation))/download-products"
-    input_mapping:
-      files: configuration
-    output_mapping:
-      interpolated-files: configuration
-  - task: download-pas-product-and-stemcell
+
+  - task: prepare-tasks-with-secrets
+    <<: *prepare-tasks-with-secrets
+
+  - task: download-product-and-stemcell
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: envs/((foundation))/download-products/pas.yml
-    input_mapping: {config: configuration }
-    output_mapping: {downloaded-stemcell: pas-stemcell}
+      CONFIG_FILE: envs/((foundation))/download-products/tas.yml
+    input_mapping:
+      config: configuration
+
   - in_parallel:
     - put: pas-product
       params:
         file: downloaded-product/*.pivotal
     - put: pas-stemcell
       params:
-        file: pas-stemcell/*.tgz
+        file: downloaded-stemcell/*.tgz
 
 
 - name: pre-fetch-opsman
@@ -233,10 +237,10 @@ jobs:
     - get: platform-automation-tasks
       params: { unpack: true }
     - get: configuration
-    - get: opsman-product-new-version-s3
-      params: {bump: minor}
-  - task: credhub-interpolate
-    <<: *credhub-interpolate
+
+  - task: prepare-tasks-with-secrets
+    <<: *prepare-tasks-with-secrets
+
   - task: download-only-opsman-image
     image: platform-automation-image
     file: pipelines/tasks/download-only-product.yml
@@ -248,56 +252,9 @@ jobs:
         task: check_dup_file_in_s3
         image: platform-automation-image
         file: pipelines/tasks/exists_file_s3.yml
-        input_mapping: {downloaded-product: downloaded-product }
         params:
           endpoint: ((s3.endpoint))
           access_key_id: ((s3.access_key_id))
           bucket: ((s3.buckets.pivnet_products))
           region_name: ((s3.region_name))
           secret_access_key: ((s3.secret_access_key))
-        on_success:
-          try:
-            put: opsman-product-new-version-s3
-            params: {file: opsman-product-new-version-s3/number}
-
-
-
-- name: fetch-healthwatch
-  plan:
-  - in_parallel:
-    - get: platform-automation-image
-      params:
-        unpack: true
-    - get: platform-automation-tasks
-      params:
-        unpack: true
-    - get: configuration
-  - task: credhub-interpolate
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/credhub-interpolate.yml
-    params:
-      CREDHUB_SERVER: ((credhub.server))
-      CREDHUB_CA_CERT: ((credhub.ca_cert))
-      CREDHUB_CLIENT: ((credhub.client))
-      CREDHUB_SECRET: ((credhub.secret))
-      PREFIX: '/concourse/((foundation))'
-      INTERPOLATION_PATH: "envs/((foundation))/download-products"
-    input_mapping:
-      files: configuration
-    output_mapping:
-      interpolated-files: configuration
-  - task: download-healthwatch-product-and-stemcell
-    image: platform-automation-image
-    file: platform-automation-tasks/tasks/download-product.yml
-    params:
-      CONFIG_FILE: envs/((foundation))/download-products/healthwatch.yml
-    input_mapping: {config: configuration }
-    output_mapping: {downloaded-stemcell: healthwatch-stemcell}
-  - in_parallel:
-    - put: healthwatch-product
-      params:
-        file: downloaded-product/*.pivotal
-    - put: healthwatch-stemcell
-      params:
-        file: healthwatch-stemcell/*.tgz
-

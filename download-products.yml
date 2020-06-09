@@ -63,7 +63,7 @@ resources:
     skip_ssl_verification: true
 
 
-- name: pas-product
+- name: tas-product
   type: s3
   source:
     endpoint: ((s3.endpoint))
@@ -74,7 +74,7 @@ resources:
     regexp: cf-(.*).pivotal
     skip_ssl_verification: true
 
-- name: pas-stemcell
+- name: tas-stemcell
   type: s3
   source:
     endpoint: ((s3.endpoint))
@@ -242,10 +242,10 @@ jobs:
       config: configuration
 
   - in_parallel:
-    - put: pas-product
+    - put: tas-product
       params:
         file: downloaded-product/*.pivotal
-    - put: pas-stemcell
+    - put: tas-stemcell
       params:
         file: downloaded-stemcell/*.tgz
 

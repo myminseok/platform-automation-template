@@ -10,9 +10,9 @@ PIPELINE_NAME=$1
 PREFIX='/concourse/main'
 
 
-credhub set -t value -n /concourse/main/aws_access_key_id -v ''
-credhub delete -n /concourse/main/aws_secret_access_key
-credhub set -t password -n /concourse/main/aws_secret_access_key -w ''
+credhub set -t value -n /concourse/main/s3_access_key_id -v ''
+credhub delete -n /concourse/main/s3_secret_access_key
+credhub set -t password -n /concourse/main/s3_secret_access_key -w ''
 credhub set -t user -n /concourse/main/vcenter_user -z admin@vcenter.local -w "PASSWORD"
 credhub delete -n /concourse/main/pivnet_token
 credhub set -t password -n /concourse/main/pivnet_token -w ''

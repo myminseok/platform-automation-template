@@ -32,8 +32,8 @@ echo $secret_access_key
 rm -rf ~/.aws
 mkdir ~/.aws
 echo "[default]" > ~/.aws/credentials
-echo "aws_access_key_id = $access_key_id" >> ~/.aws/credentials
-echo "aws_secret_access_key = $secret_access_key" >> ~/.aws/credentials
+echo "s3_access_key_id = $access_key_id" >> ~/.aws/credentials
+echo "s3_secret_access_key = $secret_access_key" >> ~/.aws/credentials
 cat ~/.aws/credentials
 chmod 400 ~/.aws/credentials
 aws --endpoint $endpoint s3 ls s3://$bucket

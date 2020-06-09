@@ -2,10 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18127e84-f145-4014-85fe-8953f9865761" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/envs/vsphere-pks/versions/opsman.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/vars/global.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage-platform-pks.yml" beforeDir="false" afterPath="$PROJECT_DIR$/manage-platform-pks.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsman/opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/awstest/opsman/opsman.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/awstest/pipeline-vars/params.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/set-credhub.sh" beforeDir="false" afterPath="$PROJECT_DIR$/envs/awstest/pipeline-vars/set-credhub.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/dev/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/dev/pipeline-vars/params.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/dev/pipeline-vars/set-credhub.sh" beforeDir="false" afterPath="$PROJECT_DIR$/envs/dev/pipeline-vars/set-credhub.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/vsphere-pks/pipeline-vars/params.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/vsphere-pks/pipeline-vars/set-credhub.sh" beforeDir="false" afterPath="$PROJECT_DIR$/envs/vsphere-pks/pipeline-vars/set-credhub.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate-config-scripts/downloaded-tile-config-templates/redis/2.3.3-build.2/features/backups_selector-s3.yml" beforeDir="false" afterPath="$PROJECT_DIR$/generate-config-scripts/downloaded-tile-config-templates/redis/2.3.3-build.2/features/backups_selector-s3.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/exists_file_s3.sh" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/exists_file_s3.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,11 +29,20 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file leaf-file-name="manage-platform-pks.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="manage-platform-pks.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manage-platform-pks.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
+            <state relative-caret-position="128">
               <caret line="556" selection-start-line="556" selection-start-column="1" selection-end-line="561" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="set-credhub.sh" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/envs/vsphere-pks/pipeline-vars/set-credhub.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
@@ -34,7 +51,7 @@
         <entry file="file://$PROJECT_DIR$/envs/vsphere-pks/vars/director.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
-              <caret line="15" column="37" lean-forward="true" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
+              <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -86,6 +103,8 @@
       <find>yaml</find>
       <find>prepare-tasks-with-product-version</find>
       <find>opsman-version-git</find>
+      <find>aws_access_key_id</find>
+      <find>aws_secret_access_key</find>
     </findStrings>
     <replaceStrings>
       <replace>pipelines</replace>
@@ -93,6 +112,8 @@
       <replace>env-configs</replace>
       <replace>PIPELINE_NAME</replace>
       <replace>#minimum_succeeded_builds</replace>
+      <replace>s3_access_key_id</replace>
+      <replace>s3_secret_access_key</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -135,6 +156,7 @@
         <option value="$PROJECT_DIR$/envs/vsphere-pks/vars/global.yml" />
         <option value="$PROJECT_DIR$/envs/vsphere-pks/versions/opsman.yml" />
         <option value="$PROJECT_DIR$/manage-platform-pks.yml" />
+        <option value="$PROJECT_DIR$/envs/vsphere-pks/pipeline-vars/set-credhub.sh" />
       </list>
     </option>
   </component>
@@ -166,6 +188,13 @@
               <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
               <item name="envs" type="462c0819:PsiDirectoryNode" />
               <item name="vsphere-pks" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="vsphere-pks" type="462c0819:PsiDirectoryNode" />
+              <item name="pipeline-vars" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
@@ -391,11 +420,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/envs/vsphere-pks/pipeline-vars/set-credhub.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-150" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/manage-platform.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -545,7 +569,7 @@
     <entry file="file://$PROJECT_DIR$/envs/vsphere-pks/vars/director.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
-          <caret line="15" column="37" lean-forward="true" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
+          <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -561,8 +585,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/manage-platform-pks.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
+        <state relative-caret-position="128">
           <caret line="556" selection-start-line="556" selection-start-column="1" selection-end-line="561" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/vsphere-pks/pipeline-vars/set-credhub.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>

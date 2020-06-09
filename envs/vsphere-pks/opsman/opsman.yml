@@ -20,7 +20,7 @@ opsman-configuration:
     hostname: opsman.pcfdemo.net
     network: PAS-Infrastructure                 # vcenter network to deploy to
     netmask: 255.255.255.0
-    gateway: 192.168.0.1
+    gateway: 192.168.1.1
     vm_name:                # default: Ops_Manager
     memory: 8                                # default: 8 GB
     cpu: 1                                   # default: 1

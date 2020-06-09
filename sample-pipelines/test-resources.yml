@@ -1,4 +1,21 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+
 resources:
+- name: platform-automation-pivnet
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: platform-automation
+    product_version: 4\.(.*)
+    sort_by: semver
+
+
 - name: pipelines
   type: git
   source:
@@ -116,6 +133,21 @@ prepare-tasks-with-secrets: &prepare-tasks-with-secrets
 
 
 jobs:
+
+
+- name: fetch-platform-automation
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+    - get: platform-automation-pivnet
+    - put: platform-automation-tasks
+      params:
+        file: platform-automation-pivnet/platform-automation-tasks-*.zip
+    - put: platform-automation-image
+      params:
+        file: platform-automation-pivnet/platform-automation-image-*.tgz
+
+
 
 - name: test-resources
   plan:

@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="18127e84-f145-4014-85fe-8953f9865761" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/download-products.yml" beforeDir="false" afterPath="$PROJECT_DIR$/download-products.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/awstest/pipeline-vars/params.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/dev/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/dev/pipeline-vars/params.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage-opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/manage-opsman.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage-platform.yml" beforeDir="false" afterPath="$PROJECT_DIR$/manage-platform.yml" afterDir="false" />
-    </list>
+    <list default="true" id="18127e84-f145-4014-85fe-8953f9865761" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,11 +29,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="params.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="params.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/envs/dev/pipeline-vars/params.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="435">
               <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manage-platform.yml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/manage-platform.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-623">
+              <caret line="192" column="40" selection-start-line="192" selection-start-column="40" selection-end-line="192" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -163,8 +165,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="82" />
-    <option name="y" value="80" />
+    <option name="x" value="61" />
+    <option name="y" value="49" />
     <option name="width" value="1212" />
     <option name="height" value="756" />
   </component>
@@ -179,31 +181,6 @@
             <path>
               <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
               <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
-              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
-              <item name="envs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
-              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
-              <item name="envs" type="462c0819:PsiDirectoryNode" />
-              <item name="dev" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
-              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
-              <item name="envs" type="462c0819:PsiDirectoryNode" />
-              <item name="dev" type="462c0819:PsiDirectoryNode" />
-              <item name="generated-config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="platform-automation-template" type="b2602c69:ProjectViewProjectNode" />
-              <item name="platform-automation-template" type="462c0819:PsiDirectoryNode" />
-              <item name="envs" type="462c0819:PsiDirectoryNode" />
-              <item name="dev" type="462c0819:PsiDirectoryNode" />
-              <item name="pipeline-vars" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -292,7 +269,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="82" y="80" width="1212" height="756" extended-state="0" />
+    <frame x="61" y="49" width="1212" height="756" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -581,13 +558,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manage-platform.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="192" column="40" selection-start-line="192" selection-start-column="40" selection-end-line="192" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/manage-opsman.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="398">
@@ -613,6 +583,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
           <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage-platform.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-623">
+          <caret line="192" column="40" selection-start-line="192" selection-start-column="40" selection-end-line="192" selection-end-column="40" />
         </state>
       </provider>
     </entry>

@@ -17,13 +17,6 @@ resources:
     regexp: platform-automation-tasks-(.*).zip
     skip_ssl_verification: true
 
-- name: platform-automation-tasks-git
-  type: git
-  source:
-    private_key: ((git.private_key))
-    uri: ((git.platform_automation_tasks.uri))
-    branch: master
-
 
 - name: platform-automation-image
   type: s3
@@ -42,9 +35,9 @@ resources:
   source:
     driver: git
     private_key: ((git.private_key))
-    uri: ((git.configuration.uri))
+    uri: ((git.platform_automation_configs.uri))
     branch: master
-    file: dev/my-product-version
+    file: ((foundation))/my-product-version
     initial_version: 0.1.0
 
 - name: product-new-version-s3
@@ -64,7 +57,7 @@ resources:
   type: git
   source:
     private_key: ((git.private_key))
-    uri: ((git.configuration.uri))
+    uri: ((git.platform_automation_configs.uri))
     branch: master
 
 - name: one-time-trigger
@@ -99,7 +92,8 @@ credhub-interpolate: &credhub-interpolate
     interpolated-files: configuration
   params:
     CREDHUB_SERVER: ((credhub.server))
-    CREDHUB_CA_CERT: ((credhub.ca_cert))
+    #CREDHUB_CA_CERT: ((credhub.ca_cert))
+    CREDHUB_CA_CERT: ""
     CREDHUB_CLIENT: ((credhub.client))
     CREDHUB_SECRET: ((credhub.secret))
     PREFIX: "/concourse/((foundation))"
@@ -133,7 +127,6 @@ jobs:
     - get: pipelines
     - get: platform-automation-tasks
       params: { unpack: true }
-    - get: platform-automation-tasks-git
     - get: platform-automation-image
       params: { unpack: true }
     - get: configuration
@@ -147,8 +140,8 @@ jobs:
   - task: prepare-tasks-with-secrets
     <<: *prepare-tasks-with-secrets
     params:
-      CONFIG_PATHS: config/((foundation))/opsman
-      VARS_PATHS: config/((foundation))/vars
+      CONFIG_PATHS: config/envs/((foundation))/opsman
+      VARS_PATHS: config/envs/((foundation))/vars
   - task: test-tasks
     config:
       platform: linux

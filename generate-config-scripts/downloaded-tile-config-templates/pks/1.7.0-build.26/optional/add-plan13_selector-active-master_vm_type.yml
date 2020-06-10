@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan13_selector.active.master_vm_type?
+  value:
+    value: ((plan13_selector_active_master_vm_type))

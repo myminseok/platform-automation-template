@@ -3,7 +3,7 @@
 # See our documentation for a detailed discussion of our semver API.
 # See www.semver.org for an explanation of semantic versioning.
 
-# code_snippet credhub-interpolate start yaml
+# code_snippet credhub_interpolate start yaml
 ---
 platform: linux
 
@@ -61,4 +61,4 @@ params:
 
 run:
   path: pipelines/tasks/credhub-interpolate.sh
-# code_snippet credhub-interpolate end
+# code_snippet credhub_interpolate end

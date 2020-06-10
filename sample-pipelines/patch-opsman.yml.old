@@ -75,9 +75,9 @@ resources:
 
 
 # reusable stuff
-credhub-interpolate: &credhub-interpolate
+credhub_interpolate: &credhub_interpolate
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  file: platform-automation-tasks/tasks/credhub_interpolate.yml
   input_mapping:
     files: configuration
   params:
@@ -117,8 +117,8 @@ jobs:
         - get: configuration
         - get: variable
 
-    - task: credhub-interpolate 
-      <<: *credhub-interpolate
+    - task: credhub_interpolate
+      <<: *credhub_interpolate
 
     - task: export-installation
       image: platform-automation-image
@@ -201,8 +201,8 @@ jobs:
     - get: platform-automation-tasks
       params: {unpack: true}
     - get: configuration
-  - task: credhub-interpolate
-    <<: *credhub-interpolate
+  - task: credhub_interpolate
+    <<: *credhub_interpolate
   - task: apply-director-changes
     image: platform-automation-image
     file: platform-automation-tasks/tasks/apply-director-changes.yml
@@ -224,8 +224,8 @@ jobs:
     - get: platform-automation-tasks
       params: {unpack: true}
     - get: configuration
-  - task: credhub-interpolate
-    <<: *credhub-interpolate
+  - task: credhub_interpolate
+    <<: *credhub_interpolate
   - task: export-installation
     image: platform-automation-image
     file: platform-automation-tasks/tasks/export-installation.yml
@@ -250,8 +250,8 @@ jobs:
     - get: platform-automation-tasks
       params: {unpack: true}
     - get: configuration
-  - task: credhub-interpolate
-    <<: *credhub-interpolate
+  - task: credhub_interpolate
+    <<: *credhub_interpolate
   - task: staged-director-config
     image: platform-automation-image
     file: platform-automation-tasks/tasks/staged-director-config.yml

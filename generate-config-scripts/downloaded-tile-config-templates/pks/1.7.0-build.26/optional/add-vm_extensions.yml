@@ -1,0 +1,5 @@
+- type: replace
+  path: /product-properties/.properties.vm_extensions?
+  value:
+    value:
+    - public_ip

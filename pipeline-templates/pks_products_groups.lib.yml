@@ -1,0 +1,29 @@
+
+#@ load("@ytt:overlay", "overlay")
+
+#@ def pks_products_groups():
+
+#@overlay/match by="name",missing_ok=True
+- name: main
+  jobs:
+  #@overlay/append by=overlay.index(0)
+  - install-and-patch-pks
+  #@overlay/append by=overlay.index(0)
+  - configure-pks-only
+  #@overlay/append by=overlay.index(0)
+  - apply-change-pks
+  #@overlay/append by=overlay.index(0)
+  - bbr-backup-pks
+  #@overlay/append by=overlay.index(0)
+  - test
+
+#@overlay/match by="name",missing_ok=True
+- name: pks
+  jobs:
+  - install-and-patch-pks
+  - configure-pks-only
+  - apply-change-pks
+  - bbr-backup-pks
+  - test
+
+#@ end

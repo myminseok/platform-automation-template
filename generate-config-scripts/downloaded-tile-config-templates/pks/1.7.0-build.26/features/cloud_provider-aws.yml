@@ -1,0 +1,13 @@
+- type: replace
+  path: /product-properties/.properties.cloud_provider?
+  value:
+    value: AWS
+    selected_option: aws
+- type: replace
+  path: /product-properties/.properties.cloud_provider.aws.iam_instance_profile_master?
+  value:
+    value: ((cloud_provider_aws_iam_instance_profile_master))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.aws.iam_instance_profile_worker?
+  value:
+    value: ((cloud_provider_aws_iam_instance_profile_worker))

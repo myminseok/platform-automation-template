@@ -1,0 +1,79 @@
+- type: replace
+  path: /product-properties/.properties.network_selector?
+  value:
+    value: nsx
+    selected_option: nsx
+- type: remove
+  path: /product-properties/.properties.network_selector.flannel.pod_network_cidr?
+- type: remove
+  path: /product-properties/.properties.network_selector.flannel.service_cluster_cidr?
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.nsx-t-host?
+  value:
+    value: ((network_selector_nsx_nsx-t-host))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.nsx-t-insecure?
+  value:
+    value: ((network_selector_nsx_nsx-t-insecure))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.nsx-t-superuser-certificate?
+  value:
+    value:
+      cert_pem: ((network_selector_nsx_nsx-t-superuser-certificate_certificate))
+      private_key_pem: ((network_selector_nsx_nsx-t-superuser-certificate_privatekey))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.vcenter_cluster?
+  value:
+    value: ((network_selector_nsx_vcenter_cluster))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.t0-router-id?
+  value:
+    value: ((network_selector_nsx_t0-router-id))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.ip-block-id?
+  value:
+    value: ((network_selector_nsx_ip-block-id))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.floating-ip-pool-ids?
+  value:
+    value: ((network_selector_nsx_floating-ip-pool-ids))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.network_automation?
+  value:
+    value: ((network_selector_nsx_network_automation))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.nat_mode?
+  value:
+    value: ((network_selector_nsx_nat_mode))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.lb_size_medium_supported?
+  value:
+    value: ((network_selector_nsx_lb_size_medium_supported))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.lb_size_large_supported?
+  value:
+    value: ((network_selector_nsx_lb_size_large_supported))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.nodes-ip-block-id?
+  value:
+    value: ((network_selector_nsx_nodes-ip-block-id))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.cloud-config-dns?
+  value:
+    value: ((network_selector_nsx_cloud-config-dns))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.service_cluster_cidr?
+  value:
+    value: ((network_selector_nsx_service_cluster_cidr))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.ncp-ha-master-timeout?
+  value:
+    value: ((network_selector_nsx_ncp-ha-master-timeout))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.ncp-ha-heartbeat-period?
+  value:
+    value: ((network_selector_nsx_ncp-ha-heartbeat-period))
+- type: replace
+  path: /product-properties/.properties.network_selector.nsx.ncp-ha-update-timeout?
+  value:
+    value: ((network_selector_nsx_ncp-ha-update-timeout))

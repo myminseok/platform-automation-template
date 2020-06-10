@@ -1,0 +1,46 @@
+
+#@ def opsman_groups():
+
+- name: main
+  jobs:
+  - bootstrap-generate-domain-certificate
+  - bootstrap-save-domain-certificate-to-credhub
+  - install-opsman
+  - configure-opsman-authentication
+  - configure-director
+  - opsman-custom-vm-extensions
+  - apply-director-changes
+  - upgrade-opsman
+  - export-installation
+  - extract-director-config
+  - bbr-backup-director
+
+- name: opsman
+  jobs:
+  - bootstrap-generate-domain-certificate
+  - bootstrap-save-domain-certificate-to-credhub
+  - install-opsman
+  - configure-opsman-authentication
+  - configure-director
+  - opsman-custom-vm-extensions
+  - apply-director-changes
+  - upgrade-opsman
+  - export-installation
+  - extract-director-config
+  - bbr-backup-director
+
+- name: opsman-manual
+  jobs:
+  - configure-director-only
+  - extract-director-config
+  - export-installation
+  - bbr-backup-director
+  - bootstrap-generate-domain-certificate
+  - bootstrap-save-domain-certificate-to-credhub
+
+- name: opsman-delete
+  jobs:
+  - delete-opsman
+  - delete-installation-from-opsman
+
+#@ end

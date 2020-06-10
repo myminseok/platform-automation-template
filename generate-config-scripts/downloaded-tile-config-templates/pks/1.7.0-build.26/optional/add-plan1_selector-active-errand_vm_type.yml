@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan1_selector.active.errand_vm_type?
+  value:
+    value: ((plan1_selector_active_errand_vm_type))

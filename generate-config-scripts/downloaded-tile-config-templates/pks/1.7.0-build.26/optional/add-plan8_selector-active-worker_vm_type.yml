@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan8_selector.active.worker_vm_type?
+  value:
+    value: ((plan8_selector_active_worker_vm_type))

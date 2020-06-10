@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan10_selector.active.kubelet_drain_delete_local_data?
+  value:
+    value: ((plan10_selector_active_kubelet_drain_delete_local_data))

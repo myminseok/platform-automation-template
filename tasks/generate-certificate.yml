@@ -29,6 +29,9 @@ run:
     - -exc
     - |
       set -e
+
+      current_date="$( date +"%Y-%m-%d-%H-%M-%S" )"
+
    
       #lego -h
       #lego dnshelp -c route53
@@ -44,8 +47,9 @@ run:
         --dns=route53 \
         run
 
-      tar czf certificates.tgz -C .lego certificates
-      mv certificates.tgz generated-certificate/
+
+      tar czf certificate_${SUBDOMAIN}_${current_date}.tgz -C .lego certificates
+      mv certificate_${SUBDOMAIN}_${current_date}.tgz generated-certificate/
 
      
       # /tmp/build/e55deab7/tmp tar xf certificates.tgz

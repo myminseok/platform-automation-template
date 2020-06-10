@@ -10,4 +10,4 @@ FOUNDATION=$2
 
 fly -t ${FLY_TARGET} sp -p test-resources -c ./test-resources.yml \
 -v foundation=${FOUNDATION} \
--l ../envs/${FOUNDATION}/pipeline-vars/params.yml
+-l ../foundations/${FOUNDATION}/pipeline-vars/params.yml

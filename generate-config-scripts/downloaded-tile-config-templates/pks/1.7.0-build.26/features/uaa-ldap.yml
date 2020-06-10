@@ -1,0 +1,35 @@
+- type: replace
+  path: /product-properties/.properties.uaa?
+  value:
+    value: ldap
+    selected_option: ldap
+- type: replace
+  path: /product-properties/.properties.uaa.ldap.url?
+  value:
+    value: ((uaa_ldap_url))
+- type: replace
+  path: /product-properties/.properties.uaa.ldap.credentials?
+  value:
+    value:
+      identity: ((uaa_ldap_credentials_identity))
+      password: ((uaa_ldap_credentials_password))
+- type: replace
+  path: /product-properties/.properties.uaa.ldap.search_base?
+  value:
+    value: ((uaa_ldap_search_base))
+- type: replace
+  path: /product-properties/.properties.uaa.ldap.search_filter?
+  value:
+    value: ((uaa_ldap_search_filter))
+- type: replace
+  path: /product-properties/.properties.uaa.ldap.group_search_filter?
+  value:
+    value: ((uaa_ldap_group_search_filter))
+- type: replace
+  path: /product-properties/.properties.uaa.ldap.mail_attribute_name?
+  value:
+    value: ((uaa_ldap_mail_attribute_name))
+- type: replace
+  path: /product-properties/.properties.uaa.ldap.ldap_referrals?
+  value:
+    value: ((uaa_ldap_ldap_referrals))

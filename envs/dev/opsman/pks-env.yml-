@@ -1,4 +1,0 @@
-pks_api_domain: api.pksdemo.net
-pks_cli_username: ((pks_cli_username))
-pks_cli_useremail: ((pks_cli_useremail))
-pks_cli_password: ((pks_cli_password))

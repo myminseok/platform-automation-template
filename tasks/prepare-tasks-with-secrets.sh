@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# code_snippet prepare-tasks-with-secrets-script start bash
+# code_snippet prepare_tasks_with_secrets-script start bash
 
 cat /var/version && echo ""
 set -eux
@@ -30,4 +30,4 @@ p-automator prepare-tasks-with-secrets \
   ${config_file_args[@]} \
   ${vars_file_args[@]}
 
-# code_snippet prepare-tasks-with-secrets-script end
+# code_snippet prepare_tasks_with_secrets-script end

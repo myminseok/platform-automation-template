@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.syslog_selector.enabled.permitted_peer?
+  value:
+    value: ((syslog_selector_enabled_permitted_peer))

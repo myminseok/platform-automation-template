@@ -1,0 +1,21 @@
+- type: replace
+  path: /product-properties/.properties.oidc_selector?
+  value:
+    value: enabled
+    selected_option: enabled
+- type: replace
+  path: /product-properties/.properties.oidc_selector.enabled.username_prefix?
+  value:
+    value: ((oidc_selector_enabled_username_prefix))
+- type: replace
+  path: /product-properties/.properties.oidc_selector.enabled.username_claim?
+  value:
+    value: ((oidc_selector_enabled_username_claim))
+- type: replace
+  path: /product-properties/.properties.oidc_selector.enabled.groups_prefix?
+  value:
+    value: ((oidc_selector_enabled_groups_prefix))
+- type: replace
+  path: /product-properties/.properties.oidc_selector.enabled.groups_claim?
+  value:
+    value: ((oidc_selector_enabled_groups_claim))

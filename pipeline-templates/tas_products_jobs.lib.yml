@@ -1,0 +1,369 @@
+
+#@ def prepare_tasks_with_secrets():
+task: prepare_tasks_with_secrets
+image: platform-automation-image
+file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+input_mapping:
+  tasks: platform-automation-tasks
+  config: configuration
+  vars: configuration
+params:
+  CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+  VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
+output_mapping:
+  tasks: platform-automation-tasks
+#@ end
+
+#@ def prepare_tasks_with_product_version(version_git_resource):
+task: prepare_tasks_with_product_version
+image: platform-automation-image
+file: pipelines/tasks/prepare-tasks-with-secrets.yml
+input_mapping:
+  tasks: platform-automation-tasks
+  config: #@ "{}".format(version_git_resource)
+  vars: configuration
+params:
+  CONFIG_PATHS: config
+  VARS_PATHS:  vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
+output_mapping:
+  tasks: platform-automation-tasks
+#@ end
+
+#@ def prepare_custom_tasks_with_product_version(version_git_resource):
+#! injects params from 'semver-config.yaml' to task files
+task: prepare_custom_tasks_with_product_version
+image: platform-automation-image
+file: pipelines/tasks/prepare-tasks-with-secrets.yml
+input_mapping:
+  tasks: pipelines
+  vars: configuration
+  config: #@ "{}".format(version_git_resource)
+params:
+  CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
+  VARS_PATHS:  vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
+  TASKS_PATH: tasks/tasks # only for pipelines tasks
+#@ end
+
+#@ def prepare_custom_tasks_with_secrets():
+task: prepare_custom_tasks_with_secrets
+image: platform-automation-image
+file: pipelines/tasks/prepare-tasks-with-secrets.yml
+input_mapping:
+  tasks: pipelines
+  config: configuration
+  vars: configuration
+params:
+  CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+  VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
+  TASKS_PATH: tasks/tasks
+output_mapping:
+  tasks: pipelines
+#@ end
+
+
+#@ def download_product(version_git_resource, product_name_alias):
+#! semver-config.yaml is output of 'opsman-version-git' resource.
+task: download_product
+image: platform-automation-image
+file: platform-automation-tasks/tasks/download-product.yml
+input_mapping:
+  config: #@ "{}".format(version_git_resource)
+  vars: configuration
+params:
+  CONFIG_FILE: semver-config.yaml
+  VARS_FILES: vars/foundations/((foundation))/vars/versions.yml
+#@ end
+
+#@ def upload_product():
+task: upload_product
+image: platform-automation-image
+file: platform-automation-tasks/tasks/upload-product.yml
+input_mapping:
+  product: downloaded-product
+  env: configuration
+params:
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
+#@ end
+
+#@ def upload_stemcell():
+task: upload_stemcell
+image: platform-automation-image
+file: platform-automation-tasks/tasks/upload-stemcell.yml
+input_mapping:
+  stemcell: downloaded-stemcell
+  env: configuration
+params:
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
+  FLOATING_STEMCELL: false
+#@ end
+
+#@ def stage_configure_apply(product_name_alias):
+task: stage_configure_apply
+image: platform-automation-image
+file: platform-automation-tasks/tasks/stage-configure-apply.yml
+input_mapping:
+  product: downloaded-product
+  env: configuration
+  config: configuration
+params:
+  CONFIG_FILE: #@ "foundations/((foundation))/products/{}.yml".format(product_name_alias)
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
+  VARS_FILES:  #@ "config/foundations/((foundation))/generated-vars/{}.yml config/foundations/((foundation))/vars/{}.yml".format(product_name_alias, product_name_alias)
+
+#@ end
+
+#@ def configure_product(product_name_alias):
+task: configure_product
+image: platform-automation-image
+file: platform-automation-tasks/tasks/configure-product.yml
+input_mapping:
+  config: configuration
+  env: configuration
+params:
+  CONFIG_FILE: #@ "foundations/((foundation))/products/{}.yml".format(product_name_alias)
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
+  VARS_FILES:  #@ "config/foundations/((foundation))/generated-vars/{}.yml config/foundations/((foundation))/vars/{}.yml".format(product_name_alias, product_name_alias)
+
+#@ end
+
+
+#@ def apply_product_changes(product_name_alias):
+#! product_name: cf
+task: apply_product_changes
+image: platform-automation-image
+file: pipelines/tasks/apply-product-changes.yml
+input_mapping:
+  env: configuration
+params:
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
+  PRODUCT_NAME: #@ "{}".format(product_name_alias)
+#@ end
+
+
+
+#@ def staged_config(product_name_alias):
+task: staged_config
+image: platform-automation-image
+file: pipelines/tasks/staged-director-config.yml
+input_mapping:
+  config: configuration
+  env: configuration
+  vars: configuration
+params:
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
+  SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
+  PRODUCT_NAME: #@ "{}".format(product_name_alias)
+#@ end
+
+
+
+#@ def echo_files():
+task:  echo_files
+config:
+  platform: linux
+  image_resource:
+    type: docker-image
+    source:
+      repository: ubuntu
+  inputs:
+  - name: generated-config
+  params:
+    FILE:
+  run:
+    path: bash
+    args:
+    - -exc
+    - |
+      cat $FILE
+#@ end
+
+jobs:
+
+#@ def tas_products_jobs():
+
+#@overlay/match by="name",missing_ok=True
+- name: install-and-patch-tas
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      trigger: false
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: configuration
+    - get: tas-version-git
+
+  - do:
+    - #@ prepare_tasks_with_secrets()
+    - #@ prepare_tasks_with_product_version("tas-version-git")
+    - #@ prepare_custom_tasks_with_secrets()
+    - #@ prepare_custom_tasks_with_product_version("tas-version-git")
+
+    - #@ download_product("tas-version-git", "tas")
+
+    - #@ upload_product()
+
+    - #@ upload_stemcell()
+
+    - #@ stage_configure_apply("tas")
+
+
+#@overlay/match by="name",missing_ok=True
+- name: configure-tas-only
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      trigger: false
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: configuration
+
+  - do:
+    - #@ prepare_tasks_with_secrets()
+
+    - #@ prepare_custom_tasks_with_secrets()
+
+    - #@ configure_product("tas")
+
+
+#@overlay/match by="name",missing_ok=True
+- name: apply-change-tas
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      passed: [configure-tas-only]
+      trigger: false
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: configuration
+
+  - do:
+    - #@ prepare_tasks_with_secrets()
+
+    - #@ prepare_custom_tasks_with_secrets()
+
+    - #@ configure_product("tas")
+
+    - #@ apply_product_changes("cf")
+
+
+
+
+
+#@overlay/match by="name",missing_ok=True
+- name: bbr-backup-tas
+  serial: true
+  serial_groups: [ bbr-backup ]
+  plan:
+  - in_parallel:
+      - get: platform-automation-image
+        params:
+          unpack: true
+      - get: platform-automation-tasks
+        params:
+          unpack: true
+      - get: pipelines
+      - get: configuration
+      - get: bbr-release-pivnet
+        params:
+          globs: [ "bbr-*-linux-*"]
+  - do:
+      - #@ prepare_custom_tasks_with_secrets()
+
+      - task: bbr-cleanup
+        file: pipelines/tasks/bbr-cleanup-product.yml
+        input_mapping:
+          bbr-release: bbr-release-pivnet
+          config: configuration
+        params:
+          ENV_FILE: foundations/((foundation))/opsman/env.yml
+          PRODUCT_NAME: cf
+
+      - task: bbr-backup
+        file: pipelines/tasks/bbr-backup-product.yml
+        input_mapping:
+          bbr-release: bbr-release-pivnet
+          config: configuration
+        params:
+          ENV_FILE: foundations/((foundation))/opsman/env.yml
+          FOUNDATION: ((foundation))
+          PRODUCT_NAME: cf
+        on_failure:
+          task: bbr-cleanup
+          file: pipelines/tasks/bbr-cleanup-product.yml
+          input_mapping:
+            bbr-release: bbr-release-pivnet
+            config: configuration
+          params:
+            ENV_FILE: foundations/((foundation))/opsman/env.yml
+            PRODUCT_NAME: cf
+      - put: bbr-tas-backup-bucket
+        params:
+          file: backup-artifact/((foundation))-cf-backup_*.tgz
+
+
+#@overlay/match by="name",missing_ok=True
+- name: test
+  serial: true
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: configuration
+    - get: opsman-version-git
+
+  - do:
+
+
+    - task: test
+      config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: ubuntu
+          params:
+            FILE:
+            WORLD_PARAM: ((opsman_ssh_key.public_key))
+          run:
+            path: bash
+            args:
+            - -exc
+            - |
+              echo "hi"
+              echo "$WORLD_PARAM"
+
+    - #@ prepare_tasks_with_secrets()
+
+    - #@ prepare_custom_tasks_with_secrets()
+
+    - #@ prepare_custom_tasks_with_product_version("opsman-version-git")
+
+
+#@ end

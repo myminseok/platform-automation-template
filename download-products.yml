@@ -111,9 +111,9 @@ resources:
 
 
 # reusable stuff
-credhub-interpolate: &credhub-interpolate
+credhub_interpolate: &credhub_interpolate
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  file: platform-automation-tasks/tasks/credhub_interpolate.yml
   input_mapping:
     files: configuration
   output_mapping:
@@ -124,19 +124,19 @@ credhub-interpolate: &credhub-interpolate
     CREDHUB_CLIENT: ((credhub.client))
     CREDHUB_SECRET: ((credhub.secret))
     PREFIX: /concourse/((foundation))
-    INTERPOLATION_PATHS: envs/((foundation))/opsman envs/envs/envs/((foundation))/download-products
+    INTERPOLATION_PATHS: foundations/((foundation))/opsman foundations/((foundation))/download-products
 
 
-prepare-tasks-with-secrets: &prepare-tasks-with-secrets
+prepare_tasks_with_secrets: &prepare_tasks_with_secrets
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  file: platform-automation-tasks/tasks/prepare_tasks_with_secrets.yml
   input_mapping:
     tasks: platform-automation-tasks
     config: configuration
     vars: configuration
   params:
-    CONFIG_PATHS: config/envs/((foundation))/download-products
-    VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+    CONFIG_PATHS: config/foundations/((foundation))/download-products
+    VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
   output_mapping:
     tasks: platform-automation-tasks
 
@@ -167,15 +167,15 @@ jobs:
       params: { unpack: true }
     - get: configuration
 
-  - task: prepare-tasks-with-secrets
-    <<: *prepare-tasks-with-secrets
+  - task: prepare_tasks_with_secrets
+    <<: *prepare_tasks_with_secrets
 
   - task: download-opsman-image
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     input_mapping: {config: configuration }
     params:
-      CONFIG_FILE: envs/((foundation))/download-products/opsman.yml
+      CONFIG_FILE: foundations/((foundation))/download-products/opsman.yml
   - put: opsman-product
     params:
       file: downloaded-product/*
@@ -194,15 +194,15 @@ jobs:
       params: { unpack: true }
     - get: configuration
 
-  - task: prepare-tasks-with-secrets
-    <<: *prepare-tasks-with-secrets
+  - task: prepare_tasks_with_secrets
+    <<: *prepare_tasks_with_secrets
 
   - task: download-only-opsman-image
     image: platform-automation-image
     file: pipelines/tasks/download-only-product.yml
     input_mapping: {config: configuration }
     params:
-      CONFIG_FILE: envs/((foundation))/download-products/opsman.yml
+      CONFIG_FILE: foundations/((foundation))/download-products/opsman.yml
     on_success:
       try:
         task: check_dup_file_in_s3
@@ -230,14 +230,14 @@ jobs:
         unpack: true
     - get: configuration
 
-  - task: prepare-tasks-with-secrets
-    <<: *prepare-tasks-with-secrets
+  - task: prepare_tasks_with_secrets
+    <<: *prepare_tasks_with_secrets
 
   - task: download-product-and-stemcell
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: envs/((foundation))/download-products/tas.yml
+      CONFIG_FILE: foundations/((foundation))/download-products/tas.yml
     input_mapping:
       config: configuration
 
@@ -264,14 +264,14 @@ jobs:
         unpack: true
     - get: configuration
 
-  - task: prepare-tasks-with-secrets
-    <<: *prepare-tasks-with-secrets
+  - task: prepare_tasks_with_secrets
+    <<: *prepare_tasks_with_secrets
 
   - task: download-product-and-stemcell
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: envs/((foundation))/download-products/healthwatch.yml
+      CONFIG_FILE: foundations/((foundation))/download-products/healthwatch.yml
     input_mapping:
       config: configuration
 

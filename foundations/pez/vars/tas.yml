@@ -1,0 +1,10 @@
+cloud_controller_apps_domain: apps.awstest.pcfdemo.net
+cloud_controller_system_domain: sys.awstest.pcfdemo.net
+mysql_monitor_recipient_email: test@cloud.com
+#credhub_internal_provider_keys_0_key:
+credhub_internal_provider_keys_0_name: credhub_internal_provider_keys_0_name
+networking_poe_ssl_certs_0_name: networking_poe_ssl_certs_0_name
+network_name: deployment-network
+security_acknowledgement: X
+singleton_availability_zone: az1
+haproxy_forward_tls_enable_backend_ca: ""

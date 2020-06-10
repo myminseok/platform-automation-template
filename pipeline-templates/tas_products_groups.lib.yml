@@ -1,0 +1,29 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@ def tas_products_groups():
+
+#@overlay/match by="name",missing_ok=True
+- name: main
+  jobs:
+  #@overlay/append by=overlay.index(0)
+  - install-and-patch-tas
+  #@overlay/append by=overlay.index(0)
+  - configure-tas-only
+  #@overlay/append by=overlay.index(0)
+  - apply-change-tas
+  #@overlay/append by=overlay.index(0)
+  - bbr-backup-tas
+  #@overlay/append by=overlay.index(0)
+  - test
+
+
+#@overlay/match by="name",missing_ok=True
+- name: tas
+  jobs:
+  - install-and-patch-tas
+  - configure-tas-only
+  - apply-change-tas
+  - bbr-backup-tas
+  - test
+
+#@ end

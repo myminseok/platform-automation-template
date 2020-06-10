@@ -1,0 +1,49 @@
+- type: replace
+  path: /product-properties/.properties.cloud_provider?
+  value:
+    value: Azure
+    selected_option: azure
+- type: replace
+  path: /product-properties/.properties.cloud_provider.azure.azure_cloud_name?
+  value:
+    value: ((cloud_provider_azure_azure_cloud_name))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.azure.subscription_id?
+  value:
+    value: ((cloud_provider_azure_subscription_id))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.azure.tenant_id?
+  value:
+    value: ((cloud_provider_azure_tenant_id))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.azure.location?
+  value:
+    value: ((cloud_provider_azure_location))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.azure.resource_group_name?
+  value:
+    value: ((cloud_provider_azure_resource_group_name))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.azure.vnet_resource_group_name?
+  value:
+    value: ((cloud_provider_azure_vnet_resource_group_name))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.azure.vnet_name?
+  value:
+    value: ((cloud_provider_azure_vnet_name))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.azure.default_security_group?
+  value:
+    value: ((cloud_provider_azure_default_security_group))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.azure.primary_availability_set?
+  value:
+    value: ((cloud_provider_azure_primary_availability_set))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.azure.azure_master_managed_identity?
+  value:
+    value: ((cloud_provider_azure_azure_master_managed_identity))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.azure.azure_worker_managed_identity?
+  value:
+    value: ((cloud_provider_azure_azure_worker_managed_identity))

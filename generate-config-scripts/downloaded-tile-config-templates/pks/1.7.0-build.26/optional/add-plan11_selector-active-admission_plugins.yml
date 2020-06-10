@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan11_selector.active.admission_plugins?
+  value:
+    value: []

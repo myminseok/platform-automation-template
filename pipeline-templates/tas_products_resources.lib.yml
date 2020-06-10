@@ -1,0 +1,69 @@
+#@ def tas_products_resources():
+
+#@overlay/match by="name",missing_ok=True
+- name: tas-version-git
+  type: semver-config
+  source:
+    driver: git
+    uri: ((git.platform_automation_configs.uri))
+    branch: ((git.platform_automation_configs.branch))
+    private_key: ((git.private_key))
+    config_file: foundations/((foundation))/versions.yml
+    config_path: products.tas
+    version_path: products.tas.product-version
+    version_pattern: "m.n.p"
+
+#@overlay/match by="name",missing_ok=True
+- name: bbr-tas-backup-bucket
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.bbr-backup))
+    regexp: ((foundation))-cf-backup_(.*).tgz
+    skip_ssl_verification: true
+
+
+
+##@overlay/match by="name",missing_ok=True
+#- name: scs-version-git
+#  type: semver-config
+#  source:
+#    driver: git
+#    uri: ((git.platform_automation_configs.uri))
+#    branch: ((git.platform_automation_configs.branch))
+#    private_key: ((git.private_key))
+#    config_file: foundations/((foundation))/versions.yml
+#    config_path: products.scs
+#    version_path: products.scs.product-version
+#    version_pattern: "m.n.p"
+#
+##@overlay/match by="name",missing_ok=True
+#- name: redis-version-git
+#  type: semver-config
+#  source:
+#    driver: git
+#    uri: ((git.platform_automation_configs.uri))
+#    branch: ((git.platform_automation_configs.branch))
+#    private_key: ((git.private_key))
+#    config_file: foundations/((foundation))/versions.yml
+#    config_path: products.redis
+#    version_path: products.redis.product-version
+#    version_pattern: "m.n.p"
+#
+##@overlay/match by="name",missing_ok=True
+#- name: rabbitmq-version-git
+#  type: semver-config
+#  source:
+#    driver: git
+#    uri: ((git.platform_automation_configs.uri))
+#    branch: ((git.platform_automation_configs.branch))
+#    private_key: ((git.private_key))
+#    config_file: foundations/((foundation))/versions.yml
+#    config_path: products.rabbitmq
+#    version_path: products.rabbitmq.product-version
+#    version_pattern: "m.n.p"
+
+#@ end

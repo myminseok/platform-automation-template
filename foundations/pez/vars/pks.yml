@@ -1,0 +1,8 @@
+network_name:
+pivotal-container-service_pks_tls_certificate:
+pivotal-container-service_pks_tls_privatekey:
+pks_api_hostname:
+plan1_selector_active_master_az_placement:
+plan1_selector_active_worker_az_placement:
+service_network_name:
+singleton_availability_zone:

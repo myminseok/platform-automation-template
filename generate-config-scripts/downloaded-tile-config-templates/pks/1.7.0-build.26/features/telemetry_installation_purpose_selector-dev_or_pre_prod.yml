@@ -1,0 +1,5 @@
+- type: replace
+  path: /product-properties/.properties.telemetry_installation_purpose_selector?
+  value:
+    value: dev_or_pre_prod
+    selected_option: dev_or_pre_prod

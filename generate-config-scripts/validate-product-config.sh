@@ -13,7 +13,7 @@ WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 ## TODO will not use IAAS at the moment
 #foundation_config_path="$WORK_DIR/../${IAAS}/${FOUNDATION}"
-foundation_config_path="$WORK_DIR/../envs/${FOUNDATION}"
+foundation_config_path="$WORK_DIR/../foundations/${FOUNDATION}"
 
 generated_product_template_path="$foundation_config_path/generated-products"
 generated_product_template_vars_path="$foundation_config_path/generated-vars"
@@ -44,3 +44,4 @@ fi
 
 echo "bosh int --var-errs $generated_product_template_path/${PRODUCT}.yml ${vars_files_args[@]} > /dev/null"
 bosh int --var-errs $generated_product_template_path/${PRODUCT}.yml ${vars_files_args[@]} > /dev/null
+

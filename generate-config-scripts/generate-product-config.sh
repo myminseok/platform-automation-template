@@ -29,7 +29,7 @@ WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 ## TODO will not use IAAS at the moment
 #foundation_config_path="$WORK_DIR/../${IAAS}/${FOUNDATION}"
-foundation_config_path="$WORK_DIR/../envs/${FOUNDATION}"
+foundation_config_path="$WORK_DIR/../foundations/${FOUNDATION}"
 
 product_template_veresionfile="$foundation_config_path/versions.yml"
 

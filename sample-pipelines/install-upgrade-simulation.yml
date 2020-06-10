@@ -109,9 +109,9 @@ resources:
     version_path: products.service-b.product-version
     version_pattern: "m.n.p"
 
-credhub-interpolate: &credhub-interpolate
+credhub_interpolate: &credhub_interpolate
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  file: platform-automation-tasks/tasks/credhub_interpolate.yml
   input_mapping:
     files: platform-auto-config
   params:
@@ -125,9 +125,9 @@ credhub-interpolate: &credhub-interpolate
 
 
 ## used for injecting params to tasks in 'semver-config' reource type.
-prepare-tasks-with-secrets: &prepare-tasks-with-secrets
+prepare_tasks_with_secrets: &prepare_tasks_with_secrets
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  file: platform-automation-tasks/tasks/prepare_tasks_with_secrets.yml
   params:
     CONFIG_PATHS: config # semver-config.yml path.
   output_mapping:

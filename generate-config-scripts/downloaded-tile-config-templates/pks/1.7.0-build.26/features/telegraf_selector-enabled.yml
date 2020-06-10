@@ -1,0 +1,37 @@
+- type: replace
+  path: /product-properties/.properties.telegraf_selector?
+  value:
+    value: enabled
+    selected_option: enabled
+- type: replace
+  path: /product-properties/.properties.telegraf_selector.enabled.bosh-metric-sink-node-exporter-pks-api?
+  value:
+    value: ((telegraf_selector_enabled_bosh-metric-sink-node-exporter-pks-api))
+- type: replace
+  path: /product-properties/.properties.telegraf_selector.enabled.bosh-metric-sink-node-exporter-master?
+  value:
+    value: ((telegraf_selector_enabled_bosh-metric-sink-node-exporter-master))
+- type: replace
+  path: /product-properties/.properties.telegraf_selector.enabled.bosh-metric-sink-etcd?
+  value:
+    value: ((telegraf_selector_enabled_bosh-metric-sink-etcd))
+- type: replace
+  path: /product-properties/.properties.telegraf_selector.enabled.bosh-metric-sink-node-exporter-worker?
+  value:
+    value: ((telegraf_selector_enabled_bosh-metric-sink-node-exporter-worker))
+- type: replace
+  path: /product-properties/.properties.telegraf_selector.enabled.bosh-metric-sink-kube-controller-manager?
+  value:
+    value: ((telegraf_selector_enabled_bosh-metric-sink-kube-controller-manager))
+- type: replace
+  path: /product-properties/.properties.telegraf_selector.enabled.bosh-metric-sink-kubelet?
+  value:
+    value: ((telegraf_selector_enabled_bosh-metric-sink-kubelet))
+- type: replace
+  path: /product-properties/.properties.telegraf_selector.enabled.bosh-metric-sink-kube-apiserver?
+  value:
+    value: ((telegraf_selector_enabled_bosh-metric-sink-kube-apiserver))
+- type: replace
+  path: /product-properties/.properties.telegraf_selector.enabled.bosh-metric-sink-outputs?
+  value:
+    value: ((telegraf_selector_enabled_bosh-metric-sink-outputs))

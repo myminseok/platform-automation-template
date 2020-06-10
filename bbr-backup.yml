@@ -78,9 +78,9 @@ resources:
       interval: 24h
 
 # reusable stuff
-credhub-interpolate: &credhub-interpolate
+credhub_interpolate: &credhub_interpolate
   image: platform-automation-image
-  file: platform-automation-tasks/tasks/credhub-interpolate.yml
+  file: platform-automation-tasks/tasks/credhub_interpolate.yml
   input_mapping:
     files: configuration
   params:
@@ -108,8 +108,8 @@ jobs:
               unpack: true
           - get: daily-trigger
             trigger: false
-      - task: credhub-interpolate
-        <<: *credhub-interpolate
+      - task: credhub_interpolate
+        <<: *credhub_interpolate
               
       - task: backup-director
         image: platform-automation-image
@@ -139,8 +139,8 @@ jobs:
               unpack: true
           - get: daily-trigger
             trigger: false
-      - task: credhub-interpolate
-        <<: *credhub-interpolate
+      - task: credhub_interpolate
+        <<: *credhub_interpolate
               
       - task: backup-pas
         image: platform-automation-image

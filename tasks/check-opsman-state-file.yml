@@ -1,0 +1,25 @@
+# The inputs, outputs, params, filename, and filepath
+# of this task file are part of its semantically versioned API.
+# See our documentation for a detailed discussion of our semver API.
+# See www.semver.org for an explanation of semantic versioning.
+
+# code_snippet download-product start yaml
+---
+platform: linux
+
+inputs:
+- name: pipelines
+- name: config # contains download-file config file
+
+params:
+  STATE_FILE: state.yml
+  # - Required
+  # - Filepath to the product configuration yaml file
+  # - The path is relative to the root of the `config` input
+
+  OPSMAN_CONFIG_FILE: opsman.yml
+  EXIT_IF_VM_EXIST_IN_STATE_FILE: true
+
+run:
+  path: pipelines/tasks/check-opsman-state-file.sh
+# code_snippet download-product end

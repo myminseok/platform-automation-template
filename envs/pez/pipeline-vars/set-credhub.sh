@@ -43,7 +43,12 @@ credhub set -t value -n ${PREFIX}/${PIPELINE_NAME}/opsman_target -v "https://ops
 credhub set -t rsa  -n ${PREFIX}/${PIPELINE_NAME}/opsman_ssh_key -u ~/.ssh/id_rsa.pub -p ~/.ssh/id_rsa
 
 ##*.pcfdemo.net,*.sys.pcfdemo.net,*.apps.pcfdemo.net,*.uaa.sys.pcfdemo.net,*.login.sys.pcfdemo.net
-credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/tas_ssl_domain -c ./tas_ssl_domain.crt -p ./tas_ssl_domain.key
+##credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/tas_ssl_domain -c ./tas_ssl_domain.crt -p ./tas_ssl_domain.key
+
+credhub set -t value -n ${PREFIX}/${PIPELINE_NAME}/domain_hosted_zone_id -v ''
+credhub set -t value -n ${PREFIX}/${PIPELINE_NAME}/domain_letsencrypt_email -v ''
+
+credhub set -t user -n /concourse/main/smtp_user -z user -w 'secret'
 
 ## bosh credhub : credhub get -n /services/tls_ca -k ca
 ## TAS tile> networking> domain certifiate

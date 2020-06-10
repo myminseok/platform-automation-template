@@ -88,7 +88,7 @@ input_mapping:
   vars: configuration
 params:
   CONFIG_FILE: semver-config.yaml
-  VARS_FILES: #@ "vars/envs/((foundation))/vars/{}.yml".format(product_name)
+  VARS_FILES: vars/envs/((foundation))/vars/versions.yml
 #@ end
 
 #@ def upload_product():

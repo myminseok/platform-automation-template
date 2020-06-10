@@ -13,6 +13,19 @@
     skip_ssl_verification: true
 
 #@overlay/match by="name",missing_ok=True
+- name: domain_certificate
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.installation))
+    regexp: certificate_*_(.*).tgz
+    skip_ssl_verification: true
+
+
+#@overlay/match by="name",missing_ok=True
 - name: opsman_vm_state
   type: git
   source:

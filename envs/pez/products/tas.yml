@@ -170,9 +170,8 @@ product-properties:
   .properties.haproxy_client_cert_validation:
     value: none
   .properties.haproxy_forward_tls:
-    value: enable
-  .properties.haproxy_forward_tls.enable.backend_ca:
-    value: ((haproxy_forward_tls_enable_backend_ca))
+    selected_option: disable
+    value: disable
   .properties.haproxy_hsts_support:
     value: disable
   .properties.haproxy_max_buffer_size:
@@ -288,12 +287,7 @@ product-properties:
   .properties.system_metrics_scraper_scrape_interval:
     value: ((system_metrics_scraper_scrape_interval))
   .properties.tcp_routing:
-    selected_option: enable
-    value: enable
-  .properties.tcp_routing.enable.request_timeout_in_seconds:
-    value: ((tcp_routing_enable_request_timeout_in_seconds))
-  .properties.tcp_routing.enable.reservable_ports:
-    value: ((tcp_routing_enable_reservable_ports))
+    value: disable
   .properties.uaa:
     value: internal
   .properties.uaa.internal.password_expires_after_months:

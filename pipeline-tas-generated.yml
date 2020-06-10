@@ -129,7 +129,7 @@ resources:
     regexp: ((foundation))-cf-backup_(.*).tar
     skip_ssl_verification: true
 jobs:
-- name: generate-domain-certificate
+- name: bootstrap-generate-domain-certificate
   serial: true
   serial_groups:
   - serial-jobs
@@ -171,7 +171,7 @@ jobs:
     - put: domain_certificate
       params:
         file: generated-certificate//certificate_((certificate.generate.subdomain))_*.tgz
-- name: save-domain-certificate-to-credhub
+- name: bootstrap-save-domain-certificate-to-credhub
   serial: true
   serial_groups:
   - serial-jobs

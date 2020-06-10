@@ -13,13 +13,13 @@ FOUNDATION=$2
 
 ## https://github.com/k14s/ytt/releases
 ./ytt template \
-    -f pipelines/pipeline-tas.yml \
-    -f pipelines/resource_types.lib.yml \
-    -f pipelines/common_resources.lib.yml \
-    -f pipelines/opsman_resources.lib.yml \
-    -f pipelines/opsman_jobs.lib.yml \
-    -f pipelines/tas_products_resources.lib.yml \
-    -f pipelines/tas_products_jobs.lib.yml \
+    -f pipeline-template/pipeline-tas.yml \
+    -f pipeline-template/resource_types.lib.yml \
+    -f pipeline-template/common_resources.lib.yml \
+    -f pipeline-template/opsman_resources.lib.yml \
+    -f pipeline-template/opsman_jobs.lib.yml \
+    -f pipeline-template/tas_products_resources.lib.yml \
+    -f pipeline-template/tas_products_jobs.lib.yml \
     --ignore-unknown-comments > ./pipeline-tas-generated.yml
 
 fly -t ${FLY_TARGET} sp -p "${FOUNDATION}-manage-platform" \

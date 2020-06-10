@@ -95,6 +95,13 @@ params:
   COMMIT_MESSAGE: "Update from upgrade-opsman"
 #@ end
 
+#@ def put_opsman_state():
+put: configuration
+params:
+  repository: configuration-commit
+  merge: true
+#@ end
+
 
 #@ def stage_configure_apply():
 task: stage_configure_apply
@@ -218,6 +225,7 @@ jobs:
       on_success:
         do:
           - #@ opsman_state_make_commit()
+          - #@ put_opsman_state()
         
 
 - name: configure-opsman-authentication
@@ -468,6 +476,7 @@ jobs:
       ensure:
         do:
           - #@ opsman_state_make_commit()
+          - #@ put_opsman_state()
 
 
 - name: export-installation
@@ -620,6 +629,7 @@ jobs:
       ensure:
         do:
           - #@ opsman_state_make_commit()
+          - #@ put_opsman_state()
 
 
 - name: delete-installation-from-opsman

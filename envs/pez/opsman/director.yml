@@ -33,16 +33,16 @@ networks-configuration:
       cidr: 192.168.1.0/24
       dns: 10.192.2.10
       gateway: 192.168.1.1
-      reserved_ip_ranges: 192.168.1.0-192.168.1.200
+      reserved_ip_ranges: 192.168.1.1-192.168.1.200
       availability_zone_names:
       - az1
   - name: deployment-network
     subnets:
-    - iaas_identifier: PAS-Infrastructure
+    - iaas_identifier: PAS-Deployment
       cidr: 192.168.2.0/24
       dns: 10.192.2.10
       gateway: 192.168.2.1
-      reserved_ip_ranges: 192.168.2.0-192.168.2.200
+      reserved_ip_ranges: 192.168.2.1-192.168.2.200
       availability_zone_names:
       - az1
   - name: ondemand-network
@@ -51,7 +51,7 @@ networks-configuration:
       cidr: 192.168.3.0/24
       dns: 10.192.2.10
       gateway: 192.168.3.1
-      reserved_ip_ranges: 192.168.3.0-192.168.3.200
+      reserved_ip_ranges: 192.168.3.1-192.168.3.200
       availability_zone_names:
       - az1
 properties-configuration:

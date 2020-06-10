@@ -39,7 +39,6 @@ params:
   # naming rule is "$PREFIX/${PIPELINE_NAME}/key...""
   PREFIX: /concourse/main
   KEY_NAME: networking_poe_ssl_certs_0
-  KEY_NAME_DIRECTOR_TRUSTED_CERTS: director_trusted_certificates
 
  
 run:
@@ -67,11 +66,3 @@ run:
       tar xvf $CERTIFICATE_FILE
       cd certificates
       credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/${KEY_NAME} -c _.${SUBDOMAIN}.crt -p _.${SUBDOMAIN}.key -r _.${SUBDOMAIN}.issuer.crt 
-
-      credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/${KEY_NAME_DIRECTOR_TRUSTED_CERTS} -k certificate > director_trusted_certificates
-      cat _.${SUBDOMAIN}.crt >> director_trusted_certificates
-      credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/${KEY_NAME_DIRECTOR_TRUSTED_CERTS} -c director_trusted_certificates
-
-
-      credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/${KEY_NAME_DIRECTOR_TRUSTED_CERTS} -k certificate
-

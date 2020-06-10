@@ -205,7 +205,6 @@ jobs:
         PIPELINE_NAME: ((BUILD_PIPELINE_NAME))
         PREFIX: /concourse/main
         KEY_NAME: ((certificate.credhub_key_name))
-        KEY_NAME_DIRECTOR_TRUSTED_CERTS: ((certificate.credhub_key_name_director_trusted_certificates))
 
 
 - name: install-opsman

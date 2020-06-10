@@ -2,6 +2,11 @@
 ## when create-vm, check if there is a config/state/state.yml on git and matches with 'vm_name' on configs/opsman.yml
 
 
+##export STATE_FILE=../envs/pez/state/state.yml
+##export OPSMAN_CONFIG_FILE=../envs/pez/opsman/opsman.yml
+##export EXIT_IF_VM_EXIST_IN_STATE_FILE=false
+
+
 state_file="config/$STATE_FILE"
 if [[ ! -f $state_file ]]; then
   echo "OK, $state_file not exist"
@@ -28,9 +33,16 @@ if [ -z "$vm_id_from_state_file" ]; then
   exit 0
 fi
 
+if [ "$EXIT_IF_VM_EXIST_IN_STATE_FILE" == "true" ]; then
+  echo "Warning, vm_id_from_state_file already exists: $vm_name_from_opsman_file"
+  exit 1
+fi
+
 if [ "$vm_name_from_opsman_file" != "$vm_id_from_state_file" ]; then
    echo "Warning, vm_name mismatch  between $state_file and $opsman_file. check $state_file"
    exit 1
 fi
 
 echo "Ok, all good. vm_name between $state_file and $opsman_file matches"
+
+

@@ -1,7 +1,7 @@
 #@ def credhub_interpolate():
 task: credhub_interpolate
 image: platform-automation-image
-file: platform-automation-tasks/tasks/credhub_interpolate.yml
+file: platform-automation-tasks/tasks/credhub-interpolate.yml
 input_mapping:
   files: configuration
 params:
@@ -17,7 +17,7 @@ params:
 #@ def prepare_tasks_with_secrets():
 task: prepare_tasks_with_secrets
 image: platform-automation-image
-file: platform-automation-tasks/tasks/prepare_tasks_with_secrets.yml
+file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
 input_mapping:
   tasks: platform-automation-tasks
   config: configuration
@@ -34,7 +34,7 @@ output_mapping:
 #! injects params from 'semver-config.yaml' to task files
 task: prepare_custom_tasks_with_product_version
 image: platform-automation-image
-file: pipelines/tasks/prepare_tasks_with_secrets.yml
+file: pipelines/tasks/prepare-tasks-with-secrets.yml
 input_mapping:
   tasks: pipelines
   vars: configuration
@@ -48,7 +48,7 @@ params:
 #@ def prepare_custom_tasks_with_secrets():
 task: prepare_custom_tasks_with_secrets
 image: platform-automation-image
-file: pipelines/tasks/prepare_tasks_with_secrets.yml
+file: pipelines/tasks/prepare-tasks-with-secrets.yml
 input_mapping:
   tasks: pipelines
   config: configuration
@@ -118,7 +118,7 @@ params:
 #@ def stage_configure_apply(product_name):
 task: stage_configure_apply
 image: platform-automation-image
-file: platform-automation-tasks/tasks/stage_configure_apply.yml
+file: platform-automation-tasks/tasks/stage-configure-apply.yml
 input_mapping:
   product: downloaded-product
   env: configuration

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a74f0e74-944c-4ce7-98f1-3bfa4b4bdb8d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/opsman/director.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipeline-tas-generated.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-tas-generated.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks/check_state_file.sh" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/check-opsman-state-file.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,11 +15,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="opsman_jobs.lib.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="opsman_jobs.lib.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="530">
-              <caret line="202" column="65" selection-start-line="202" selection-start-column="65" selection-end-line="202" selection-end-column="65" />
+            <state relative-caret-position="506">
+              <caret line="76" column="18" selection-start-line="76" selection-start-column="18" selection-end-line="76" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="director.yml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/envs/pez/opsman/director.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="529">
+              <caret line="53" column="51" selection-start-line="53" selection-start-column="51" selection-end-line="53" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -134,6 +143,7 @@
         <option value="$PROJECT_DIR$/envs/pez/state/state.yml" />
         <option value="$PROJECT_DIR$/tasks/check-opsman-state-file.yml" />
         <option value="$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml" />
+        <option value="$PROJECT_DIR$/envs/pez/opsman/director.yml" />
       </list>
     </option>
   </component>
@@ -157,6 +167,38 @@
             <path>
               <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
               <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="pez" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="pez" type="462c0819:PsiDirectoryNode" />
+              <item name="opsman" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="pez" type="462c0819:PsiDirectoryNode" />
+              <item name="state" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="pez" type="462c0819:PsiDirectoryNode" />
+              <item name="vars" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
@@ -542,8 +584,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="202" column="65" selection-start-line="202" selection-start-column="65" selection-end-line="202" selection-end-column="65" />
+        <state relative-caret-position="506">
+          <caret line="76" column="18" selection-start-line="76" selection-start-column="18" selection-end-line="76" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/opsman/director.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="53" column="51" selection-start-line="53" selection-start-column="51" selection-end-line="53" selection-end-column="51" />
         </state>
       </provider>
     </entry>

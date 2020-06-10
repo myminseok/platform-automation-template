@@ -74,7 +74,7 @@ params:
   VARS_PATHS:  vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
   TASKS_PATH: tasks/tasks
 output_mapping:
-  tasks: platform-automation-tasks
+  tasks: pipelines
 #@ end
 
 

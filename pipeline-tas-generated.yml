@@ -164,6 +164,32 @@ jobs:
         VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
       output_mapping:
         tasks: platform-automation-tasks
+    - task: prepare_custom_tasks_with_secrets
+      image: platform-automation-image
+      file: pipelines/tasks/prepare-tasks-with-secrets.yml
+      input_mapping:
+        tasks: pipelines
+        config: configuration
+        vars: configuration
+      params:
+        CONFIG_PATHS: config/envs/((foundation))/opsman config/envs/((foundation))/products
+        VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+        TASKS_PATH: tasks/tasks
+      output_mapping:
+        tasks: pipelines
+    - task: prepare_custom_tasks_with_product_version
+      image: platform-automation-image
+      file: pipelines/tasks/prepare-tasks-with-secrets.yml
+      input_mapping:
+        tasks: pipelines
+        vars: configuration
+        config: opsman-version-git
+      params:
+        CONFIG_PATHS: config
+        VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+        TASKS_PATH: tasks/tasks
+      output_mapping:
+        tasks: pipelines
     - task: echo_files
       config:
         platform: linux
@@ -181,6 +207,15 @@ jobs:
           - -exc
           - |
             cat $FILE
+    - task: check-opsman-state-file
+      image: platform-automation-image
+      file: pipeline/tasks/check-opsman-state-file.yml
+      input_mapping:
+        config: opsman-version-git
+        vars: configuration
+      params:
+        CONFIG_FILE: semver-config.yaml
+        VARS_FILES: vars/envs/((foundation))/vars/versions.yml
     - task: download-product
       image: platform-automation-image
       file: platform-automation-tasks/tasks/download-product.yml
@@ -506,7 +541,7 @@ jobs:
         VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
         TASKS_PATH: tasks/tasks
       output_mapping:
-        tasks: platform-automation-tasks
+        tasks: pipelines
     - task: download-product
       image: platform-automation-image
       file: platform-automation-tasks/tasks/download-product.yml
@@ -598,7 +633,7 @@ jobs:
         VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
         TASKS_PATH: tasks/tasks
       output_mapping:
-        tasks: platform-automation-tasks
+        tasks: pipelines
     - task: export-installation
       image: platform-automation-image
       file: platform-automation-tasks/tasks/export-installation.yml

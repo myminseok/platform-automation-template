@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a74f0e74-944c-4ce7-98f1-3bfa4b4bdb8d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipeline-tas-generated.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-tas-generated.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml" afterDir="false" />
     </list>
@@ -63,8 +62,8 @@
       <file leaf-file-name="tas_products_jobs.lib.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
+            <state relative-caret-position="-56">
+              <caret line="141" column="133" selection-start-line="141" selection-start-column="133" selection-end-line="141" selection-end-column="133" />
             </state>
           </provider>
         </entry>
@@ -91,8 +90,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>down</find>
-      <find>stage_configure_apply</find>
       <find>bbr-tas-backup-bucket</find>
       <find>tas-backup-bucket</find>
       <find>credhub_interp</find>
@@ -121,6 +118,8 @@
       <find>uaa</find>
       <find>app_graceful_shutdown_period_in_seconds</find>
       <find>BUILD</find>
+      <find>product_name)</find>
+      <find>version_git)</find>
     </findStrings>
     <replaceStrings>
       <replace>prepare_tasks_with_secrets</replace>
@@ -137,9 +136,12 @@
       <replace>apply_product_changes:</replace>
       <replace>pipeline_name</replace>
       <replace>configs/</replace>
+      <replace>product_name_alias)</replace>
+      <replace>version_git_resource)</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
+      <dir>$PROJECT_DIR$/pipeline-template</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -709,8 +711,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
+        <state relative-caret-position="-56">
+          <caret line="141" column="133" selection-start-line="141" selection-start-column="133" selection-end-line="141" selection-end-column="133" />
         </state>
       </provider>
     </entry>

@@ -14,13 +14,13 @@ output_mapping:
   tasks: platform-automation-tasks
 #@ end
 
-#@ def prepare_tasks_with_product_version(version_git):
+#@ def prepare_tasks_with_product_version(version_git_resource):
 task: prepare_tasks_with_product_version
 image: platform-automation-image
 file: pipelines/tasks/prepare-tasks-with-secrets.yml
 input_mapping:
   tasks: platform-automation-tasks
-  config: #@ "{}".format(version_git)
+  config: #@ "{}".format(version_git_resource)
   vars: configuration
 params:
   CONFIG_PATHS: config
@@ -29,7 +29,7 @@ output_mapping:
   tasks: platform-automation-tasks
 #@ end
 
-#@ def prepare_custom_tasks_with_product_version(version_git):
+#@ def prepare_custom_tasks_with_product_version(version_git_resource):
 #! injects params from 'semver-config.yaml' to task files
 task: prepare_custom_tasks_with_product_version
 image: platform-automation-image
@@ -37,7 +37,7 @@ file: pipelines/tasks/prepare-tasks-with-secrets.yml
 input_mapping:
   tasks: pipelines
   vars: configuration
-  config: #@ "{}".format(version_git)
+  config: #@ "{}".format(version_git_resource)
 params:
   CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
   VARS_PATHS:  vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
@@ -78,13 +78,13 @@ params:
 #@ end
 
 
-#@ def download_product(version_git, product_name):
+#@ def download_product(version_git_resource, product_name_alias):
 #! semver-config.yaml is output of 'opsman-version-git' resource.
 task: download_product
 image: platform-automation-image
 file: platform-automation-tasks/tasks/download-product.yml
 input_mapping:
-  config: #@ "{}".format(version_git)
+  config: #@ "{}".format(version_git_resource)
   vars: configuration
 params:
   CONFIG_FILE: semver-config.yaml
@@ -114,7 +114,7 @@ params:
   FLOATING_STEMCELL: false
 #@ end
 
-#@ def stage_configure_apply(product_name):
+#@ def stage_configure_apply(product_name_alias):
 task: stage_configure_apply
 image: platform-automation-image
 file: platform-automation-tasks/tasks/stage-configure-apply.yml
@@ -123,14 +123,13 @@ input_mapping:
   env: configuration
   config: configuration
 params:
-  CONFIG_FILE: #@ "envs/((foundation))/products/{}.yml".format(product_name)
+  CONFIG_FILE: #@ "envs/((foundation))/products/{}.yml".format(product_name_alias)
   ENV_FILE: envs/((foundation))/opsman/env.yml
-  VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
-  #VARS_FILES:  #@ "config/envs/((foundation))/generated-vars/{}.yml config/envs/((foundation))/vars/{}.yml".format(product_name)
+  VARS_FILES:  #@ "config/envs/((foundation))/generated-vars/{}.yml config/envs/((foundation))/vars/{}.yml".format(product_name_alias, product_name_alias)
 
 #@ end
 
-#@ def configure_product(product_name):
+#@ def configure_product(product_name_alias):
 task: configure_product
 image: platform-automation-image
 file: platform-automation-tasks/tasks/configure-product.yml
@@ -138,15 +137,14 @@ input_mapping:
   config: configuration
   env: configuration
 params:
-  CONFIG_FILE: #@ "envs/((foundation))/products/{}.yml".format(product_name)
+  CONFIG_FILE: #@ "envs/((foundation))/products/{}.yml".format(product_name_alias)
   ENV_FILE: envs/((foundation))/opsman/env.yml
-  VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
-  #VARS_FILES:  #@ "config/envs/((foundation))/generated-vars/{}.yml config/envs/((foundation))/vars/{}.yml".format(product_name)
+  VARS_FILES:  #@ "config/envs/((foundation))/generated-vars/{}.yml config/envs/((foundation))/vars/{}.yml".format(product_name_alias, product_name_alias)
 
 #@ end
 
 
-#@ def apply_product_changes(product_name):
+#@ def apply_product_changes(product_name_alias):
 #! product_name: cf
 task: apply_product_changes
 image: platform-automation-image
@@ -155,12 +153,12 @@ input_mapping:
   env: configuration
 params:
   ENV_FILE: envs/((foundation))/opsman/env.yml
-  PRODUCT_NAME: #@ "{}".format(product_name)
+  PRODUCT_NAME: #@ "{}".format(product_name_alias)
 #@ end
 
 
 
-#@ def staged_config(product_name):
+#@ def staged_config(product_name_alias):
 task: staged_config
 image: platform-automation-image
 file: pipelines/tasks/staged-director-config.yml
@@ -171,7 +169,7 @@ input_mapping:
 params:
   ENV_FILE: envs/((foundation))/opsman/env.yml
   SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
-  PRODUCT_NAME: #@ "{}".format(product_name)
+  PRODUCT_NAME: #@ "{}".format(product_name_alias)
 #@ end
 
 

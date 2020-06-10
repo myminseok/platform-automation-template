@@ -1047,6 +1047,7 @@ jobs:
       params:
         CONFIG_FILE: envs/((foundation))/products/tas.yml
         ENV_FILE: envs/((foundation))/opsman/env.yml
+        VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
 - name: configure-tas-only
   serial: true
   serial_groups:

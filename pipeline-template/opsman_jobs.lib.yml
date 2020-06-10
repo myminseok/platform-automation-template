@@ -155,7 +155,6 @@ jobs:
         unpack: true
     - get: pipelines
     - get: configuration
-    - get: domain_certificate
   - do:
     - #@ prepare_custom_tasks_with_secrets()
 

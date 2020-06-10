@@ -61,6 +61,16 @@ resources:
     bucket: ((s3.buckets.installation))
     regexp: ((foundation))-installation-(.*).zip
     skip_ssl_verification: true
+- name: domain_certificate
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.installation))
+    regexp: certificate_*_(.*).tgz
+    skip_ssl_verification: true
 - name: opsman_vm_state
   type: git
   source:
@@ -119,6 +129,62 @@ resources:
     regexp: ((foundation))-cf-backup_(.*).tar
     skip_ssl_verification: true
 jobs:
+- name: bootstrap-domain-certificate
+  serial: true
+  serial_groups:
+  - serial-jobs
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: configuration
+  - do:
+    - task: prepare_custom_tasks_with_secrets
+      image: platform-automation-image
+      file: pipelines/tasks/prepare-tasks-with-secrets.yml
+      input_mapping:
+        tasks: pipelines
+        config: configuration
+        vars: configuration
+      params:
+        CONFIG_PATHS: config/envs/((foundation))/opsman config/envs/((foundation))/products
+        VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+        TASKS_PATH: tasks/tasks
+      output_mapping:
+        tasks: pipelines
+    - task: generate-domain-certificate
+      file: pipelines/tasks/generate-certificate.yml
+      input_mapping:
+        config: configuration
+      params:
+        AWS_ACCESS_KEY_ID: ((certificate.generate.dns_privider_access_key))
+        AWS_SECRET_ACCESS_KEY: ((certificate.generate.dns_privider_access_secret_key))
+        AWS_REGION: ((certificate.generate.dns_provider_region))
+        SUBDOMAIN: ((certificate.generate.subdomain))
+        AWS_HOSTED_ZONE_ID: ((certificate.generate.dns_provider_hosted_zone_id))
+        EMAIL: ((certificate.generate.letsencrypt_email))
+    - put: domain_certificate
+      params:
+        file: installation/certificate_((certificate.generate.subdomain))_*.tgz
+    - task: save-certificate-to-credhub
+      file: pipelines/tasks/save-certificate-to-credhub.yml
+      input_mapping:
+        config: configuration
+      params:
+        CERTIFICATE_FILE: generated-certificate/certificates*.tgz
+        SUBDOMAIN: ((certificate.generate.subdomain))
+        CREDHUB_CA_CERT: ((credhub.ca_cert))
+        CREDHUB_SECRET: ((credhub_client.password))
+        CREDHUB_CLIENT: ((credhub_client.username))
+        CREDHUB_SERVER: ((credhub.server))
+        PIPELINE_NAME: ((BUILD_PIPELINE_NAME))
+        PREFIX: /concourse/main
+        KEY_NAME: ((certificate.credhub_key_name))
 - name: install-opsman
   serial: true
   serial_groups:

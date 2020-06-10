@@ -8,7 +8,7 @@ s3:
     platform_automation: mkim-platform-automation
     #pivnet_products: awstest-pivnet-products
     pivnet_products: mkim-platform-automation
-    installation: mkim-installation
+    installation: mkim-platform-automation
     bbr-backup: mkim-bbr-backup
 
 

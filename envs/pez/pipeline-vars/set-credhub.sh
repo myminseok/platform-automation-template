@@ -29,7 +29,8 @@ credhub set -t rsa  -n /concourse/main/git_private_key  -p ~/.ssh/id_rsa
 ## bosh int ./credhub-vars-store.yml --path=/credhub-ca/ca > credhub-ca.ca
 # credhub set -t certificate -n /concourse/main/credhub_ca_cert -c ./credhub-ca.ca
 ## grep concourse_to_credhub ./concourse-creds.yml
-credhub set -t user -n /concourse/main/credhub_client -z concourse_client -w 'secret'
+credhub set -t user -n /concourse/main/credhub_client -z concourse_client -w "$(bosh int ./credhub-vars-store.yml --path=/concourse_credhub_client_secret)"
+
 credhub set -t user  -n ${PREFIX}/${PIPELINE_NAME}/opsman_admin -z admin -w 'PASSWORD'
 credhub delete -n ${PREFIX}/${PIPELINE_NAME}/decryption-passphrase
 credhub set -t password -n ${PREFIX}/${PIPELINE_NAME}/decryption-passphrase -w 'PASSWORD'

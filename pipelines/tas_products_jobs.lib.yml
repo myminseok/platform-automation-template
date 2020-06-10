@@ -1,18 +1,3 @@
-#@ def credhub_interpolate():
-task: credhub_interpolate
-image: platform-automation-image
-file: platform-automation-tasks/tasks/credhub-interpolate.yml
-input_mapping:
-  files: configuration
-params:
-  CREDHUB_CA_CERT: ((credhub.ca_cert))
-  CREDHUB_SECRET: ((credhub_client.password))
-  CREDHUB_CLIENT: ((credhub_client.username))
-  CREDHUB_SERVER: ((credhub.server))
-  PREFIX: /concourse/main
-  INTERPOLATION_PATHS: envs/((foundation))
-  SKIP_MISSING: false
-#@ end
 
 #@ def prepare_tasks_with_secrets():
 task: prepare_tasks_with_secrets

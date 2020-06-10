@@ -109,7 +109,7 @@ params:
 #@ end
 
 
-#@ def echo_files():
+#@ def echo_files(files, FILE):
 task: echo_files
 config:
   platform: linux
@@ -156,9 +156,27 @@ jobs:
 
   - do:
 
-   #! - #@ credhub_interpolate()
+    - #@ prepare_tasks_with_secrets()
 
     - #@ prepare_tasks_with_product_version()
+
+    - task: echo_files
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ubuntu
+        inputs:
+        - name: platform-automation-tasks
+        params:
+          FILE: platform-automation-tasks/tasks/download-product.yml
+        run:
+          path: bash
+          args:
+          - -exc
+          - |
+            cat $FILE
 
     - task: download-product
       image: platform-automation-image

@@ -140,6 +140,18 @@ jobs:
     - get: opsman-version-git
     - get: opsman_vm_state
   - do:
+    - task: prepare_tasks_with_secrets
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      input_mapping:
+        tasks: platform-automation-tasks
+        config: configuration
+        vars: configuration
+      params:
+        CONFIG_PATHS: config/envs/((foundation))/opsman config/envs/((foundation))/products
+        VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+      output_mapping:
+        tasks: platform-automation-tasks
     - task: prepare_tasks_with_product_version
       image: platform-automation-image
       file: pipelines/tasks/prepare-tasks-with-secrets.yml
@@ -152,6 +164,23 @@ jobs:
         VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
       output_mapping:
         tasks: platform-automation-tasks
+    - task: echo_files
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ubuntu
+        inputs:
+        - name: platform-automation-tasks
+        params:
+          FILE: platform-automation-tasks/tasks/download-product.yml
+        run:
+          path: bash
+          args:
+          - -exc
+          - |
+            cat $FILE
     - task: download-product
       image: platform-automation-image
       file: platform-automation-tasks/tasks/download-product.yml

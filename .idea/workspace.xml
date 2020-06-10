@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a74f0e74-944c-4ce7-98f1-3bfa4b4bdb8d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/opsman/director.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipeline-tas-generated.yml" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -12,21 +14,89 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="opsman_jobs.lib.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pipeline-template/opsman_jobs.lib.yml">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="director.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/envs/pez/opsman/director.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-113">
-              <caret line="301" lean-forward="true" selection-start-line="301" selection-end-line="301" />
+            <state relative-caret-position="-476">
+              <caret line="40" column="33" selection-start-line="40" selection-start-column="33" selection-end-line="40" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="director.yml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/envs/pez/opsman/director.yml">
+      <file leaf-file-name="opsman.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/envs/pez/vars/opsman.yml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="director.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/envs/pez/vars/director.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
+            <state relative-caret-position="150">
+              <caret line="10" column="39" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="set-credhub.sh" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="461">
+              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="params.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="282">
+              <caret line="32" column="35" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pipeline-tas.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pipeline-tas.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="33" lean-forward="true" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pipeline-tas-generated.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pipeline-tas-generated.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret lean-forward="true" selection-end-line="10" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tas_products_jobs.lib.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" selection-start-line="17" selection-end-line="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="opsman.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/envs/pez/opsman/opsman.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tas_products_resources.lib.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_resources.lib.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="246">
+              <caret line="41" column="1" lean-forward="true" selection-start-line="28" selection-end-line="41" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -35,7 +105,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>stage-configure-apply</find>
       <find>echo-files</find>
       <find>psman-state-make-commit</find>
       <find>opsman-state-make-commit</find>
@@ -65,6 +134,7 @@
       <find>tas</find>
       <find>env</find>
       <find>bbr-director-backup-bucket</find>
+      <find>PIPELINE_NAME=&quot;${FOUNDATION}-tas&quot;</find>
     </findStrings>
     <replaceStrings>
       <replace>prepare_tasks_with_secrets</replace>
@@ -119,7 +189,6 @@
         <option value="$PROJECT_DIR$/tasks/prepare-tasks-with-secrets.yml" />
         <option value="$PROJECT_DIR$/tasks/credhub-interpolate.yml" />
         <option value="$PROJECT_DIR$/tasks/prepare-tasks-with-secrets.sh" />
-        <option value="$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh" />
         <option value="$PROJECT_DIR$/pipelines/tas_products_jobs.lib.yml" />
         <option value="$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml" />
         <option value="$PROJECT_DIR$/envs/pez/opsman/opsman.yml" />
@@ -127,7 +196,6 @@
         <option value="$PROJECT_DIR$/tasks/check-opsman-state-file.yml" />
         <option value="$PROJECT_DIR$/manage-platform.sh" />
         <option value="$PROJECT_DIR$/envs/pez/state/state.yml" />
-        <option value="$PROJECT_DIR$/pipeline-tas.sh" />
         <option value="$PROJECT_DIR$/download-products.yml" />
         <option value="$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml" />
         <option value="$PROJECT_DIR$/pipeline-template/opsman_jobs.lib.yml" />
@@ -135,13 +203,15 @@
         <option value="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" />
         <option value="$PROJECT_DIR$/pipeline-template/common_resources.lib.yml" />
         <option value="$PROJECT_DIR$/envs/pez/opsman/director.yml" />
+        <option value="$PROJECT_DIR$/pipeline-tas.sh" />
+        <option value="$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-45" />
-    <option name="y" value="87" />
-    <option name="width" value="1212" />
+    <option name="x" value="221" />
+    <option name="y" value="78" />
+    <option name="width" value="1211" />
     <option name="height" value="756" />
   </component>
   <component name="ProjectView">
@@ -149,9 +219,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -187,17 +254,17 @@
             <path>
               <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
               <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
-              <item name="pipeline-template" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
-              <item name="tasks" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="pez" type="462c0819:PsiDirectoryNode" />
+              <item name="vars" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -281,11 +348,11 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-45" y="87" width="1212" height="756" extended-state="0" />
+    <frame x="221" y="78" width="1211" height="756" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info anchor="right" id="Palette" order="4" />
-      <window_info anchor="bottom" id="TODO" order="9" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info id="Image Layers" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
@@ -296,80 +363,135 @@
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="0" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.24957265" />
-      <window_info anchor="bottom" id="Find" order="4" weight="0.32776934" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.2540633" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="6" weight="0.25" />
       <window_info id="UI Designer" order="1" />
       <window_info anchor="right" id="Theme Preview" order="2" />
       <window_info anchor="bottom" id="Debug" order="6" weight="0.4" />
       <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="5" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info id="Designer" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" weight="0.25" />
+      <window_info anchor="right" id="Capture Analysis" order="0" />
+      <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="6" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.24957265" />
+      <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="5" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="9" />
+      <window_info anchor="bottom" id="Version Control" order="2" weight="0.32928678" />
+      <window_info anchor="bottom" id="Run" order="5" />
+      <window_info id="Image Layers" order="4" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="UI Designer" order="1" />
+      <window_info anchor="bottom" id="Debug" order="6" weight="0.4" />
+      <window_info anchor="right" id="Theme Preview" order="2" />
+      <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="bottom" id="Message" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="4" weight="0.32776934" />
+      <window_info anchor="bottom" id="Terminal" order="0" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info id="Favorites" order="3" side_tool="true" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pipeline-tas.yml">
+    <entry file="file://$PROJECT_DIR$/envs/dev/versions.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
+        <state relative-caret-position="525">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/awstest/opsfiles/tas-operations">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/download-products/healthwatch.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/download-products/opsman.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/download-products/pks.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/download-products/tas.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="24" lean-forward="true" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/download-products.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="121" selection-start-line="121" selection-end-line="121" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/manage-opsman.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manage-opsman.sh">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pipelines/opsman_resources.lib.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="582">
-          <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
+        <state relative-caret-position="398">
+          <caret line="132" column="4" selection-start-line="132" selection-start-column="4" selection-end-line="132" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipelines/tas_products_resources.lib.yml">
+    <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="10" lean-forward="true" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+        <state relative-caret-position="415">
+          <caret line="30" column="13" lean-forward="true" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipelines/common_resources.lib.yml">
+    <entry file="file://$PROJECT_DIR$/envs/awstest/pipeline-vars/params.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-303">
-          <caret lean-forward="true" selection-end-line="1" selection-end-column="26" />
+        <state relative-caret-position="405">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manage-platform.yml.old">
+    <entry file="file://$PROJECT_DIR$/envs/dev/pipeline-vars/params.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="562" column="33" selection-start-line="562" selection-start-column="33" selection-end-line="562" selection-end-column="33" />
+        <state relative-caret-position="435">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipelines/pipeline-tas.yml">
+    <entry file="file://$PROJECT_DIR$/manage-platform.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="67" selection-start-line="20" selection-start-column="67" selection-end-line="20" selection-end-column="67" />
+        <state relative-caret-position="-623">
+          <caret line="192" column="40" selection-start-line="192" selection-start-column="40" selection-end-line="192" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipelines/resource_types.lib.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" selection-start-line="17" selection-end-line="17" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/pipeline-tas.yml" />
+    <entry file="file://$PROJECT_DIR$/pipelines/opsman_resources.lib.yml" />
+    <entry file="file://$PROJECT_DIR$/pipelines/tas_products_resources.lib.yml" />
+    <entry file="file://$PROJECT_DIR$/pipelines/common_resources.lib.yml" />
+    <entry file="file://$PROJECT_DIR$/manage-platform.yml.old" />
+    <entry file="file://$PROJECT_DIR$/pipelines/pipeline-tas.yml" />
+    <entry file="file://$PROJECT_DIR$/pipelines/resource_types.lib.yml" />
     <entry file="file://$PROJECT_DIR$/tasks/prepare-tasks-with-secrets.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="492">
@@ -382,16 +504,10 @@
         <state relative-caret-position="-258" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tasks/rename-vm.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/tasks/save-certificate-to-credhub.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-483" />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tasks/scp-to-vm.yml">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/tasks/prepare-tasks-with-secrets.sh">
       <provider selected="true" editor-type-id="text-editor">
@@ -400,12 +516,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tasks/bbr-backup-director.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tasks/apply-product-changes.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/tasks/credhub-interpolate.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="583">
@@ -413,32 +523,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/vars/opsman.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/vars/tas.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/vars/versions.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pipelines/tas_products_jobs.lib.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-480">
-          <caret line="3" column="26" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tasks/poweroff-vm.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/pipelines/tas_products_jobs.lib.yml" />
     <entry file="file://$PROJECT_DIR$/tasks/download-only-product.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -453,13 +538,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="188" column="29" selection-start-line="188" selection-start-column="29" selection-end-line="188" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml" />
     <entry file="file://$PROJECT_DIR$/tasks/credhub-interpolate.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
@@ -481,47 +560,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/envs/dev/opsman/opsman.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/vars/director.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manage-opsman.yml.old">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="325" lean-forward="true" selection-start-line="325" selection-end-line="328" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/download-products.sh">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tasks/bbr-backup-director-old.sh">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pipeline-tas-generated.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="142" column="19" selection-start-line="142" selection-start-column="12" selection-end-line="142" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/manage-opsman.yml.old" />
     <entry file="file://$PROJECT_DIR$/generate-config-scripts/generate-product-config.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
           <caret line="31" column="41" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/opsman/opsman.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="13" lean-forward="true" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -546,71 +589,102 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipeline-tas.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pipeline-template/pipeline-tas.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_resources.lib.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="327" column="16" lean-forward="true" selection-start-line="327" selection-start-column="16" selection-end-line="327" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tasks/bbr-cleanup-director.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-153" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipeline-template/opsman_resources.lib.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="40" column="9" lean-forward="true" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="31" lean-forward="true" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pipeline-template/common_resources.lib.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+        <state relative-caret-position="102">
+          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipeline-template/pipeline-tas.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="4" selection-start-line="23" selection-end-line="23" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipeline-template/opsman_resources.lib.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-348">
+          <caret line="3" column="20" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pipeline-template/opsman_jobs.lib.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-113">
-          <caret line="301" lean-forward="true" selection-start-line="301" selection-end-line="301" />
+        <state relative-caret-position="272">
+          <caret line="252" column="37" lean-forward="true" selection-start-line="252" selection-start-column="6" selection-end-line="252" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipeline-tas-generated.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" selection-end-line="10" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_resources.lib.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="41" column="1" lean-forward="true" selection-start-line="28" selection-end-line="41" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" selection-start-line="17" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/vars/opsman.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/vars/director.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="39" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipeline-tas.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="33" lean-forward="true" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/opsman/opsman.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/envs/pez/opsman/director.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
+        <state relative-caret-position="-476">
+          <caret line="40" column="33" selection-start-line="40" selection-start-column="33" selection-end-line="40" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="32" column="35" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
         </state>
       </provider>
     </entry>

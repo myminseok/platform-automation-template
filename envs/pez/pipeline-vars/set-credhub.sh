@@ -13,7 +13,11 @@ PREFIX='/concourse/main'
 credhub set -t value -n /concourse/main/s3_access_key_id -v ''
 credhub delete -n /concourse/main/s3_secret_access_key
 credhub set -t password -n /concourse/main/s3_secret_access_key -w ''
-credhub set -t user -n /concourse/main/vcenter_user -z admin@vcenter.local -w "PASSWORD"
+## credhub set -t user -n /concourse/main/vcenter_user -z admin@vcenter.local -w "PASSWORD"
+credhub set -t value -n /concourse/main/iaas-configurations_0_vcenter_username -v ''
+credhub set -t password -n /concourse/main/iaas-configurations_0_vcenter_password -w ''
+
+
 credhub delete -n /concourse/main/pivnet_token
 credhub set -t password -n /concourse/main/pivnet_token -w ''
 credhub set -t value -n /concourse/main/git_user_email -v admin@user.io
@@ -34,7 +38,7 @@ credhub set -t user -n /concourse/main/credhub_client -z concourse_client -w "$(
 credhub set -t user  -n ${PREFIX}/${PIPELINE_NAME}/opsman_admin -z admin -w 'PASSWORD'
 credhub delete -n ${PREFIX}/${PIPELINE_NAME}/decryption-passphrase
 credhub set -t password -n ${PREFIX}/${PIPELINE_NAME}/decryption-passphrase -w 'PASSWORD'
-credhub set -t value -n ${PREFIX}/${PIPELINE_NAME}/opsman_target -v "https://"
+credhub set -t value -n ${PREFIX}/${PIPELINE_NAME}/opsman_target -v "https://opsman.pcfdemo.net"
 # for opsman.yml on vsphere
 credhub set -t rsa  -n ${PREFIX}/${PIPELINE_NAME}/opsman_ssh_key -u ~/.ssh/id_rsa.pub -p ~/.ssh/id_rsa
 

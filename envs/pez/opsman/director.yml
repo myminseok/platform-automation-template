@@ -47,7 +47,7 @@ networks-configuration:
       - az1
   - name: ondemand-network
     subnets:
-    - iaas_identifier: PAS-Infrastructure
+    - iaas_identifier: PAS-Services
       cidr: 192.168.3.0/24
       dns: 10.192.2.10
       gateway: 192.168.3.1

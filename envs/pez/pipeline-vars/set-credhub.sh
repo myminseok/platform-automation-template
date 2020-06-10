@@ -52,5 +52,5 @@ credhub set -t user -n /concourse/main/smtp_user -z user -w 'secret'
 
 ## bosh credhub : credhub get -n /services/tls_ca -k ca
 ## TAS tile> networking> domain certifiate
-credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/director_trusted_certificates -c ./director_trusted_certificates
+#credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/director_trusted_certificates -c ./director_trusted_certificates
 

@@ -49,7 +49,7 @@ run:
 
 
       tar czf certificate_${SUBDOMAIN}_${current_date}.tgz -C .lego certificates
-      mv certificates.tgz generated-certificate/
+      mv certificate_${SUBDOMAIN}_${current_date}.tgz generated-certificate/
 
      
       # /tmp/build/e55deab7/tmp tar xf certificates.tgz

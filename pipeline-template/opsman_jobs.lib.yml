@@ -569,6 +569,14 @@ jobs:
   - do:
       - #@ prepare_custom_tasks_with_secrets()
 
+      - task: bbr-cleanup
+        file: pipelines/tasks/bbr-cleanup-director.yml
+        input_mapping:
+          bbr-release: bbr-release-pivnets
+          config: configuration
+        params:
+          ENV_FILE: envs/((foundation))/opsman/env.yml
+
       - task: bbr-backup
         file: pipelines/tasks/bbr-backup-director.yml
         input_mapping:

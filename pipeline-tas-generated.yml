@@ -724,6 +724,13 @@ jobs:
         TASKS_PATH: tasks/tasks
       output_mapping:
         tasks: pipelines
+    - task: bbr-cleanup
+      file: pipelines/tasks/bbr-cleanup-director.yml
+      input_mapping:
+        bbr-release: bbr-release-pivnets
+        config: configuration
+      params:
+        ENV_FILE: envs/((foundation))/opsman/env.yml
     - task: bbr-backup
       file: pipelines/tasks/bbr-backup-director.yml
       input_mapping:
@@ -1078,6 +1085,14 @@ jobs:
         TASKS_PATH: tasks/tasks
       output_mapping:
         tasks: pipelines
+    - task: bbr-cleanup
+      file: pipelines/tasks/bbr-cleanup-product.yml
+      input_mapping:
+        bbr-release: bbr-release-pivnet
+        config: configuration
+      params:
+        ENV_FILE: envs/((foundation))/opsman/env.yml
+        PRODUCT_NAME: cf
     - task: bbr-backup
       file: pipelines/tasks/bbr-backup-product.yml
       input_mapping:

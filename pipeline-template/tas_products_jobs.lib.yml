@@ -219,6 +219,7 @@ jobs:
 
     - #@ stage_configure_apply("tas")
 
+
 #@overlay/match by="name",missing_ok=True
 - name: configure-tas-only
   serial: true
@@ -242,6 +243,7 @@ jobs:
     - #@ prepare_custom_tasks_with_secrets()
 
     - #@ configure_product("tas")
+
 
 #@overlay/match by="name",missing_ok=True
 - name: apply-change-tas
@@ -271,6 +273,9 @@ jobs:
     - #@ apply_product_changes("cf")
 
 
+
+
+
 #@overlay/match by="name",missing_ok=True
 - name: bbr-backup-tas
   serial: true
@@ -290,6 +295,15 @@ jobs:
           globs: [ "bbr-*-linux-*"]
   - do:
       - #@ prepare_custom_tasks_with_secrets()
+
+      - task: bbr-cleanup
+        file: pipelines/tasks/bbr-cleanup-product.yml
+        input_mapping:
+          bbr-release: bbr-release-pivnet
+          config: configuration
+        params:
+          ENV_FILE: envs/((foundation))/opsman/env.yml
+          PRODUCT_NAME: cf
 
       - task: bbr-backup
         file: pipelines/tasks/bbr-backup-product.yml

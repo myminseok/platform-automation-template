@@ -209,7 +209,7 @@ jobs:
             cat $FILE
     - task: check-opsman-state-file
       image: platform-automation-image
-      file: pipeline/tasks/check-opsman-state-file.yml
+      file: pipelines/tasks/check-opsman-state-file.yml
       input_mapping:
         config: opsman-version-git
         vars: configuration

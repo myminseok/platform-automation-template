@@ -214,8 +214,8 @@ jobs:
         config: opsman-version-git
         vars: configuration
       params:
-        CONFIG_FILE: semver-config.yaml
-        VARS_FILES: vars/envs/((foundation))/vars/versions.yml
+        OPSMAN_CONFIG_FILE: envs/((foundation))/opsman/opsman.yml
+        STATE_FILE: envs/((foundation))/state/state.yml
     - task: download-product
       image: platform-automation-image
       file: platform-automation-tasks/tasks/download-product.yml

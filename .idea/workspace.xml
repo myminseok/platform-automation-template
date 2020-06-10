@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a74f0e74-944c-4ce7-98f1-3bfa4b4bdb8d" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/envs/pez/state/state.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/state/state.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipeline-tas-generated.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-tas-generated.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,11 +15,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="opsman_jobs.lib.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="opsman_jobs.lib.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="62">
-              <caret line="186" column="21" selection-start-line="186" selection-start-column="21" selection-end-line="186" selection-end-column="21" />
+            <state relative-caret-position="114">
+              <caret line="192" selection-start-line="192" selection-end-line="192" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="state.yml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/envs/pez/state/state.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="37" selection-start-line="1" selection-start-column="37" selection-end-line="1" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -138,10 +149,10 @@
         <option value="$PROJECT_DIR$/tasks/prepare-tasks-with-secrets.sh" />
         <option value="$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh" />
         <option value="$PROJECT_DIR$/pipelines/tas_products_jobs.lib.yml" />
-        <option value="$PROJECT_DIR$/envs/pez/state/state.yml" />
         <option value="$PROJECT_DIR$/tasks/check-opsman-state-file.yml" />
         <option value="$PROJECT_DIR$/envs/pez/opsman/director.yml" />
         <option value="$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml" />
+        <option value="$PROJECT_DIR$/envs/pez/state/state.yml" />
       </list>
     </option>
   </component>
@@ -176,13 +187,6 @@
               <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
               <item name="envs" type="462c0819:PsiDirectoryNode" />
               <item name="pez" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
-              <item name="envs" type="462c0819:PsiDirectoryNode" />
-              <item name="pez" type="462c0819:PsiDirectoryNode" />
-              <item name="opsman" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
@@ -525,13 +529,6 @@
     <entry file="file://$PROJECT_DIR$/envs/pez/vars/versions.yml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/state/state.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pipelines/tas_products_jobs.lib.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-480">
@@ -589,8 +586,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pipelines/opsman_jobs.lib.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62">
-          <caret line="186" column="21" selection-start-line="186" selection-start-column="21" selection-end-line="186" selection-end-column="21" />
+        <state relative-caret-position="114">
+          <caret line="192" selection-start-line="192" selection-end-line="192" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/state/state.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="37" selection-start-line="1" selection-start-column="37" selection-end-line="1" selection-end-column="37" />
         </state>
       </provider>
     </entry>

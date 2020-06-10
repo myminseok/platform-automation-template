@@ -14,6 +14,20 @@ output_mapping:
   tasks: platform-automation-tasks
 #@ end
 
+#@ def prepare_tasks_with_product_version(version_git):
+task: prepare_tasks_with_product_version
+image: platform-automation-image
+file: pipelines/tasks/prepare-tasks-with-secrets.yml
+input_mapping:
+  tasks: platform-automation-tasks
+  config: #@ "{}".format(version_git)
+  vars: configuration
+params:
+  CONFIG_PATHS: config
+  VARS_PATHS:  vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+output_mapping:
+  tasks: platform-automation-tasks
+#@ end
 
 #@ def prepare_custom_tasks_with_product_version(version_git):
 #! injects params from 'semver-config.yaml' to task files
@@ -206,9 +220,8 @@ jobs:
 
   - do:
     - #@ prepare_tasks_with_secrets()
-
+    - #@ prepare_tasks_with_product_version("tas-version-git")
     - #@ prepare_custom_tasks_with_secrets()
-
     - #@ prepare_custom_tasks_with_product_version("tas-version-git")
 
     - #@ download_product("tas-version-git", "tas")

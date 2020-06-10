@@ -18,7 +18,7 @@ params:
   # - The path is relative to the root of the `config` input
 
   OPSMAN_CONFIG_FILE: opsman.yml
-  $EXIT_IF_VM_EXIST_IN_STATE_FILE: true
+  EXIT_IF_VM_EXIST_IN_STATE_FILE: true
 
 run:
   path: pipelines/tasks/check-opsman-state-file.sh

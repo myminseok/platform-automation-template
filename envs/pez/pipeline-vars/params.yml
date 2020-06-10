@@ -45,4 +45,5 @@ certificate:
       subdomain: awstest.pcfdemo.net
       dns_provider_hosted_zone_id: ((domain_hosted_zone_id))  # create on aws inadvance.
       letsencrypt_email: ((domain_letsencrypt_email))
-   credhub_key_name: networking_poe_ssl_certs_0 # map to pks.yml.
+   credhub_key_name: networking_poe_ssl_certs_0 # map to tas.yml
+   credhub_key_name_director_trusted_certificates: director_trusted_certificates # map to director.yml

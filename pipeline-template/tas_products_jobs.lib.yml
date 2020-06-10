@@ -8,8 +8,8 @@ input_mapping:
   config: configuration
   vars: configuration
 params:
-  CONFIG_PATHS: config/envs/((foundation))/opsman config/envs/((foundation))/products
-  VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+  CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+  VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
 output_mapping:
   tasks: platform-automation-tasks
 #@ end
@@ -24,7 +24,7 @@ input_mapping:
   vars: configuration
 params:
   CONFIG_PATHS: config
-  VARS_PATHS:  vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+  VARS_PATHS:  vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
 output_mapping:
   tasks: platform-automation-tasks
 #@ end
@@ -40,7 +40,7 @@ input_mapping:
   config: #@ "{}".format(version_git_resource)
 params:
   CONFIG_PATHS: config # semver-config-resource auto-generates folder for semver-config.yml.
-  VARS_PATHS:  vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+  VARS_PATHS:  vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
   TASKS_PATH: tasks/tasks # only for pipelines tasks
 #@ end
 
@@ -53,8 +53,8 @@ input_mapping:
   config: configuration
   vars: configuration
 params:
-  CONFIG_PATHS: config/envs/((foundation))/opsman config/envs/((foundation))/products
-  VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+  CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+  VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
   TASKS_PATH: tasks/tasks
 output_mapping:
   tasks: pipelines
@@ -71,7 +71,7 @@ input_mapping:
   vars: configuration
 params:
   CONFIG_FILE: semver-config.yaml
-  VARS_FILES: vars/envs/((foundation))/vars/versions.yml
+  VARS_FILES: vars/foundations/((foundation))/vars/versions.yml
 #@ end
 
 #@ def upload_product():
@@ -82,7 +82,7 @@ input_mapping:
   product: downloaded-product
   env: configuration
 params:
-  ENV_FILE: envs/((foundation))/opsman/env.yml
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
 #@ end
 
 #@ def upload_stemcell():
@@ -93,7 +93,7 @@ input_mapping:
   stemcell: downloaded-stemcell
   env: configuration
 params:
-  ENV_FILE: envs/((foundation))/opsman/env.yml
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
   FLOATING_STEMCELL: false
 #@ end
 
@@ -106,9 +106,9 @@ input_mapping:
   env: configuration
   config: configuration
 params:
-  CONFIG_FILE: #@ "envs/((foundation))/products/{}.yml".format(product_name_alias)
-  ENV_FILE: envs/((foundation))/opsman/env.yml
-  VARS_FILES:  #@ "config/envs/((foundation))/generated-vars/{}.yml config/envs/((foundation))/vars/{}.yml".format(product_name_alias, product_name_alias)
+  CONFIG_FILE: #@ "foundations/((foundation))/products/{}.yml".format(product_name_alias)
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
+  VARS_FILES:  #@ "config/foundations/((foundation))/generated-vars/{}.yml config/foundations/((foundation))/vars/{}.yml".format(product_name_alias, product_name_alias)
 
 #@ end
 
@@ -120,9 +120,9 @@ input_mapping:
   config: configuration
   env: configuration
 params:
-  CONFIG_FILE: #@ "envs/((foundation))/products/{}.yml".format(product_name_alias)
-  ENV_FILE: envs/((foundation))/opsman/env.yml
-  VARS_FILES:  #@ "config/envs/((foundation))/generated-vars/{}.yml config/envs/((foundation))/vars/{}.yml".format(product_name_alias, product_name_alias)
+  CONFIG_FILE: #@ "foundations/((foundation))/products/{}.yml".format(product_name_alias)
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
+  VARS_FILES:  #@ "config/foundations/((foundation))/generated-vars/{}.yml config/foundations/((foundation))/vars/{}.yml".format(product_name_alias, product_name_alias)
 
 #@ end
 
@@ -135,7 +135,7 @@ file: pipelines/tasks/apply-product-changes.yml
 input_mapping:
   env: configuration
 params:
-  ENV_FILE: envs/((foundation))/opsman/env.yml
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
   PRODUCT_NAME: #@ "{}".format(product_name_alias)
 #@ end
 
@@ -150,7 +150,7 @@ input_mapping:
   env: configuration
   vars: configuration
 params:
-  ENV_FILE: envs/((foundation))/opsman/env.yml
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
   SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
   PRODUCT_NAME: #@ "{}".format(product_name_alias)
 #@ end
@@ -296,7 +296,7 @@ jobs:
           bbr-release: bbr-release-pivnet
           config: configuration
         params:
-          ENV_FILE: envs/((foundation))/opsman/env.yml
+          ENV_FILE: foundations/((foundation))/opsman/env.yml
           PRODUCT_NAME: cf
 
       - task: bbr-backup
@@ -305,7 +305,7 @@ jobs:
           bbr-release: bbr-release-pivnet
           config: configuration
         params:
-          ENV_FILE: envs/((foundation))/opsman/env.yml
+          ENV_FILE: foundations/((foundation))/opsman/env.yml
           FOUNDATION: ((foundation))
           PRODUCT_NAME: cf
         on_failure:
@@ -315,7 +315,7 @@ jobs:
             bbr-release: bbr-release-pivnet
             config: configuration
           params:
-            ENV_FILE: envs/((foundation))/opsman/env.yml
+            ENV_FILE: foundations/((foundation))/opsman/env.yml
             PRODUCT_NAME: cf
       - put: bbr-tas-backup-bucket
         params:

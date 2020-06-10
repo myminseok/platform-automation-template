@@ -2,8 +2,8 @@
 ## when create-vm, check if there is a config/state/state.yml on git and matches with 'vm_name' on configs/opsman.yml
 
 
-##export STATE_FILE=../envs/pez/state/state.yml
-##export OPSMAN_CONFIG_FILE=../envs/pez/opsman/opsman.yml
+##export STATE_FILE=../foundations/pez/state/state.yml
+##export OPSMAN_CONFIG_FILE=../foundations/pez/opsman/opsman.yml
 ##export EXIT_IF_VM_EXIST_IN_STATE_FILE=false
 
 

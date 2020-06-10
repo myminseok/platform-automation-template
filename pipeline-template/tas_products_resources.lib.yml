@@ -8,7 +8,7 @@
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: envs/((foundation))/versions.yml
+    config_file: foundations/((foundation))/versions.yml
     config_path: products.tas
     version_path: products.tas.product-version
     version_pattern: "m.n.p"
@@ -35,7 +35,7 @@
 #    uri: ((git.platform_automation_configs.uri))
 #    branch: ((git.platform_automation_configs.branch))
 #    private_key: ((git.private_key))
-#    config_file: envs/((foundation))/versions.yml
+#    config_file: foundations/((foundation))/versions.yml
 #    config_path: products.scs
 #    version_path: products.scs.product-version
 #    version_pattern: "m.n.p"
@@ -48,7 +48,7 @@
 #    uri: ((git.platform_automation_configs.uri))
 #    branch: ((git.platform_automation_configs.branch))
 #    private_key: ((git.private_key))
-#    config_file: envs/((foundation))/versions.yml
+#    config_file: foundations/((foundation))/versions.yml
 #    config_path: products.redis
 #    version_path: products.redis.product-version
 #    version_pattern: "m.n.p"
@@ -61,7 +61,7 @@
 #    uri: ((git.platform_automation_configs.uri))
 #    branch: ((git.platform_automation_configs.branch))
 #    private_key: ((git.private_key))
-#    config_file: envs/((foundation))/versions.yml
+#    config_file: foundations/((foundation))/versions.yml
 #    config_path: products.rabbitmq
 #    version_path: products.rabbitmq.product-version
 #    version_pattern: "m.n.p"

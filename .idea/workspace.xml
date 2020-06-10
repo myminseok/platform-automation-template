@@ -2,18 +2,110 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a74f0e74-944c-4ce7-98f1-3bfa4b4bdb8d" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/pipeline-template/opsman_groups.lib.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pipeline-template/pipeline-pks.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pipeline-template/pks_products_groups.lib.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pipeline-template/pks_products_jobs.lib.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pipeline-template/pks_products_resources.lib.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pipeline-template/tas_products_groups.lib.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipeline-tas-generated.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipeline-tas.sh" beforeDir="false" afterPath="$PROJECT_DIR$/tas-pipeline.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pipeline-template/pipeline-tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-template/pipeline-tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/download-products.sh" beforeDir="false" afterPath="$PROJECT_DIR$/download-products.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/download-products.yml" beforeDir="false" afterPath="$PROJECT_DIR$/download-products.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/download-products/healthwatch.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/download-products/healthwatch.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/download-products/opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/download-products/opsman.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/download-products/pks.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/download-products/pks.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/download-products/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/download-products/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/generated-products/healthwatch.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/generated-products/healthwatch.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/generated-products/rabbitmq.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/generated-products/rabbitmq.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/generated-products/redis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/generated-products/redis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/generated-products/scs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/generated-products/scs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/generated-products/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/generated-products/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/generated-vars/healthwatch.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/generated-vars/healthwatch.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/generated-vars/rabbitmq.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/generated-vars/rabbitmq.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/generated-vars/redis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/generated-vars/redis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/generated-vars/scs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/generated-vars/scs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/generated-vars/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/generated-vars/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/apmPostgres-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/apmPostgres-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/credhub-service-broker-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/credhub-service-broker-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/healthwatch-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/healthwatch-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/p-cloudcache-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/p-cloudcache-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/p-event-alerts-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/p-event-alerts-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/p-rabbitmq-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/p-rabbitmq-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/p-redis-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/p-redis-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/p_spring-cloud-services-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/p_spring-cloud-services-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/pivotal-mysql-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/pivotal-mysql-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/pivotal_single_sign-on_service-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/pivotal_single_sign-on_service-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/rabbitmq-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/rabbitmq-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/redis-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/redis-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/scs-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/scs-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/tas-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/tas-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsfiles/vmware-nsx-t-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsfiles/vmware-nsx-t-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsman/auth.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsman/auth.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsman/director-s3-rds.yml-" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsman/director-s3-rds.yml-" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsman/director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsman/director.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsman/env.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsman/env.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/opsman/opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/opsman/opsman.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/delete-from-credhub.sh" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/pipeline-vars/delete-from-credhub.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/director_trusted_certificates" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/pipeline-vars/director_trusted_certificates" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/pipeline-vars/params.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/set-credhub-from-terraform.sh" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/pipeline-vars/set-credhub-from-terraform.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/set-credhub.sh" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/pipeline-vars/set-credhub.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/tas_ssl_domain.crt" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/pipeline-vars/tas_ssl_domain.crt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/tas_ssl_domain.key" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/pipeline-vars/tas_ssl_domain.key" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/pipeline-vars/terraform.tfvars.template" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/pipeline-vars/terraform.tfvars.template" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/products/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/products/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/state/state.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/state/state.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/vars/cf.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/vars/cf.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/vars/director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/vars/director.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/vars/healthwatch.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/vars/healthwatch.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/vars/opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/vars/opsman.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/vars/rabbitmq.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/vars/rabbitmq.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/vars/redis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/vars/redis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/vars/scs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/vars/scs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/vars/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/vars/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/awstest/versions.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/awstest/versions.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/download-products/healthwatch.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/download-products/healthwatch.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/download-products/opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/download-products/opsman.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/download-products/pks.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/download-products/pks.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/download-products/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/download-products/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/generated-products/pks.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/generated-products/pks.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/generated-products/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/generated-products/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/pks.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/generated-vars/pks.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/generated-vars/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/generated-vars/test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/generated-vars/test.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/pks-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/opsfiles/pks-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/opsfiles/tas-operations" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/opsfiles/tas-operations" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/opsman/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/auth-ldap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/opsman/auth-ldap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/auth-saml.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/opsman/auth-saml.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/auth.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/opsman/auth.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/opsman/director.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/env.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/opsman/env.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/opsman/opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/opsman/opsman.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/pipeline-vars/params.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/pipeline-vars/set-credhub.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/pipeline_trigger_version_pez-tas" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/pipeline_trigger_version_pez-tas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/products/pks.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/products/pks.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/products/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/products/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/state/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/state/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/state/state.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/state/state.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/vars/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/vars/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/vars/director.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/vars/director.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/vars/opsman.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/vars/opsman.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/vars/pks.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/vars/pks.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/vars/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/vars/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/vars/versions.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/vars/versions.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/envs/pez/versions.yml" beforeDir="false" afterPath="$PROJECT_DIR$/foundations/pez/versions.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate-config-scripts/generate-product-config.sh" beforeDir="false" afterPath="$PROJECT_DIR$/generate-config-scripts/generate-product-config.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate-config-scripts/validate-opsman-config.sh" beforeDir="false" afterPath="$PROJECT_DIR$/generate-config-scripts/validate-opsman-config.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate-config-scripts/validate-product-config.sh" beforeDir="false" afterPath="$PROJECT_DIR$/generate-config-scripts/validate-product-config.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated-pipeline-pks.yml" beforeDir="false" afterPath="$PROJECT_DIR$/generated-pipeline-pks.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated-pipeline-tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/generated-pipeline-tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipeline-template/common_resources.lib.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-template/common_resources.lib.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipeline-template/opsman_jobs.lib.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-template/opsman_jobs.lib.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipeline-template/opsman_resources.lib.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-template/opsman_resources.lib.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipeline-template/pks_products_jobs.lib.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-template/pks_products_jobs.lib.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipeline-template/pks_products_resources.lib.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-template/pks_products_resources.lib.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipeline-template/tas_products_resources.lib.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-template/tas_products_resources.lib.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pks-pipeline.sh" beforeDir="false" afterPath="$PROJECT_DIR$/pks-pipeline.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample-pipelines/test-resource.sh" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/test-resource.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample-pipelines/test-resources.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sample-pipelines/test-resources.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tas-pipeline.sh" beforeDir="false" afterPath="$PROJECT_DIR$/tas-pipeline.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks/check-opsman-state-file.sh" beforeDir="false" afterPath="$PROJECT_DIR$/tasks/check-opsman-state-file.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,33 +116,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="tas_products_groups.lib.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_groups.lib.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="2" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tas_products_jobs.lib.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1055">
-              <caret line="60" column="6" selection-start-line="60" selection-start-column="6" selection-end-line="60" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tas_products_resources.lib.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_resources.lib.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="pks_products_resources.lib.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pipeline-template/pks_products_resources.lib.yml">
           <provider selected="true" editor-type-id="text-editor">
@@ -60,11 +125,45 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pks_products_groups.lib.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pks_products_groups.lib.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pipeline-template/pks_products_groups.lib.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
+            <state relative-caret-position="240">
+              <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="opsman_resources.lib.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pipeline-template/opsman_resources.lib.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="103">
+              <caret line="45" column="28" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="versions.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/foundations/awstest/versions.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-18" />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tas-pipeline.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tas-pipeline.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="32" column="24" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="generate-product-config.sh" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/generate-config-scripts/generate-product-config.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="313">
+              <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
             </state>
           </provider>
         </entry>
@@ -73,7 +172,7 @@
         <entry file="file://$PROJECT_DIR$/pipeline-template/pipeline-tas.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="375">
-              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
             </state>
           </provider>
         </entry>
@@ -82,7 +181,7 @@
         <entry file="file://$PROJECT_DIR$/pipeline-template/pks_products_jobs.lib.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="94">
-              <caret line="257" column="16" lean-forward="true" selection-start-line="257" selection-start-column="16" selection-end-line="257" selection-end-column="16" />
+              <caret line="257" column="16" selection-start-line="257" selection-start-column="16" selection-end-line="257" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -91,7 +190,7 @@
         <entry file="file://$PROJECT_DIR$/pipeline-template/pipeline-pks.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="360">
-              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+              <caret line="24" selection-start-line="24" selection-end-line="24" />
             </state>
           </provider>
         </entry>
@@ -100,16 +199,7 @@
         <entry file="file://$PROJECT_DIR$/generated-pipeline-pks.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="14" column="25" lean-forward="true" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bbr-backup-product.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tasks/bbr-backup-product.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-194">
-              <caret line="28" column="10" lean-forward="true" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
+              <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -118,7 +208,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>env</find>
       <find>bbr-director-backup-bucket</find>
       <find>PIPELINE_NAME=&quot;${FOUNDATION}-tas&quot;</find>
       <find>pipelines</find>
@@ -148,6 +237,7 @@
       <find>tas_products_jobs.lib.yml:- name:</find>
       <find>opsman_jobs.lib.yml:- name:</find>
       <find>configure-tas-only</find>
+      <find>envs/</find>
     </findStrings>
     <replaceStrings>
       <replace>prepare_tasks_with_secrets</replace>
@@ -169,10 +259,11 @@
       <replace>pks-version-git</replace>
       <replace>-</replace>
       <replace>-</replace>
+      <replace>foundations/</replace>
     </replaceStrings>
     <dirStrings>
-      <dir>$PROJECT_DIR$</dir>
       <dir>$PROJECT_DIR$/pipeline-template</dir>
+      <dir>$PROJECT_DIR$</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -216,7 +307,6 @@
         <option value="$PROJECT_DIR$/pipeline-template/common_resources.lib.yml" />
         <option value="$PROJECT_DIR$/envs/pez/opsman/director.yml" />
         <option value="$PROJECT_DIR$/envs/pez/opsfiles/tas-operations" />
-        <option value="$PROJECT_DIR$/pipeline-template/opsman_resources.lib.yml" />
         <option value="$PROJECT_DIR$/tasks/generate-certificate.yml" />
         <option value="$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml" />
         <option value="$PROJECT_DIR$/pipeline-template/opsman_jobs.lib.yml" />
@@ -241,6 +331,7 @@
         <option value="$PROJECT_DIR$/pipeline-template/pipeline-pks.yml" />
         <option value="$PROJECT_DIR$/pipeline-template/pks_products_jobs.lib.yml" />
         <option value="$PROJECT_DIR$/pipeline-template/pks_products_groups.lib.yml" />
+        <option value="$PROJECT_DIR$/pipeline-template/opsman_resources.lib.yml" />
       </list>
     </option>
   </component>
@@ -265,7 +356,24 @@
             <path>
               <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
               <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
-              <item name="pipeline-template" type="462c0819:PsiDirectoryNode" />
+              <item name="foundations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
+              <item name="foundations" type="462c0819:PsiDirectoryNode" />
+              <item name="awstest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
+              <item name="foundations" type="462c0819:PsiDirectoryNode" />
+              <item name="pez" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
+              <item name="generate-config-scripts" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -412,13 +520,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/envs/pez/opsman/env.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="34" selection-end-line="19" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/params.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="522">
@@ -603,24 +704,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipeline-template/opsman_resources.lib.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="14" column="41" lean-forward="true" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/generate-config-scripts/generate-director-var.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="11" selection-start-line="11" selection-end-line="11" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/generate-config-scripts/generate-product-config.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
         </state>
       </provider>
     </entry>
@@ -629,13 +716,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/generate-config-scripts/pivnet_products.txt">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tas-pipeline.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" selection-start-line="16" selection-end-line="26" selection-end-column="58" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pks-pipeline.sh">
       <provider selected="true" editor-type-id="text-editor">
@@ -680,7 +760,7 @@
     <entry file="file://$PROJECT_DIR$/tasks/bbr-backup-product.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-194">
-          <caret line="28" column="10" lean-forward="true" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
+          <caret line="28" column="10" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -701,35 +781,61 @@
     <entry file="file://$PROJECT_DIR$/pipeline-template/pipeline-tas.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
-          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pipeline-template/pipeline-pks.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/generated-pipeline-pks.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="14" column="25" lean-forward="true" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
+          <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pipeline-template/pks_products_jobs.lib.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="94">
-          <caret line="257" column="16" lean-forward="true" selection-start-line="257" selection-start-column="16" selection-end-line="257" selection-end-column="16" />
+          <caret line="257" column="16" selection-start-line="257" selection-start-column="16" selection-end-line="257" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pipeline-template/pks_products_groups.lib.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
+        <state relative-caret-position="240">
+          <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipeline-template/opsman_resources.lib.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="45" column="28" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/foundations/awstest/versions.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-18" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tas-pipeline.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="24" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generate-config-scripts/generate-product-config.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
         </state>
       </provider>
     </entry>

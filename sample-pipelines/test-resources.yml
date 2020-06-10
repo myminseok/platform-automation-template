@@ -172,8 +172,8 @@ jobs:
   - task: prepare_tasks_with_secrets
     <<: *prepare_tasks_with_secrets
     params:
-      CONFIG_PATHS: config/envs/((foundation))/opsman
-      VARS_PATHS: config/envs/((foundation))/vars
+      CONFIG_PATHS: config/foundations/((foundation))/opsman
+      VARS_PATHS: config/foundations/((foundation))/vars
   - task: test-tasks
     config:
       platform: linux

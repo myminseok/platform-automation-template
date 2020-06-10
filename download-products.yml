@@ -124,7 +124,7 @@ credhub_interpolate: &credhub_interpolate
     CREDHUB_CLIENT: ((credhub.client))
     CREDHUB_SECRET: ((credhub.secret))
     PREFIX: /concourse/((foundation))
-    INTERPOLATION_PATHS: envs/((foundation))/opsman envs/((foundation))/download-products
+    INTERPOLATION_PATHS: foundations/((foundation))/opsman foundations/((foundation))/download-products
 
 
 prepare_tasks_with_secrets: &prepare_tasks_with_secrets
@@ -135,8 +135,8 @@ prepare_tasks_with_secrets: &prepare_tasks_with_secrets
     config: configuration
     vars: configuration
   params:
-    CONFIG_PATHS: config/envs/((foundation))/download-products
-    VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+    CONFIG_PATHS: config/foundations/((foundation))/download-products
+    VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
   output_mapping:
     tasks: platform-automation-tasks
 
@@ -175,7 +175,7 @@ jobs:
     file: platform-automation-tasks/tasks/download-product.yml
     input_mapping: {config: configuration }
     params:
-      CONFIG_FILE: envs/((foundation))/download-products/opsman.yml
+      CONFIG_FILE: foundations/((foundation))/download-products/opsman.yml
   - put: opsman-product
     params:
       file: downloaded-product/*
@@ -202,7 +202,7 @@ jobs:
     file: pipelines/tasks/download-only-product.yml
     input_mapping: {config: configuration }
     params:
-      CONFIG_FILE: envs/((foundation))/download-products/opsman.yml
+      CONFIG_FILE: foundations/((foundation))/download-products/opsman.yml
     on_success:
       try:
         task: check_dup_file_in_s3
@@ -237,7 +237,7 @@ jobs:
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: envs/((foundation))/download-products/tas.yml
+      CONFIG_FILE: foundations/((foundation))/download-products/tas.yml
     input_mapping:
       config: configuration
 
@@ -271,7 +271,7 @@ jobs:
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: envs/((foundation))/download-products/healthwatch.yml
+      CONFIG_FILE: foundations/((foundation))/download-products/healthwatch.yml
     input_mapping:
       config: configuration
 

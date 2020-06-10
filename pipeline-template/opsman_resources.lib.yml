@@ -33,7 +33,7 @@
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     skip_ssl_verification: true
-    paths: [ "envs/((foundation))/state/state.yml" ]
+    paths: [ "foundations/((foundation))/state/state.yml" ]
 
 #@overlay/match by="name",missing_ok=True
 - name: opsman-version-git
@@ -43,7 +43,7 @@
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
-    config_file: envs/((foundation))/versions.yml
+    config_file: foundations/((foundation))/versions.yml
     config_path: products.opsman
     version_path: products.opsman.product-version
     version_pattern: "m.n.p"

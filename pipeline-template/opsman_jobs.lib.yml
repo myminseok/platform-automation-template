@@ -11,7 +11,7 @@ params:
   CREDHUB_CLIENT: ((credhub_client.username))
   CREDHUB_SERVER: ((credhub.server))
   PREFIX: /concourse/main
-  INTERPOLATION_PATHS: envs/((foundation))
+  INTERPOLATION_PATHS: foundations/((foundation))
   SKIP_MISSING: false
 #@ end
 
@@ -24,8 +24,8 @@ input_mapping:
   config: configuration
   vars: configuration
 params:
-  CONFIG_PATHS: config/envs/((foundation))/opsman config/envs/((foundation))/products
-  VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+  CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+  VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
 output_mapping:
   tasks: platform-automation-tasks
 #@ end
@@ -40,7 +40,7 @@ input_mapping:
   vars: configuration
 params:
   CONFIG_PATHS: config
-  VARS_PATHS:  vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+  VARS_PATHS:  vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
 output_mapping:
   tasks: platform-automation-tasks
 #@ end
@@ -54,8 +54,8 @@ input_mapping:
   config: configuration
   vars: configuration
 params:
-  CONFIG_PATHS: config/envs/((foundation))/opsman config/envs/((foundation))/products
-  VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+  CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+  VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
   TASKS_PATH: tasks/tasks
 output_mapping:
   tasks: pipelines
@@ -71,7 +71,7 @@ input_mapping:
   config: opsman-version-git
 params:
   CONFIG_PATHS: config
-  VARS_PATHS:  vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+  VARS_PATHS:  vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
   TASKS_PATH: tasks/tasks
 output_mapping:
   tasks: pipelines
@@ -89,7 +89,7 @@ output_mapping:
   repository-commit: configuration-commit
 params:
   FILE_SOURCE_PATH: state.yml
-  FILE_DESTINATION_PATH: envs/((foundation))/state/state.yml
+  FILE_DESTINATION_PATH: foundations/((foundation))/state/state.yml
   GIT_AUTHOR_EMAIL: ((git.user.email))
   GIT_AUTHOR_NAME: ((git.user.username))
   COMMIT_MESSAGE: "Update from upgrade-opsman"
@@ -112,7 +112,7 @@ input_mapping:
   env: configuration
   config: configuration
 params:
-  ENV_FILE: envs/((foundation))/opsman/env.yml
+  ENV_FILE: foundations/((foundation))/opsman/env.yml
 #@ end
 
 
@@ -264,8 +264,8 @@ jobs:
       input_mapping:
         config: configuration
       params:
-        OPSMAN_CONFIG_FILE: envs/((foundation))/opsman/opsman.yml
-        STATE_FILE: envs/((foundation))/state/state.yml
+        OPSMAN_CONFIG_FILE: foundations/((foundation))/opsman/opsman.yml
+        STATE_FILE: foundations/((foundation))/state/state.yml
 
 
     - task: download-product
@@ -276,7 +276,7 @@ jobs:
         vars: configuration
       params:
         CONFIG_FILE: semver-config.yaml # semver-config.yaml from 'opsman-version-git' resource.
-        VARS_FILES: vars/envs/((foundation))/vars/versions.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/versions.yml
 
     ## if VM already exists, not attempting to create it, and return true.
     - task: create-vm
@@ -288,9 +288,9 @@ jobs:
         vars: configuration
         state: configuration # git repo, have to provide empty state.yml file. 'interpolated-files' doesn't have state.yml file.
       params:
-        OPSMAN_CONFIG_FILE: envs/((foundation))/opsman/opsman.yml
-        VARS_FILES: vars/envs/((foundation))/vars/opsman.yml
-        STATE_FILE: envs/((foundation))/state/state.yml
+        OPSMAN_CONFIG_FILE: foundations/((foundation))/opsman/opsman.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/opsman.yml
+        STATE_FILE: foundations/((foundation))/state/state.yml
       on_success:
         do:
           - #@ opsman_state_make_commit()
@@ -329,8 +329,8 @@ jobs:
         env: configuration
         config: configuration
       params:
-        ENV_FILE: envs/((foundation))/opsman/env.yml
-        AUTH_CONFIG_FILE: envs/((foundation))/opsman/auth.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        AUTH_CONFIG_FILE: foundations/((foundation))/opsman/auth.yml
 
 - name: configure-director
   serial: true
@@ -364,9 +364,9 @@ jobs:
         config: configuration
         vars: configuration
       params:
-        ENV_FILE: envs/((foundation))/opsman/env.yml
-        DIRECTOR_CONFIG_FILE: envs/((foundation))/opsman/director.yml
-        VARS_FILES: vars/envs/((foundation))/vars/director.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        DIRECTOR_CONFIG_FILE: foundations/((foundation))/opsman/director.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/director.yml
 
 
 - name: configure-director-only
@@ -401,9 +401,9 @@ jobs:
         config: configuration
         vars: configuration
       params:
-        ENV_FILE: envs/((foundation))/opsman/env.yml
-        DIRECTOR_CONFIG_FILE: envs/((foundation))/opsman/director.yml
-        VARS_FILES: vars/envs/((foundation))/vars/director.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        DIRECTOR_CONFIG_FILE: foundations/((foundation))/opsman/director.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/director.yml
 
 
 
@@ -441,7 +441,7 @@ jobs:
       input_mapping:
         env: configuration
       params:
-        ENV_FILE: envs/((foundation))/opsman/env.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
 
 
 - name: apply-director-changes
@@ -476,7 +476,7 @@ jobs:
       input_mapping:
         env: configuration
       params:
-        ENV_FILE: envs/((foundation))/opsman/env.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
 
     - put: pipeline-trigger-version-git
       params: {file: pipeline-trigger-version-git/version}
@@ -524,7 +524,7 @@ jobs:
       input_mapping:
         env: configuration
       params:
-        ENV_FILE: envs/((foundation))/opsman/env.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
         INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
 
     - task: upgrade-opsman
@@ -537,11 +537,11 @@ jobs:
         env: configuration
         vars: configuration
       params:
-        ENV_FILE: envs/((foundation))/opsman/env.yml
-        STATE_FILE: envs/((foundation))/state/state.yml
-        INSTALLATION_FILE: envs/((foundation))-installation*.zip
-        OPSMAN_CONFIG_FILE: envs/((foundation))/opsman/opsman.yml
-        VARS_FILES: vars/envs/((foundation))/vars/opsman.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        STATE_FILE: foundations/((foundation))/state/state.yml
+        INSTALLATION_FILE: foundations/((foundation))-installation*.zip
+        OPSMAN_CONFIG_FILE: foundations/((foundation))/opsman/opsman.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/opsman.yml
       ensure:
         do:
           - #@ opsman_state_make_commit()
@@ -580,7 +580,7 @@ jobs:
       input_mapping:
         env: configuration
       params:
-        ENV_FILE: envs/((foundation))/opsman/env.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
         INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
 
     - put: installation
@@ -616,7 +616,7 @@ jobs:
         env: configuration
         vars: configuration
       params:
-        ENV_FILE: envs/((foundation))/opsman/env.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
         SUBSTITUTE_CREDENTIALS_WITH_PLACEHOLDERS: false
 
 - name: bbr-backup-director
@@ -644,7 +644,7 @@ jobs:
           bbr-release: bbr-release-pivnets
           config: configuration
         params:
-          ENV_FILE: envs/((foundation))/opsman/env.yml
+          ENV_FILE: foundations/((foundation))/opsman/env.yml
 
       - task: bbr-backup
         file: pipelines/tasks/bbr-backup-director.yml
@@ -652,7 +652,7 @@ jobs:
           bbr-release: bbr-release-pivnet
           config: configuration
         params:
-          ENV_FILE: envs/((foundation))/opsman/env.yml
+          ENV_FILE: foundations/((foundation))/opsman/env.yml
           FOUNDATION: ((foundation))
         on_failure:
           task: bbr-cleanup
@@ -661,7 +661,7 @@ jobs:
             bbr-release: bbr-release-pivnets
             config: configuration
           params:
-            ENV_FILE: envs/((foundation))/opsman/env.yml
+            ENV_FILE: foundations/((foundation))/opsman/env.yml
       - put: bbr-director-backup-bucket
         params:
           file: backup-artifact/((foundation))-director-backup_*.tgz
@@ -700,9 +700,9 @@ jobs:
         state: opsman_vm_state
         vars: configuration
       params:
-        OPSMAN_CONFIG_FILE: envs/((foundation))/opsman/opsman.yml
-        VARS_FILES: vars/envs/((foundation))/vars/opsman.yml
-        STATE_FILE: envs/((foundation))/state/state.yml
+        OPSMAN_CONFIG_FILE: foundations/((foundation))/opsman/opsman.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/opsman.yml
+        STATE_FILE: foundations/((foundation))/state/state.yml
       ensure:
         do:
           - #@ opsman_state_make_commit()
@@ -732,5 +732,5 @@ jobs:
       input_mapping:
         config: configuration
       params:
-        ENV_FILE: envs/((foundation))/opsman/env.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
 #@ end

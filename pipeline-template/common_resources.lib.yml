@@ -7,7 +7,7 @@
     driver: git
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
-    file: envs/((foundation))/pipeline_trigger_version_((pipeline_name))
+    file: foundations/((foundation))/pipeline_trigger_version_((pipeline_name))
     private_key:  ((git.private_key))
 
 - name: platform-automation-tasks

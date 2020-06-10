@@ -60,5 +60,5 @@ params:
   # and fail if params are missing from vars
 
 run:
-  path: pipelines/tasks/credhub_interpolate.sh
+  path: pipelines/tasks/credhub-interpolate.sh
 # code_snippet credhub_interpolate end

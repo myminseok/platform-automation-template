@@ -25,7 +25,7 @@ done
 # ${config_file_args[@] needs to be globbed to pass through properly
 # ${vars_paths_args[@] needs to be globbed to pass through properly
 # shellcheck disable=SC2068
-p-automator prepare_tasks_with_secrets \
+p-automator prepare-tasks-with-secrets \
   --task-dir ${TASKS_PATH} \
   ${config_file_args[@]} \
   ${vars_file_args[@]}

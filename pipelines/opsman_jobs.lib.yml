@@ -1,7 +1,8 @@
 #@ def credhub_interpolate():
 task: credhub_interpolate
 image: platform-automation-image
-file: platform-automation-tasks/tasks/credhub-interpolate.yml
+##file: platform-automation-tasks/tasks/credhub-interpolate.yml
+file: pipelines/tasks/credhub-interpolate.yml
 input_mapping:
   files: configuration
 params:

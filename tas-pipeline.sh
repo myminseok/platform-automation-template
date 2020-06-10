@@ -15,15 +15,15 @@ PIPELINE_YAML="generated-pipeline-tas.yml"
 WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ## ytt from https://github.com/k14s/ytt/releases
 $WORK_DIR/ytt template \
-    -f $WORK_DIR/pipeline-template/pipeline-tas.yml \
-    -f $WORK_DIR/pipeline-template/resource_types.lib.yml \
-    -f $WORK_DIR/pipeline-template/common_resources.lib.yml \
-    -f $WORK_DIR/pipeline-template/opsman_groups.lib.yml \
-    -f $WORK_DIR/pipeline-template/opsman_resources.lib.yml \
-    -f $WORK_DIR/pipeline-template/opsman_jobs.lib.yml \
-    -f $WORK_DIR/pipeline-template/tas_products_groups.lib.yml \
-    -f $WORK_DIR/pipeline-template/tas_products_resources.lib.yml \
-    -f $WORK_DIR/pipeline-template/tas_products_jobs.lib.yml \
+    -f $WORK_DIR/pipeline-templates/pipeline-tas.yml \
+    -f $WORK_DIR/pipeline-templates/resource_types.lib.yml \
+    -f $WORK_DIR/pipeline-templates/common_resources.lib.yml \
+    -f $WORK_DIR/pipeline-templates/opsman_groups.lib.yml \
+    -f $WORK_DIR/pipeline-templates/opsman_resources.lib.yml \
+    -f $WORK_DIR/pipeline-templates/opsman_jobs.lib.yml \
+    -f $WORK_DIR/pipeline-templates/tas_products_groups.lib.yml \
+    -f $WORK_DIR/pipeline-templates/tas_products_resources.lib.yml \
+    -f $WORK_DIR/pipeline-templates/tas_products_jobs.lib.yml \
     --ignore-unknown-comments > $WORK_DIR/${PIPELINE_YAML}
 
 fly -t ${FLY_TARGET} sp -p "${PIPELINE_NAME}" \

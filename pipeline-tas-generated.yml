@@ -129,7 +129,7 @@ resources:
     regexp: ((foundation))-cf-backup_(.*).tar
     skip_ssl_verification: true
 jobs:
-- name: bootstrap-domain-certificate
+- name: generate-domain-certificate
   serial: true
   serial_groups:
   - serial-jobs
@@ -171,6 +171,35 @@ jobs:
     - put: domain_certificate
       params:
         file: installation/certificate_((certificate.generate.subdomain))_*.tgz
+- name: save-domain-certificate-to-credhub
+  serial: true
+  serial_groups:
+  - serial-jobs
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: configuration
+    - get: domain_certificate
+  - do:
+    - task: prepare_custom_tasks_with_secrets
+      image: platform-automation-image
+      file: pipelines/tasks/prepare-tasks-with-secrets.yml
+      input_mapping:
+        tasks: pipelines
+        config: configuration
+        vars: configuration
+      params:
+        CONFIG_PATHS: config/envs/((foundation))/opsman config/envs/((foundation))/products
+        VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
+        TASKS_PATH: tasks/tasks
+      output_mapping:
+        tasks: pipelines
     - task: save-certificate-to-credhub
       file: pipelines/tasks/save-certificate-to-credhub.yml
       input_mapping:
@@ -185,6 +214,7 @@ jobs:
         PIPELINE_NAME: ((BUILD_PIPELINE_NAME))
         PREFIX: /concourse/main
         KEY_NAME: ((certificate.credhub_key_name))
+        KEY_NAME_DIRECTOR_TRUSTED_CERTS: ((certificate.credhub_key_name_director_trusted_certificates))
 - name: install-opsman
   serial: true
   serial_groups:

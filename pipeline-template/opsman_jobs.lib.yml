@@ -172,7 +172,7 @@ jobs:
 
     - put: domain_certificate
       params:
-        file: installation/certificate_((certificate.generate.subdomain))_*.tgz
+        file: generated-certificate//certificate_((certificate.generate.subdomain))_*.tgz
 
 - name: save-domain-certificate-to-credhub
   serial: true

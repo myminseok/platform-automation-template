@@ -29,7 +29,7 @@ networks-configuration:
   networks:
   - name: infra-network
     subnets:
-    - iaas_identifier: VM Network
+    - iaas_identifier: PAS-Infrastructure
       cidr: 192.168.1.0/24
       dns: 10.192.2.10
       gateway: 192.168.1.1
@@ -38,7 +38,7 @@ networks-configuration:
       - az1
   - name: deployment-network
     subnets:
-    - iaas_identifier: VM Network
+    - iaas_identifier: PAS-Infrastructure
       cidr: 192.168.2.0/24
       dns: 10.192.2.10
       gateway: 192.168.2.1
@@ -47,7 +47,7 @@ networks-configuration:
       - az1
   - name: ondemand-network
     subnets:
-    - iaas_identifier: VM Network
+    - iaas_identifier: PAS-Infrastructure
       cidr: 192.168.3.0/24
       dns: 10.192.2.10
       gateway: 192.168.3.1

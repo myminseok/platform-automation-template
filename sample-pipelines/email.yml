@@ -19,11 +19,11 @@ resources:
 
 send-an-email-success: &send-an-email-success
     params:
-      subject_text: "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}/${BUILD_NAME} "
+      subject_text: "[SUCCESS] ${pipeline_name}/${BUILD_JOB_NAME}/${BUILD_NAME} "
       body: email-out/generated-body
 send-an-email-failure: &send-an-email-failure
     params:
-      subject_text: "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}/${BUILD_NAME} "
+      subject_text: "[FAILURE] ${pipeline_name}/${BUILD_JOB_NAME}/${BUILD_NAME} "
       body: email-out/generated-body
 
 jobs:
@@ -59,7 +59,7 @@ jobs:
               Build ID: \${BUILD_ID} \n \
               Build Name: \${BUILD_NAME} \n \
               Build Job Name: \${BUILD_JOB_NAME} \n \
-              Build Pipeline Name: \${BUILD_PIPELINE_NAME} \n \
+              Build Pipeline Name: \${pipeline_name} \n \
               ATC External URL: \${ATC_EXTERNAL_URL}" > email-out/${OUTPUT_BODY_FILE_NAME}
           outputs:
           - name: email-out

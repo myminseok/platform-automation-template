@@ -160,6 +160,10 @@ jobs:
 
     - #@ prepare_tasks_with_product_version()
 
+    - #@ prepare_custom_tasks_with_secrets()
+
+    - #@ prepare_custom_tasks_with_product_version()
+
     - task: echo_files
       config:
         platform: linux
@@ -178,6 +182,17 @@ jobs:
           - |
             cat $FILE
 
+    - task: check-opsman-state-file
+      image: platform-automation-image
+      file: pipeline/tasks/check-opsman-state-file.yml
+      input_mapping:
+        config: opsman-version-git
+        vars: configuration
+      params:
+        CONFIG_FILE: semver-config.yaml # semver-config.yaml from 'opsman-version-git' resource.
+        VARS_FILES: vars/envs/((foundation))/vars/versions.yml
+
+
     - task: download-product
       image: platform-automation-image
       file: platform-automation-tasks/tasks/download-product.yml
@@ -185,7 +200,7 @@ jobs:
         config: opsman-version-git
         vars: configuration
       params:
-        CONFIG_FILE: semver-config.yaml # semver-config.yaml is output of 'opsman-version-git' resource.
+        CONFIG_FILE: semver-config.yaml # semver-config.yaml from 'opsman-version-git' resource.
         VARS_FILES: vars/envs/((foundation))/vars/versions.yml
 
     ## if VM already exists, not attempting to create it, and return true.

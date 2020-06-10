@@ -1,0 +1,21 @@
+- type: replace
+  path: /product-properties/.properties.cloud_provider?
+  value:
+    value: GCP
+    selected_option: gcp
+- type: replace
+  path: /product-properties/.properties.cloud_provider.gcp.project_id?
+  value:
+    value: ((cloud_provider_gcp_project_id))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.gcp.network?
+  value:
+    value: ((cloud_provider_gcp_network))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.gcp.master_service_account?
+  value:
+    value: ((cloud_provider_gcp_master_service_account))
+- type: replace
+  path: /product-properties/.properties.cloud_provider.gcp.worker_service_account?
+  value:
+    value: ((cloud_provider_gcp_worker_service_account))

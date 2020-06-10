@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan1_selector.active.worker_persistent_disk_type?
+  value:
+    value: ((plan1_selector_active_worker_persistent_disk_type))

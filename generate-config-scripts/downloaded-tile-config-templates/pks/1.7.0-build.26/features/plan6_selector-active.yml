@@ -1,0 +1,33 @@
+- type: replace
+  path: /product-properties/.properties.plan6_selector?
+  value:
+    value: Plan Active
+    selected_option: active
+- type: replace
+  path: /product-properties/.properties.plan6_selector.active.name?
+  value:
+    value: ((plan6_selector_active_name))
+- type: replace
+  path: /product-properties/.properties.plan6_selector.active.description?
+  value:
+    value: ((plan6_selector_active_description))
+- type: replace
+  path: /product-properties/.properties.plan6_selector.active.master_az_placement?
+  value:
+    value: ((plan6_selector_active_master_az_placement))
+- type: replace
+  path: /product-properties/.properties.plan6_selector.active.worker_az_placement?
+  value:
+    value: ((plan6_selector_active_worker_az_placement))
+- type: replace
+  path: /product-properties/.properties.plan6_selector.active.master_instances?
+  value:
+    value: ((plan6_selector_active_master_instances))
+- type: replace
+  path: /product-properties/.properties.plan6_selector.active.max_worker_instances?
+  value:
+    value: ((plan6_selector_active_max_worker_instances))
+- type: replace
+  path: /product-properties/.properties.plan6_selector.active.worker_instances?
+  value:
+    value: ((plan6_selector_active_worker_instances))

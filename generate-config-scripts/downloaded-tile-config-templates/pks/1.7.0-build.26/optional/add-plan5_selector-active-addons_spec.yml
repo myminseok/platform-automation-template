@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan5_selector.active.addons_spec?
+  value:
+    value: ((plan5_selector_active_addons_spec))

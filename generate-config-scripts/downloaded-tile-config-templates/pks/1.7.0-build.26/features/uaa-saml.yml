@@ -1,0 +1,29 @@
+- type: replace
+  path: /product-properties/.properties.uaa?
+  value:
+    value: saml
+    selected_option: saml
+- type: replace
+  path: /product-properties/.properties.uaa.saml.sso_name?
+  value:
+    value: ((uaa_saml_sso_name))
+- type: replace
+  path: /product-properties/.properties.uaa.saml.display_name?
+  value:
+    value: ((uaa_saml_display_name))
+- type: replace
+  path: /product-properties/.properties.uaa.saml.name_id_format?
+  value:
+    value: ((uaa_saml_name_id_format))
+- type: replace
+  path: /product-properties/.properties.uaa.saml.sign_auth_requests?
+  value:
+    value: ((uaa_saml_sign_auth_requests))
+- type: replace
+  path: /product-properties/.properties.uaa.saml.require_signed_assertions?
+  value:
+    value: ((uaa_saml_require_signed_assertions))
+- type: replace
+  path: /product-properties/.properties.uaa.saml.saml_signature_algorithm?
+  value:
+    value: ((uaa_saml_saml_signature_algorithm))

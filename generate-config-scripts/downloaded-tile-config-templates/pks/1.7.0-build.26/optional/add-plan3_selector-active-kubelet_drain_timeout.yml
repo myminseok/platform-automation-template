@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan3_selector.active.kubelet_drain_timeout?
+  value:
+    value: ((plan3_selector_active_kubelet_drain_timeout))

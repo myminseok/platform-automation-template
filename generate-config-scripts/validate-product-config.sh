@@ -44,3 +44,4 @@ fi
 
 echo "bosh int --var-errs $generated_product_template_path/${PRODUCT}.yml ${vars_files_args[@]} > /dev/null"
 bosh int --var-errs $generated_product_template_path/${PRODUCT}.yml ${vars_files_args[@]} > /dev/null
+

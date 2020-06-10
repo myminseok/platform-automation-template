@@ -1,0 +1,5 @@
+- type: replace
+  path: /product-properties/.properties.telemetry_installation_purpose_selector?
+  value:
+    value: demo_or_poc
+    selected_option: demo_or_poc

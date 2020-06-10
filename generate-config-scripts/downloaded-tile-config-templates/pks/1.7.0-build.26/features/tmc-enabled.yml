@@ -1,0 +1,22 @@
+- type: replace
+  path: /product-properties/.properties.tmc?
+  value:
+    value: enabled
+    selected_option: enabled
+- type: replace
+  path: /product-properties/.properties.tmc.enabled.tmc_api_url?
+  value:
+    value: ((tmc_enabled_tmc_api_url))
+- type: replace
+  path: /product-properties/.properties.tmc.enabled.tmc_api_token?
+  value:
+    value:
+      secret: ((tmc_enabled_tmc_api_token))
+- type: replace
+  path: /product-properties/.properties.tmc.enabled.tmc_cluster_group?
+  value:
+    value: ((tmc_enabled_tmc_cluster_group))
+- type: replace
+  path: /product-properties/.properties.tmc.enabled.tmc_cluster_name_prefix?
+  value:
+    value: ((tmc_enabled_tmc_cluster_name_prefix))

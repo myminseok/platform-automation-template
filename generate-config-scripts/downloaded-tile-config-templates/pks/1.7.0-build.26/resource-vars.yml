@@ -1,0 +1,6 @@
+pivotal-container-service_instance_type: automatic
+pivotal-container-service_max_in_flight: default
+pivotal-container-service_persistent_disk_size: automatic
+pks-db_instance_type: automatic
+pks-db_max_in_flight: default
+pks-db_persistent_disk_size: automatic

@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.telemetry_selector.enhanced.installation_label?
+  value:
+    value: ((telemetry_selector_enhanced_installation_label))

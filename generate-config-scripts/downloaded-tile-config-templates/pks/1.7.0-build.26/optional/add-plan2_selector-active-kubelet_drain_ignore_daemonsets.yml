@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.plan2_selector.active.kubelet_drain_ignore_daemonsets?
+  value:
+    value: ((plan2_selector_active_kubelet_drain_ignore_daemonsets))

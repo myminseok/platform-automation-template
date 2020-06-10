@@ -1,0 +1,4 @@
+- type: replace
+  path: /product-properties/.properties.uaa.ldap.external_groups_whitelist?
+  value:
+    value: ((uaa_ldap_external_groups_whitelist))

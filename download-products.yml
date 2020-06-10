@@ -124,7 +124,7 @@ credhub_interpolate: &credhub_interpolate
     CREDHUB_CLIENT: ((credhub.client))
     CREDHUB_SECRET: ((credhub.secret))
     PREFIX: /concourse/((foundation))
-    INTERPOLATION_PATHS: envs/((foundation))/opsman envs/envs/envs/((foundation))/download-products
+    INTERPOLATION_PATHS: envs/((foundation))/opsman envs/((foundation))/download-products
 
 
 prepare_tasks_with_secrets: &prepare_tasks_with_secrets

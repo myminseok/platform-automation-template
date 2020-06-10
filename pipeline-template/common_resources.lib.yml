@@ -1,7 +1,6 @@
 
 #@ def common_resources():
 
-
 - name: pipeline-trigger-version-git
   type: semver
   source:
@@ -10,7 +9,6 @@
     branch: ((git.platform_automation_configs.branch))
     file: envs/((foundation))/pipeline_trigger_version_((pipeline_name))
     private_key:  ((git.private_key))
-
 
 - name: platform-automation-tasks
   type: s3
@@ -23,7 +21,6 @@
     regexp: platform-automation-tasks-(.*).zip
     skip_ssl_verification: true
 
-
 - name: platform-automation-image
   type: s3
   source:
@@ -34,7 +31,6 @@
     secret_access_key: ((s3.secret_access_key))
     regexp: platform-automation-image-(.*).tgz
     skip_ssl_verification: true
-
 
 - name: pipelines
   type: git
@@ -51,6 +47,5 @@
     uri: ((git.platform_automation_configs.uri))
     branch: ((git.platform_automation_configs.branch))
     skip_ssl_verification: true  
-
 
 #@ end

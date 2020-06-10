@@ -25,7 +25,7 @@ network-assignment:
   singleton_availability_zone:
     name: az1
 networks-configuration:
-  icmp_checks_enabled: true
+  icmp_checks_enabled: false
   networks:
   - name: infra-network
     subnets:

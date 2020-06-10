@@ -10,19 +10,6 @@ platform: linux
 inputs:
 - name: pipelines
 - name: config # contains download-file config file
-- name: vars # variable files to be made available
-  optional: true
-- name: secrets
-  # secret files to be made available
-  # separate from vars, so they can be store securely
-  optional: true
-
-outputs:
-- name: downloaded-product # product_slug, product_file, stemcell_file
-- name: downloaded-files
-
-caches:
-- path: downloaded-files
 
 params:
   STATE_FILE: state.yml

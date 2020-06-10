@@ -1,12 +1,12 @@
 #!/bin/bash
 ## when create-vm, check if there is a config/state/state.yml on git and matches with 'vm_name' on configs/opsman.yml
 
-state_file="$STATE_FILE"
+state_file="config/$STATE_FILE"
 if [[ ! -f $state_file ]]; then
   echo "OK, $state_file not exist"
   exit 0
 fi
-opsman_file="$OPSMAN_CONFIG_FILE"
+opsman_file="config/$OPSMAN_CONFIG_FILE"
 if [[ ! -f $opsman_file ]]; then
   echo "Error, $opsman_file not exist"
   exit 1

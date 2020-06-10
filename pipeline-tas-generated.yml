@@ -1047,7 +1047,6 @@ jobs:
       params:
         CONFIG_FILE: envs/((foundation))/products/tas.yml
         ENV_FILE: envs/((foundation))/opsman/env.yml
-        VARS_FILES: config/envs/((foundation))/vars/tas.yml
 - name: configure-tas-only
   serial: true
   serial_groups:
@@ -1099,7 +1098,7 @@ jobs:
       params:
         CONFIG_FILE: envs/((foundation))/products/tas.yml
         ENV_FILE: envs/((foundation))/opsman/env.yml
-        VARS_FILES: config/envs/((foundation))/vars/tas.yml
+        VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
 - name: apply-change-tas
   serial: true
   serial_groups:
@@ -1153,7 +1152,7 @@ jobs:
       params:
         CONFIG_FILE: envs/((foundation))/products/tas.yml
         ENV_FILE: envs/((foundation))/opsman/env.yml
-        VARS_FILES: config/envs/((foundation))/vars/tas.yml
+        VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
     - task: apply_product_changes
       image: platform-automation-image
       file: pipelines/tasks/apply-product-changes.yml

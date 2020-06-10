@@ -125,8 +125,8 @@ input_mapping:
 params:
   CONFIG_FILE: #@ "envs/((foundation))/products/{}.yml".format(product_name)
   ENV_FILE: envs/((foundation))/opsman/env.yml
-  VARS_FILES:  #@ "config/envs/((foundation))/vars/{}.yml".format(product_name)
- # VARS_FILES:  #@ "config/envs/((foundation))/generated-vars/{}.yml config/envs/((foundation))/vars/{}.yml".format(product_name)
+  VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
+  #VARS_FILES:  #@ "config/envs/((foundation))/generated-vars/{}.yml config/envs/((foundation))/vars/{}.yml".format(product_name)
 
 #@ end
 
@@ -140,7 +140,7 @@ input_mapping:
 params:
   CONFIG_FILE: #@ "envs/((foundation))/products/{}.yml".format(product_name)
   ENV_FILE: envs/((foundation))/opsman/env.yml
-  VARS_FILES:  #@ "config/envs/((foundation))/vars/{}.yml".format(product_name)
+  VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
   #VARS_FILES:  #@ "config/envs/((foundation))/generated-vars/{}.yml config/envs/((foundation))/vars/{}.yml".format(product_name)
 
 #@ end

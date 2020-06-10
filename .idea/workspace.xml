@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a74f0e74-944c-4ce7-98f1-3bfa4b4bdb8d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/envs/pez/vars/tas.yml" beforeDir="false" afterPath="$PROJECT_DIR$/envs/pez/vars/tas.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipeline-tas-generated.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-tas-generated.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,8 +27,8 @@
       <file leaf-file-name="opsman_jobs.lib.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pipeline-template/opsman_jobs.lib.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2585">
-              <caret line="176" column="18" selection-start-line="176" selection-start-column="18" selection-end-line="176" selection-end-column="18" />
+            <state relative-caret-position="159">
+              <caret line="242" column="2" lean-forward="true" selection-start-line="242" selection-start-column="2" selection-end-line="258" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -40,7 +42,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tas.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="tas.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/envs/pez/vars/tas.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
@@ -49,20 +51,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tas.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/envs/pez/generated-products/tas.yml">
+      <file leaf-file-name="set-credhub.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="16" lean-forward="true" selection-end-line="465" />
+            <state relative-caret-position="438">
+              <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="set-credhub.sh" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh">
+      <file leaf-file-name="tas_products_jobs.lib.yml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
-              <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
+            <state relative-caret-position="243">
+              <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tas.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/envs/pez/generated-vars/tas.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" column="41" lean-forward="true" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -80,7 +91,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>prepare_custom_tasks_with_product_version</find>
       <find>down</find>
       <find>stage_configure_apply</find>
       <find>bbr-tas-backup-bucket</find>
@@ -106,10 +116,11 @@
       <find>staged</find>
       <find>networking_poe_ssl_certs_0_name</find>
       <find>networking_poe_ssl_certs_0_certificate</find>
-      <find>BUILD</find>
       <find>network_name</find>
       <find>poe</find>
       <find>uaa</find>
+      <find>app_graceful_shutdown_period_in_seconds</find>
+      <find>BUILD</find>
     </findStrings>
     <replaceStrings>
       <replace>prepare_tasks_with_secrets</replace>
@@ -175,7 +186,6 @@
         <option value="$PROJECT_DIR$/pipeline-template/common_resources.lib.yml" />
         <option value="$PROJECT_DIR$/envs/pez/opsman/director.yml" />
         <option value="$PROJECT_DIR$/pipeline-tas.sh" />
-        <option value="$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml" />
         <option value="$PROJECT_DIR$/envs/pez/opsfiles/tas-operations" />
         <option value="$PROJECT_DIR$/pipeline-template/opsman_resources.lib.yml" />
         <option value="$PROJECT_DIR$/tasks/generate-certificate.yml" />
@@ -185,12 +195,13 @@
         <option value="$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh" />
         <option value="$PROJECT_DIR$/envs/pez/products/tas.yml" />
         <option value="$PROJECT_DIR$/envs/pez/vars/tas.yml" />
+        <option value="$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="8" />
-    <option name="y" value="39" />
+    <option name="x" value="182" />
+    <option name="y" value="31" />
     <option name="width" value="1076" />
     <option name="height" value="756" />
   </component>
@@ -229,7 +240,7 @@
               <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
               <item name="envs" type="462c0819:PsiDirectoryNode" />
               <item name="pez" type="462c0819:PsiDirectoryNode" />
-              <item name="opsman" type="462c0819:PsiDirectoryNode" />
+              <item name="generated-vars" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
@@ -244,6 +255,13 @@
               <item name="envs" type="462c0819:PsiDirectoryNode" />
               <item name="pez" type="462c0819:PsiDirectoryNode" />
               <item name="products" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="platform-automation-template2" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+              <item name="pez" type="462c0819:PsiDirectoryNode" />
+              <item name="state" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="platform-automation-template2" type="b2602c69:ProjectViewProjectNode" />
@@ -348,7 +366,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="8" y="39" width="1336" height="756" extended-state="0" />
+    <frame x="182" y="31" width="1076" height="756" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -363,7 +381,7 @@
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="0" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.2805255" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.20019342" />
       <window_info anchor="bottom" id="Find" order="4" weight="0.32776934" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="6" weight="0.25" />
@@ -575,24 +593,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/generated-vars/tas.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="38" column="30" lean-forward="true" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/envs/pez/opsman/env.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="34" selection-end-line="19" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="159" lean-forward="true" selection-start-line="159" selection-end-line="159" />
         </state>
       </provider>
     </entry>
@@ -637,13 +641,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipeline-template/opsman_jobs.lib.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2585">
-          <caret line="176" column="18" selection-start-line="176" selection-start-column="18" selection-end-line="176" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/envs/awstest/products/tas.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -668,10 +665,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh">
+    <entry file="file://$PROJECT_DIR$/envs/pez/products/tas.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="454">
-          <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
+        <state relative-caret-position="408">
+          <caret line="347" column="60" selection-start-line="347" selection-start-column="60" selection-end-line="347" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/generated-vars/tas.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="41" lean-forward="true" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -682,17 +686,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/envs/pez/products/tas.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="347" column="60" selection-start-line="347" selection-start-column="60" selection-end-line="347" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/envs/pez/vars/tas.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="76" selection-start-line="4" selection-start-column="76" selection-end-line="4" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envs/pez/pipeline-vars/set-credhub.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="438">
+          <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipeline-template/opsman_jobs.lib.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="242" column="2" lean-forward="true" selection-start-line="242" selection-start-column="2" selection-end-line="258" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pipeline-template/tas_products_jobs.lib.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
         </state>
       </provider>
     </entry>

@@ -5,21 +5,21 @@
 #@ load("@ytt:overlay", "overlay")
 
 ---
+
 #@ load("opsman_groups.lib.yml", "opsman_groups")
-#@ load("tas_products_groups.lib.yml", "tas_products_groups")
-groups: #@ overlay.apply(opsman_groups(), tas_products_groups())
+#@ load("pks_products_groups.lib.yml", "pks_products_groups")
+groups: #@ overlay.apply(opsman_groups(), pks_products_groups())
 
 #@ load("resource_types.lib.yml", "resource_types")
 resource_types: #@ resource_types()
 
 #@ load("common_resources.lib.yml", "common_resources")
 #@ load("opsman_resources.lib.yml", "opsman_resources")
-#@ load("tas_products_resources.lib.yml", "tas_products_resources")
-resources:  #@ overlay.apply(common_resources(), opsman_resources(), tas_products_resources())
+#@ load("pks_products_resources.lib.yml", "pks_products_resources")
+resources:  #@ overlay.apply(common_resources(), opsman_resources(), pks_products_resources())
 
 #@ load("opsman_jobs.lib.yml", "opsman_jobs")
-#@ load("tas_products_jobs.lib.yml", "tas_products_jobs")
-jobs: #@ overlay.apply(opsman_jobs(), tas_products_jobs())
-
+#@ load("pks_products_jobs.lib.yml", "pks_products_jobs")
+jobs: #@ overlay.apply(opsman_jobs(), pks_products_jobs())
 
 

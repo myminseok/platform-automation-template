@@ -22,7 +22,7 @@
     secret_access_key: ((s3.secret_access_key))
     region_name: ((s3.region_name))
     bucket: ((s3.buckets.bbr-backup))
-    regexp: ((foundation))-cf-backup_(.*).tar
+    regexp: ((foundation))-cf-backup_(.*).tgz
     skip_ssl_verification: true
 
 

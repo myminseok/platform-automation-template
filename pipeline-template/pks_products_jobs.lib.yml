@@ -60,6 +60,23 @@ output_mapping:
   tasks: pipelines
 #@ end
 
+#@ def opsman_state_make_commit():
+task: opsman_state_make_commit
+image: platform-automation-image
+file: platform-automation-tasks/tasks/make-git-commit.yml
+input_mapping:
+  repository: configuration
+  file-source: generated-state
+output_mapping:
+  repository-commit: configuration-commit
+params:
+  FILE_SOURCE_PATH: state.yml
+  FILE_DESTINATION_PATH: envs/((foundation))/state/state.yml
+  GIT_AUTHOR_EMAIL: ((git.user.email))
+  GIT_AUTHOR_NAME: ((git.user.username))
+  COMMIT_MESSAGE: "Update from upgrade-opsman"
+#@ end
+
 
 #@ def download_product(version_git_resource, product_name_alias):
 #! semver-config.yaml is output of 'opsman-version-git' resource.
@@ -128,7 +145,7 @@ params:
 
 
 #@ def apply_product_changes(product_name_alias):
-#! product_name: cf
+#! product_name:
 task: apply_product_changes
 image: platform-automation-image
 file: pipelines/tasks/apply-product-changes.yml
@@ -179,10 +196,10 @@ config:
 
 jobs:
 
-#@ def tas_products_jobs():
+#@ def pks_products_jobs():
 
 #@overlay/match by="name",missing_ok=True
-- name: install-and-patch-tas
+- name: install-and-patch-pks
   serial: true
   serial_groups: [serial-jobs]
   plan:
@@ -197,25 +214,21 @@ jobs:
         unpack: true
     - get: pipelines
     - get: configuration
-    - get: tas-version-git
+    - get: pks-version-git
 
   - do:
     - #@ prepare_tasks_with_secrets()
-    - #@ prepare_tasks_with_product_version("tas-version-git")
+    - #@ prepare_tasks_with_product_version("pks-version-git")
     - #@ prepare_custom_tasks_with_secrets()
-    - #@ prepare_custom_tasks_with_product_version("tas-version-git")
-
-    - #@ download_product("tas-version-git", "tas")
-
+    - #@ prepare_custom_tasks_with_product_version("pks-version-git")
+    - #@ download_product("pks-version-git", "pks")
     - #@ upload_product()
-
     - #@ upload_stemcell()
-
-    - #@ stage_configure_apply("tas")
+    - #@ stage_configure_apply("pks")
 
 
 #@overlay/match by="name",missing_ok=True
-- name: configure-tas-only
+- name: configure-pks-only
   serial: true
   serial_groups: [serial-jobs]
   plan:
@@ -233,20 +246,18 @@ jobs:
 
   - do:
     - #@ prepare_tasks_with_secrets()
-
     - #@ prepare_custom_tasks_with_secrets()
-
-    - #@ configure_product("tas")
+    - #@ configure_product("pks")
 
 
 #@overlay/match by="name",missing_ok=True
-- name: apply-change-tas
+- name: apply-change-pks
   serial: true
   serial_groups: [serial-jobs]
   plan:
   - in_parallel:
     - get: pipeline-trigger-version-git
-      passed: [configure-tas-only]
+      passed: [configure-pks-only]
       trigger: false
     - get: platform-automation-image
       params:
@@ -259,19 +270,15 @@ jobs:
 
   - do:
     - #@ prepare_tasks_with_secrets()
-
     - #@ prepare_custom_tasks_with_secrets()
-
-    - #@ configure_product("tas")
-
-    - #@ apply_product_changes("cf")
-
+    - #@ configure_product("pks")
+    - #@ apply_product_changes("pivotal-container-service")
 
 
 
 
 #@overlay/match by="name",missing_ok=True
-- name: bbr-backup-tas
+- name: bbr-backup-pks
   serial: true
   serial_groups: [ bbr-backup ]
   plan:
@@ -297,7 +304,7 @@ jobs:
           config: configuration
         params:
           ENV_FILE: envs/((foundation))/opsman/env.yml
-          PRODUCT_NAME: cf
+          PRODUCT_NAME: pivotal-container-service
 
       - task: bbr-backup
         file: pipelines/tasks/bbr-backup-product.yml
@@ -307,7 +314,7 @@ jobs:
         params:
           ENV_FILE: envs/((foundation))/opsman/env.yml
           FOUNDATION: ((foundation))
-          PRODUCT_NAME: cf
+          PRODUCT_NAME: pivotal-container-service
         on_failure:
           task: bbr-cleanup
           file: pipelines/tasks/bbr-cleanup-product.yml
@@ -316,10 +323,10 @@ jobs:
             config: configuration
           params:
             ENV_FILE: envs/((foundation))/opsman/env.yml
-            PRODUCT_NAME: cf
-      - put: bbr-tas-backup-bucket
+            PRODUCT_NAME: pivotal-container-service
+      - put: bbr-pks-backup-bucket
         params:
-          file: backup-artifact/((foundation))-cf-backup_*.tgz
+          file: backup-artifact/((foundation))-pivotal-container-service-backup_*.tgz
 
 
 #@overlay/match by="name",missing_ok=True
@@ -336,10 +343,9 @@ jobs:
         unpack: true
     - get: pipelines
     - get: configuration
-    - get: opsman-version-git
+    - get: pks-version-git
 
   - do:
-
 
     - task: test
       config:
@@ -360,10 +366,8 @@ jobs:
               echo "$WORLD_PARAM"
 
     - #@ prepare_tasks_with_secrets()
-
     - #@ prepare_custom_tasks_with_secrets()
-
-    - #@ prepare_custom_tasks_with_product_version("opsman-version-git")
+    - #@ prepare_custom_tasks_with_product_version("pks-version-git")
 
 
 #@ end

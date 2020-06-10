@@ -1,3 +1,54 @@
+groups:
+- name: main
+  jobs:
+  - bootstrap-generate-domain-certificate
+  - bootstrap-save-domain-certificate-to-credhub
+  - install-opsman
+  - configure-opsman-authentication
+  - configure-director
+  - opsman-custom-vm-extensions
+  - apply-director-changes
+  - upgrade-opsman
+  - export-installation
+  - extract-director-config
+  - bbr-backup-director
+  - install-and-patch-pks
+  - configure-pks-only
+  - apply-change-pks
+  - bbr-backup-pks
+  - test
+- name: opsman
+  jobs:
+  - bootstrap-generate-domain-certificate
+  - bootstrap-save-domain-certificate-to-credhub
+  - install-opsman
+  - configure-opsman-authentication
+  - configure-director
+  - opsman-custom-vm-extensions
+  - apply-director-changes
+  - upgrade-opsman
+  - export-installation
+  - extract-director-config
+  - bbr-backup-director
+- name: opsman-manual
+  jobs:
+  - configure-director-only
+  - extract-director-config
+  - export-installation
+  - bbr-backup-director
+  - bootstrap-generate-domain-certificate
+  - bootstrap-save-domain-certificate-to-credhub
+- name: opsman-delete
+  jobs:
+  - delete-opsman
+  - delete-installation-from-opsman
+- name: pks
+  jobs:
+  - install-and-patch-pks
+  - configure-pks-only
+  - apply-change-pks
+  - bbr-backup-pks
+  - test
 resource_types:
 - name: pivnet
   type: docker-image
@@ -107,7 +158,7 @@ resources:
     bucket: ((s3.buckets.bbr-backup))
     regexp: ((foundation))-director-backup_(.*).tar
     skip_ssl_verification: true
-- name: tas-version-git
+- name: pks-version-git
   type: semver-config
   source:
     driver: git
@@ -115,10 +166,10 @@ resources:
     branch: ((git.platform_automation_configs.branch))
     private_key: ((git.private_key))
     config_file: envs/((foundation))/versions.yml
-    config_path: products.tas
-    version_path: products.tas.product-version
+    config_path: products.pks
+    version_path: products.pks.product-version
     version_pattern: m.n.p
-- name: bbr-tas-backup-bucket
+- name: bbr-pks-backup-bucket
   type: s3
   source:
     endpoint: ((s3.endpoint))
@@ -126,7 +177,7 @@ resources:
     secret_access_key: ((s3.secret_access_key))
     region_name: ((s3.region_name))
     bucket: ((s3.buckets.bbr-backup))
-    regexp: ((foundation))-cf-backup_(.*).tar
+    regexp: ((foundation))-pivotal-container-service-backup_(.*).tgz
     skip_ssl_verification: true
 jobs:
 - name: bootstrap-generate-domain-certificate
@@ -945,7 +996,7 @@ jobs:
         config: configuration
       params:
         ENV_FILE: envs/((foundation))/opsman/env.yml
-- name: install-and-patch-tas
+- name: install-and-patch-pks
   serial: true
   serial_groups:
   - serial-jobs
@@ -961,7 +1012,7 @@ jobs:
         unpack: true
     - get: pipelines
     - get: configuration
-    - get: tas-version-git
+    - get: pks-version-git
   - do:
     - task: prepare_tasks_with_secrets
       image: platform-automation-image
@@ -980,7 +1031,7 @@ jobs:
       file: pipelines/tasks/prepare-tasks-with-secrets.yml
       input_mapping:
         tasks: platform-automation-tasks
-        config: tas-version-git
+        config: pks-version-git
         vars: configuration
       params:
         CONFIG_PATHS: config
@@ -1006,7 +1057,7 @@ jobs:
       input_mapping:
         tasks: pipelines
         vars: configuration
-        config: tas-version-git
+        config: pks-version-git
       params:
         CONFIG_PATHS: config
         VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars
@@ -1015,7 +1066,7 @@ jobs:
       image: platform-automation-image
       file: platform-automation-tasks/tasks/download-product.yml
       input_mapping:
-        config: tas-version-git
+        config: pks-version-git
         vars: configuration
       params:
         CONFIG_FILE: semver-config.yaml
@@ -1045,10 +1096,10 @@ jobs:
         env: configuration
         config: configuration
       params:
-        CONFIG_FILE: envs/((foundation))/products/tas.yml
+        CONFIG_FILE: envs/((foundation))/products/pks.yml
         ENV_FILE: envs/((foundation))/opsman/env.yml
-        VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
-- name: configure-tas-only
+        VARS_FILES: config/envs/((foundation))/generated-vars/pks.yml config/envs/((foundation))/vars/pks.yml
+- name: configure-pks-only
   serial: true
   serial_groups:
   - serial-jobs
@@ -1097,10 +1148,10 @@ jobs:
         config: configuration
         env: configuration
       params:
-        CONFIG_FILE: envs/((foundation))/products/tas.yml
+        CONFIG_FILE: envs/((foundation))/products/pks.yml
         ENV_FILE: envs/((foundation))/opsman/env.yml
-        VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
-- name: apply-change-tas
+        VARS_FILES: config/envs/((foundation))/generated-vars/pks.yml config/envs/((foundation))/vars/pks.yml
+- name: apply-change-pks
   serial: true
   serial_groups:
   - serial-jobs
@@ -1108,7 +1159,7 @@ jobs:
   - in_parallel:
     - get: pipeline-trigger-version-git
       passed:
-      - configure-tas-only
+      - configure-pks-only
       trigger: false
     - get: platform-automation-image
       params:
@@ -1151,9 +1202,9 @@ jobs:
         config: configuration
         env: configuration
       params:
-        CONFIG_FILE: envs/((foundation))/products/tas.yml
+        CONFIG_FILE: envs/((foundation))/products/pks.yml
         ENV_FILE: envs/((foundation))/opsman/env.yml
-        VARS_FILES: config/envs/((foundation))/generated-vars/tas.yml config/envs/((foundation))/vars/tas.yml
+        VARS_FILES: config/envs/((foundation))/generated-vars/pks.yml config/envs/((foundation))/vars/pks.yml
     - task: apply_product_changes
       image: platform-automation-image
       file: pipelines/tasks/apply-product-changes.yml
@@ -1161,8 +1212,8 @@ jobs:
         env: configuration
       params:
         ENV_FILE: envs/((foundation))/opsman/env.yml
-        PRODUCT_NAME: cf
-- name: bbr-backup-tas
+        PRODUCT_NAME: pivotal-container-service
+- name: bbr-backup-pks
   serial: true
   serial_groups:
   - bbr-backup
@@ -1201,7 +1252,7 @@ jobs:
         config: configuration
       params:
         ENV_FILE: envs/((foundation))/opsman/env.yml
-        PRODUCT_NAME: cf
+        PRODUCT_NAME: pivotal-container-service
     - task: bbr-backup
       file: pipelines/tasks/bbr-backup-product.yml
       input_mapping:
@@ -1210,7 +1261,7 @@ jobs:
       params:
         ENV_FILE: envs/((foundation))/opsman/env.yml
         FOUNDATION: ((foundation))
-        PRODUCT_NAME: cf
+        PRODUCT_NAME: pivotal-container-service
       on_failure:
         task: bbr-cleanup
         file: pipelines/tasks/bbr-cleanup-product.yml
@@ -1219,10 +1270,10 @@ jobs:
           config: configuration
         params:
           ENV_FILE: envs/((foundation))/opsman/env.yml
-          PRODUCT_NAME: cf
-    - put: bbr-tas-backup-bucket
+          PRODUCT_NAME: pivotal-container-service
+    - put: bbr-pks-backup-bucket
       params:
-        file: backup-artifact/((foundation))-cf-backup_*.tgz
+        file: backup-artifact/((foundation))-pivotal-container-service-backup_*.tgz
 - name: test
   serial: true
   plan:
@@ -1236,7 +1287,7 @@ jobs:
         unpack: true
     - get: pipelines
     - get: configuration
-    - get: opsman-version-git
+    - get: pks-version-git
   - do:
     - task: test
       config:
@@ -1286,7 +1337,7 @@ jobs:
       input_mapping:
         tasks: pipelines
         vars: configuration
-        config: opsman-version-git
+        config: pks-version-git
       params:
         CONFIG_PATHS: config
         VARS_PATHS: vars/envs/((foundation))/generated-vars vars/envs/((foundation))/vars

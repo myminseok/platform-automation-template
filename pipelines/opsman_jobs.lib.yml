@@ -186,7 +186,7 @@ jobs:
       image: platform-automation-image
       file: pipelines/tasks/check-opsman-state-file.yml
       input_mapping:
-        config: opsman-version-git
+        config: configuration
       params:
         OPSMAN_CONFIG_FILE: envs/((foundation))/opsman/opsman.yml
         STATE_FILE: envs/((foundation))/state/state.yml

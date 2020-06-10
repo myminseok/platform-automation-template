@@ -201,20 +201,21 @@ jobs:
       output_mapping:
         tasks: pipelines
     - task: save-certificate-to-credhub
+      image: platform-automation-image
       file: pipelines/tasks/save-certificate-to-credhub.yml
       input_mapping:
         config: configuration
+        generated-certificate: domain_certificate
       params:
-        CERTIFICATE_FILE: generated-certificate/certificates*.tgz
+        CERTIFICATE_FILE: generated-certificate/certificate*.tgz
         SUBDOMAIN: ((certificate.generate.subdomain))
         CREDHUB_CA_CERT: ((credhub.ca_cert))
         CREDHUB_SECRET: ((credhub_client.password))
         CREDHUB_CLIENT: ((credhub_client.username))
         CREDHUB_SERVER: ((credhub.server))
-        PIPELINE_NAME: ((BUILD_PIPELINE_NAME))
+        PIPELINE_NAME: ((pipeline_name))
         PREFIX: /concourse/main
         KEY_NAME: ((certificate.credhub_key_name))
-        KEY_NAME_DIRECTOR_TRUSTED_CERTS: ((certificate.credhub_key_name_director_trusted_certificates))
 - name: install-opsman
   serial: true
   serial_groups:

@@ -54,3 +54,10 @@ credhub set -t user -n /concourse/main/smtp_user -z user -w 'secret'
 ## TAS tile> networking> domain certifiate
 #credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/director_trusted_certificates -c ./director_trusted_certificates
 
+
+count=$(credhub get -n ${PREFIX}/${PIPELINE_NAME}/credhub_internal_provider_keys_0_key | wc -l)
+if [ "$count" = "0" ]; then
+  credhub generate -t password -n ${PREFIX}/${PIPELINE_NAME}/credhub_internal_provider_keys_0_key -l 20
+else
+  echo "already exist ${PREFIX}/${PIPELINE_NAME}/credhub_internal_provider_keys_0_key"
+fi

@@ -65,4 +65,5 @@ run:
        
       tar xvf $CERTIFICATE_FILE
       cd certificates
-      credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/${KEY_NAME} -c _.${SUBDOMAIN}.crt -p _.${SUBDOMAIN}.key -r _.${SUBDOMAIN}.issuer.crt 
+      credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/${KEY_NAME} -c _.${SUBDOMAIN}.crt -p _.${SUBDOMAIN}.key -r _.${SUBDOMAIN}.issuer.crt
+      credhub set -t value -n ${PREFIX}/${PIPELINE_NAME}/${KEY_NAME}_name -v "${SUBDOMAIN}"

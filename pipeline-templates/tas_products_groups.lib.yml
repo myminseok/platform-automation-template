@@ -7,14 +7,16 @@
   - configure-tas-only
   - apply-change-tas
   - bbr-backup-tas
+  - install-and-patch-nsxt
   - test
-
 - name: tas
   jobs:
   - install-and-patch-tas
   - configure-tas-only
   - apply-change-tas
   - bbr-backup-tas
+  - install-and-patch-nsxt
+
   - test
 
 #@ end

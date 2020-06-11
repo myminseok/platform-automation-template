@@ -1,0 +1,14 @@
+container_ip_blocks_0_cidr:
+container_ip_blocks_0_name: PAS-Org-IPs
+nsx_api_managers: nsxmgr-01.haas-224.pez.pivotal.io
+#nsx_auth_client_cert_nsx_api_client_cert_certificate
+#nsx_auth_client_cert_nsx_api_client_cert_privatekey
+tier0_router: T0-Router
+external_ip_pools_0_allocation_ranges:
+external_ip_pools_0_cidr:
+external_ip_pools_0_name: external-ip-pool
+foundation_name: PAS-
+#nsx_api_ca_cert
+#nsx_auth_simple_nsx_api_password
+#nsx_auth_simple_nsx_api_user:
+overlay_tz: overlay-tz

@@ -264,6 +264,33 @@ jobs:
 
 
 
+#@overlay/match by="name",missing_ok=True
+- name: install-and-patch-nsxt
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+    - in_parallel:
+        - get: pipeline-trigger-version-git
+          trigger: false
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: pipelines
+        - get: configuration
+        - get: nsxt-version-git
+
+    - do:
+        - #@ prepare_tasks_with_secrets()
+        - #@ prepare_tasks_with_product_version("nsxt-version-git")
+        - #@ prepare_custom_tasks_with_secrets()
+        - #@ prepare_custom_tasks_with_product_version("nsxt-version-git")
+        - #@ download_product("nsxt-version-git", "nsxt")
+        - #@ upload_product()
+        ## - #@ upload_stemcell() ## no stemcell for nsxt
+        - #@ stage_configure_apply("nsxt")
 
 
 #@overlay/match by="name",missing_ok=True

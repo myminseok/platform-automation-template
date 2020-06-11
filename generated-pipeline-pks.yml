@@ -1079,6 +1079,7 @@ jobs:
       params:
         CONFIG_FILE: semver-config.yaml
         VARS_FILES: vars/foundations/((foundation))/vars/versions.yml
+  - in_parallel:
     - task: upload_product
       image: platform-automation-image
       file: platform-automation-tasks/tasks/upload-product.yml
@@ -1096,6 +1097,7 @@ jobs:
       params:
         ENV_FILE: foundations/((foundation))/opsman/env.yml
         FLOATING_STEMCELL: false
+  - do:
     - task: stage_configure_apply
       image: platform-automation-image
       file: platform-automation-tasks/tasks/stage-configure-apply.yml

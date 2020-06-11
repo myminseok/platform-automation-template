@@ -204,13 +204,9 @@ jobs:
     - #@ prepare_tasks_with_product_version("tas-version-git")
     - #@ prepare_custom_tasks_with_secrets()
     - #@ prepare_custom_tasks_with_product_version("tas-version-git")
-
     - #@ download_product("tas-version-git", "tas")
-
     - #@ upload_product()
-
     - #@ upload_stemcell()
-
     - #@ stage_configure_apply("tas")
 
 

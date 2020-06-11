@@ -222,10 +222,8 @@ jobs:
     - #@ prepare_custom_tasks_with_secrets()
     - #@ prepare_custom_tasks_with_product_version("pks-version-git")
     - #@ download_product("pks-version-git", "pks")
-  - in_parallel:
     - #@ upload_product()
     - #@ upload_stemcell()
-  - do:
     - #@ stage_configure_apply("pks")
 
 

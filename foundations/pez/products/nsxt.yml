@@ -21,7 +21,7 @@ product-properties:
   .properties.ncp_debug_log:
     value: ((ncp_debug_log))
   .properties.nsx_api_ca_cert:
-    value: ((nsx_api_ca_cert))
+    value: ((nsx_api_ca_cert.certificate))
   .properties.nsx_api_managers:
     value: ((nsx_api_managers))
   .properties.nsx_auth:

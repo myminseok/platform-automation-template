@@ -254,6 +254,7 @@ jobs:
   - do:
     - #@ prepare_tasks_with_secrets()
     - #@ prepare_custom_tasks_with_secrets()
+    - #@ configure_product("tas") # intended
     - #@ apply_product_changes("cf")
 
 

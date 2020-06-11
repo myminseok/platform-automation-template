@@ -10,3 +10,4 @@ singleton_availability_zone: az1
 router_static_ips: 192.168.1.220
 tcp_routing_enable_request_timeout_in_seconds: 5
 tcp_routing_enable_reservable_ports: 1024-1030
+tcp_router_instances: 2

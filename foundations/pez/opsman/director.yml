@@ -18,11 +18,12 @@ iaas-configurations:
     ephemeral_datastores_string: ((iaas-configurations_0_ephemeral_datastores_string))
     name: ((iaas-configurations_0_name))
     nsx_address: ((iaas-configurations_0_nsx_address))
-    nsx_ca_certificate: ((iaas-configurations_0_nsx_ca_certificate))
+    nsx_ca_certificate: ((nsx_api_ca_cert.certificate)) #nsx_ca_certificate: ((iaas-configurations_0_nsx_ca_certificate))
     nsx_mode: ((iaas-configurations_0_nsx_mode))
     nsx_networking_enabled: ((iaas-configurations_0_nsx_networking_enabled))
     nsx_t_auth_type: ((iaas-configurations_0_nsx_t_auth_type))
     nsx_username: ((iaas-configurations_0_nsx_username))
+    nsx_password: ((iaas-configurations_0_nsx_password)) # added
     persistent_datastores_string: ((iaas-configurations_0_persistent_datastores_string))
     ssl_verification_enabled: ((iaas-configurations_0_ssl_verification_enabled))
     vcenter_host: ((iaas-configurations_0_vcenter_host))

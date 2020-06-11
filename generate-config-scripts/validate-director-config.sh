@@ -13,12 +13,11 @@ WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ##foundation_config_path="$WORK_DIR/../${IAAS}/${FOUNDATION}"
 foundation_config_path="$WORK_DIR/../foundations/${FOUNDATION}"
 
-
-echo "Validating configuration for opsman"
+echo "Validating configuration for director"
 echo "bosh int --var-errs --var-errs-unused \"
-echo "  ../foundations/${FOUNDATION}/opsman/opsman.yml \"
-echo "  --vars-file ../foundations/${FOUNDATION}/vars/opsman.yml"
+echo "  ../foundations/${FOUNDATION}/opsman/director.yml \"
+echo "  --vars-file ../foundations/${FOUNDATION}/vars/director.yml"
 
-touch $foundation_config_path/vars/opsman.yml
-bosh int --var-errs --var-errs-unused $foundation_config_path/opsman/opsman.yml \
-  --vars-file $foundation_config_path/vars/opsman.yml
+touch $foundation_config_path/vars/director.yml
+bosh int --var-errs --var-errs-unused $foundation_config_path/opsman/director.yml \
+  --vars-file $foundation_config_path/vars/director.yml

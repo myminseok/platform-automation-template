@@ -18,7 +18,10 @@ foundation_config_path="$WORK_DIR/../foundations/${FOUNDATION}"
 generated_product_template_path="$foundation_config_path/generated-products"
 generated_product_template_vars_path="$foundation_config_path/generated-vars"
 
-echo "Validating configuration for product $PRODUCT"
+echo "Validating configuration for ${PRODUCT}"
+echo "  ../foundations/${FOUNDATION}/generated-products/${PRODUCT}.yml"
+echo "  ../foundations/${FOUNDATION}/generated-vars/${PRODUCT}.yml"
+echo "  ../foundations/${FOUNDATION}/vars/${PRODUCT}.yml"
 
 deploy_type="tile"
 if [ "${PRODUCT}" == "os-conf" ]; then
@@ -42,9 +45,6 @@ if [ -f "$generated_product_template_vars_path/${PRODUCT}.yml" ]; then
   vars_files_args+=("--vars-file $generated_product_template_vars_path/${PRODUCT}.yml")
 fi
 
-echo "Validating configuration for ${PRODUCT}"
-echo "  ../foundations/${FOUNDATION}/generated-products/${PRODUCT}.yml"
-echo "  ../foundations/${FOUNDATION}/generated-vars/${PRODUCT}.yml"
-echo "  ../foundations/${FOUNDATION}/vars/${PRODUCT}.yml"
+
 bosh int --var-errs $generated_product_template_path/${PRODUCT}.yml ${vars_files_args[@]} > /dev/null
 

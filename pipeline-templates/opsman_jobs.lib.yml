@@ -372,7 +372,7 @@ jobs:
 
 - name: configure-director-only
   serial: true
-  serial_groups: [serial-jobs]
+  #serial_groups: [serial-jobs]
   build_log_retention:
     days: 2
     builds: 100

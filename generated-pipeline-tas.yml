@@ -516,8 +516,6 @@ jobs:
         VARS_FILES: vars/foundations/((foundation))/vars/director.yml
 - name: configure-director-only
   serial: true
-  serial_groups:
-  - serial-jobs
   build_log_retention:
     days: 2
     builds: 100

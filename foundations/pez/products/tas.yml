@@ -122,19 +122,8 @@ product-properties:
   .properties.cloud_controller_temporary_disable_deployments:
     value: ((cloud_controller_temporary_disable_deployments))
   .properties.container_networking_interface_plugin:
-    value: silk
-  .properties.container_networking_interface_plugin.silk.enable_log_traffic:
-    value: ((container_networking_interface_plugin_silk_enable_log_traffic))
-  .properties.container_networking_interface_plugin.silk.enable_policy_enforcement:
-    value: ((container_networking_interface_plugin_silk_enable_policy_enforcement))
-  .properties.container_networking_interface_plugin.silk.iptables_accepted_udp_logs_per_sec:
-    value: ((container_networking_interface_plugin_silk_iptables_accepted_udp_logs_per_sec))
-  .properties.container_networking_interface_plugin.silk.iptables_denied_logs_per_sec:
-    value: ((container_networking_interface_plugin_silk_iptables_denied_logs_per_sec))
-  .properties.container_networking_interface_plugin.silk.network_mtu:
-    value: ((container_networking_interface_plugin_silk_network_mtu))
-  .properties.container_networking_interface_plugin.silk.vtep_port:
-    value: ((container_networking_interface_plugin_silk_vtep_port))
+    selected_option: external
+    value: external
   .properties.credhub_database:
     value: internal_mysql
   .properties.credhub_internal_provider_keys:
@@ -287,7 +276,12 @@ product-properties:
   .properties.system_metrics_scraper_scrape_interval:
     value: ((system_metrics_scraper_scrape_interval))
   .properties.tcp_routing:
-    value: disable
+    selected_option: enable
+    value: enable
+  .properties.tcp_routing.enable.request_timeout_in_seconds:
+    value: ((tcp_routing_enable_request_timeout_in_seconds))
+  .properties.tcp_routing.enable.reservable_ports:
+    value: ((tcp_routing_enable_reservable_ports))
   .properties.uaa:
     value: internal
   .properties.uaa.internal.password_expires_after_months:
@@ -328,6 +322,8 @@ product-properties:
     value: ((router_lb_healthy_threshold))
   .router.request_timeout_in_seconds:
     value: ((router_request_timeout_in_seconds))
+  .router.static_ips:
+    value: ((router_static_ips))
   .uaa.apps_manager_access_token_lifetime:
     value: ((uaa_apps_manager_access_token_lifetime))
   .uaa.cf_cli_access_token_lifetime:

@@ -1,6 +1,11 @@
 groups:
 - name: main
   jobs:
+  - install-and-patch-pks
+  - configure-pks-only
+  - apply-change-pks
+  - bbr-backup-pks
+  - test
   - bootstrap-generate-domain-certificate
   - bootstrap-save-domain-certificate-to-credhub
   - install-opsman
@@ -12,6 +17,8 @@ groups:
   - export-installation
   - extract-director-config
   - bbr-backup-director
+- name: pks
+  jobs:
   - install-and-patch-pks
   - configure-pks-only
   - apply-change-pks
@@ -42,13 +49,6 @@ groups:
   jobs:
   - delete-opsman
   - delete-installation-from-opsman
-- name: pks
-  jobs:
-  - install-and-patch-pks
-  - configure-pks-only
-  - apply-change-pks
-  - bbr-backup-pks
-  - test
 resource_types:
 - name: pivnet
   type: docker-image

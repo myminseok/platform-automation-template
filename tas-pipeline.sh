@@ -7,12 +7,14 @@ if [ -z $1 ] || [ -z $2 ] ; then
 	echo "${BASH_SOURCE[0]} [fly-target] [foundation]"
 	exit
 fi
+
 WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 FLY_TARGET=$1
 FOUNDATION=$2
 PIPELINE_NAME="${FOUNDATION}-tas-platform"
 PIPELINE_YAML="generated-pipeline-tas.yml"
 WORK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 ## ytt from https://github.com/k14s/ytt/releases
 $WORK_DIR/ytt template \
     -f $WORK_DIR/pipeline-templates/pipeline-tas.yml \

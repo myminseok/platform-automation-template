@@ -158,6 +158,14 @@ $ ./generate-product-config.sh my-dev tas
 $ ./validate-product-config.sh my-dev tas
 ```
 
+#### check the generated product config template.
+- generated product config file: foundations/my-dev/generated-products/`<FOUNDATION-CODE>`.yml
+- generated product config params file: foundations/my-dev/generated-vars/`<FOUNDATION-CODE>`.yml
+- to use the config in the pipeline, copy generated-products/`<FOUNDATION-CODE>`.yml to products/`<FOUNDATION-CODE>`.yml
+```
+$ cp foundations/my-dev/generated-products/tas.yml foundations/my-dev/products/tas.yml
+```
+
 #### set product params in foundation config var file.
 - foundations/my-dev/vars/`<FOUNDATION-CODE>`.yml
 - for example, platform-automation-template/foundations/my-dev/vars/tas.yml

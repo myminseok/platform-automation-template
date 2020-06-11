@@ -94,6 +94,7 @@ echo ""
 echo "Checking pre-defined opsfile options to control config template ..."
 product_template_opsfile_args=("")
 while IFS= read -r var || [ -n "$var" ]; do
+  [[ $var =~ ^#.* ]] && continue
   product_template_opsfile_args+=("-o ${download_template_product_path}/${var}")
 done < "${product_template_opsfile}"
 echo "-> '${product_template_opsfile_args[@]}'"

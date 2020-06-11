@@ -345,7 +345,7 @@ jobs:
         config: configuration
 
     - in_parallel:
-        - put: healthwatch-product
+        - put: pks-product
           params:
             file: downloaded-product/*.pivotal
         - put: stemcell-repo

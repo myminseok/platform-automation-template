@@ -165,7 +165,12 @@ $ ./validate-product-config.sh my-dev tas
 ```
 $ cp foundations/my-dev/generated-products/tas.yml foundations/my-dev/products/tas.yml
 ```
+#### tas vars 
+generated-vars/tas.yml
+```
+credhub_internal_provider_keys_0_primary: true
 
+```
 #### set product params in foundation config var file.
 - foundations/my-dev/vars/`<FOUNDATION-CODE>`.yml
 - for example, platform-automation-template/foundations/my-dev/vars/tas.yml

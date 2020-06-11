@@ -33,11 +33,44 @@ product-properties:
   .properties.metric_sink_resources_deploy:
     value: ((metric_sink_resources_deploy))
   .properties.network_selector:
-    value: flannel
-  .properties.network_selector.flannel.pod_network_cidr:
-    value: ((network_selector_flannel_pod_network_cidr))
-  .properties.network_selector.flannel.service_cluster_cidr:
-    value: ((network_selector_flannel_service_cluster_cidr))
+    selected_option: nsx
+    value: nsx
+  .properties.network_selector.nsx.cloud-config-dns:
+    value: ((network_selector_nsx_cloud-config-dns))
+  .properties.network_selector.nsx.floating-ip-pool-ids:
+    value: ((network_selector_nsx_floating-ip-pool-ids))
+  .properties.network_selector.nsx.ip-block-id:
+    value: ((network_selector_nsx_ip-block-id))
+  .properties.network_selector.nsx.lb_size_large_supported:
+    value: ((network_selector_nsx_lb_size_large_supported))
+  .properties.network_selector.nsx.lb_size_medium_supported:
+    value: ((network_selector_nsx_lb_size_medium_supported))
+  .properties.network_selector.nsx.nat_mode:
+    value: ((network_selector_nsx_nat_mode))
+  .properties.network_selector.nsx.ncp-ha-heartbeat-period:
+    value: ((network_selector_nsx_ncp-ha-heartbeat-period))
+  .properties.network_selector.nsx.ncp-ha-master-timeout:
+    value: ((network_selector_nsx_ncp-ha-master-timeout))
+  .properties.network_selector.nsx.ncp-ha-update-timeout:
+    value: ((network_selector_nsx_ncp-ha-update-timeout))
+  .properties.network_selector.nsx.network_automation:
+    value: ((network_selector_nsx_network_automation))
+  .properties.network_selector.nsx.nodes-ip-block-id:
+    value: ((network_selector_nsx_nodes-ip-block-id))
+  .properties.network_selector.nsx.nsx-t-host:
+    value: ((network_selector_nsx_nsx-t-host))
+  .properties.network_selector.nsx.nsx-t-insecure:
+    value: ((network_selector_nsx_nsx-t-insecure))
+  .properties.network_selector.nsx.nsx-t-superuser-certificate:
+    value:
+      cert_pem: ((network_selector_nsx_nsx-t-superuser-certificate_certificate))
+      private_key_pem: ((network_selector_nsx_nsx-t-superuser-certificate_privatekey))
+  .properties.network_selector.nsx.service_cluster_cidr:
+    value: ((network_selector_nsx_service_cluster_cidr))
+  .properties.network_selector.nsx.t0-router-id:
+    value: ((network_selector_nsx_t0-router-id))
+  .properties.network_selector.nsx.vcenter_cluster:
+    value: ((network_selector_nsx_vcenter_cluster))
   .properties.node_exporter_deploy:
     value: ((node_exporter_deploy))
   .properties.oidc_selector:

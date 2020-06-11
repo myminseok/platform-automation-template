@@ -1,11 +1,10 @@
 #! ----------------------------------------------------
-#! master pipeline file for 'tas'
+#! master pipeline
 #! ----------------------------------------------------
 
 #@ load("@ytt:overlay", "overlay")
 
 ---
-
 
 #@ load("opsman_groups.lib.yml", "opsman_groups")
 #@ load("pks_products_groups.lib.yml", "pks_products_groups")

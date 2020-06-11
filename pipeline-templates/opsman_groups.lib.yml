@@ -44,7 +44,7 @@
   - delete-opsman
   #@overlay/append by=overlay.index(0)
   - delete-installation-from-opsman
-    
+
 #@overlay/match by="name",missing_ok=True
 - name: opsman
   jobs:

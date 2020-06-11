@@ -7,7 +7,8 @@
 ---
 #@ load("opsman_groups.lib.yml", "opsman_groups")
 #@ load("tas_products_groups.lib.yml", "tas_products_groups")
-groups: #@ overlay.apply(opsman_groups(), tas_products_groups())
+#! donot change overlay.apply order.
+groups: #@ overlay.apply(tas_products_groups(), opsman_groups())
 
 #@ load("resource_types.lib.yml", "resource_types")
 resource_types: #@ resource_types()

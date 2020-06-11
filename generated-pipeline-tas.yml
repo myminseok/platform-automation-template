@@ -1,6 +1,11 @@
 groups:
 - name: main
   jobs:
+  - install-and-patch-tas
+  - configure-tas-only
+  - apply-change-tas
+  - bbr-backup-tas
+  - test
   - bootstrap-generate-domain-certificate
   - bootstrap-save-domain-certificate-to-credhub
   - install-opsman
@@ -12,6 +17,8 @@ groups:
   - export-installation
   - extract-director-config
   - bbr-backup-director
+- name: tas
+  jobs:
   - install-and-patch-tas
   - configure-tas-only
   - apply-change-tas
@@ -42,13 +49,6 @@ groups:
   jobs:
   - delete-opsman
   - delete-installation-from-opsman
-- name: tas
-  jobs:
-  - install-and-patch-tas
-  - configure-tas-only
-  - apply-change-tas
-  - bbr-backup-tas
-  - test
 resource_types:
 - name: pivnet
   type: docker-image

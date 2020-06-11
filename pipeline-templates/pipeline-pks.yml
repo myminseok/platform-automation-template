@@ -6,9 +6,11 @@
 
 ---
 
+
 #@ load("opsman_groups.lib.yml", "opsman_groups")
 #@ load("pks_products_groups.lib.yml", "pks_products_groups")
-groups: #@ overlay.apply(opsman_groups(), pks_products_groups())
+#! donot change overlay.apply order.
+groups: #@ overlay.apply(pks_products_groups(), opsman_groups())
 
 #@ load("resource_types.lib.yml", "resource_types")
 resource_types: #@ resource_types()

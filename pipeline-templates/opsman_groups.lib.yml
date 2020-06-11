@@ -1,20 +1,34 @@
+#@ load("@ytt:overlay", "overlay")
 
 #@ def opsman_groups():
 
+#@overlay/match by="name",missing_ok=True
 - name: main
   jobs:
+  #@overlay/append by=overlay.index(0)
   - bootstrap-generate-domain-certificate
+  #@overlay/append by=overlay.index(0)
   - bootstrap-save-domain-certificate-to-credhub
+  #@overlay/append by=overlay.index(0)
   - install-opsman
+  #@overlay/append by=overlay.index(0)
   - configure-opsman-authentication
+  #@overlay/append by=overlay.index(0)
   - configure-director
+  #@overlay/append by=overlay.index(0)
   - opsman-custom-vm-extensions
+  #@overlay/append by=overlay.index(0)
   - apply-director-changes
+  #@overlay/append by=overlay.index(0)
   - upgrade-opsman
+  #@overlay/append by=overlay.index(0)
   - export-installation
+  #@overlay/append by=overlay.index(0)
   - extract-director-config
+  #@overlay/append by=overlay.index(0)
   - bbr-backup-director
 
+#@overlay/match by="name",missing_ok=True
 - name: opsman
   jobs:
   - bootstrap-generate-domain-certificate
@@ -29,6 +43,7 @@
   - extract-director-config
   - bbr-backup-director
 
+#@overlay/match by="name",missing_ok=True
 - name: opsman-manual
   jobs:
   - configure-director-only
@@ -38,6 +53,7 @@
   - bootstrap-generate-domain-certificate
   - bootstrap-save-domain-certificate-to-credhub
 
+#@overlay/match by="name",missing_ok=True
 - name: opsman-delete
   jobs:
   - delete-opsman

@@ -42,7 +42,7 @@ products:
   nsxt:
     product-version: "2.5.1"
     pivnet-product-slug: vmware-nsx-t
-    pivnet-file-glob: "VMware-NSX-T-*.pivotal"
+    pivnet-file-glob: "VMware-NSX-T*.pivotal"
     stemcell-iaas: vsphere
     s3-endpoint: ((s3_endpoint))
     s3-region-name: ((s3_region))

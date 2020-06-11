@@ -28,6 +28,23 @@
   #@overlay/append by=overlay.index(0)
   - bbr-backup-director
 
+  #@overlay/append by=overlay.index(0)
+  - configure-director-only
+  #@overlay/append by=overlay.index(0)
+  - extract-director-config
+  #@overlay/append by=overlay.index(0)
+  - export-installation
+  #@overlay/append by=overlay.index(0)
+  - bbr-backup-director
+  #@overlay/append by=overlay.index(0)
+  - bootstrap-generate-domain-certificate
+  #@overlay/append by=overlay.index(0)
+  - bootstrap-save-domain-certificate-to-credhub
+  #@overlay/append by=overlay.index(0)
+  - delete-opsman
+  #@overlay/append by=overlay.index(0)
+  - delete-installation-from-opsman
+    
 #@overlay/match by="name",missing_ok=True
 - name: opsman
   jobs:

@@ -17,6 +17,14 @@ groups:
   - export-installation
   - extract-director-config
   - bbr-backup-director
+  - configure-director-only
+  - extract-director-config
+  - export-installation
+  - bbr-backup-director
+  - bootstrap-generate-domain-certificate
+  - bootstrap-save-domain-certificate-to-credhub
+  - delete-opsman
+  - delete-installation-from-opsman
 - name: tas
   jobs:
   - install-and-patch-tas

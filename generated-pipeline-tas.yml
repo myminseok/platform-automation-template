@@ -6,6 +6,8 @@ groups:
   - apply-change-tas
   - bbr-backup-tas
   - install-and-patch-nsxt
+  - configure-nsxt-only
+  - apply-all-changes
   - test
   - bootstrap-generate-domain-certificate
   - bootstrap-save-domain-certificate-to-credhub
@@ -33,6 +35,8 @@ groups:
   - apply-change-tas
   - bbr-backup-tas
   - install-and-patch-nsxt
+  - configure-nsxt-only
+  - apply-all-changes
   - test
 - name: opsman
   jobs:
@@ -516,6 +520,8 @@ jobs:
         VARS_FILES: vars/foundations/((foundation))/vars/director.yml
 - name: configure-director-only
   serial: true
+  serial_groups:
+  - serial-jobs
   build_log_retention:
     days: 2
     builds: 100
@@ -1326,6 +1332,107 @@ jobs:
         CONFIG_FILE: foundations/((foundation))/products/nsxt.yml
         ENV_FILE: foundations/((foundation))/opsman/env.yml
         VARS_FILES: config/foundations/((foundation))/generated-vars/nsxt.yml config/foundations/((foundation))/vars/nsxt.yml
+- name: configure-nsxt-only
+  serial: true
+  serial_groups:
+  - serial-jobs
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      trigger: false
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: configuration
+  - do:
+    - task: prepare_tasks_with_secrets
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      input_mapping:
+        tasks: platform-automation-tasks
+        config: configuration
+        vars: configuration
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+        VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
+      output_mapping:
+        tasks: platform-automation-tasks
+    - task: prepare_custom_tasks_with_secrets
+      image: platform-automation-image
+      file: pipelines/tasks/prepare-tasks-with-secrets.yml
+      input_mapping:
+        tasks: pipelines
+        config: configuration
+        vars: configuration
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+        VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
+        TASKS_PATH: tasks/tasks
+      output_mapping:
+        tasks: pipelines
+    - task: configure_product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/configure-product.yml
+      input_mapping:
+        config: configuration
+        env: configuration
+      params:
+        CONFIG_FILE: foundations/((foundation))/products/nsxt.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: config/foundations/((foundation))/generated-vars/nsxt.yml config/foundations/((foundation))/vars/nsxt.yml
+- name: apply-all-changes
+  serial: true
+  serial_groups:
+  - serial-jobs
+  plan:
+  - in_parallel:
+    - get: pipeline-trigger-version-git
+      trigger: false
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: configuration
+  - do:
+    - task: prepare_tasks_with_secrets
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      input_mapping:
+        tasks: platform-automation-tasks
+        config: configuration
+        vars: configuration
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+        VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
+      output_mapping:
+        tasks: platform-automation-tasks
+    - task: prepare_custom_tasks_with_secrets
+      image: platform-automation-image
+      file: pipelines/tasks/prepare-tasks-with-secrets.yml
+      input_mapping:
+        tasks: pipelines
+        config: configuration
+        vars: configuration
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+        VARS_PATHS: vars/foundations/((foundation))/generated-vars vars/foundations/((foundation))/vars
+        TASKS_PATH: tasks/tasks
+      output_mapping:
+        tasks: pipelines
+    - task: apply_all_changes
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/apply-changes.yml
+      input_mapping:
+        env: configuration
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
 - name: bbr-backup-tas
   serial: true
   serial_groups:

@@ -254,7 +254,8 @@ jobs:
   - do:
     - #@ prepare_tasks_with_secrets()
     - #@ prepare_custom_tasks_with_secrets()
-    - #@ configure_product("tas") # intended
+    #! intended
+    - #@ configure_product("tas")
     - #@ apply_product_changes("cf")
 
 
@@ -287,6 +288,58 @@ jobs:
         ## - #@ upload_stemcell() ## no stemcell for nsxt
         - #@ stage_configure_apply("nsxt")
 
+
+#@overlay/match by="name",missing_ok=True
+- name: configure-nsxt-only
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+    - in_parallel:
+        - get: pipeline-trigger-version-git
+          trigger: false
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: pipelines
+        - get: configuration
+
+    - do:
+        - #@ prepare_tasks_with_secrets()
+        - #@ prepare_custom_tasks_with_secrets()
+        - #@ configure_product("nsxt")
+
+
+
+#@overlay/match by="name",missing_ok=True
+- name: apply-all-changes
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+    - in_parallel:
+        - get: pipeline-trigger-version-git
+          trigger: false
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: pipelines
+        - get: configuration
+
+    - do:
+        - #@ prepare_tasks_with_secrets()
+        - #@ prepare_custom_tasks_with_secrets()
+        - task: apply_all_changes
+          image: platform-automation-image
+          file: platform-automation-tasks/tasks/apply-changes.yml
+          input_mapping:
+            env: configuration
+          params:
+            ENV_FILE: foundations/((foundation))/opsman/env.yml
 
 #@overlay/match by="name",missing_ok=True
 - name: bbr-backup-tas

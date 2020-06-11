@@ -165,19 +165,25 @@ $ ./validate-product-config.sh my-dev tas
 ```
 $ cp foundations/my-dev/generated-products/tas.yml foundations/my-dev/products/tas.yml
 ```
-#### tas vars 
-generated-vars/tas.yml
-```
-credhub_internal_provider_keys_0_primary: true
 
-```
-#### set product params in foundation config var file.
+#### set product params
 - foundations/my-dev/vars/`<FOUNDATION-CODE>`.yml
 - for example, platform-automation-template/foundations/my-dev/vars/tas.yml
 ```
 cloud_controller_apps_domain: apps.awstest.pcfdemo.net
 cloud_controller_system_domain: sys.awstest.pcfdemo.net
 mysql_monitor_recipient_email: test@cloud.com
+```
+`vars/tas.yml` will override to `generated-vars/tas.yml`.  
+- foundations/my-dev/generated-vars/tas.yml
+```
+credhub_internal_provider_keys_0_primary: false
+diego_cell_instances: automatic
+```
+- foundations/my-dev/vars/tas.yml
+```
+credhub_internal_provider_keys_0_primary: true
+diego_cell_instances: 3
 ```
 
 #### set product SECRETS params to concourse credhub.

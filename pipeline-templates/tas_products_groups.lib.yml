@@ -8,7 +8,10 @@
   - apply-change-tas
   - bbr-backup-tas
   - install-and-patch-nsxt
+  - configure-nsxt-only
+  - apply-all-changes
   - test
+
 - name: tas
   jobs:
   - install-and-patch-tas
@@ -16,7 +19,8 @@
   - apply-change-tas
   - bbr-backup-tas
   - install-and-patch-nsxt
-
+  - configure-nsxt-only
+  - apply-all-changes
   - test
 
 #@ end

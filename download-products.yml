@@ -121,6 +121,20 @@ resources:
 #    regexp: bosh-stemcell-(.*)-vsphere.*\.tgz
 #    skip_ssl_verification: true
 
+
+- name: pks-product
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.pivnet_products))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: pivotal-(.*).pivotal
+    skip_ssl_verification: true
+
+
+
 - name: nsxt-product
   type: s3
   source:
@@ -304,6 +318,39 @@ jobs:
     - put: stemcell-repo
       params:
         file: downloaded-stemcell/*.tgz
+
+
+- name: fetch-pks
+  serial: true
+  serial_groups: [serial-jobs]
+  plan:
+    - in_parallel:
+        - get: platform-automation-image
+          params:
+            unpack: true
+        - get: platform-automation-tasks
+          params:
+            unpack: true
+        - get: configuration
+
+    - task: prepare_tasks_with_secrets
+      <<: *prepare_tasks_with_secrets
+
+    - task: download-product-and-stemcell
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/download-product.yml
+      params:
+        CONFIG_FILE: foundations/((foundation))/download-products/pks.yml
+      input_mapping:
+        config: configuration
+
+    - in_parallel:
+        - put: healthwatch-product
+          params:
+            file: downloaded-product/*.pivotal
+        - put: stemcell-repo
+          params:
+            file: downloaded-stemcell/*.tgz
 
 
 - name: fetch-nsxt

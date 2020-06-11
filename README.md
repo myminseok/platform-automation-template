@@ -177,3 +177,17 @@ mysql_monitor_recipient_email: test@cloud.com
 
 #### set product SECRETS params to concourse credhub.
 - https://docs.pivotal.io/platform-automation/v4.4/concepts/secrets-handling.html
+
+
+
+## director config
+
+director.yml with placeholder.
+```
+om -e env.yml staged-director-config --no-redact -r false > director-placeholder.yml
+
+```
+director.yml with secrets.
+```
+om -e env.yml staged-director-config --no-redact true -r true > director-secret.yml
+```

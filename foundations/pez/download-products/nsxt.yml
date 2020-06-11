@@ -1,0 +1,7 @@
+---
+pivnet-api-token: ((pivnet_token))
+pivnet-file-glob: "*.pivotal"
+pivnet-product-slug: vmware-nsx-t #VMware-NSX-T
+product-version-regex: ^2\.5\..?$
+stemcell-iaas: vsphere
+blobstore-bucket: bucket

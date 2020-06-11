@@ -1,4 +1,4 @@
-network_name:
+network_name: PKS-infra
 pivotal-container-service_pks_tls_certificate:
 pivotal-container-service_pks_tls_privatekey:
 pks_api_hostname:

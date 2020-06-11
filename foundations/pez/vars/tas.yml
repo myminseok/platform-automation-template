@@ -7,7 +7,7 @@ networking_poe_ssl_certs_0_name: networking_poe_ssl_certs_0_name
 network_name: deployment-network
 security_acknowledgement: X
 singleton_availability_zone: az1
-router_static_ips: 192.168.1.220
+router_static_ips: 192.168.2.220
 tcp_routing_enable_request_timeout_in_seconds: 5
 tcp_routing_enable_reservable_ports: 1024-1030
 tcp_router_instances: 2

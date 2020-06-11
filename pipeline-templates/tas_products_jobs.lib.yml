@@ -229,9 +229,7 @@ jobs:
 
   - do:
     - #@ prepare_tasks_with_secrets()
-
     - #@ prepare_custom_tasks_with_secrets()
-
     - #@ configure_product("tas")
 
 
@@ -255,11 +253,7 @@ jobs:
 
   - do:
     - #@ prepare_tasks_with_secrets()
-
     - #@ prepare_custom_tasks_with_secrets()
-
-    - #@ configure_product("tas")
-
     - #@ apply_product_changes("cf")
 
 
@@ -383,9 +377,7 @@ jobs:
               echo "$WORLD_PARAM"
 
     - #@ prepare_tasks_with_secrets()
-
     - #@ prepare_custom_tasks_with_secrets()
-
     - #@ prepare_custom_tasks_with_product_version("opsman-version-git")
 
 

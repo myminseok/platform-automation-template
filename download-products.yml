@@ -20,7 +20,7 @@ resources:
   source:
     private_key: ((git.private_key))
     uri: ((git.platform_automation_pipelines.uri))
-    branch: master
+    branch: ((git.platform_automation_configs.branch))
 
 - name: platform-automation-tasks
   type: s3
@@ -49,7 +49,7 @@ resources:
   source:
     private_key: ((git.private_key))
     uri: ((git.platform_automation_configs.uri))
-    branch: master
+    branch: ((git.platform_automation_configs.branch))
 
 - name: opsman-product
   type: s3

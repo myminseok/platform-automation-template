@@ -4,7 +4,8 @@ az-configuration:
   - cluster: Cluster
     resource_pool: ""
 iaas-configurations:
-- additional_cloud_properties: {}
+- additional_cloud_properties:
+    enable_human_readable_name: true
   bosh_disk_path: ((iaas-configurations_0_bosh_disk_path))
   bosh_template_folder: ((iaas-configurations_0_bosh_template_folder))
   bosh_vm_folder: ((iaas-configurations_0_bosh_vm_folder))

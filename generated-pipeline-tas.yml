@@ -1018,7 +1018,7 @@ jobs:
       image: platform-automation-image
       file: platform-automation-tasks/tasks/delete-installation.yml
       input_mapping:
-        config: configuration
+        env: configuration
       params:
         ENV_FILE: foundations/((foundation))/opsman/env.yml
 - name: install-and-patch-tas

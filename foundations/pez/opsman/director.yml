@@ -4,10 +4,10 @@ az-configuration:
     clusters:
       - cluster: Cluster
         drs_rule: MUST
-        guid: fed9622660a439e9f8d6
+     #   guid: fed9622660a439e9f8d6
         host_group: null
         resource_pool: null
-    guid: 79919e8e643e9863faca
+   # guid: 79919e8e643e9863faca
 iaas-configurations:
   - additional_cloud_properties:
       enable_human_readable_name: true
@@ -29,6 +29,7 @@ iaas-configurations:
     ssl_verification_enabled: ((iaas-configurations_0_ssl_verification_enabled))
     vcenter_host: ((iaas-configurations_0_vcenter_host))
     vcenter_username: ((iaas-configurations_0_vcenter_username))
+    vcenter_password: ((iaas-configurations_0_vcenter_password))
 network-assignment:
   network:
     name: infra-network

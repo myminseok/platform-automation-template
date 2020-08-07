@@ -26,8 +26,8 @@ products:
     pivnet-api-token: ((pivnet_token))
 
 
-  pkss:
-    product-version: "1.7.0"
+  pks:
+    product-version: "1.6.0"
     pivnet-product-slug: pivotal-container-service
     pivnet-file-glob: "pivotal-container-service*.pivotal"
     stemcell-iaas: vsphere

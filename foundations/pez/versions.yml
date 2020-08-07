@@ -27,7 +27,7 @@ products:
 
 
   pks:
-    product-version2: "1.7.0"
+    product-version: "1.7.0"
     pivnet-product-slug: pivotal-container-service
     pivnet-file-glob: "pivotal-container-service*.pivotal"
     stemcell-iaas: vsphere

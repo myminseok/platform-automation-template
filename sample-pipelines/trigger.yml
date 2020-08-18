@@ -1,0 +1,38 @@
+
+resources:
+- name: every-30s
+  type: time
+  icon: clock-outline
+  source:
+    interval: 10s
+
+- name: after-midnight
+  type: time
+  source:
+    start: 12:00 AM
+    stop: 06:00 AM
+    location: Asia/Seoul
+
+jobs:
+
+  - name: manually_trigger
+    plan:
+      - put: every-30s
+
+
+  - name: triggered-job
+    plan:
+      - get: every-30s
+        trigger: true
+        passed: [manually_trigger]
+      - get: after-midnight
+        trigger: true
+      - task: simple-task
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source: { repository: busybox }
+          run:
+            path: echo
+            args: ["Hello, world!"]

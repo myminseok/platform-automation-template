@@ -1,6 +1,6 @@
 
 resources:
-- name: every-30s
+- name: every-10s
   type: time
   icon: clock-outline
   source:
@@ -15,16 +15,16 @@ resources:
 
 jobs:
 
-  - name: manually_trigger
+  - name: manual_trigger
     plan:
-      - put: every-30s
+      - put: every-10s
 
 
   - name: triggered-job
     plan:
-      - get: every-30s
+      - get: every-10s
         trigger: true
-        passed: [manually_trigger]
+        passed: [manual_trigger]
       - get: after-midnight
         trigger: true
       - task: simple-task

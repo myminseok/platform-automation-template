@@ -22,8 +22,8 @@ This Platform automation pipeline will provide following benefits.
 
 
 # How to setup platform pipeline for my foundation.
-1) configure foundations/<foundation> files. 
-2) configure credhub values corresponding to foundations/<foundation> 
+1) configure foundations/FOUNDATION files. 
+2) configure credhub values corresponding to foundations/FOUNDATION/
 3) you may edit pipeline template as you wish from `pipelines-templates`
 4) edit generate-pipeline.sh to generate each pipeline for each products.
 5) optionally optional you can merge jobs into single pipeline, then run merge-pipelines.sh and it will generates `pipelines-generated/merged-platform-pipeline.yml`. 

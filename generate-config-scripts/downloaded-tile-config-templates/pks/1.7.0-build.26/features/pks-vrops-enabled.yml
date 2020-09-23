@@ -1,5 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.pks-vrops?
-  value:
-    value: enabled
-    selected_option: enabled

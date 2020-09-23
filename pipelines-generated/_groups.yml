@@ -1,0 +1,25 @@
+groups:
+- name: main
+  jobs:
+  - fetch-platform-automation-files-from-pivnet
+  - fetch-opsman-from-pivnet
+  - fetch-tas
+  - fetch-healthwatch
+  - fetch-healthwatch-pas-exporter
+  - manual-trigger-install-opsman
+  - install-opsman
+  - authenticate-opsman
+  - configure-director
+  - apply-director-changes
+  - configure-director-only
+  - upgrade-opsman
+  - apply-director-changes-after-upgrade-opsman
+  - delete-opsman-vm-only
+  - delete-installation-from-opsman
+  - manual-trigger-backup
+  - backup-opsman-installation
+  - backup-director
+  - backup-tas
+  - deploy-healthwatch2-pas-exporter
+  - deploy-healthwatch2
+  - deploy-tas

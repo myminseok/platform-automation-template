@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.global_settings_service_gateway_port_range?
-  value:
-    value: ((global_settings_service_gateway_port_range))

@@ -1,0 +1,201 @@
+## to list up job name list from this file.
+## sed -n '/^jobs:/,/^resource_types:/p' ./product-pipeline-template.yml | grep  "\- name" | sed 's/- name:/  -/g'
+
+groups:
+- name: ((product))
+  jobs:
+  - deploy-((product))
+  - configure-((product))-only
+
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+- name: slack-notification
+  type: docker-image
+  source:
+    repository: cfcommunity/slack-notification-resource
+    tag: latest
+
+resources:
+  
+- name: slack
+  type: slack-notification
+  icon: slack
+  source:
+    url: ((slack-webhook-url))
+
+- name: platform-automation-tasks
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: platform-automation-tasks-(.*).zip
+    skip_ssl_verification: true
+
+- name: platform-automation-image
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: platform-automation-image-(.*).tgz
+    skip_ssl_verification: true
+
+- name: pipelines
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_pipelines.uri))
+    branch: ((git.platform_automation_pipelines.branch))
+    skip_ssl_verification: true
+## comment 
+- name: ((product))-version-git
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_configs.uri))
+    branch: ((git.platform_automation_configs.branch))
+    skip_ssl_verification: true
+    paths:
+    - foundations/((foundation))/versions/((product)).yml
+
+
+prepare-tasks-with-secrets: &prepare-tasks-with-secrets
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  input_mapping:
+    tasks: platform-automation-tasks
+    config: pipelines
+    vars: pipelines
+  params:
+    CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products config/foundations/((foundation))/versions
+    VARS_PATHS: vars/foundations/((foundation))/vars 
+  output_mapping:
+    tasks: platform-automation-tasks
+
+
+notify-slack: &notify-slack
+  on_success:
+    put: slack
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+  on_failure:
+    put: slack
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+  on_error:
+    put: slack
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+jobs:
+
+
+- name: deploy-((product))
+  serial: true
+  serial_groups:
+  - serial-jobs
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+    - get: pipelines
+    - get: ((product))-version-git
+  - do:
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+
+    - task: download-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/download-product.yml
+      input_mapping:
+        config: ((product))-version-git
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/versions/((product)).yml
+        VARS_FILES: vars/foundations/((foundation))/vars/versions.yml
+        SOURCE: s3
+
+    - task: upload-product
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/upload-product.yml
+      input_mapping:
+        product: downloaded-product
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+    - task: upload-stemcell
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/upload-stemcell.yml
+      input_mapping:
+        stemcell: downloaded-stemcell
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        FLOATING_STEMCELL: false
+
+    - task: stage-configure-apply
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/stage-configure-apply.yml
+      input_mapping:
+        product: downloaded-product
+        env: pipelines
+        config: pipelines
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/products/((product)).yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/((product)).yml
+        ALLOW_PENDING_CHANGES: true
+  <<: *notify-slack
+
+
+- name: configure-((product))-only
+  serial: true
+  serial_groups:
+  - serial-jobs
+  build_log_retention:
+    days: 2
+    builds: 100
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+    - get: pipelines
+  - do:
+    - task: prepare-tasks-with-secrets
+      <<: *prepare-tasks-with-secrets
+    - task: configure
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/configure-product.yml
+      input_mapping:
+        env: pipelines
+        config: pipelines
+        vars: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        CONFIG_FILE: foundations/((foundation))/products/((product)).yml
+        VARS_FILES: vars/foundations/((foundation))/vars/((product)).yml
+
+
+
+
+

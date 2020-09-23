@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan3_selector.active.system_reserved?
-  value:
-    value: ((plan3_selector_active_system_reserved))

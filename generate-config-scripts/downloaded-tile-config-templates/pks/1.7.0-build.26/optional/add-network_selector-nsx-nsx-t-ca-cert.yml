@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.network_selector.nsx.nsx-t-ca-cert?
-  value:
-    value: ((network_selector_nsx_nsx-t-ca-cert))

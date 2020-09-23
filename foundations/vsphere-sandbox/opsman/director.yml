@@ -1,0 +1,146 @@
+az-configuration:
+- name: pas-az3
+  iaas_configuration_name: default
+  clusters:
+  - cluster: Cluster
+    host_group: null
+    resource_pool: pas-az3
+- name: pas-az2
+  iaas_configuration_name: default
+  clusters:
+  - cluster: Cluster
+    host_group: null
+    resource_pool: pas-az2
+- name: pas-az1
+  iaas_configuration_name: default
+  clusters:
+  - cluster: Cluster
+    host_group: null
+    resource_pool: pas-az1
+
+iaas-configurations:
+- additional_cloud_properties: {}
+  bosh_disk_path: bosh_disks
+  bosh_template_folder: bosh_templates
+  bosh_vm_folder: bosh_vms
+  datacenter: Datacenter
+  disk_type: thin
+  ephemeral_datastores_string: LUN01
+  name: default
+  nsx_networking_enabled: false
+  persistent_datastores_string: LUN01
+  ssl_verification_enabled: false
+  vcenter_host: vcsa-01.haas-214.pez.pivotal.io
+  vcenter_username: ((iaas-configurations_0_vcenter_username))
+  vcenter_password: ((iaas-configurations_0_vcenter_password))
+
+network-assignment:
+  network:
+    name: PAS-Infrastructure
+  other_availability_zones: []
+  singleton_availability_zone:
+    name: pas-az1
+    
+networks-configuration:
+  icmp_checks_enabled: false
+  networks:
+  - name: PAS-Infrastructure
+    subnets:
+    - iaas_identifier: PAS-Infrastructure
+      cidr: 10.193.205.0/24
+      dns: 10.192.2.10,10.192.2.11
+      gateway: 10.193.205.1
+      reserved_ip_ranges: 10.193.205.1-10.193.205.230,10.193.205.249-10.193.205.255
+      availability_zone_names:
+      - pas-az1
+      - pas-az2
+      - pas-az3
+  - name: PAS-Deployment
+    subnets:
+    - iaas_identifier: PAS-Deployment
+      cidr: 10.193.205.0/24
+      dns: 10.192.2.10,10.192.2.11
+      gateway: 10.193.205.1
+      reserved_ip_ranges: 10.193.205.1-10.193.205.30,10.193.205.231-10.193.205.248,10.193.205.251-10.193.205.255
+      availability_zone_names:
+      - pas-az1
+      - pas-az2
+      - pas-az3
+  - name: PAS-Services
+    subnets:
+    - iaas_identifier: PAS-Services
+      cidr: 10.195.97.0/24
+      dns: 10.192.2.10,10.192.2.11
+      gateway: 10.195.97.1
+      reserved_ip_ranges: 10.195.97.1-10.195.97.10,10.195.97.201-10.195.97.255
+      availability_zone_names:
+      - pas-az1
+      - pas-az2
+      - pas-az3
+
+properties-configuration:
+  director_configuration:
+    blobstore_type: local
+    bosh_recreate_on_next_deploy: false
+    bosh_recreate_persistent_disks_on_next_deploy: false
+    database_type: internal
+    director_worker_count: 5
+    encryption:
+      keys: []
+      providers: []
+    hm_emailer_options:
+      enabled: false
+    hm_pager_duty_options:
+      enabled: false
+    identification_tags: {}
+    job_configuration_on_tmpfs: false
+    keep_unreachable_vms: false
+    local_blobstore_options:
+      enable_signed_urls: false
+    ntp_servers_string: ntp1.svc.pivotal.io
+    post_deploy_enabled: false
+    resurrector_enabled: false
+    retry_bosh_deploys: false
+    skip_director_drain: false
+  dns_configuration:
+    excluded_recursors: []
+    handlers: []
+  security_configuration:
+    generate_vm_passwords: ((properties-configuration_security_configuration_generate_vm_passwords))
+    opsmanager_root_ca_trusted_certs: true
+    trusted_certificates: "" #((director_trusted_certificates.certificate))
+  syslog_configuration:
+    enabled: false
+resource-configuration:
+  compilation:
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+    swap_as_percent_of_memory_size: automatic
+  director:
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+vmextensions-configuration: []
+vmtypes-configuration: {}

@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/pks-db?/internet_connected?
-  value: ((pks-db_internet_connected))

@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/on-demand-broker?/additional_vm_extensions?
-  value: ((on-demand-broker_additional_vm_extensions))

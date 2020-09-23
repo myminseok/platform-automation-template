@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/rabbitmq-broker?/internet_connected?
-  value: ((rabbitmq-broker_internet_connected))

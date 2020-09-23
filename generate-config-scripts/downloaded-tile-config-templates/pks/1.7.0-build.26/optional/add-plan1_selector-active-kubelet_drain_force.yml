@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan1_selector.active.kubelet_drain_force?
-  value:
-    value: ((plan1_selector_active_kubelet_drain_force))

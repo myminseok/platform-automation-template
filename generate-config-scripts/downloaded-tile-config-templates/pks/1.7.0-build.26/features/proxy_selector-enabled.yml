@@ -1,5 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.proxy_selector?
-  value:
-    value: Enabled
-    selected_option: enabled

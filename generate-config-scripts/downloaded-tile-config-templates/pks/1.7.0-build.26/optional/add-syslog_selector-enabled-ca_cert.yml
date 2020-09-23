@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.syslog_selector.enabled.ca_cert?
-  value:
-    value: ((syslog_selector_enabled_ca_cert))

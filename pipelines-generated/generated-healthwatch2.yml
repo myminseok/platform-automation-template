@@ -1,0 +1,219 @@
+groups:
+- jobs:
+  - deploy-healthwatch2
+  - configure-healthwatch2-only
+  name: healthwatch2
+jobs:
+- name: deploy-healthwatch2
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: healthwatch2-version-git
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+          config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-secrets
+    - file: platform-automation-tasks/tasks/download-product.yml
+      image: platform-automation-image
+      input_mapping:
+        config: healthwatch2-version-git
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/versions/healthwatch2.yml
+        SOURCE: s3
+        VARS_FILES: vars/foundations/((foundation))/vars/versions.yml
+      task: download-product
+    - file: platform-automation-tasks/tasks/upload-product.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+        product: downloaded-product
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+      task: upload-product
+    - file: platform-automation-tasks/tasks/upload-stemcell.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+        stemcell: downloaded-stemcell
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        FLOATING_STEMCELL: false
+      task: upload-stemcell
+    - file: platform-automation-tasks/tasks/stage-configure-apply.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+        product: downloaded-product
+        vars: pipelines
+      params:
+        ALLOW_PENDING_CHANGES: true
+        CONFIG_FILE: foundations/((foundation))/products/healthwatch2.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/healthwatch2.yml
+      task: stage-configure-apply
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention:
+    builds: 100
+    days: 2
+  name: configure-healthwatch2-only
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+          config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-secrets
+    - file: platform-automation-tasks/tasks/configure-product.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/products/healthwatch2.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/healthwatch2.yml
+      task: configure
+  serial: true
+  serial_groups:
+  - serial-jobs
+notify-slack:
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+prepare-tasks-with-secrets:
+  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  image: platform-automation-image
+  input_mapping:
+    config: pipelines
+    tasks: platform-automation-tasks
+    vars: pipelines
+  output_mapping:
+    tasks: platform-automation-tasks
+  params:
+    CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+      config/foundations/((foundation))/versions
+    VARS_PATHS: vars/foundations/((foundation))/vars
+resource_types:
+- name: pivnet
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+  type: docker-image
+- name: slack-notification
+  source:
+    repository: cfcommunity/slack-notification-resource
+    tag: latest
+  type: docker-image
+resources:
+- icon: slack
+  name: slack
+  source:
+    url: ((slack-webhook-url))
+  type: slack-notification
+- name: platform-automation-tasks
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    endpoint: ((s3.endpoint))
+    regexp: platform-automation-tasks-(.*).zip
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: platform-automation-image
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    endpoint: ((s3.endpoint))
+    regexp: platform-automation-image-(.*).tgz
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: pipelines
+  source:
+    branch: ((git.platform_automation_pipelines.branch))
+    private_key: ((git.private_key))
+    skip_ssl_verification: true
+    uri: ((git.platform_automation_pipelines.uri))
+  type: git
+- name: healthwatch2-version-git
+  source:
+    branch: ((git.platform_automation_configs.branch))
+    paths:
+    - foundations/((foundation))/versions/healthwatch2.yml
+    private_key: ((git.private_key))
+    skip_ssl_verification: true
+    uri: ((git.platform_automation_configs.uri))
+  type: git
+

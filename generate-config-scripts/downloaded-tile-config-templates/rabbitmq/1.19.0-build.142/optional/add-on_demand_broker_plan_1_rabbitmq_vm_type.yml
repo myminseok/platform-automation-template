@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.on_demand_broker_plan_1_rabbitmq_vm_type?
-  value:
-    value: ((on_demand_broker_plan_1_rabbitmq_vm_type))

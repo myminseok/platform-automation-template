@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/dedicated-mysql-broker?/internet_connected?
-  value: ((dedicated-mysql-broker_internet_connected))

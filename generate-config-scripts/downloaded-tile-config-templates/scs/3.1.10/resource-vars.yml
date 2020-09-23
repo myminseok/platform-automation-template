@@ -1,3 +1,0 @@
-spring-cloud-services_instance_type: automatic
-spring-cloud-services_max_in_flight: default
-spring-cloud-services_persistent_disk_size: automatic

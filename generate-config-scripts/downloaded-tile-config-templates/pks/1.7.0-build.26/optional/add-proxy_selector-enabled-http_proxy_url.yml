@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.proxy_selector.enabled.http_proxy_url?
-  value:
-    value: ((proxy_selector_enabled_http_proxy_url))

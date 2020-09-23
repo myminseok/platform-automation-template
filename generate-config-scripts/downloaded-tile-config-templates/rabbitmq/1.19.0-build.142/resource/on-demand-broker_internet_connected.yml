@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/on-demand-broker?/internet_connected?
-  value: ((on-demand-broker_internet_connected))

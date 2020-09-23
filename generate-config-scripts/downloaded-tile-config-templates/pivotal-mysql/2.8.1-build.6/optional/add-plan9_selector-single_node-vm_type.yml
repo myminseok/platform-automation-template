@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan9_selector.single_node.vm_type?
-  value:
-    value: ((plan9_selector_single_node_vm_type))

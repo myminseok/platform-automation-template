@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/pks-db?/elb_names?
-  value: ((pks-db_elb_names))

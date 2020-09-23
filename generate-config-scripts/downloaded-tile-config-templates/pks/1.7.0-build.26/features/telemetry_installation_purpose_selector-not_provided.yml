@@ -1,5 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.telemetry_installation_purpose_selector?
-  value:
-    value: not_provided
-    selected_option: not_provided

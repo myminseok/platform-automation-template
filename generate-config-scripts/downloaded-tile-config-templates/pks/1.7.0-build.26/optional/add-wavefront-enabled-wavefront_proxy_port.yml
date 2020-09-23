@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.wavefront.enabled.wavefront_proxy_port?
-  value:
-    value: ((wavefront_enabled_wavefront_proxy_port))

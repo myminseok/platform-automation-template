@@ -1,3 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.multitenant_support.enabled.server_plugins?/value/-
-  value: rabbitmq_auth_backend_ldap

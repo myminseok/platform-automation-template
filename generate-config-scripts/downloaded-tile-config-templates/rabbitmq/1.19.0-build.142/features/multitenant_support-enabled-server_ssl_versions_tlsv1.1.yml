@@ -1,3 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.multitenant_support.enabled.server_ssl_versions?/value/-
-  value: tlsv1.1

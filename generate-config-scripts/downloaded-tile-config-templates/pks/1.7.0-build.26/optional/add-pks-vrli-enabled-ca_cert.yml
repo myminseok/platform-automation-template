@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.pks-vrli.enabled.ca_cert?
-  value:
-    value: ((pks-vrli_enabled_ca_cert))

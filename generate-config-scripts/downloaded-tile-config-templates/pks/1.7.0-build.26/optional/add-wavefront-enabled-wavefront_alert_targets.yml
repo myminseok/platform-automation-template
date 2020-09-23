@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.wavefront.enabled.wavefront_alert_targets?
-  value:
-    value: ((wavefront_enabled_wavefront_alert_targets))

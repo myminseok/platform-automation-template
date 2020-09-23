@@ -1,5 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan13_selector.active.cluster_services?
-  value:
-    value:
-    - enable_linux_ha

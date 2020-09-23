@@ -4,11 +4,11 @@ platform: linux
 inputs:
 - name: pipelines
 - name: config 
-- name: generated-certificate
+- name: certificate
 
 # all params are required to be filled out
 params:
-  CERTIFICATE_FILE: generated-certificate/certificates*.tgz
+  CERTIFICATE_FILE: certificate/certificates*.tgz
   # -rw-------    1 root     root          4087 May 31 13:51 _.awstest.pcfdemo.net.crt
   # -rw-------    1 root     root          1648 May 31 13:51 _.awstest.pcfdemo.net.issuer.crt
   # -rw-------    1 root     root           242 May 31 13:51 _.awstest.pcfdemo.net.json

@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.wavefront.enabled.wavefront_proxy_username?
-  value:
-    value: ((wavefront_enabled_wavefront_proxy_username))

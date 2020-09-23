@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.on-demand-broker.static_ips?
-  value:
-    value: ((on-demand-broker_static_ips))

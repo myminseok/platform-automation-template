@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/on-demand-broker?/elb_names?
-  value: ((on-demand-broker_elb_names))

@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.app_domain?
-  value:
-    value: ((app_domain))

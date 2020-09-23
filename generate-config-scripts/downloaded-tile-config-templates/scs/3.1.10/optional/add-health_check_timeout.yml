@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.health_check_timeout?
-  value:
-    value: ((health_check_timeout))

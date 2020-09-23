@@ -1,0 +1,11 @@
+product-version: "2.3.3"
+pivnet-product-slug: p-redis
+pivnet-file-glob: "*.pivotal"
+stemcell-iaas: vsphere
+s3-endpoint: ((s3.endpoint))
+s3-region-name: ((s3.region_name))
+s3-bucket: ((s3.buckets.platform_files))
+s3-disable-ssl: "true"
+s3-access-key-id: ((s3_access_key_id))
+s3-secret-access-key: ((s3_secret_access_key))
+pivnet-api-token: ((pivnet_token))

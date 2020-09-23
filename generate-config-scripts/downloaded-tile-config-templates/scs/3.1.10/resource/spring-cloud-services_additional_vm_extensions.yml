@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/spring-cloud-services?/additional_vm_extensions?
-  value: ((spring-cloud-services_additional_vm_extensions))

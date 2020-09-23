@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan3_selector.active.eviction_hard?
-  value:
-    value: ((plan3_selector_active_eviction_hard))

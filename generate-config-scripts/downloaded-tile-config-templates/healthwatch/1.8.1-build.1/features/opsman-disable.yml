@@ -1,7 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.opsman?
-  value:
-    value: disable
-    selected_option: disable
-- type: remove
-  path: /product-properties/.properties.opsman.enable.url?

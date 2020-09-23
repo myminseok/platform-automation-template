@@ -1,5 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.exit_on_disconnection?
-  value:
-    value: disable
-    selected_option: disable

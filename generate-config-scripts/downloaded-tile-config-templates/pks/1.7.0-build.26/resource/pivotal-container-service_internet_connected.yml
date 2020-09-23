@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/pivotal-container-service?/internet_connected?
-  value: ((pivotal-container-service_internet_connected))

@@ -1,0 +1,5 @@
+product-version: "1.8.1"
+pivnet-product-slug: p-healthwatch 
+pivnet-file-glob: "*.pivotal"
+stemcell-iaas: aws
+pivnet-api-token: ((pivnet_token))

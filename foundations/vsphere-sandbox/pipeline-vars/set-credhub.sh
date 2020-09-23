@@ -41,3 +41,10 @@ credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/tas_ssl_domain -c ./tas
 ## TAS tile> networking> domain certifiate
 credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/director_trusted_certificates -c ./director_trusted_certificates
 
+##grafana.pcfdemo.net
+credhub set -t certificate -n ${PREFIX}/${PIPELINE_NAME}/grafana_ssl_certificates -c ./grafana_ssl_certificates.crt -p ./grafana_ssl_certificates.key
+
+credhub set -t password -n ${PREFIX}/${PIPELINE_NAME}/properties_grafana_authentication_uaa_client_secret -w 'PASSWORD'
+
+credhub set -t user -n ${PREFIX}/${PIPELINE_NAME}/bosh-deployments-exporter_bosh_client -z 'admin' -w "PASSWORD"
+

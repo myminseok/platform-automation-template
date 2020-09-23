@@ -1,204 +1,88 @@
-Platform automation pipeline using Platform automation Toolkit
-
-## documentation
-- for download_depencencies to s3, see https://github.com/myminseok/pivotal-docs/blob/master/platform-automation/download_dependencies.md
-- for install opsman, see https://github.com/myminseok/pivotal-docs/blob/master/platform-automation/install_opsman.md
+This Platform automation pipeline provides 1) simple to manage pipeline source code 2) merge all pipelines into single pipeline as you wish 3) can manage multiple foundations with shared pipelines code.
 
 
+# folder structure
+- foundations/<foundation>/download-products: yml file for each product used to yml file for each product. 
+- foundations/<foundation>/opsman: all files regards to opsman such as env.yml, opsman.yml, director.yml
+- foundations/<foundation>/pipeline-vars: params.yml is used to `fly set-pipeline` directly. this is not used inside of pipeline task.
+- foundations/<foundation>/products: yml file for each product config. for example `om configure-product` 
+- foundations/<foundation>/vars: optional yml file for each product config to provide paramters
+- foundations/<foundation>/versions:  yml file for each product to download from s3 to install, upgrade, patch.
+- foundations/<foundation>trigger-backup, trigger-xxx: optional `semver` file used in pipelines.
+- pipelines-templates/ooo.yml: base or template pipeline for opsman, standard product. each pipeline can be used standalone or can be merged into single pipeline via `merge-pipeline.sh` 
+- pipelines-generated/ooo.yml: auto-generated temporary pipeline by `generate-pipeline.sh` or `merge-pipeline.sh'
+- generate-pipeline.sh: this file generates a pipeline for each product from 'pipelines-templates/product-pipeline-template.yml'. you can edit this script to add all products to single pipeline 
+- merge-pipelines.sh: merge all of single pipelines into a single pipeline named 'merged-platform-pipeline.yml'. you need to install aviator cli (https://github.com/herrjulz/aviator) before run this script. see detailed guide below to install aviator.
+- fly-pipeline.sh: script to run `fly set-pipeline` with fly target alias and <foundation> name under foundations folder.
 
-### configuration Description
 
-| Folder/File | Purposes | Samples  |
-| --- | --- | --- |
-| `<FOUNDATION-CODE>`  | As the root folder for a dedicated foundation | This can be something like `dev`, `qa`, `sit`, `prod` etc. which is up to the team's convention to name the foundations. |
-| versions.yml | contains all products versions setting to configure and install | https://github.com/brightzheng100/semver-config-concourse-resource |\
-| opsman | all config for opsman VM, director VM.  | The default `auth.yml` is for basic authentication. Please refer to sample of `auth-ldap.yml` and `auth-saml.yml` for other mechanisms. env.yml contains properties for targeting and logging into the Ops Manager API. Currently there is only one `env.yml` to configure the properties so that the `platform-automation` tasks can use `om --env the-path-to/env.yml <COMMAND> ...` to interact with OpsMan APIs |
-| products | A folder to contain templatized product configs  | A couple of samples have been provided but please remove all of them to start with . version.yml is source of versions to be installed |
-| state | A folder to contain the meta information named `state.yml` to manage the Ops Manager VM. This content of this file will be managed by pipelines during operations.  | A sample has been provided for GCP. Please change the IaaS code to meet your context |
-| vars | A folder to contain vars for templatized product configs in folder of `/products` | A couple of samples have been provided but please remove all of them to start with |
-| generated-config | A folder to contain automatically generated product config files during operations, it should start with no files  | A naming convention of `<PRODUCT-NAME>-<PRODUCT-VERSION>.yml` will be applied to all the files within this folder, e.g. `cf-2.2.11.yml`, `director-2.4.1.yml` |
-| pipeline-vars | params files for `fly set-pipeline `, other files to params to concourse credhub. |  |\
 
-## How to generate a product config 
 
-#### install cli
-- bosh (https://bosh.io/docs/cli-v2/)
-- om (https://github.com/pivotal-cf/om/releases)
+# how to setup platform pipeline for my foundation.
+1) configure foundations/<foundation> files. 
+2) configure credhub values corresponding to foundations/<foundation> 
+3) you may edit pipeline template as you wish from `pipelines-templates`
+4) edit generate-pipeline.sh to generate each pipeline for each products.
+5) to merge jobs into single pipeline, then optional you can run merge-pipelines.sh and it will generates `pipelines-generated/merged-platform-pipeline.yml`. 
+6) set pipeline via fly-pipline.sh or fly cli for each pipeline under `pipelines-generated`
 
-#### create foundation config folder
-- `<FOUNDATION-CODE>`is any name you would like to manage.
-- for example, `my-dev` in this example.
+
+
+
+
+# Detailed Guide.
+
+## option1) opsman
+- provides terraforming(public cloud only) toolkit for control-plane: VPC, subnet, LB, security group, DNS, domain certs, opsman
+- will install opsman and bosh
+- use opsman as jumpbox
+
+
+## option2) bbl (oss)
+- bbl include terraforming(private, public cloud) for control-plane
+- will install jumpbox, OSS bosh.
+- https://github.com/cloudfoundry/bosh-bootloader/blob/master/docs/howto-target-bosh-director.md
 ```
-git clone git@github.com:myminseok/platform-automation-template.git
-cd platform-automation-template/foundations
-mkdir my-dev
-cd my-dev
-```
-#### set product version info
-- set products version info to install
-- for example,  platform-automation-template/foundations/my-dev/versions.yml
-```
-products:
-  tas:
-    product-version: "2.9.4"
-    pivnet-product-slug: elastic-runtime
-    pivnet-file-glob: "cf*.pivotal"
-    stemcell-iaas: vsphere
-    s3-endpoint: ((s3_endpoint))
-    s3-region-name: ((s3_region))
-    s3-bucket: ((s3_bucket))
-    s3-disable-ssl: "true"
-    s3-access-key-id: ((s3_access_key_id))
-    s3-secret-access-key: ((s3_secret_access_key))
-    pivnet-api-token: ((pivnet_token))
-```
-> products.tas: `PRODUCT_ALIAS` you named in your pipeline 
-
-#### generate product config from product template
-- export PIVNET_TOKEN: from network.pivotal.io> edit profiles
-- use om cli, bosh cli
-```
-$ generate-product-config.sh <FOUNDATION-CODE> <PRODUCT_ALIAS>
-```
-> FOUNDATION-CODE
-> PRODUCT_ALIAS: product name from versions.yml
-
-```
-$ cd platform-automation-template/generate-config-scripts
-
-$ export PIVNET_TOKEN=abcd
-
-$ ./generate-product-config.sh my-dev tas
-FOUNDATION: my-dev
-PRODUCT: tas
-version: 2.9.4
-glob: cf*.pivotal
-slug: elastic-runtime
-...
-Generating configuration for product tas
-
-Checking pre-defined opsfile options to control config template ...
--> ''
-Generating product template ... generated-products/tas.yml
- -> platform-automation-template/generate-config-scripts/../foundations/my-dev/generated-products/tas.yml
-
-Generating product default-vars ... generated-vars/tas.yml
- -> platform-automation-template/generate-config-scripts/../foundations/my-dev/generated-vars/tas.yml
-Complete
+brew install bbl
+brew upgrade cloudfoundry/tap/bbl
 ```
 
 
+## install control-plane
+- install concourse
+- install credhub
+- prepare s3(aws,...)
+- git(github, gitlab)
 
-#### validate product config from product template
-- use om cli, bosh cli
+# install aviator cli (https://github.com/herrjulz/aviator)
 ```
-$ validate-product-config.sh <FOUNDATION-CODE> <PRODUCT_ALIAS>
-```
-> FOUNDATION-CODE: 
-> PRODUCT_ALIAS: product name from versions.yml
-
-```
-$ cd platform-automation-template/generate-config-scripts
-$ ./validate-product-config.sh my-dev tas
-Validating configuration for product tas
-bosh int --var-errs generate-config-scripts/../foundations/my-dev/generated-products/tas.yml  
---vars-file ../foundations/my-dev/vars/tas.yml 
---vars-file ../foundations/my-dev/generated-vars/tas.yml 
-
-- Expected to find variables:
-    - cloud_controller_apps_domain
-    - cloud_controller_system_domain
-    - credhub_internal_provider_keys_0_key
-    - credhub_internal_provider_keys_0_name
-    - haproxy_forward_tls_enable_backend_ca
-    - mysql_monitor_recipient_email
-    - network_name
-    - networking_poe_ssl_certs_0_certificate
-    - networking_poe_ssl_certs_0_name
-    - networking_poe_ssl_certs_0_privatekey
-    - security_acknowledgement
-    - singleton_availability_zone
-    - uaa_service_provider_key_credentials_certificate
-    - uaa_service_provider_key_credentials_privatekey
-
-```
-> above list should be set in var file or concourse credhub.
-
-#### adjust product tile options 
-- full list of options for the product tile config comes from download files by ` om config-template` command 
-- product templates are download when running `genrate-product-config.sh` command.
-```
-$ cd platform-automation-template/generate-config-scripts/downloaded-tile-config-templates/<PRODUCT_ALIAS>/
-$ cd ./tas/2.9.4
-
-├── default-vars.yml
-├── errand-vars.yml
-├── features
-│   ├── app_log_rate_limiting-enable.yml
-│   ├── cc_api_rate_limit-enable.yml
-│   ├── container_networking_interface_plugin-external.yml
-│   ├── credhub_database-external.yml
-│   ├── haproxy_forward_tls-disable.yml
-
-```
-- create a file under foundations/my-dev/opsfiles/`<FOUNDATION-CODE>`-operations
-- for example, platform-automation-template/foundations/my-dev/opsfiles/tas-operations
-```
-features/haproxy_forward_tls-disable.yml
-optional/add-credhub_hsm_provider_client_certificate.yml
-features/tcp_routing-enable.yml
-features/container_networking_interface_plugin-external.yml
-optional/add-routing_custom_ca_certificates.yml
+wget -O /usr/local/bin/aviator https://github.com/JulzDiverse/aviator/releases/download/v1.7.0/aviator-darwin-amd64 && chmod +x /usr/local/bin/aviator
 ```
 
-#### re-run generating  product config and validating the config.
-```
-$ cd platform-automation-template/generate-config-scripts
-$ ./generate-product-config.sh my-dev tas
-$ ./validate-product-config.sh my-dev tas
-```
+# (optional) prepare domain certs
+- save to credhub or git
 
-#### check the generated product config template.
-- generated product config file: foundations/my-dev/generated-products/`<FOUNDATION-CODE>`.yml
-- generated product config params file: foundations/my-dev/generated-vars/`<FOUNDATION-CODE>`.yml
-- to use the config in the pipeline, copy generated-products/`<FOUNDATION-CODE>`.yml to products/`<FOUNDATION-CODE>`.yml
-```
-$ cp foundations/my-dev/generated-products/tas.yml foundations/my-dev/products/tas.yml
-```
+# (if public cloud) terraforming for platform 
+- terraform toolkit for TAS, TKGi 
+- save the terraform.tfstate to credhub
+- [README-terraforming-control-plane-aws](README-terraforming-control-plane-aws.md)
 
-#### set product params
-- foundations/my-dev/vars/`<FOUNDATION-CODE>`.yml
-- for example, platform-automation-template/foundations/my-dev/vars/tas.yml
-```
-cloud_controller_apps_domain: apps.awstest.pcfdemo.net
-cloud_controller_system_domain: sys.awstest.pcfdemo.net
-mysql_monitor_recipient_email: test@cloud.com
-```
-`vars/tas.yml` will override to `generated-vars/tas.yml`.  
-- foundations/my-dev/generated-vars/tas.yml
-```
-credhub_internal_provider_keys_0_primary: false
-diego_cell_instances: automatic
-```
-- foundations/my-dev/vars/tas.yml
-```
-credhub_internal_provider_keys_0_primary: true
-diego_cell_instances: 3
-```
+# generate product pipeline file from template
+- generated file can be used to any foundation.(iaas agnostic)
+- install fly cli
+- add product name to generate-pipeline.sh: (will be used as pipeline job name)
+- generate-pipeline.sh: will remove all iles under ./pipelines-generated/ and generates
 
-#### set product SECRETS params to concourse credhub.
-- https://docs.pivotal.io/platform-automation/v4.4/concepts/secrets-handling.html
+# merge pipeline files to single file.
+- merge opsman, bosh, products, backup into single pipeline.
+
+- merge-pipelines.sh: will generate ./pipelines-generated/merged-platform-pipeline.yml
+
+# set pipeline
+- update foundation config (git)
+- login to concourse: fly login
+- fly-pipeline.sh
 
 
 
-## director config
 
-director.yml with placeholder.
-```
-om -e env.yml staged-director-config --no-redact -r false > director-placeholder.yml
-
-```
-director.yml with secrets.
-```
-om -e env.yml staged-director-config --no-redact true -r true > director-secret.yml
-```

@@ -1,5 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.istio?
-  value:
-    value: enable
-    selected_option: enable

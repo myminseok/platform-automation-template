@@ -1,7 +1,0 @@
-clone-db_post_deploy_state: default
-delete-all-clusters_pre_delete_state: default
-pks-nsx-t-precheck_post_deploy_state: default
-smoke-tests_post_deploy_state: default
-upgrade-all-service-instances_post_deploy_state: default
-wavefront-alert-creation_post_deploy_state: default
-wavefront-alert-deletion_pre_delete_state: default

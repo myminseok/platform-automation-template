@@ -1,0 +1,1668 @@
+groups:
+- jobs:
+  - fetch-platform-automation-files-from-pivnet
+  - fetch-opsman-from-pivnet
+  - fetch-tas
+  - fetch-healthwatch
+  - fetch-healthwatch-pas-exporter
+  - manual-trigger-install-opsman
+  - install-opsman
+  - authenticate-opsman
+  - configure-director
+  - apply-director-changes
+  - configure-director-only
+  - upgrade-opsman
+  - apply-director-changes-after-upgrade-opsman
+  - delete-opsman-vm-only
+  - delete-installation-from-opsman
+  - manual-trigger-backup
+  - backup-opsman-installation
+  - backup-director
+  - backup-tas
+  - deploy-healthwatch2-pas-exporter
+  - deploy-healthwatch2
+  - deploy-tas
+  name: main
+- jobs:
+  - fetch-platform-automation-files-from-pivnet
+  - fetch-opsman-from-pivnet
+  - manual-trigger-install-opsman
+  - fetch-tas
+  - fetch-healthwatch
+  - fetch-healthwatch-pas-exporter
+  name: download
+- jobs:
+  - manual-trigger-install-opsman
+  - install-opsman
+  - authenticate-opsman
+  - configure-director
+  - apply-director-changes
+  - configure-director-only
+  - upgrade-opsman
+  - apply-director-changes-after-upgrade-opsman
+  - delete-opsman-vm-only
+  - delete-installation-from-opsman
+  name: opsman
+- jobs:
+  - backup-opsman-installation
+  - backup-director
+  - backup-tas
+  - manual-trigger-backup
+  name: backup
+- jobs:
+  - deploy-healthwatch2-pas-exporter
+  - configure-healthwatch2-pas-exporter-only
+  name: healthwatch2-pas-exporter
+- jobs:
+  - deploy-healthwatch2
+  - configure-healthwatch2-only
+  name: healthwatch2
+- jobs:
+  - deploy-tas
+  - configure-tas-only
+  name: tas
+jobs:
+- name: fetch-platform-automation-files-from-pivnet
+  plan:
+  - get: platform-automation-pivnet
+  - params:
+      file: platform-automation-pivnet/platform-automation-tasks-*.zip
+    put: platform-automation-tasks
+  - params:
+      file: platform-automation-pivnet/platform-automation-image-*.tgz
+    put: platform-automation-image
+  serial: true
+- name: fetch-opsman-from-pivnet
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  plan:
+  - in_parallel:
+    - get: pipelines
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+  - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+    image: platform-automation-image
+    input_mapping:
+      config: pipelines
+      tasks: platform-automation-tasks
+      vars: pipelines
+    output_mapping:
+      tasks: platform-automation-tasks
+    params:
+      CONFIG_PATHS: config/foundations/((foundation))/download-products
+      VARS_PATHS: vars/foundations/((foundation))/vars
+    task: prepare-tasks-with-download-products-secrets
+  - file: platform-automation-tasks/tasks/download-product.yml
+    image: platform-automation-image
+    input_mapping:
+      config: pipelines
+    params:
+      CONFIG_FILE: foundations/((foundation))/download-products/opsman.yml
+    task: download-opsman-image
+  - params:
+      file: downloaded-product/*
+    put: opsman-product
+  serial: true
+- name: fetch-tas
+  plan:
+  - in_parallel:
+    - get: pipelines
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+  - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+    image: platform-automation-image
+    input_mapping:
+      config: pipelines
+      tasks: platform-automation-tasks
+      vars: pipelines
+    output_mapping:
+      tasks: platform-automation-tasks
+    params:
+      CONFIG_PATHS: config/foundations/((foundation))/download-products
+      VARS_PATHS: vars/foundations/((foundation))/vars
+    task: prepare-tasks-with-download-products-secrets
+  - file: platform-automation-tasks/tasks/download-product.yml
+    image: platform-automation-image
+    input_mapping:
+      config: pipelines
+    params:
+      CONFIG_FILE: foundations/((foundation))/download-products/tas.yml
+    task: download
+  - in_parallel:
+    - params:
+        file: downloaded-product/*.pivotal
+      put: tas-product
+    - params:
+        file: downloaded-stemcell/*bosh-stemcell-*.tgz
+      put: tas-stemcell
+  serial: true
+- name: fetch-healthwatch
+  plan:
+  - in_parallel:
+    - get: pipelines
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+  - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+    image: platform-automation-image
+    input_mapping:
+      config: pipelines
+      tasks: platform-automation-tasks
+      vars: pipelines
+    output_mapping:
+      tasks: platform-automation-tasks
+    params:
+      CONFIG_PATHS: config/foundations/((foundation))/download-products
+      VARS_PATHS: vars/foundations/((foundation))/vars
+    task: prepare-tasks-with-download-products-secrets
+  - file: platform-automation-tasks/tasks/download-product.yml
+    image: platform-automation-image
+    input_mapping:
+      config: pipelines
+    params:
+      CONFIG_FILE: foundations/((foundation))/download-products/healthwatch.yml
+    task: download
+  - in_parallel:
+    - params:
+        file: downloaded-product/*.pivotal
+      put: healthwatch-product
+    - params:
+        file: downloaded-stemcell/*bosh-stemcell-*.tgz
+      put: healthwatch-stemcell
+  serial: true
+- name: fetch-healthwatch-pas-exporter
+  plan:
+  - in_parallel:
+    - get: pipelines
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+  - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+    image: platform-automation-image
+    input_mapping:
+      config: pipelines
+      tasks: platform-automation-tasks
+      vars: pipelines
+    output_mapping:
+      tasks: platform-automation-tasks
+    params:
+      CONFIG_PATHS: config/foundations/((foundation))/download-products
+      VARS_PATHS: vars/foundations/((foundation))/vars
+    task: prepare-tasks-with-download-products-secrets
+  - file: platform-automation-tasks/tasks/download-product.yml
+    image: platform-automation-image
+    input_mapping:
+      config: pipelines
+    params:
+      CONFIG_FILE: foundations/((foundation))/download-products/healthwatch-pas-exporter.yml
+    task: download
+  - in_parallel:
+    - params:
+        file: downloaded-product/*.pivotal
+      put: healthwatch-pas-exporter-product
+    - params:
+        file: downloaded-stemcell/*bosh-stemcell-*.tgz
+      put: healthwatch-pas-exporter-stemcell
+  serial: true
+- name: manual-trigger-install-opsman
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  plan:
+  - params:
+      bump: patch
+    put: trigger-install-opsman-git
+- build_log_retention:
+    builds: 100
+    days: 2
+  name: install-opsman
+  plan:
+  - in_parallel:
+    - get: trigger-install-opsman-git
+      passed:
+      - manual-trigger-install-opsman
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: opsman-vm-state
+    - get: opsman-version-git
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - file: platform-automation-tasks/tasks/download-product.yml
+      image: platform-automation-image
+      input_mapping:
+        config: opsman-version-git
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/versions/opsman.yml
+        SOURCE: s3
+        VARS_FILES: vars/foundations/((foundation))/vars/versions.yml
+      task: download-product
+    - file: platform-automation-tasks/tasks/create-vm.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        image: downloaded-product
+        state: pipelines
+        vars: pipelines
+      on_success:
+        do:
+        - file: platform-automation-tasks/tasks/make-git-commit.yml
+          image: platform-automation-image
+          input_mapping:
+            file-source: generated-state
+            repository: pipelines
+          output_mapping:
+            repository-commit: generated-commit-repo
+          params:
+            COMMIT_MESSAGE: Update from upgrade-opsman
+            FILE_DESTINATION_PATH: foundations/((foundation))/opsman/state.yml
+            FILE_SOURCE_PATH: state.yml
+            GIT_AUTHOR_EMAIL: ((git.user.email))
+            GIT_AUTHOR_NAME: ((git.user.username))
+          task: make-commit-opsman-state
+        - params:
+            merge: true
+            repository: generated-commit-repo
+          put: pipelines
+      params:
+        OPSMAN_CONFIG_FILE: foundations/((foundation))/opsman/opsman.yml
+        STATE_FILE: foundations/((foundation))/opsman/state.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/opsman.yml
+      task: create-vm
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention:
+    builds: 100
+    days: 2
+  name: authenticate-opsman
+  plan:
+  - in_parallel:
+    - get: trigger-install-opsman-git
+      passed:
+      - install-opsman
+      trigger: true
+    - get: opsman-version-git
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - attempts: 10
+      file: platform-automation-tasks/tasks/configure-authentication.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+      params:
+        AUTH_CONFIG_FILE: foundations/((foundation))/opsman/auth.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+      task: configure-authentication
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention:
+    builds: 100
+    days: 2
+  name: configure-director
+  plan:
+  - in_parallel:
+    - get: trigger-install-opsman-git
+      passed:
+      - authenticate-opsman
+      trigger: true
+    - get: opsman-version-git
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - file: platform-automation-tasks/tasks/configure-director.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+        vars: pipelines
+      params:
+        DIRECTOR_CONFIG_FILE: foundations/((foundation))/opsman/director.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/director.yml
+      task: configure-director
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention:
+    builds: 100
+    days: 2
+  name: apply-director-changes
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  plan:
+  - in_parallel:
+    - get: trigger-install-opsman-git
+      passed:
+      - configure-director
+      trigger: true
+    - get: opsman-version-git
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - file: platform-automation-tasks/tasks/apply-director-changes.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+      task: apply-director-changes
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention:
+    builds: 100
+    days: 2
+  name: configure-director-only
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - file: platform-automation-tasks/tasks/configure-director.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+        vars: pipelines
+      params:
+        DIRECTOR_CONFIG_FILE: foundations/((foundation))/opsman/director.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/director.yml
+      task: configure-director
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention:
+    builds: 1000
+    days: 2
+  name: upgrade-opsman
+  plan:
+  - in_parallel:
+    - get: opsman-version-git
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: opsman-vm-state
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - file: platform-automation-tasks/tasks/download-product.yml
+      image: platform-automation-image
+      input_mapping:
+        config: opsman-version-git
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/versions/opsman.yml
+        SOURCE: s3
+        VARS_FILES: vars/foundations/((foundation))/vars/versions.yml
+      task: download-product
+    - file: platform-automation-tasks/tasks/export-installation.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
+      task: export-installation-locally
+    - params:
+        file: installation/((foundation))-installation*.zip
+      put: opsman-backup-bucket
+    - ensure:
+        do:
+        - file: platform-automation-tasks/tasks/make-git-commit.yml
+          image: platform-automation-image
+          input_mapping:
+            file-source: generated-state
+            repository: pipelines
+          output_mapping:
+            repository-commit: generated-commit-repo
+          params:
+            COMMIT_MESSAGE: Update from upgrade-opsman
+            FILE_DESTINATION_PATH: foundations/((foundation))/opsman/state.yml
+            FILE_SOURCE_PATH: state.yml
+            GIT_AUTHOR_EMAIL: ((git.user.email))
+            GIT_AUTHOR_NAME: ((git.user.username))
+          task: make-commit-opsman-state
+        - params:
+            merge: true
+            repository: generated-commit-repo
+          put: pipelines
+      file: platform-automation-tasks/tasks/upgrade-opsman.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+        image: downloaded-product
+        state: pipelines
+        vars: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        INSTALLATION_FILE: ((foundation))-installation*.zip
+        OPSMAN_CONFIG_FILE: foundations/((foundation))/opsman/opsman.yml
+        STATE_FILE: foundations/((foundation))/opsman/state.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/opsman.yml
+      task: upgrade-opsman
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention:
+    builds: 100
+    days: 2
+  name: apply-director-changes-after-upgrade-opsman
+  plan:
+  - in_parallel:
+    - get: opsman-version-git
+      passed:
+      - upgrade-opsman
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - file: platform-automation-tasks/tasks/apply-director-changes.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+      task: apply-director-changes
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention:
+    builds: 1000
+    days: 2
+  name: delete-opsman-vm-only
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: opsman-vm-state
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - file: platform-automation-tasks/tasks/export-installation.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
+      task: export-installation-locally
+    - params:
+        file: installation/((foundation))-installation*.zip
+      put: opsman-backup-bucket
+    - ensure:
+        do:
+        - file: platform-automation-tasks/tasks/make-git-commit.yml
+          image: platform-automation-image
+          input_mapping:
+            file-source: generated-state
+            repository: pipelines
+          output_mapping:
+            repository-commit: generated-commit-repo
+          params:
+            COMMIT_MESSAGE: Update from upgrade-opsman
+            FILE_DESTINATION_PATH: foundations/((foundation))/opsman/state.yml
+            FILE_SOURCE_PATH: state.yml
+            GIT_AUTHOR_EMAIL: ((git.user.email))
+            GIT_AUTHOR_NAME: ((git.user.username))
+          task: make-commit-opsman-state
+        - params:
+            merge: true
+            repository: generated-commit-repo
+          put: pipelines
+      file: platform-automation-tasks/tasks/delete-vm.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        state: opsman-vm-state
+        vars: pipelines
+      params:
+        OPSMAN_CONFIG_FILE: foundations/((foundation))/opsman/opsman.yml
+        STATE_FILE: foundations/((foundation))/opsman/state.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/opsman.yml
+      task: delete-vm
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention: null
+  disable_manual_trigger: true
+  name: delete-installation-from-opsman
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - file: platform-automation-tasks/tasks/export-installation.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
+      task: export-installation-locally
+    - params:
+        file: installation/((foundation))-installation*.zip
+      put: opsman-backup-bucket
+    - file: platform-automation-tasks/tasks/delete-installation.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+      task: delete-installation
+  serial: true
+  serial_groups:
+  - serial-jobs
+- name: manual-trigger-backup
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  plan:
+  - params:
+      bump: patch
+    put: trigger-backup-git
+- build_log_retention:
+    builds: 1000
+    days: 2
+  name: backup-opsman-installation
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  plan:
+  - in_parallel:
+    - get: trigger-backup-git
+      passed:
+      - manual-trigger-backup
+      trigger: true
+    - get: after-midnight
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - file: platform-automation-tasks/tasks/export-installation.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
+      task: export-installation
+    - params:
+        file: installation/((foundation))-installation*.zip
+      put: opsman-backup-bucket
+  serial: true
+- name: backup-director
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  plan:
+  - in_parallel:
+    - get: trigger-backup-git
+      passed:
+      - manual-trigger-backup
+      trigger: true
+    - get: after-midnight
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - file: platform-automation-tasks/tasks/backup-director.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+      task: backup
+    - params:
+        file: backup/director_*.tgz
+      put: director-backup-bucket
+  serial: true
+- name: backup-tas
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  plan:
+  - in_parallel:
+    - get: trigger-backup-git
+      passed:
+      - manual-trigger-backup
+      trigger: true
+    - get: after-midnight
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-opsman-secrets
+    - file: platform-automation-tasks/tasks/backup-product.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        PRODUCT_NAME: cf
+      task: backup
+    - params:
+        file: backup/product_cf_*.tgz
+      put: tas-backup-bucket
+  serial: true
+- name: deploy-healthwatch2-pas-exporter
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: healthwatch2-pas-exporter-version-git
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+          config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-secrets
+    - file: platform-automation-tasks/tasks/download-product.yml
+      image: platform-automation-image
+      input_mapping:
+        config: healthwatch2-pas-exporter-version-git
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/versions/healthwatch2-pas-exporter.yml
+        SOURCE: s3
+        VARS_FILES: vars/foundations/((foundation))/vars/versions.yml
+      task: download-product
+    - file: platform-automation-tasks/tasks/upload-product.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+        product: downloaded-product
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+      task: upload-product
+    - file: platform-automation-tasks/tasks/upload-stemcell.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+        stemcell: downloaded-stemcell
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        FLOATING_STEMCELL: false
+      task: upload-stemcell
+    - file: platform-automation-tasks/tasks/stage-configure-apply.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+        product: downloaded-product
+        vars: pipelines
+      params:
+        ALLOW_PENDING_CHANGES: true
+        CONFIG_FILE: foundations/((foundation))/products/healthwatch2-pas-exporter.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/healthwatch2-pas-exporter.yml
+      task: stage-configure-apply
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention:
+    builds: 100
+    days: 2
+  name: configure-healthwatch2-pas-exporter-only
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+          config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-secrets
+    - file: platform-automation-tasks/tasks/configure-product.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/products/healthwatch2-pas-exporter.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/healthwatch2-pas-exporter.yml
+      task: configure
+  serial: true
+  serial_groups:
+  - serial-jobs
+- name: deploy-healthwatch2
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: healthwatch2-version-git
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+          config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-secrets
+    - file: platform-automation-tasks/tasks/download-product.yml
+      image: platform-automation-image
+      input_mapping:
+        config: healthwatch2-version-git
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/versions/healthwatch2.yml
+        SOURCE: s3
+        VARS_FILES: vars/foundations/((foundation))/vars/versions.yml
+      task: download-product
+    - file: platform-automation-tasks/tasks/upload-product.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+        product: downloaded-product
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+      task: upload-product
+    - file: platform-automation-tasks/tasks/upload-stemcell.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+        stemcell: downloaded-stemcell
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        FLOATING_STEMCELL: false
+      task: upload-stemcell
+    - file: platform-automation-tasks/tasks/stage-configure-apply.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+        product: downloaded-product
+        vars: pipelines
+      params:
+        ALLOW_PENDING_CHANGES: true
+        CONFIG_FILE: foundations/((foundation))/products/healthwatch2.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/healthwatch2.yml
+      task: stage-configure-apply
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention:
+    builds: 100
+    days: 2
+  name: configure-healthwatch2-only
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+          config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-secrets
+    - file: platform-automation-tasks/tasks/configure-product.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/products/healthwatch2.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/healthwatch2.yml
+      task: configure
+  serial: true
+  serial_groups:
+  - serial-jobs
+- name: deploy-tas
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+    - get: tas-version-git
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+          config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-secrets
+    - file: platform-automation-tasks/tasks/download-product.yml
+      image: platform-automation-image
+      input_mapping:
+        config: tas-version-git
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/versions/tas.yml
+        SOURCE: s3
+        VARS_FILES: vars/foundations/((foundation))/vars/versions.yml
+      task: download-product
+    - file: platform-automation-tasks/tasks/upload-product.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+        product: downloaded-product
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+      task: upload-product
+    - file: platform-automation-tasks/tasks/upload-stemcell.yml
+      image: platform-automation-image
+      input_mapping:
+        env: pipelines
+        stemcell: downloaded-stemcell
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        FLOATING_STEMCELL: false
+      task: upload-stemcell
+    - file: platform-automation-tasks/tasks/stage-configure-apply.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+        product: downloaded-product
+        vars: pipelines
+      params:
+        ALLOW_PENDING_CHANGES: true
+        CONFIG_FILE: foundations/((foundation))/products/tas.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/tas.yml
+      task: stage-configure-apply
+  serial: true
+  serial_groups:
+  - serial-jobs
+- build_log_retention:
+    builds: 100
+    days: 2
+  name: configure-tas-only
+  plan:
+  - in_parallel:
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: pipelines
+  - do:
+    - file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        tasks: platform-automation-tasks
+        vars: pipelines
+      output_mapping:
+        tasks: platform-automation-tasks
+      params:
+        CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+          config/foundations/((foundation))/versions
+        VARS_PATHS: vars/foundations/((foundation))/vars
+      task: prepare-tasks-with-secrets
+    - file: platform-automation-tasks/tasks/configure-product.yml
+      image: platform-automation-image
+      input_mapping:
+        config: pipelines
+        env: pipelines
+        vars: pipelines
+      params:
+        CONFIG_FILE: foundations/((foundation))/products/tas.yml
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        VARS_FILES: vars/foundations/((foundation))/vars/tas.yml
+      task: configure
+  serial: true
+  serial_groups:
+  - serial-jobs
+make-commit-opsman-state_and_put:
+  do:
+  - file: platform-automation-tasks/tasks/make-git-commit.yml
+    image: platform-automation-image
+    input_mapping:
+      file-source: generated-state
+      repository: pipelines
+    output_mapping:
+      repository-commit: generated-commit-repo
+    params:
+      COMMIT_MESSAGE: Update from upgrade-opsman
+      FILE_DESTINATION_PATH: foundations/((foundation))/opsman/state.yml
+      FILE_SOURCE_PATH: state.yml
+      GIT_AUTHOR_EMAIL: ((git.user.email))
+      GIT_AUTHOR_NAME: ((git.user.username))
+    task: make-commit-opsman-state
+  - params:
+      merge: true
+      repository: generated-commit-repo
+    put: pipelines
+notify-slack:
+  on_error:
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_failure:
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+  on_success:
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+    put: slack
+prepare-custom-tasks-with-secrets:
+  file: pipelines/tasks/prepare-tasks-with-secrets.yml
+  image: platform-automation-image
+  input_mapping:
+    config: pipelines
+    tasks: pipelines
+    vars: pipelines
+  output_mapping:
+    tasks: pipelines
+  params:
+    CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+    TASKS_PATH: tasks/tasks
+    VARS_PATHS: vars/foundations/((foundation))/vars
+prepare-tasks-with-download-products-secrets:
+  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  image: platform-automation-image
+  input_mapping:
+    config: pipelines
+    tasks: platform-automation-tasks
+    vars: pipelines
+  output_mapping:
+    tasks: platform-automation-tasks
+  params:
+    CONFIG_PATHS: config/foundations/((foundation))/download-products
+    VARS_PATHS: vars/foundations/((foundation))/vars
+prepare-tasks-with-opsman-secrets:
+  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  image: platform-automation-image
+  input_mapping:
+    config: pipelines
+    tasks: platform-automation-tasks
+    vars: pipelines
+  output_mapping:
+    tasks: platform-automation-tasks
+  params:
+    CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+    VARS_PATHS: vars/foundations/((foundation))/vars
+prepare-tasks-with-secrets:
+  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  image: platform-automation-image
+  input_mapping:
+    config: pipelines
+    tasks: platform-automation-tasks
+    vars: pipelines
+  output_mapping:
+    tasks: platform-automation-tasks
+  params:
+    CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/products
+      config/foundations/((foundation))/versions
+    VARS_PATHS: vars/foundations/((foundation))/vars
+resource_types:
+- name: pivnet
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+  type: docker-image
+- name: notify-slack
+  source:
+    repository: cfcommunity/notify-slack-resource
+    tag: latest
+  type: docker-image
+- name: slack-notification
+  source:
+    repository: cfcommunity/slack-notification-resource
+    tag: latest
+  type: docker-image
+resources:
+- icon: slack
+  name: slack
+  source:
+    url: ((slack-webhook-url))
+  type: slack-notification
+- name: platform-automation-pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: platform-automation
+    product_version: 5\.(.*)
+    sort_by: semver
+  type: pivnet
+- name: platform-automation-tasks
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    endpoint: ((s3.endpoint))
+    regexp: platform-automation-tasks-(.*).zip
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: platform-automation-image
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    endpoint: ((s3.endpoint))
+    regexp: platform-automation-image-(.*).tgz
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: pipelines
+  source:
+    branch: ((git.platform_automation_pipelines.branch))
+    private_key: ((git.private_key))
+    skip_ssl_verification: true
+    uri: ((git.platform_automation_pipelines.uri))
+  type: git
+- name: opsman-product
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    endpoint: ((s3.endpoint))
+    regexp: ops-manager-vsphere-*(.*).*
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: opsman-version-git
+  source:
+    branch: ((git.platform_automation_configs.branch))
+    paths:
+    - foundations/((foundation))/versions/opsman.yml
+    private_key: ((git.private_key))
+    skip_ssl_verification: true
+    uri: ((git.platform_automation_configs.uri))
+  type: git
+- name: tas-product
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    endpoint: ((s3.endpoint))
+    regexp: cf-(.*).pivotal
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: tas-stemcell
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    endpoint: ((s3.endpoint))
+    regexp: bosh-stemcell-(.*)-vsphere.*\.tgz
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: healthwatch-product
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    endpoint: ((s3.endpoint))
+    regexp: healthwatch-(.*).pivotal
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: healthwatch-stemcell
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    endpoint: ((s3.endpoint))
+    regexp: bosh-stemcell-(.*)-vsphere.*\.tgz
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: healthwatch-pas-exporter-product
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    endpoint: ((s3.endpoint))
+    regexp: healthwatch-pas-exporter-(.*).pivotal
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: healthwatch-pas-exporter-stemcell
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    endpoint: ((s3.endpoint))
+    regexp: bosh-stemcell-(.*)-vsphere.*\.tgz
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- icon: github
+  name: trigger-install-opsman-git
+  source:
+    branch: ((git.platform_automation_configs.branch))
+    driver: git
+    file: foundations/((foundation))/trigger-install-opsman
+    initial_version: 0.0.1
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_configs.uri))
+  type: semver
+- name: opsman-vm-state
+  source:
+    branch: ((git.platform_automation_configs.branch))
+    paths:
+    - foundations/((foundation))/opsman/state.yml
+    private_key: ((git.private_key))
+    skip_ssl_verification: true
+    uri: ((git.platform_automation_configs.uri))
+  type: git
+- icon: github
+  name: trigger-backup-git
+  source:
+    branch: ((git.platform_automation_configs.branch))
+    driver: git
+    file: foundations/((foundation))/trigger-backup
+    initial_version: 0.0.1
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_configs.uri))
+  type: semver
+- name: after-midnight
+  source:
+    location: Asia/Seoul
+    start: 01:00 AM
+    stop: 11:59 PM
+  type: time
+- name: opsman-backup-bucket
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_backup))
+    endpoint: ((s3.endpoint))
+    regexp: ((foundation))-installation-(.*).zip
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: director-backup-bucket
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_backup))
+    endpoint: ((s3.endpoint))
+    regexp: director_(.*).tgz
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: tas-backup-bucket
+  source:
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_backup))
+    endpoint: ((s3.endpoint))
+    regexp: product_cf_(.*).tgz
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    skip_ssl_verification: true
+  type: s3
+- name: healthwatch2-pas-exporter-version-git
+  source:
+    branch: ((git.platform_automation_configs.branch))
+    paths:
+    - foundations/((foundation))/versions/healthwatch2-pas-exporter.yml
+    private_key: ((git.private_key))
+    skip_ssl_verification: true
+    uri: ((git.platform_automation_configs.uri))
+  type: git
+- name: healthwatch2-version-git
+  source:
+    branch: ((git.platform_automation_configs.branch))
+    paths:
+    - foundations/((foundation))/versions/healthwatch2.yml
+    private_key: ((git.private_key))
+    skip_ssl_verification: true
+    uri: ((git.platform_automation_configs.uri))
+  type: git
+- name: tas-version-git
+  source:
+    branch: ((git.platform_automation_configs.branch))
+    paths:
+    - foundations/((foundation))/versions/tas.yml
+    private_key: ((git.private_key))
+    skip_ssl_verification: true
+    uri: ((git.platform_automation_configs.uri))
+  type: git

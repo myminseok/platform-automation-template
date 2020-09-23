@@ -1,8 +1,8 @@
 ---
 pivnet-api-token: ((pivnet_token))
-pivnet-file-glob: "ops-manager-vsphere*.ova"
+pivnet-file-glob: "ops-manager-aws*.yml"
 pivnet-product-slug: ops-manager
-product-version-regex: ^2\.8\..*$
+product-version-regex: ^2\.10\..*$
 #blobstore-bucket: bucket
-stemcell-iaas: vsphere
+stemcell-iaas: aws
 pivnet-disable-ssl: true

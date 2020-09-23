@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/rabbitmq-haproxy?/elb_names?
-  value: ((rabbitmq-haproxy_elb_names))

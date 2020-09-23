@@ -1,3 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan2_selector.active.admission_plugins?/value/-
-  value: deny_escalating_exec

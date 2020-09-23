@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.syslog_selector.enabled.max_message_size?
-  value:
-    value: ((syslog_selector_enabled_max_message_size))

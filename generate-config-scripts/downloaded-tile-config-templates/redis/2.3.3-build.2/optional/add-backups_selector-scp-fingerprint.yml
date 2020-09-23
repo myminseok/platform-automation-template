@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.backups_selector.scp.fingerprint?
-  value:
-    value: ((backups_selector_scp_fingerprint))

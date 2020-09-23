@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan1_selector.single_node.instance_limit?
-  value:
-    value: ((plan1_selector_single_node_instance_limit))

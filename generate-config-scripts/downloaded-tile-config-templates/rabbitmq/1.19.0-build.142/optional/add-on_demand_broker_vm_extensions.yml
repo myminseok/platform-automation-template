@@ -1,5 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.on_demand_broker_vm_extensions?
-  value:
-    value:
-    - public_ip

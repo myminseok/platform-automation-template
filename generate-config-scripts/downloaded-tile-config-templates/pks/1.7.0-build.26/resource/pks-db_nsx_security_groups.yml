@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/pks-db?/nsx_security_groups?
-  value: ((pks-db_nsx_security_groups))

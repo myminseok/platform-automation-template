@@ -1,3 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan4_selector.active.admission_plugins?/value/-
-  value: security_context_deny

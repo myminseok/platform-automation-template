@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan3_selector.multi_dc_leader_follower.instance_limit?
-  value:
-    value: ((plan3_selector_multi_dc_leader_follower_instance_limit))

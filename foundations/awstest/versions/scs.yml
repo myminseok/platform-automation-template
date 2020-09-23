@@ -1,0 +1,5 @@
+product-version: "3.1.10"
+pivnet-product-slug: p-spring-cloud-services
+pivnet-file-glob: "*.pivotal"
+stemcell-iaas: aws
+pivnet-api-token: ((pivnet_token))	

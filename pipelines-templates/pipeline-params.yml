@@ -1,0 +1,42 @@
+foundation: MY_FOUNDATION_NAME
+s3:
+  endpoint: ((s3.endpoint))
+  access_key_id: ((s3.access_key_id))
+  secret_access_key: ((s3.secret_access_key))
+  region_name: ((s3.region_name))
+  buckets:
+    platform_files: ((s3.buckets.platform_files))
+    platform_backup: ((s3.buckets.platform_backup))
+
+git:
+  platform_automation_pipelines:
+    uri: ((git.platform_automation_pipelines.uri))
+    branch: ((git.platform_automation_pipelines.branch))
+  platform_automation_configs:
+    uri: ((git.platform_automation_configs.uri))
+    branch: ((git.platform_automation_configs.branch))
+  user: 
+    email: ((git.user.email))
+    username: ((git.user.username))
+  private_key: ((git.private_key))
+
+credhub:
+  server: ((credhub.server))
+  #server: https://credhub:9000 ## docker-compose env
+  #ca_cert: ((credhub_ca_cert.certificate))
+  ca_cert: ""
+  client: ((credhub_client.username))
+  secret: ((credhub_client.password))
+
+pivnet: 
+  token: ((pivnet.token))
+
+certificate:
+   generate:
+      dns_privider_access_key: ((certificate.generate.dns_privider_access_key))
+      dns_privider_access_secret_key: ((certificate.generate.dns_privider_access_secret_key))
+      dns_provider_region: ((certificate.generate.dns_provider_region))
+      subdomain: ((certificate.generate.subdomain))
+      dns_provider_hosted_zone_id: ((certificate.generate.dns_provider_hosted_zone_id))  # create on aws inadvance.
+      letsencrypt_email: ((certificate.generate.letsencrypt_email))
+   credhub_key_name: ((certificate.credhub_key_name))  # map to tas.yml.

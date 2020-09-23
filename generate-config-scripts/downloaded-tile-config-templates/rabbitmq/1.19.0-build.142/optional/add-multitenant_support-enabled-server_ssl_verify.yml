@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.multitenant_support.enabled.server_ssl_verify?
-  value:
-    value: ((multitenant_support_enabled_server_ssl_verify))

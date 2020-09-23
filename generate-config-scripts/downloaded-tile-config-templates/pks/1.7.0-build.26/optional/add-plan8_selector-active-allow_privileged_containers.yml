@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan8_selector.active.allow_privileged_containers?
-  value:
-    value: ((plan8_selector_active_allow_privileged_containers))

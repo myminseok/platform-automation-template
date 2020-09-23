@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/dedicated-mysql-broker?/elb_names?
-  value: ((dedicated-mysql-broker_elb_names))

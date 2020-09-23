@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/dedicated-mysql-broker?/nsx_security_groups?
-  value: ((dedicated-mysql-broker_nsx_security_groups))

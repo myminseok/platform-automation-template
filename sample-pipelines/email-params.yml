@@ -1,7 +1,0 @@
-smtp-host: smtp.gmail.com
-smtp-port: "587"
-smtp-username: 
-smtp-password: 
-email-from: 
-email-to: 
-

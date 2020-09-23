@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan1_selector.galera.vm_type?
-  value:
-    value: ((plan1_selector_galera_vm_type))

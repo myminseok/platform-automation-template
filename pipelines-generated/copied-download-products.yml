@@ -1,0 +1,335 @@
+## to list up job name list from this file.
+## sed -n '/^jobs:/,/^resource_types:/p' ./download-products.yml | grep  "\- name" | sed 's/- name:/  -/g'
+
+groups:
+- name: download
+  jobs:
+  - fetch-platform-automation-files-from-pivnet
+  - fetch-opsman-from-pivnet
+  - manual-trigger-install-opsman
+  - fetch-tas
+  - fetch-healthwatch
+  - fetch-healthwatch-pas-exporter
+
+
+resource_types:
+
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+- name: notify-slack
+  type: docker-image
+  source:
+    repository: cfcommunity/notify-slack-resource
+    tag: latest
+
+resources:
+
+- name: slack
+  type: slack-notification
+  icon: slack
+  source:
+    url: ((slack-webhook-url))
+
+- name: platform-automation-pivnet
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: platform-automation
+    product_version: 5\.(.*)
+    sort_by: semver
+
+- name: platform-automation-tasks
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: platform-automation-tasks-(.*).zip
+    skip_ssl_verification: true
+
+- name: platform-automation-image
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: platform-automation-image-(.*).tgz
+    skip_ssl_verification: true
+
+- name: pipelines
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_pipelines.uri))
+    branch: ((git.platform_automation_pipelines.branch))
+    skip_ssl_verification: true
+
+- name: opsman-product
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: "ops-manager-vsphere-*(.*).*"
+    skip_ssl_verification: true
+
+
+- name: opsman-version-git
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_configs.uri))
+    branch: ((git.platform_automation_configs.branch))
+    skip_ssl_verification: true
+    paths:
+    - foundations/((foundation))/versions/opsman.yml
+
+- name: tas-product
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: cf-(.*).pivotal
+    skip_ssl_verification: true
+
+- name: tas-stemcell
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: bosh-stemcell-(.*)-vsphere.*\.tgz
+    skip_ssl_verification: true
+
+
+- name: healthwatch-product
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: healthwatch-(.*).pivotal
+    skip_ssl_verification: true
+
+- name: healthwatch-stemcell
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: bosh-stemcell-(.*)-vsphere.*\.tgz
+    skip_ssl_verification: true
+
+
+
+- name: healthwatch-pas-exporter-product
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: healthwatch-pas-exporter-(.*).pivotal
+    skip_ssl_verification: true
+
+- name: healthwatch-pas-exporter-stemcell
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: bosh-stemcell-(.*)-vsphere.*\.tgz
+    skip_ssl_verification: true
+
+
+
+prepare-tasks-with-download-products-secrets: &prepare-tasks-with-download-products-secrets
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  input_mapping:
+    tasks: platform-automation-tasks
+    config: pipelines
+    vars: pipelines
+  params:
+    CONFIG_PATHS: config/foundations/((foundation))/download-products
+    VARS_PATHS: vars/foundations/((foundation))/vars 
+  output_mapping:
+    tasks: platform-automation-tasks
+
+
+
+notify-slack: &notify-slack
+  on_success:
+    put: slack
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+  on_failure:
+    put: slack
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+  on_error:
+    put: slack
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+jobs:
+
+- name: fetch-platform-automation-files-from-pivnet
+  serial: true
+  plan:
+    - get: platform-automation-pivnet
+    - put: platform-automation-tasks
+      params:
+        file: platform-automation-pivnet/platform-automation-tasks-*.zip
+    - put: platform-automation-image
+      params:
+        file: platform-automation-pivnet/platform-automation-image-*.tgz
+
+- name: fetch-opsman-from-pivnet
+  serial: true
+  plan:
+  - in_parallel:
+    - get: pipelines
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+
+  - task: prepare-tasks-with-download-products-secrets
+    <<: *prepare-tasks-with-download-products-secrets
+
+  - task: download-opsman-image
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    input_mapping: {config: pipelines }
+    params:
+      CONFIG_FILE: foundations/((foundation))/download-products/opsman.yml
+  - put: opsman-product
+    params:
+      file: downloaded-product/*
+  <<: *notify-slack
+
+
+- name: fetch-tas
+  serial: true
+  plan:
+  - in_parallel:
+    - get: pipelines
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+
+  - task: prepare-tasks-with-download-products-secrets
+    <<: *prepare-tasks-with-download-products-secrets
+
+  - task: download
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: foundations/((foundation))/download-products/tas.yml
+    input_mapping: {config: pipelines }
+
+  - in_parallel:
+    - put: tas-product
+      params:
+        file: downloaded-product/*.pivotal
+    - put: tas-stemcell
+      params:
+        file: downloaded-stemcell/*bosh-stemcell-*.tgz
+
+
+
+- name: fetch-healthwatch
+  serial: true
+  plan:
+  - in_parallel:
+    - get: pipelines
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+
+  - task: prepare-tasks-with-download-products-secrets
+    <<: *prepare-tasks-with-download-products-secrets
+
+  - task: download
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: foundations/((foundation))/download-products/healthwatch.yml
+    input_mapping: {config: pipelines }
+
+  - in_parallel:
+    - put: healthwatch-product
+      params:
+        file: downloaded-product/*.pivotal
+    - put: healthwatch-stemcell
+      params:
+        file: downloaded-stemcell/*bosh-stemcell-*.tgz
+
+
+
+- name: fetch-healthwatch-pas-exporter
+  serial: true
+  plan:
+  - in_parallel:
+    - get: pipelines
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+
+  - task: prepare-tasks-with-download-products-secrets
+    <<: *prepare-tasks-with-download-products-secrets
+
+  - task: download
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: foundations/((foundation))/download-products/healthwatch-pas-exporter.yml
+    input_mapping: {config: pipelines }
+
+  - in_parallel:
+    - put: healthwatch-pas-exporter-product
+      params:
+        file: downloaded-product/*.pivotal
+    - put: healthwatch-pas-exporter-stemcell
+      params:
+        file: downloaded-stemcell/*bosh-stemcell-*.tgz
+
+
+
+
+
+
+
+
+

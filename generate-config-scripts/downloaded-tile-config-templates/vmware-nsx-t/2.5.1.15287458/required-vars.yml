@@ -1,6 +1,0 @@
-container_ip_blocks_0_cidr: ""
-container_ip_blocks_0_name: ""
-nsx_api_managers: ""
-nsx_auth_client_cert_nsx_api_client_cert_certificate: ""
-nsx_auth_client_cert_nsx_api_client_cert_privatekey: ""
-tier0_router: ""

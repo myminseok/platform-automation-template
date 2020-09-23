@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.multitenant_support.enabled.broker_policy_definition?
-  value:
-    value: ((multitenant_support_enabled_broker_policy_definition))

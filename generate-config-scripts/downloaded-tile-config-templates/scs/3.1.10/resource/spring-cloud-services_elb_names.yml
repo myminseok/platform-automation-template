@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/spring-cloud-services?/elb_names?
-  value: ((spring-cloud-services_elb_names))

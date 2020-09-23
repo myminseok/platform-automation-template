@@ -1,4 +1,4 @@
-foundation: awstest
+foundation: vsphere-sandbox
 
 s3:
   endpoint: https://s3.ap-northeast-2.amazonaws.com
@@ -23,8 +23,7 @@ git:
   private_key: ((git_private_key.private_key))
 
 credhub:
-  server: https://192.168.67.1:9000
-  #server: https://credhub:9000 ## docker-compose env
+  server: https://credhub.pcfdemo.net
   #ca_cert: ((credhub_ca_cert.certificate))
   ca_cert: ""
   client: ((credhub_client.username))

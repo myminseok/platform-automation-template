@@ -1,0 +1,248 @@
+## to list up job name list from this file.
+## grep "^jobs:" -A 1000 ./tas-pipeline.yml | grep  "\- name" | sed 's/- name:/  -/g'
+
+groups:
+- name: backup
+  jobs:
+  - backup-opsman-installation
+  - backup-director
+  - backup-tas
+  - manual-trigger-backup
+
+
+resource_types:
+
+- name: notify-slack
+  type: docker-image
+  source:
+    repository: cfcommunity/notify-slack-resource
+    tag: latest
+
+resources:
+
+
+- name: trigger-backup-git
+  type: semver
+  icon: github
+  source:
+    driver: git
+    uri: ((git.platform_automation_configs.uri))
+    branch: ((git.platform_automation_configs.branch))
+    file: foundations/((foundation))/trigger-backup
+    initial_version: 0.0.1
+    private_key: ((git.private_key))
+
+- name: after-midnight
+  type: time
+  source:
+    start: 01:00 AM
+    #stop: 06:00 AM
+    stop: 11:59 PM
+    location: Asia/Seoul
+
+
+- name: slack
+  type: notify-slack
+  icon: slack
+  source:
+    url: ((slack-webhook-url))
+
+
+- name: platform-automation-tasks
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: platform-automation-tasks-(.*).zip
+    skip_ssl_verification: true
+
+- name: platform-automation-image
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    bucket: ((s3.buckets.platform_files))
+    region_name: ((s3.region_name))
+    secret_access_key: ((s3.secret_access_key))
+    regexp: platform-automation-image-(.*).tgz
+    skip_ssl_verification: true
+
+- name: pipelines
+  type: git
+  source:
+    private_key: ((git.private_key))
+    uri: ((git.platform_automation_pipelines.uri))
+    branch: ((git.platform_automation_pipelines.branch))
+    skip_ssl_verification: true
+
+- name: opsman-backup-bucket
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.platform_backup))
+    regexp: ((foundation))-installation-(.*).zip
+    skip_ssl_verification: true
+
+- name: director-backup-bucket
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.platform_backup))
+    regexp: director_(.*).tgz
+    skip_ssl_verification: true
+
+- name: tas-backup-bucket
+  type: s3
+  source:
+    endpoint: ((s3.endpoint))
+    access_key_id: ((s3.access_key_id))
+    secret_access_key: ((s3.secret_access_key))
+    region_name: ((s3.region_name))
+    bucket: ((s3.buckets.platform_backup))
+    regexp: product_cf_(.*).tgz
+    skip_ssl_verification: true
+
+
+prepare-tasks-with-opsman-secrets: &prepare-tasks-with-opsman-secrets
+  image: platform-automation-image
+  file: platform-automation-tasks/tasks/prepare-tasks-with-secrets.yml
+  input_mapping:
+    tasks: platform-automation-tasks
+    config: pipelines
+    vars: pipelines
+  params:
+    CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
+    VARS_PATHS: vars/foundations/((foundation))/vars
+  output_mapping:
+    tasks: platform-automation-tasks
+
+
+notify-slack: &notify-slack
+  on_success:
+    put: slack
+    params:
+      text: |
+        "[SUCCESS] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+  on_failure:
+    put: slack
+    params:
+      text: |
+        "[FAILURE] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+  on_error:
+    put: slack
+    params:
+      text: |
+        "[ERROR] ${BUILD_PIPELINE_NAME}/${BUILD_JOB_NAME}"
+        "${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+jobs:
+
+
+- name: manual-trigger-backup
+  plan:
+    - put: trigger-backup-git
+      params: {bump: patch}
+  <<: *notify-slack
+
+- name: backup-opsman-installation
+  serial: true
+  build_log_retention:
+    days: 2
+    builds: 1000
+  plan:
+  - in_parallel:
+    - get: trigger-backup-git
+      trigger: true
+      passed: [manual-trigger-backup]
+    - get: after-midnight
+      trigger: true
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+    - get: pipelines
+  - do:
+    - task: prepare-tasks-with-opsman-secrets
+      <<: *prepare-tasks-with-opsman-secrets
+    - task: export-installation
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/export-installation.yml
+      input_mapping:
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+        INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
+    - put: opsman-backup-bucket
+      params:
+        file: installation/((foundation))-installation*.zip
+  <<: *notify-slack
+
+- name: backup-director
+  serial: true
+  plan:
+  - in_parallel:
+    - get: trigger-backup-git
+      trigger: true
+      passed: [manual-trigger-backup]
+    - get: after-midnight
+      trigger: true
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+    - get: pipelines
+  - do:
+    - task: prepare-tasks-with-opsman-secrets
+      <<: *prepare-tasks-with-opsman-secrets
+    - task: backup
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/backup-director.yml
+      input_mapping:
+        env: pipelines
+      params:
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+    - put: director-backup-bucket
+      params:
+        file: backup/director_*.tgz
+  <<: *notify-slack
+
+- name: backup-tas
+  serial: true
+  plan:
+  - in_parallel:
+    - get: trigger-backup-git
+      trigger: true
+      passed: [manual-trigger-backup]
+    - get: after-midnight
+      trigger: true
+    - get: platform-automation-image
+      params: { unpack: true }
+    - get: platform-automation-tasks
+      params: { unpack: true }
+    - get: pipelines
+  - do:
+    - task: prepare-tasks-with-opsman-secrets
+      <<: *prepare-tasks-with-opsman-secrets
+    - task: backup
+      image: platform-automation-image
+      file: platform-automation-tasks/tasks/backup-product.yml
+      input_mapping:
+        env: pipelines
+      params:
+        PRODUCT_NAME: cf
+        ENV_FILE: foundations/((foundation))/opsman/env.yml
+    - put: tas-backup-bucket
+      params:
+        file: backup/product_cf_*.tgz
+  <<: *notify-slack
+

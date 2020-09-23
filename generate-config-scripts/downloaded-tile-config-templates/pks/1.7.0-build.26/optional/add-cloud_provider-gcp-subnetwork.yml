@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.cloud_provider.gcp.subnetwork?
-  value:
-    value: ((cloud_provider_gcp_subnetwork))

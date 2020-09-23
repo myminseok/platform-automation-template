@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/pks-db?/additional_vm_extensions?
-  value: ((pks-db_additional_vm_extensions))

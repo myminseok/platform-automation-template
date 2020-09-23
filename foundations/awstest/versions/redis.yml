@@ -1,0 +1,5 @@
+product-version: "2.3.3"
+pivnet-product-slug: p-redis
+pivnet-file-glob: "*.pivotal"
+stemcell-iaas: aws
+pivnet-api-token: ((pivnet_token))

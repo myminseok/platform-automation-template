@@ -1,7 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.external_ip_pools?
-  value:
-    value:
-    - allocation_ranges: ((external_ip_pools_0_allocation_ranges))
-      cidr: ((external_ip_pools_0_cidr))
-      name: ((external_ip_pools_0_name))

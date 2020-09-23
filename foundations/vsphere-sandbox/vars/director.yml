@@ -1,0 +1,21 @@
+iaas-configurations_0_bosh_disk_path: 'pez_disk'
+iaas-configurations_0_bosh_template_folder: 'pez_templates'
+iaas-configurations_0_bosh_vm_folder: 'pez_vms'
+iaas-configurations_0_datacenter: 'Datacenter'
+iaas-configurations_0_disk_type: 'thick'
+iaas-configurations_0_ephemeral_datastores_string: 'LUN01'
+iaas-configurations_0_nsx_networking_enabled: 'false'
+iaas-configurations_0_persistent_datastores_string: 'LUN01'
+iaas-configurations_0_ssl_verification_enabled: 'false'
+iaas-configurations_0_vcenter_host: vcsa-01.haas-214.pez.pivotal.io
+#iaas-configurations_0_vcenter_username: -> credhub
+properties-configuration_security_configuration_generate_vm_passwords: 'true'
+#iaas-configurations_0_vcenter_password: -> credhub
+trusted_certificates: ""
+iaas-configurations_0_name: 'default'
+iaas-configurations_0_nsx_address:
+#iaas-configurations_0_nsx_ca_certificate: -> credhub => ((nsx_api_ca_cert.certificate))
+iaas-configurations_0_nsx_mode: nsx-t
+iaas-configurations_0_nsx_t_auth_type: local_user
+#iaas-configurations_0_nsx_username: -> credhub
+#iaas-configurations_0_nsx_password: -> credhub

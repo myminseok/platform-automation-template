@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/pivotal-container-service?/elb_names?
-  value: ((pivotal-container-service_elb_names))

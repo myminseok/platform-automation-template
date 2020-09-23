@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.overlay_tz?
-  value:
-    value: ((overlay_tz))

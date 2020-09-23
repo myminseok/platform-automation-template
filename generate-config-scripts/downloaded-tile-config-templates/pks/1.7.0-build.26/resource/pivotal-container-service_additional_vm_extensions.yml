@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/pivotal-container-service?/additional_vm_extensions?
-  value: ((pivotal-container-service_additional_vm_extensions))

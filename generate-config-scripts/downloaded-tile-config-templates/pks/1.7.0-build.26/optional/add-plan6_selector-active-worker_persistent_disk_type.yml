@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.properties.plan6_selector.active.worker_persistent_disk_type?
-  value:
-    value: ((plan6_selector_active_worker_persistent_disk_type))

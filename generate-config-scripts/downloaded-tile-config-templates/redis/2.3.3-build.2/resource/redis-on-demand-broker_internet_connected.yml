@@ -1,3 +1,0 @@
-- type: replace
-  path: /resource-config?/redis-on-demand-broker?/internet_connected?
-  value: ((redis-on-demand-broker_internet_connected))

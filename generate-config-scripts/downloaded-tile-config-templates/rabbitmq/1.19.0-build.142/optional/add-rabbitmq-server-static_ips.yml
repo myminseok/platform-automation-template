@@ -1,4 +1,0 @@
-- type: replace
-  path: /product-properties/.rabbitmq-server.static_ips?
-  value:
-    value: ((rabbitmq-server_static_ips))

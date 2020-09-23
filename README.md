@@ -5,13 +5,13 @@ This Platform automation pipeline will provide following benefits.
 
 
 # Folder structure
-- foundations/<foundation>/download-products: yml file for each product used to yml file for each product. 
-- foundations/<foundation>/opsman: all files regards to opsman such as env.yml, opsman.yml, director.yml
-- foundations/<foundation>/pipeline-vars: params.yml is used to `fly set-pipeline` directly. this is not used inside of pipeline task.
-- foundations/<foundation>/products: yml file for each product config. for example `om configure-product` 
-- foundations/<foundation>/vars: optional yml file for each product config to provide paramters
-- foundations/<foundation>/versions:  yml file for each product to download from s3 to install, upgrade, patch.
-- foundations/<foundation>trigger-backup, trigger-xxx: optional `semver` file used in pipelines.
+- foundations/FOUNDATION/download-products: yml file for each product used to yml file for each product. 
+- foundations/FOUNDATION/opsman: all files regards to opsman such as env.yml, opsman.yml, director.yml
+- foundations/FOUNDATION/pipeline-vars: params.yml is used to `fly set-pipeline` directly. this is not used inside of pipeline task.
+- foundations/FOUNDATION/products: yml file for each product config. for example `om configure-product` 
+- foundations/FOUNDATION/vars: optional yml file for each product config to provide paramters
+- foundations/FOUNDATION/versions:  yml file for each product to download from s3 to install, upgrade, patch.
+- foundations/FOUNDATION/trigger-backup, trigger-xxx: optional `semver` file used in pipelines.
 - pipelines-templates/ooo.yml: base or template pipeline for opsman, standard product. each pipeline can be used standalone or can be merged into single pipeline via `merge-pipeline.sh` 
 - pipelines-generated/ooo.yml: auto-generated temporary pipeline by `generate-pipeline.sh` or `merge-pipeline.sh'
 - generate-pipeline.sh: this file generates a pipeline for each product from 'pipelines-templates/product-pipeline-template.yml'. you can edit this script to add all products to single pipeline 

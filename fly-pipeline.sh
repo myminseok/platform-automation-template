@@ -18,4 +18,4 @@ fly -t ${FLY_TARGET} sp \
 	-c $GENERATED_DIR/merged-platform-pipeline.yml \
 	-v foundation=${FOUNDATION} \
 	-v product=$PRODUCT \
-	-l $SCRIPT_DIR/foundations/${FOUNDATION}/pipeline-vars/params.yml \
+	-l $SCRIPT_DIR/foundations/${FOUNDATION}/pipeline-vars/pipeline-params.yml \

@@ -18,11 +18,8 @@ This Platform automation pipeline will provide following benefits.
 - merge-pipelines.sh: merge all of single pipelines into a single pipeline named 'merged-platform-pipeline.yml'. you need to install aviator cli (https://github.com/herrjulz/aviator) before run this script. see detailed guide below to install aviator.
 - [fly-pipeline.sh](fly-pipeline.sh): script to run `fly set-pipeline` with fly target alias and <foundation> name under foundations folder.
 
-
-
-
 # How to setup platform pipeline for my foundation.
-1) configure foundations/FOUNDATION files. 
+1) copy foundations/FOUNDATION folder to your iaas foundatio and configure files for your environment.
 2) configure credhub values corresponding to foundations/FOUNDATION/
 3) you may edit pipeline template as you wish from [pipelines-templates](pipelines-templates)
 4) edit [generate-pipeline.sh](generate-pipeline.sh) to generate each pipeline for each products, such as 'healthwatch', 'redis', 'rabbitmq'

@@ -12,11 +12,11 @@ This Platform automation pipeline will provide following benefits.
 - foundations/FOUNDATION/vars: optional yml file for each product config to provide paramters
 - foundations/FOUNDATION/versions:  yml file for each product to download from s3 to install, upgrade, patch.
 - foundations/FOUNDATION/trigger-backup, trigger-xxx: optional `semver` file used in pipelines.
-- pipelines-templates/ooo.yml: base or template pipeline for opsman, standard product. each pipeline can be used standalone or can be merged into single pipeline via `merge-pipeline.sh` 
-- pipelines-generated/ooo.yml: auto-generated temporary pipeline by `generate-pipeline.sh` or `merge-pipeline.sh'
+- pipelines-templates/ooo.yml: base or template pipeline for opsman, standard product. each pipeline can be used standalone or can be merged into single pipeline via [merge-pipeline.sh](merge-pipeline.sh)
+- [pipelines-generated](pipelines-generated)/ooo.yml: auto-generated temporary pipeline by [generate-pipeline.sh](generate-pipeline.sh) or [merge-pipeline.sh](merge-pipeline.sh)
 - generate-pipeline.sh: this file generates a pipeline for each product from 'pipelines-templates/product-pipeline-template.yml'. you can edit this script to add all products to single pipeline 
 - merge-pipelines.sh: merge all of single pipelines into a single pipeline named 'merged-platform-pipeline.yml'. you need to install aviator cli (https://github.com/herrjulz/aviator) before run this script. see detailed guide below to install aviator.
-- fly-pipeline.sh: script to run `fly set-pipeline` with fly target alias and <foundation> name under foundations folder.
+- [fly-pipeline.sh](fly-pipeline.sh): script to run `fly set-pipeline` with fly target alias and <foundation> name under foundations folder.
 
 
 
@@ -24,10 +24,10 @@ This Platform automation pipeline will provide following benefits.
 # How to setup platform pipeline for my foundation.
 1) configure foundations/FOUNDATION files. 
 2) configure credhub values corresponding to foundations/FOUNDATION/
-3) you may edit pipeline template as you wish from `pipelines-templates`
-4) edit generate-pipeline.sh to generate each pipeline for each products.
-5) optionally optional you can merge jobs into single pipeline, then run merge-pipelines.sh and it will generates `pipelines-generated/merged-platform-pipeline.yml`. 
-6) set pipeline via fly-pipline.sh or fly cli for each pipeline under `pipelines-generated` where there is single or merged pipeline.
+3) you may edit pipeline template as you wish from [pipelines-templates](pipelines-templates)
+4) edit [generate-pipeline.sh](generate-pipeline.sh) to generate each pipeline for each products, such as 'healthwatch', 'redis', 'rabbitmq'
+5) optionally optional you can merge jobs into single pipeline, then run [merge-pipeline.sh](merge-pipeline.sh) and it will generates [pipelines-generated/merged-platform-pipeline.yml](pipelines-generated/merged-platform-pipeline.yml). 
+6) set pipeline via fly-pipline.sh or fly cli for each pipeline under [pipelines-generated](pipelines-generated) where there is single or merged pipeline.
 
 
 

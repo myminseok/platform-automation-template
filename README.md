@@ -1,4 +1,4 @@
-This Platform automation pipeline provides 
+This Platform automation pipeline will provide following benefits.
 - 1) simple to manage pipeline source code by managing small standard pipelines as template.
 - 2) fully compatible foundation config structure to [platform automation guide](https://docs.pivotal.io/platform-automation/v5.0/). you can share the same pipeline code for multiple foundation.
 - 3) you can merge all pipelines into single pipeline for the foundation, so that you can control pipeline's job concurrency using concourse [serial_group](https://concourse-ci.org/jobs.html#schema.job.serial_groups). you can remove or add products from the merged pipeplie in a simple way.

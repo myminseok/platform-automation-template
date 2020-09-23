@@ -27,7 +27,7 @@ This Platform automation pipeline will provide following benefits.
 3) you may edit pipeline template as you wish from [pipelines-templates](pipelines-templates)
 4) edit [generate-pipeline.sh](generate-pipeline.sh) to generate each pipeline for each products, such as 'healthwatch', 'redis', 'rabbitmq'
 5) optionally optional you can merge jobs into single pipeline, then run [merge-pipeline.sh](merge-pipeline.sh) and it will generates [pipelines-generated/merged-platform-pipeline.yml](pipelines-generated/merged-platform-pipeline.yml). 
-6) set pipeline via fly-pipline.sh or fly cli for each pipeline under [pipelines-generated](pipelines-generated) where there is single or merged pipeline.
+6) set pipeline via [fly-pipline.sh](fly-pipeline.sh) or fly cli for each pipeline under [pipelines-generated](pipelines-generated) where there is single or merged pipeline. copy [pipelines-templates/pipeline-params.yml](pipelines-templates/pipeline-params.yml) to 'pipeline-vars' folder and edit before run [fly-pipline.sh](fly-pipeline.sh)
 
 
 

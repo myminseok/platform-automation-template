@@ -1,7 +1,10 @@
-This Platform automation pipeline provides 1) simple to manage pipeline source code 2) merge all pipelines into single pipeline as you wish 3) can manage multiple foundations with shared pipelines code.
+This Platform automation pipeline provides 
+- 1) simple to manage pipeline source code by managing small standard pipelines as template.
+- 2) fully compatible foundation config structure to [platform automation guide](https://docs.pivotal.io/platform-automation/v5.0/). you can share the same pipeline code for multiple foundation.
+- 3) you can merge all pipelines into single pipeline for the foundation, so that you can control pipeline's job concurrency using concourse [serial_group](https://concourse-ci.org/jobs.html#schema.job.serial_groups). you can remove or add products from the merged pipeplie in a simple way.
 
 
-# folder structure
+# Folder structure
 - foundations/<foundation>/download-products: yml file for each product used to yml file for each product. 
 - foundations/<foundation>/opsman: all files regards to opsman such as env.yml, opsman.yml, director.yml
 - foundations/<foundation>/pipeline-vars: params.yml is used to `fly set-pipeline` directly. this is not used inside of pipeline task.
@@ -18,7 +21,7 @@ This Platform automation pipeline provides 1) simple to manage pipeline source c
 
 
 
-# how to setup platform pipeline for my foundation.
+# How to setup platform pipeline for my foundation.
 1) configure foundations/<foundation> files. 
 2) configure credhub values corresponding to foundations/<foundation> 
 3) you may edit pipeline template as you wish from `pipelines-templates`
@@ -29,15 +32,15 @@ This Platform automation pipeline provides 1) simple to manage pipeline source c
 
 
 
-# Detailed Guide.
+# Detailed procedure to use this pipeline Guide.
 
-## option1) opsman
+## option1) use Tanzu opsmanager bosh to install concourse
 - provides terraforming(public cloud only) toolkit for control-plane: VPC, subnet, LB, security group, DNS, domain certs, opsman
 - will install opsman and bosh
 - use opsman as jumpbox
 
 
-## option2) bbl (oss)
+## option2) use bbl (oss) to install concourse
 - bbl include terraforming(private, public cloud) for control-plane
 - will install jumpbox, OSS bosh.
 - https://github.com/cloudfoundry/bosh-bootloader/blob/master/docs/howto-target-bosh-director.md
@@ -47,13 +50,13 @@ brew upgrade cloudfoundry/tap/bbl
 ```
 
 
-## install control-plane
+## install control-plane echos.
 - install concourse
 - install credhub
 - prepare s3(aws,...)
 - git(github, gitlab)
 
-# install aviator cli (https://github.com/herrjulz/aviator)
+# (optional) install aviator cli (https://github.com/herrjulz/aviator)
 ```
 wget -O /usr/local/bin/aviator https://github.com/JulzDiverse/aviator/releases/download/v1.7.0/aviator-darwin-amd64 && chmod +x /usr/local/bin/aviator
 ```

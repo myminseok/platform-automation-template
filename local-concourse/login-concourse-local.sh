@@ -10,5 +10,5 @@ fi
 
 FLY_TARGET=$1
 
-fly -t ${FLY_TARGET} login -u test -p test -c http://localhost:8081  -k
+fly -t ${FLY_TARGET} login -u test -p test -c http://localhost:8082  -k
 

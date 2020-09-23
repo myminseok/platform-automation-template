@@ -1,10 +1,10 @@
 
 resources:
-- name: every-30s
-  type: time
-  icon: clock-outline
-  source:
-    interval: 10s
+# - name: every-10s
+#   type: time
+#   icon: clock-outline
+#   source:
+#     interval: 10s
 
 - name: after-midnight
   type: time
@@ -13,18 +13,30 @@ resources:
     stop: 06:00 AM
     location: Asia/Seoul
 
+- name: trigger-backup-git
+  type: semver
+  source:
+    driver: git
+    uri: ((git.platform_automation_configs.uri))
+    branch: ((git.platform_automation_configs.branch))
+    file: foundations/((foundation))/trigger-((pipeline_name))
+    initial_version: 0.0.1
+    private_key: ((git.private_key))
+
+
 jobs:
 
-  - name: manually_trigger
+  - name: manual-trigger
     plan:
-      - put: every-30s
+    - put: trigger-backup-git
+      params: {bump: patch}
 
 
   - name: triggered-job
     plan:
-      - get: every-30s
+      - get: trigger-backup-git
         trigger: true
-        passed: [manually_trigger]
+        passed: [manual-trigger]
       - get: after-midnight
         trigger: true
       - task: simple-task

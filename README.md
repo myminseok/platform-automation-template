@@ -23,9 +23,8 @@ This Platform automation pipeline provides 1) simple to manage pipeline source c
 2) configure credhub values corresponding to foundations/<foundation> 
 3) you may edit pipeline template as you wish from `pipelines-templates`
 4) edit generate-pipeline.sh to generate each pipeline for each products.
-5) to merge jobs into single pipeline, then optional you can run merge-pipelines.sh and it will generates `pipelines-generated/merged-platform-pipeline.yml`. 
-6) set pipeline via fly-pipline.sh or fly cli for each pipeline under `pipelines-generated`
-
+5) optionally optional you can merge jobs into single pipeline, then run merge-pipelines.sh and it will generates `pipelines-generated/merged-platform-pipeline.yml`. 
+6) set pipeline via fly-pipline.sh or fly cli for each pipeline under `pipelines-generated` where there is single or merged pipeline.
 
 
 

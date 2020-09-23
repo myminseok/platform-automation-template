@@ -1,6 +1,6 @@
 spruce:
-- base: /Users/minseok/_dev/platform-automation-workspace/my-platform-automation/pipelines-templates/base-pipeline-template.yml
+- base: ./pipelines-templates/base-pipeline-template.yml
   merge:
-  - with_in: /Users/minseok/_dev/platform-automation-workspace/my-platform-automation/pipelines-generated/
+  - with_in:./pipelines-generated/
   skip_non_existing: false
-  to: /Users/minseok/_dev/platform-automation-workspace/my-platform-automation/pipelines-generated/merged-platform-pipeline.yml
+  to: ./pipelines-generated/merged-platform-pipeline.yml

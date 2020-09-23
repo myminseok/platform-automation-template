@@ -38,6 +38,7 @@ This Platform automation pipeline will provide following benefits.
 
 
 ## option2) use bbl (oss) to install concourse
+- WARNING) be careful of security volunability and updating bosh version up-to-date
 - bbl include terraforming(private, public cloud) for control-plane
 - will install jumpbox, OSS bosh.
 - https://github.com/cloudfoundry/bosh-bootloader/blob/master/docs/howto-target-bosh-director.md

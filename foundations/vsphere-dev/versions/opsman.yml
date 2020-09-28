@@ -1,6 +1,6 @@
 ## s3: [ops-manager,2.9.4]ops-manager-vsphere-2.9.4-build.137.ova
-#product-version: "2.9.4"
-product-version: "2.10.1"
+product-version: "2.9.4"
+#product-version: "2.10.1"
 pivnet-product-slug: ops-manager
 pivnet-file-glob: "*.ova"
 ## do not use this flag, it will fail.

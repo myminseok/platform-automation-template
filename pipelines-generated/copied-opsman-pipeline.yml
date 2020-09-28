@@ -309,7 +309,7 @@ jobs:
   plan:
   - in_parallel:
     - get: trigger-install-opsman-git
-      trigger: true
+      trigger: false
       passed: [configure-director]
     - get: opsman-version-git
     - get: platform-automation-image
@@ -429,7 +429,7 @@ jobs:
     - get: opsman-version-git
       passed:
       - upgrade-opsman
-      trigger: true
+      trigger: false
     - get: platform-automation-image
       params: { unpack: true }
     - get: platform-automation-tasks

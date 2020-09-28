@@ -1,0 +1,8 @@
+---
+pivnet-api-token: ((pivnet_token))
+pivnet-file-glob: "healthwatch-pas-exporter-2*.pivotal"
+pivnet-product-slug: p-healthwatch
+product-version-regex: ^2\.0\..*
+stemcell-iaas: vsphere
+blobstore-bucket: bucket
+pivnet-disable-ssl: true

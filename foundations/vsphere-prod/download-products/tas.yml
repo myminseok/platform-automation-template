@@ -1,0 +1,7 @@
+---
+pivnet-api-token: ((pivnet_token))
+pivnet-file-glob: "cf-*.pivotal"
+pivnet-product-slug: elastic-runtime
+product-version-regex: ^2\.10\..*
+stemcell-iaas: vsphere
+blobstore-bucket: bucket

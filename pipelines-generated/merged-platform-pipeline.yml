@@ -676,17 +676,6 @@ jobs:
         CONFIG_PATHS: config/foundations/((foundation))/opsman config/foundations/((foundation))/versions
         VARS_PATHS: vars/foundations/((foundation))/vars
       task: prepare-tasks-with-opsman-secrets
-    - file: platform-automation-tasks/tasks/export-installation.yml
-      image: platform-automation-image
-      input_mapping:
-        env: pipelines
-      params:
-        ENV_FILE: foundations/((foundation))/opsman/env.yml
-        INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
-      task: export-installation-locally
-    - params:
-        file: installation/((foundation))-installation*.zip
-      put: opsman-backup-bucket
     - ensure:
         do:
         - file: platform-automation-tasks/tasks/make-git-commit.yml

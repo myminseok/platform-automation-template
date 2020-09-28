@@ -465,17 +465,17 @@ jobs:
   - do:
     - task: prepare-tasks-with-opsman-secrets
       <<: *prepare-tasks-with-opsman-secrets
-    - task: export-installation-locally
-      image: platform-automation-image
-      file: platform-automation-tasks/tasks/export-installation.yml
-      input_mapping:
-        env: pipelines
-      params:
-        ENV_FILE: foundations/((foundation))/opsman/env.yml
-        INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
-    - put: opsman-backup-bucket
-      params:
-        file: installation/((foundation))-installation*.zip
+    # - task: export-installation-locally
+    #   image: platform-automation-image
+    #   file: platform-automation-tasks/tasks/export-installation.yml
+    #   input_mapping:
+    #     env: pipelines
+    #   params:
+    #     ENV_FILE: foundations/((foundation))/opsman/env.yml
+    #     INSTALLATION_FILE: ((foundation))-installation-$timestamp.zip
+    # - put: opsman-backup-bucket
+    #   params:
+    #     file: installation/((foundation))-installation*.zip
     - task: delete-vm
       image: platform-automation-image
       file: platform-automation-tasks/tasks/delete-vm.yml

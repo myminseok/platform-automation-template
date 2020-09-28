@@ -21,6 +21,6 @@ opsman-configuration:
     network: PAS-Infrastructure                 # vcenter network to deploy to
     netmask: 255.255.255.0
     gateway: 10.193.205.1
-    vm_name: vsphere-sandbox-ops-manager           # default: ops-manager-vm
+    vm_name: vsphere-sandbox-opsman           # default: ops-manager-vm
     memory: 8                                # default: 8 GB
     cpu: 1                                   # default: 1

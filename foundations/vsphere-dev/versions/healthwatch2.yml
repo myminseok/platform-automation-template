@@ -1,0 +1,12 @@
+##[p-healthwatch,2.0.3-build.9]healthwatch-2.0.3-build.9.pivotal
+product-version: "2.0.4-build.114"
+pivnet-product-slug: p-healthwatch
+pivnet-file-glob: "healthwatch-2*.pivotal"
+stemcell-iaas: vsphere
+s3-endpoint: ((s3.endpoint))
+s3-region-name: ((s3.region_name))
+s3-bucket: ((s3.buckets.platform_files))
+s3-disable-ssl: "true"
+s3-access-key-id: ((s3_access_key_id))
+s3-secret-access-key: ((s3_secret_access_key))
+pivnet-api-token: ((pivnet_token))

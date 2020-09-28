@@ -1,0 +1,154 @@
+product-name: p-healthwatch2
+product-properties:
+  .grafana.enable_indipro_integration:
+    value: true
+  .grafana.enable_login_form:
+    value: true
+  .grafana.enable_mysql:
+    value: false
+  .grafana.enable_rabbitmq:
+    value: false
+  .grafana.root_url:
+    value: https://grafana.pcfdemo.net
+  .grafana.ssl_certificates:
+    value:
+      cert_pem: ((grafana_ssl_certificates.certificate))
+      private_key_pem: ((grafana_ssl_certificates.private_key))
+  .grafana.static_ips:
+    value: 10.193.205.60
+  .properties.canary_exporter_targets:
+    value:
+    - address: https://apps.run.haas-214.pez.pivotal.io/
+  .properties.dashboard_discovery:
+    selected_option: dynamic
+    value: dynamic
+  .properties.enable_telemetry:
+    value: false
+  .properties.grafana_authentication:
+    selected_option: uaa
+    value: uaa
+  .properties.grafana_authentication.uaa.client_id:
+    value: grafana
+  .properties.grafana_authentication.uaa.client_secret:
+    value:
+      secret: ((properties_grafana_authentication_uaa_client_secret))
+  .properties.grafana_authentication.uaa.root_url:
+    value: https://uaa.run.haas-214.pez.pivotal.io
+  .properties.grafana_authentication.uaa.tls_skip_verify_insecure:
+    value: true
+  .properties.grafana_proxy:
+    selected_option: disabled
+    value: disabled
+  .properties.opsman_url:
+    value: https://sandboxopsman.pcfdemo.net
+  .properties.pks_cluster_discovery:
+    selected_option: disabled
+    value: disabled
+  .properties.smtp:
+    selected_option: disabled
+    value: disabled
+  .tsdb.canary_exporter_port:
+    value: 9115
+  .tsdb.disk_chunk_size:
+    value: 6144
+  .tsdb.memory_chunk_size:
+    value: 4096
+  .tsdb.scrape_interval:
+    value: 15s
+network-properties:
+  network:
+    name: PAS-Deployment
+  other_availability_zones:
+  - name: pas-az3
+  singleton_availability_zone:
+    name: pas-az3
+resource-config:
+  grafana:
+    max_in_flight: 5
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+  pxc:
+    max_in_flight: 5
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+  pxc-proxy:
+    max_in_flight: 5
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+  tsdb:
+    max_in_flight: 1
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+errand-config:
+  smoke-test:
+    post-deploy-state: true
+  update-admin-password:
+    post-deploy-state: true
+syslog-properties:
+  address: null
+  custom_rsyslog_configuration: null
+  enabled: false
+  forward_debug_logs: false
+  permitted_peer: null
+  port: null
+  queue_size: null
+  ssl_ca_certificate: null
+  tls_enabled: false
+  transport_protocol: tcp
+

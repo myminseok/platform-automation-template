@@ -1,0 +1,179 @@
+product-name: p-healthwatch2-pas-exporter
+product-properties:
+  .bosh-deployments-exporter.bosh_client:
+    value:
+      identity: ((bosh-deployments-exporter_bosh_client.username))
+      password: ((bosh-deployments-exporter_bosh_client.password))
+  .bosh-health-exporter.health_check_az:
+    value: pas-az3
+network-properties:
+  network:
+    name: PAS-Deployment
+  other_availability_zones:
+  - name: pas-az3
+  service_network:
+    name: PAS-Services
+  singleton_availability_zone:
+    name: pas-az3
+resource-config:
+  bosh-deployments-exporter:
+    max_in_flight: 1
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+  bosh-health-exporter:
+    max_in_flight: 2
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+  cert-expiration-exporter:
+    max_in_flight: 5
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+  pas-exporter-counter:
+    max_in_flight: 5
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+  pas-exporter-gauge:
+    max_in_flight: 5
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+  pas-exporter-timer:
+    max_in_flight: 5
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+  pas-sli-exporter:
+    max_in_flight: 2
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+  svm-forwarder:
+    max_in_flight: 5
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+      vif_type: null
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+errand-config:
+  bosh-cleanup-wait:
+    pre-delete-state: true
+  smoke-test:
+    post-deploy-state: true
+syslog-properties:
+  address: null
+  custom_rsyslog_configuration: null
+  enabled: false
+  forward_debug_logs: false
+  permitted_peer: null
+  port: null
+  queue_size: null
+  ssl_ca_certificate: null
+  tls_enabled: false
+  transport_protocol: tcp
+

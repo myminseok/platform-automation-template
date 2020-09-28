@@ -1,1 +1,2 @@
 iaas: vsphere
+vm_id: /Datacenter/vm//vsphere-prod-opsman

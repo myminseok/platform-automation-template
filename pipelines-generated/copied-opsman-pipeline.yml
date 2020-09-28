@@ -309,7 +309,7 @@ jobs:
   plan:
   - in_parallel:
     - get: trigger-install-opsman-git
-      trigger: false
+      trigger: true
       passed: [configure-director]
     - get: opsman-version-git
     - get: platform-automation-image

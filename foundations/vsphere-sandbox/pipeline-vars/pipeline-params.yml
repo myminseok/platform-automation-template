@@ -1,7 +1,7 @@
 foundation: vsphere-sandbox
 
 s3:
-  endpoint: https://s3.ap-northeast-2.amazonaws.com
+  endpoint: http://minio.pcfdemo.net
   access_key_id: ((s3_access_key_id))
   secret_access_key: ((s3_secret_access_key))
   region_name: "ap-northeast-2"

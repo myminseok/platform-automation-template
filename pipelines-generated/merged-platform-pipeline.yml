@@ -450,7 +450,7 @@ jobs:
     - get: trigger-install-opsman-git
       passed:
       - configure-director
-      trigger: false
+      trigger: true
     - get: opsman-version-git
     - get: platform-automation-image
       params:

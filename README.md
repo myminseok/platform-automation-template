@@ -7,11 +7,11 @@ This Platform automation pipeline will provide following benefits.
 # Folder structure
 - foundations/FOUNDATION/download-products: yml file for each product used to yml file for each product. 
 - foundations/FOUNDATION/opsman: all files regards to opsman such as env.yml, opsman.yml, director.yml
-- foundations/FOUNDATION/pipeline-vars: params.yml is used to `fly set-pipeline` directly. this is not used inside of pipeline task.
-- foundations/FOUNDATION/products: yml file for each product config. it is the same yml format used for `om configure-product` 
-- foundations/FOUNDATION/vars: optional yml file for each product config to provide paramters
+- foundations/FOUNDATION/products:  yml files for each product config. it is the same yml format used for `om configure-product` 
+- foundations/FOUNDATION/vars: common-vars.yml is common mandatory variable file which is used  for  `fly set-pipeline` and variables to platform automation tasks. other yaml files are normally optional.
+   this variable yaml file should provide real value directly. and should not refer to credhub otherwise there will be errors while running in concourse tasks.
 - foundations/FOUNDATION/versions:  yml file for each product to download from s3 to install, upgrade, patch.
-- foundations/FOUNDATION/trigger-backup, trigger-xxx: optional `semver` file used in pipelines.
+- foundations/FOUNDATION/trigger-backup, trigger-xxx: optional `semver` file used to trigger new versions to the resources in pipelines 
 - [pipelines-templates](pipelines-templates)/ooo.yml: base or template pipeline for opsman, standard product. each pipeline can be used standalone or can be merged into single pipeline via [merge-pipeline.sh](merge-pipeline.sh)
 - [pipelines-generated](pipelines-generated)/ooo.yml: auto-generated temporary pipeline by [generate-pipeline.sh](generate-pipeline.sh) or [merge-pipeline.sh](merge-pipeline.sh)
 - generate-pipeline.sh: this file generates a pipeline for each product from 'pipelines-templates/product-pipeline-template.yml'. you can edit this script to add all products to single pipeline 
@@ -25,8 +25,6 @@ This Platform automation pipeline will provide following benefits.
 4) edit [generate-pipeline.sh](generate-pipeline.sh) to generate each pipeline for each products, such as 'healthwatch', 'redis', 'rabbitmq'
 5) optionally optional you can merge jobs into single pipeline, then run [merge-pipeline.sh](merge-pipeline.sh) and it will generates [pipelines-generated/merged-platform-pipeline.yml](pipelines-generated/merged-platform-pipeline.yml). 
 6) set pipeline via [fly-pipline.sh](fly-pipeline.sh) or fly cli for each pipeline under [pipelines-generated](pipelines-generated) where there is single or merged pipeline. copy [pipelines-templates/pipeline-params.yml](pipelines-templates/pipeline-params.yml) to 'pipeline-vars' folder and edit before run [fly-pipline.sh](fly-pipeline.sh)
-
-
 
 
 # Detailed procedure to use this pipeline Guide.

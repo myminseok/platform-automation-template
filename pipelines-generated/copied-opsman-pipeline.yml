@@ -153,7 +153,7 @@ make-commit-opsman-state_and_put: &make-commit-opsman-state_and_put
       FILE_DESTINATION_PATH: foundations/((foundation))/opsman/state.yml
       GIT_AUTHOR_EMAIL: ((git_user_email))
       GIT_AUTHOR_NAME: "Platform Automation Pipeline"
-      COMMIT_MESSAGE: ((foundation)) commit by platform automation "
+      COMMIT_MESSAGE: "((foundation)) commit by platform automation"
   - put: pipelines
     params:
       repository: generated-commit-repo

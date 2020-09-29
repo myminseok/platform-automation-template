@@ -34,7 +34,7 @@ resources:
 
 - name: after-midnight
   type: time
-  icon: time
+  icon: timer
   source:
     start: 00:00 AM
     #stop: 06:00 AM

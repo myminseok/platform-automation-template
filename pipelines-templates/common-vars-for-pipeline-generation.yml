@@ -1,0 +1,28 @@
+foundation: MY_FOUNDATION_NAME
+s3:
+  endpoint: ((s3.endpoint))
+  region_name: ((s3.region_name))
+  buckets:
+    platform_files: ((s3.buckets.platform_files))
+    platform_backup: ((s3.buckets.platform_backup))
+
+git:
+  platform_automation_pipelines:
+    uri: ((git.platform_automation_pipelines.uri))
+    branch: ((git.platform_automation_pipelines.branch))
+  platform_automation_configs:
+    uri: ((git.platform_automation_configs.uri))
+    branch: ((git.platform_automation_configs.branch))
+
+credhub:
+  server: ((credhub.server))
+  #server: https://credhub:9000 ## docker-compose env
+
+#for tas
+domain_certificate:
+  generate:
+    dns_provider_region: ((domain_certificate.generate.dns_provider_region))
+    subdomain: ((domain_certificate.generate.subdomain))
+    dns_provider_hosted_zone_id:  ((domain_certificate.generate.dns_provider_hosted_zone_id))  # create on aws inadvance.
+    letsencrypt_email: ((domain_certificate.generate.letsencrypt_email))
+  credhub_key_name: ((domain_certificate.credhub_key_name))  # map to tas.yml.

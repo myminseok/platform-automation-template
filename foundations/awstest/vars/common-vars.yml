@@ -30,13 +30,10 @@ credhub:
   client: ((credhub_client.username))
   secret: ((credhub_client.password))
 
-pivnet: 
-  token: ((pivnet_token))
 
-certificate:
+#for tas
+domain_certificate:
    generate:
-      dns_privider_access_key: ((s3_access_key_id))
-      dns_privider_access_secret_key: ((s3_secret_access_key))
       dns_provider_region: "ap-northeast-2"
       subdomain: awstest.pcfdemo.net
       dns_provider_hosted_zone_id:   # create on aws inadvance.

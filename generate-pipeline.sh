@@ -15,7 +15,7 @@ function generate_product_pipeline() {
 	-c $PIPELINES_DIR/product-pipeline-template.yml \
 	-v foundation="((foundation))"\
 	-v product=$PRODUCT \
-	-l ${PIPELINES_DIR}/pipeline-params.yml \
+	-l ${PIPELINES_DIR}/common-vars-for-pipeline-generation.yml \
 	-o > ${GENERATED_DIR}/generated-${PRODUCT}.yml
   echo "product pipeline generated ${GENERATED_DIR}/${PRODUCT}-generated.yml"
 }

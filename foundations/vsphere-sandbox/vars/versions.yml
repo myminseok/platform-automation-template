@@ -1,6 +1,0 @@
-s3:
-  endpoint: http://minio.pcfdemo.net
-  region_name: "ap-northeast-2"
-  buckets:
-    platform_files: mkim-platform-automation
-    platform_backup: mkim-bbr-backup

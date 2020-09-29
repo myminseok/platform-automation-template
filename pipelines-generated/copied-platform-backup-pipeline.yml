@@ -30,12 +30,13 @@ resources:
     branch: ((git.platform_automation_configs.branch))
     file: foundations/((foundation))/trigger-backup
     initial_version: 0.0.1
-    private_key: ((git.private_key))
+    private_key: ((git_private_key.private_key))
 
 - name: after-midnight
   type: time
+  icon: time
   source:
-    start: 01:00 AM
+    start: 00:00 AM
     #stop: 06:00 AM
     stop: 11:59 PM
     location: Asia/Seoul
@@ -50,40 +51,44 @@ resources:
 
 - name: platform-automation-tasks
   type: s3
+  icon: server
   source:
     endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
+    access_key_id: ((s3_access_key_id))
     bucket: ((s3.buckets.platform_files))
     region_name: ((s3.region_name))
-    secret_access_key: ((s3.secret_access_key))
+    secret_access_key: ((s3_secret_access_key))
     regexp: platform-automation-tasks-(.*).zip
     skip_ssl_verification: true
 
 - name: platform-automation-image
   type: s3
+  icon: server
   source:
     endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
+    access_key_id: ((s3_access_key_id))
     bucket: ((s3.buckets.platform_files))
     region_name: ((s3.region_name))
-    secret_access_key: ((s3.secret_access_key))
+    secret_access_key: ((s3_secret_access_key))
     regexp: platform-automation-image-(.*).tgz
     skip_ssl_verification: true
 
 - name: pipelines
   type: git
+  icon: github
   source:
-    private_key: ((git.private_key))
+    private_key: ((git_private_key.private_key))
     uri: ((git.platform_automation_pipelines.uri))
     branch: ((git.platform_automation_pipelines.branch))
     skip_ssl_verification: true
 
 - name: opsman-backup-bucket
   type: s3
+  icon: server
   source:
     endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
-    secret_access_key: ((s3.secret_access_key))
+    access_key_id: ((s3_access_key_id))
+    secret_access_key: ((s3_secret_access_key))
     region_name: ((s3.region_name))
     bucket: ((s3.buckets.platform_backup))
     regexp: ((foundation))-installation-(.*).zip
@@ -91,10 +96,11 @@ resources:
 
 - name: director-backup-bucket
   type: s3
+  icon: server
   source:
     endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
-    secret_access_key: ((s3.secret_access_key))
+    access_key_id: ((s3_access_key_id))
+    secret_access_key: ((s3_secret_access_key))
     region_name: ((s3.region_name))
     bucket: ((s3.buckets.platform_backup))
     regexp: director_(.*).tgz
@@ -102,10 +108,11 @@ resources:
 
 - name: tas-backup-bucket
   type: s3
+  icon: server
   source:
     endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
-    secret_access_key: ((s3.secret_access_key))
+    access_key_id: ((s3_access_key_id))
+    secret_access_key: ((s3_secret_access_key))
     region_name: ((s3.region_name))
     bucket: ((s3.buckets.platform_backup))
     regexp: product_cf_(.*).tgz

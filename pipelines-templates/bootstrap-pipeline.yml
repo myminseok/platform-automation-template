@@ -37,7 +37,7 @@ resources:
     branch: ((git.platform_automation_configs.branch))
     file: foundations/((foundation))/trigger-pipeline-((pipeline_name))
     initial_version: 0.0.1
-    private_key: ((git.private_key))
+    private_key: ((git_private_key.private_key))
 
 - name: platform-automation-pivnet
   type: pivnet
@@ -51,10 +51,10 @@ resources:
   type: s3
   source:
     endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
+    access_key_id: ((s3_access_key_id))
     bucket: ((s3.buckets.platform_files))
     region_name: ((s3.region_name))
-    secret_access_key: ((s3.secret_access_key))
+    secret_access_key: ((s3_secret_access_key))
     regexp: platform-automation-tasks-(.*).zip
     skip_ssl_verification: true
 
@@ -62,17 +62,17 @@ resources:
   type: s3
   source:
     endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
+    access_key_id: ((s3_access_key_id))
     bucket: ((s3.buckets.platform_files))
     region_name: ((s3.region_name))
-    secret_access_key: ((s3.secret_access_key))
+    secret_access_key: ((s3_secret_access_key))
     regexp: platform-automation-image-(.*).tgz
     skip_ssl_verification: true
 
 - name: pipelines
   type: git
   source:
-    private_key: ((git.private_key))
+    private_key: ((git_private_key.private_key))
     uri: ((git.platform_automation_pipelines.uri))
     branch: ((git.platform_automation_pipelines.branch))
     skip_ssl_verification: true
@@ -81,8 +81,8 @@ resources:
   type: s3
   source:
     endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
-    secret_access_key: ((s3.secret_access_key))
+    access_key_id: ((s3_access_key_id))
+    secret_access_key: ((s3_secret_access_key))
     region_name: ((s3.region_name))
     bucket: ((s3.buckets.platform_backup))
     regexp: certificate_*_(.*).tgz
@@ -92,10 +92,10 @@ resources:
   type: s3
   source:
     endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
+    access_key_id: ((s3_access_key_id))
     bucket: ((s3.buckets.platform_files))
     region_name: ((s3.region_name))
-    secret_access_key: ((s3.secret_access_key))
+    secret_access_key: ((s3_secret_access_key))
     regexp: "ops-manager-aws-*(.*).*"
     skip_ssl_verification: true
 
@@ -103,10 +103,10 @@ resources:
   type: s3
   source:
     endpoint: ((s3.endpoint))
-    access_key_id: ((s3.access_key_id))
+    access_key_id: ((s3_access_key_id))
     bucket: ((s3.buckets.platform_files))
     region_name: ((s3.region_name))
-    secret_access_key: ((s3.secret_access_key))
+    secret_access_key: ((s3_secret_access_key))
     regexp: "ops-manager-vsphere-*(.*).*"
     skip_ssl_verification: true
 
@@ -216,15 +216,15 @@ jobs:
       input_mapping:
         config: pipelines
       params:
-        AWS_ACCESS_KEY_ID: ((certificate.generate.dns_privider_access_key))
-        AWS_SECRET_ACCESS_KEY: ((certificate.generate.dns_privider_access_secret_key))
-        AWS_REGION: ((certificate.generate.dns_provider_region))
-        SUBDOMAIN: ((certificate.generate.subdomain))
-        AWS_HOSTED_ZONE_ID: ((certificate.generate.dns_provider_hosted_zone_id))
-        EMAIL: ((certificate.generate.letsencrypt_email))
+        AWS_ACCESS_KEY_ID: ((s3_access_key_id))
+        AWS_SECRET_ACCESS_KEY: ((s3_secret_access_key))
+        AWS_REGION: ((domain_certificate.generate.dns_provider_region))
+        SUBDOMAIN: ((domain_certificate.generate.subdomain))
+        AWS_HOSTED_ZONE_ID: ((domain_certificate.generate.dns_provider_hosted_zone_id))
+        EMAIL: ((domain_certificate.generate.letsencrypt_email))
     - put: domain-certificate
       params:
-        file: generated-certificate/certificate_((certificate.generate.subdomain))_*.tgz
+        file: generated-certificate/certificate_((domain_certificate.generate.subdomain))_*.tgz
 
 - name: save-domain-certificate-to-credhub
   serial: true

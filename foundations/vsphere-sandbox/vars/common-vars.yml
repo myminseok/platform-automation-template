@@ -1,8 +1,8 @@
 foundation: vsphere-sandbox
 
 s3:
-  #endpoint: https://s3.ap-northeast-2.amazonaws.com
-  endpoint: http://minio.pcfdemo.net
+  endpoint: https://s3.ap-northeast-2.amazonaws.com
+  #endpoint: http://minio.pcfdemo.net
   region_name: "ap-northeast-2"
   buckets:
     platform_files: mkim-platform-automation

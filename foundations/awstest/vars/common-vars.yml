@@ -1,4 +1,4 @@
-foundation: awstest
+##foundation: awstest
 
 s3:
   endpoint: https://s3.ap-northeast-2.amazonaws.com

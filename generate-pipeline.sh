@@ -13,7 +13,7 @@ function generate_product_pipeline() {
   local PRODUCT=$1
 	fly  vp \
 	-c $PIPELINES_DIR/product-pipeline-template.yml \
-	-v foundation="((foundation))"\
+	-v foundation="((foundation))" \
 	-v product=$PRODUCT \
 	-l ${PIPELINES_DIR}/common-vars-for-pipeline-generation.yml \
 	-o > ${GENERATED_DIR}/generated-${PRODUCT}.yml

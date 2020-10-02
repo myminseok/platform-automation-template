@@ -1,4 +1,4 @@
-foundation: vsphere-prod
+## foundation: vsphere-prod
 
 s3:
   #endpoint: https://s3.ap-northeast-2.amazonaws.com

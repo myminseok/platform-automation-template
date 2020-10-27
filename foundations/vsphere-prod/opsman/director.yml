@@ -19,7 +19,7 @@ az-configuration:
     resource_pool: pas-az1
 
 iaas-configurations:
-- additional_cloud_properties: {}
+- additional_cloud_properties: {"enable_human_readable_name": true}
   bosh_disk_path: bosh_disks
   bosh_template_folder: bosh_templates
   bosh_vm_folder: bosh_vms

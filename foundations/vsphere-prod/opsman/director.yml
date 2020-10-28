@@ -97,7 +97,7 @@ properties-configuration:
     keep_unreachable_vms: false
     local_blobstore_options:
       enable_signed_urls: false
-    ntp_servers_string: ntp1.svc.pivotal.io
+    ntp_servers_string: 0.amazon.pool.ntp.org,1.amazon.pool.ntp.org,2.amazon.pool.ntp.org,3.amazon.pool.ntp.org
     post_deploy_enabled: false
     resurrector_enabled: false
     retry_bosh_deploys: false
